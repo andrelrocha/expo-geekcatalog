@@ -2,25 +2,22 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../utils/colors";
 
 export const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    paddingTop: 60
-  },
   title: {
-    fontSize: 32,
+    fontSize: 34,
+    textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 20,
     color: colors.black
   },
   subtitle: {
     fontSize: 18,
+    textAlign: 'center',
     marginBottom: 20,
-    color: colors.black
+    color: colors.black,
+    width: '80%'
   },
   input: {
-    width: '80%',
+    width: '90%',
     height: 50,
     borderColor: 'gray',
     borderWidth: 1,

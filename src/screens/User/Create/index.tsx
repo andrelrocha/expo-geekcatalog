@@ -1,11 +1,12 @@
-import React from "react";
-import { Alert, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
 import MaskInput, { Masks } from 'react-native-mask-input';
 import DatePicker from "react-native-date-picker";
 import { styles } from "../styles";
 import { UserCreate } from "../../../types/user/userCreateDTO";
 import { createUser } from "../../../services/user/create";
 import useUserCreation from "../../../hooks/user/useUserCreation";
+import PageDefault from "../../Default";
 
 function Create() {
   const {
@@ -19,6 +20,9 @@ function Create() {
     open, setOpen,
     formattedBirthday, formattedBirthdayApi
   } = useUserCreation();
+
+  const [teste1, setTeste1] = useState('');
+  const [teste2, setTeste2] = useState('');
 
 
   async function handleCreateUser() {
@@ -44,29 +48,25 @@ function Create() {
       Alert.alert('Erro', 'Ocorreu um erro ao criar um usuário: ' + error.response?.data || 'Erro desconhecido');
     }
   }
-
-  //const headerHeight = useHeaderHeight();
   
   return (
-      <KeyboardAvoidingView 
-       behavior="padding"
-       style={styles.container}>
+    <PageDefault>
         <Text style={styles.title}>
-          Bem vindo ao Backlog App
+          Welcome to Geek Catalog!
         </Text>
 
         <Text style={styles.subtitle}>
-          Complete os campos abaixo para se cadastrar
+          Fill in the fields below to create your account
         </Text>
 
         <TextInput
-          placeholder="Digite seu nome"
+          placeholder="Complete your name"
           style={styles.input}
           value={name}
           onChangeText={setName}
         />
         <MaskInput
-          placeholder="Digite seu CPF"
+          placeholder="Complete your CPF"
           style={styles.input}
           value={cpf}
           onChangeText={(masked, unmasked) => setCpf(masked)}
@@ -74,7 +74,7 @@ function Create() {
           keyboardType="phone-pad"
         />
         <MaskInput
-          placeholder="Digite seu telefone"
+          placeholder="Complete your phone number"
           style={styles.input}
           value={phone}
           onChangeText={(masked, unmasked) => setPhone(masked)}
@@ -83,12 +83,27 @@ function Create() {
         />
 
         <TextInput
-          placeholder="Digite sua data de nascimento"
+          placeholder="digite o teste1"
+          style={styles.input}
+          value={teste1}
+          onChangeText={setTeste1}
+        />
+
+        <TextInput
+          placeholder="digite o teste2"
+          style={styles.input}
+          value={teste2}
+          onChangeText={setTeste2}
+        />
+
+        <TextInput
+          placeholder="Complete your birthday"
           style={styles.input}
           value={birthdaySelected ? formattedBirthday : ''}
           onPressIn={() => setOpen(true)}
         />
 
+        {/*
         <DatePicker
           modal
           open={open}
@@ -104,9 +119,10 @@ function Create() {
           }}
           mode="date"
         />
+        */}
 
         <TextInput
-          placeholder="Digite seu login (email)"
+          placeholder="Complete your email/login"
           style={styles.input}
           value={login}
           onChangeText={setLogin}
@@ -115,15 +131,18 @@ function Create() {
         />
         <TextInput
           style={styles.input}
-          placeholder="Digite sua senha"
+          placeholder="Choose a password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry={true}
         />
+
+        
+
         <TouchableOpacity style={[styles.smallButtonGreen, styles.buttonCadastro]}>
             <Text style={styles.smallButtonText} onPress={handleCreateUser}>Cadastre-se</Text>
           </TouchableOpacity>
-      </KeyboardAvoidingView>
+      </PageDefault>
   );
 }
 

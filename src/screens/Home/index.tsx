@@ -1,11 +1,14 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { styles } from './styles';
 import gamerImg from '../../assets/gamer.png';
 
 export default function Home() {
     return (
-        <View style={styles.container}>
+        <ScrollView 
+            contentContainerStyle={styles.container}
+            keyboardShouldPersistTaps="handled"
+        >
             <View style={styles.containerTitle}>
                 <Text style={[styles.title]}>Welcome!</Text>
                 <Text style={styles.subtitle}>What about change your gaming experience better managing your backlog? Join our app!</Text>
@@ -24,6 +27,6 @@ export default function Home() {
             <View style={styles.imageContainer}>
                 <Image style={styles.image} source={gamerImg}/>
             </View>
-        </View>
+        </ScrollView>
     );
 }
