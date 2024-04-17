@@ -1,0 +1,2 @@
+PS C:\projects\backlog-app-social\geekcatalog-expo> npx create-expo-app geekcatalog
+PS C:\projects\backlog-app-social\geekcatalog-expo> npx expo start
