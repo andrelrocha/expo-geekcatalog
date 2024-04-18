@@ -92,8 +92,6 @@ function Create() {
           secureTextEntry={true}
         />
 
-        
-
         <TouchableOpacity style={[styles.smallButtonGreen, styles.buttonCadastro]}>
             <Text style={styles.smallButtonText} onPress={handleCreateUser}>Cadastre-se</Text>
           </TouchableOpacity>

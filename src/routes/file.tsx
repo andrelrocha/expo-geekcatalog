@@ -1,3 +1,4 @@
+
 import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -10,17 +11,26 @@ import GamesStack from './stack/GameStack';
 import Header from '../components/header';
 import Home from '../screens/Home';
 import ListAllGames from '../screens/Games/ListAll';
+import AuthContext from '../context/auth.context';
 
 const Stack = createStackNavigator();
 
 export default function Navigation() {
+    const { authState, logout } = useContext(AuthContext);
+
     return (
       <NavigationContainer>
           <Stack.Navigator 
               screenOptions={{ header: () => <Header /> }}
-              initialRouteName='Login'
+              
           >
-              <Stack.Screen name="Login" component={LoginWithContext} />
+            {
+                authState?.authenticated ? (
+                    <Stack.Screen name="ListAllGames" component={ListAllGames} />
+                ) : (    
+                    <Stack.Screen name="Login" component={Login} />
+                )
+            }
               
           </Stack.Navigator>
       </NavigationContainer>

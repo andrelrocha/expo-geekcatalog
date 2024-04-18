@@ -9,5 +9,6 @@ export const colors = {
   sage: '#CCC9A1',
   greenWeak: '#F0FFCE',
   lightBlue: '#E4D9FF',
-  whiteSmoke: "#F4F4F4"
+  whiteSmoke: "#F4F4F4",
+  buttonBlue: '#007bff',
 };

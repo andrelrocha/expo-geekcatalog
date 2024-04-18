@@ -1,71 +1,83 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { loginUser } from '../../../services/user/login';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { styles } from '../styles';
 import useUserLogin from '../../../hooks/user/useUserLogin';
 import PageDefault from '../../Default';
+import AuthContext, { AuthProvider } from '../../../context/auth.context';
+import { useForm } from 'react-hook-form';
+import Button from '../../../components/button';
+
+const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
 const Login = () => {
-  const { login, setLogin, password, setPassword } = useUserLogin();
+  const { email, setEmail, password, setPassword } = useUserLogin();
+  const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
-  async function handleLogin() {
-    if (login === '' || password === '') {
+  const {
+    control,
+    formState: { isValid },
+    handleSubmit,
+  } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
+
+  const handleLogin = async () => {
+    if (email === '' || password === '') {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
+      return null;
     }
 
     const userData: UserLogin = {
-      login,
+      login: email,
       password
     };
 
     try {
-      const status = await loginUser(userData);
-      if (status) {
-        Alert.alert('Sucesso', 'Usuário logado com sucesso!');
-        //trocar para a tela de home
-      }
+      await login(userData);
+      Alert.alert('Sucesso', 'Usuário logado com sucesso!');
+      // Trocar para a tela de home
     } catch (error: any) {
       Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response?.data || 'Erro desconhecido');
     }
   };
 
   return (
-    <PageDefault>
-      <Text style={styles.title}>Faça seu login</Text>
+      <PageDefault>
+        <Text style={styles.title}>Faça seu login</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Digite seu login"
-        value={login}
-        onChangeText={setLogin}
-        autoCapitalize="none"
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Digite seu login"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Digite sua senha"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
-        <Text style={styles.buttonText}>Entrar</Text>
-      </TouchableOpacity>
-
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.smallButtonGreen}>
-          <Text style={styles.smallButtonText}>Cadastre-se</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.smallButtonRed}>
-          <Text style={styles.smallButtonText}>Esqueci a senha</Text>
-        </TouchableOpacity>
-      </View>
-    </PageDefault>
+        <TextInput
+          style={styles.input}
+          placeholder="Digite sua senha"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={true}
+        />
+    
+        <Button
+          isDisabled={!isValid}
+          isLoading={isLoggingIn}
+          onPress={handleSubmit(async () =>
+            handleLogin()
+            )}
+        >Entrar
+        </Button>
+      </PageDefault>
   );
 };
 
-export default Login;
+const LoginWithContext = () => {
+  return (
+    <AuthProvider>
+      <Login />
+    </AuthProvider>
+  );
+};
+
+export default LoginWithContext;

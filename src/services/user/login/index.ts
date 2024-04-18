@@ -1,22 +1,18 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import { Alert } from 'react-native';
 
 export async function loginUser(userData: UserLogin) {
   try {
-    let status = false;
-
     const endpoint = '/user/login';
 
     const headers = {
       'Content-Type': 'application/json',
     };
 
-    await ApiManager.post(endpoint, userData, { headers })
+    const response = await ApiManager.post(endpoint, userData, { headers })
       .then((response) => {
-        AsyncStorage.setItem('auth', response.data.token);
-        status = true;
+        return response.data.token;
       })
       .catch((error) => {
         console.log(error)
@@ -24,7 +20,7 @@ export async function loginUser(userData: UserLogin) {
         Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response.data);
       });
     
-    return status;
+    return response;
   } catch (error) {
     console.error(error);
   }
