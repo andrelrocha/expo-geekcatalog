@@ -4,16 +4,11 @@ import { colors } from "../../utils/colors";
 const { width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
-    container: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: '100%',
-    },
     containerTitle: {
         paddingTop: 30,
         alignSelf: 'flex-start',
-        marginLeft: 26,
-        width: '90%',
+        marginLeft: 15,
+        width: '95%',
     },
     title: {
       fontSize: 34,

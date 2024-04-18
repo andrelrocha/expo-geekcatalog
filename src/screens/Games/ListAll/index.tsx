@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SectionList } from "react-native";
+import { View, Text, SectionList, TouchableOpacity } from "react-native";
 import useGamesListAll from "../../../hooks/games/useGamesListAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import { styles } from "./../styles";
@@ -9,11 +9,11 @@ export default function ListAllGames() {
 
     const renderItem = ({ item }: { item: GameReturn }) => {
         return (
-            <View style={styles.itemContainer}>
+            <TouchableOpacity style={styles.itemContainer}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.subText}>Metacritic: {item.metacritic}</Text>
                 <Text style={styles.subText}>Ano de lançamento: {item.yearOfRelease}</Text>
-            </View>
+            </TouchableOpacity>
         );
     };
 

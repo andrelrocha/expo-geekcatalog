@@ -1,13 +1,11 @@
 import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameReturn from '../../../types/games/gameReturnDTO'
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const listAllGames = async (params: string) => {
     try {
-        const token = await AsyncStorage.getItem('auth');
+        const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbmRyZXJvY2hhMDkxMUBnbWFpbC5jb20iLCJpc3MiOiJhbmRyZSByb2NoYSIsImlkIjoiNDRkMDJjMTktMWQ3MS00MDMwLWE5ZDMtMzdlMjhiYmQ3MGRhIiwiZXhwIjoxNzEzNDM5NzMxfQ.EmIUvx4vwRI4Jbn4ijBtD87zViQhIHdPA-IDspz_l7c";
 
-        console.log('Token no console.log:', token);
         const headers = {
             'Authorization': `Bearer ${token}`
         }

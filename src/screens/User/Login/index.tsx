@@ -4,6 +4,7 @@ import { loginUser } from '../../../services/user/login';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { styles } from '../styles';
 import useUserLogin from '../../../hooks/user/useUserLogin';
+import PageDefault from '../../Default';
 
 const Login = () => {
   const { login, setLogin, password, setPassword } = useUserLogin();
@@ -31,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <PageDefault>
       <Text style={styles.title}>Faça seu login</Text>
 
       <TextInput
@@ -63,7 +64,7 @@ const Login = () => {
           <Text style={styles.smallButtonText}>Esqueci a senha</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </PageDefault>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
 import MaskInput, { Masks } from 'react-native-mask-input';
 import DatePicker from "react-native-date-picker";
@@ -20,10 +20,6 @@ function Create() {
     open, setOpen,
     formattedBirthday, formattedBirthdayApi
   } = useUserCreation();
-
-  const [teste1, setTeste1] = useState('');
-  const [teste2, setTeste2] = useState('');
-
 
   async function handleCreateUser() {
     if (login === '' || password === '' || name === '' || cpf === '' || phone === '' || birthday.toString() === '') {
@@ -83,27 +79,12 @@ function Create() {
         />
 
         <TextInput
-          placeholder="digite o teste1"
-          style={styles.input}
-          value={teste1}
-          onChangeText={setTeste1}
-        />
-
-        <TextInput
-          placeholder="digite o teste2"
-          style={styles.input}
-          value={teste2}
-          onChangeText={setTeste2}
-        />
-
-        <TextInput
           placeholder="Complete your birthday"
           style={styles.input}
           value={birthdaySelected ? formattedBirthday : ''}
           onPressIn={() => setOpen(true)}
         />
 
-        {/*
         <DatePicker
           modal
           open={open}
@@ -119,7 +100,6 @@ function Create() {
           }}
           mode="date"
         />
-        */}
 
         <TextInput
           placeholder="Complete your email/login"
