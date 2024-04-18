@@ -17,9 +17,9 @@ export default function Navigation() {
       <NavigationContainer>
           <Stack.Navigator 
               screenOptions={{ header: () => <Header /> }}
-              initialRouteName='ListAllGames'
+              initialRouteName='Create'
           >
-              <Stack.Screen name="ListAllGames" component={ListAllGames} />
+              <Stack.Screen name="Create" component={Create} />
               
           </Stack.Navigator>
       </NavigationContainer>

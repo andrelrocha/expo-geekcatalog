@@ -1,10 +1,7 @@
 import React from "react";
-import { Alert, Text, TextInput, TouchableOpacity } from "react-native";
+import { Text, TextInput, TouchableOpacity } from "react-native";
 import MaskInput, { Masks } from 'react-native-mask-input';
-import DatePicker from "react-native-date-picker";
 import { styles } from "../styles";
-import { UserCreate } from "../../../types/user/userCreateDTO";
-import { createUser } from "../../../services/user/create";
 import useUserCreation from "../../../hooks/user/useUserCreation";
 import PageDefault from "../../Default";
 
@@ -16,34 +13,8 @@ function Create() {
     cpf, setCpf,
     phone, setPhone,
     birthday, setBirthday,
-    birthdaySelected, setBirthdaySelected,
-    open, setOpen,
-    formattedBirthday, formattedBirthdayApi
+    handleCreateUser
   } = useUserCreation();
-
-  async function handleCreateUser() {
-    if (login === '' || password === '' || name === '' || cpf === '' || phone === '' || birthday.toString() === '') {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const userData: UserCreate = {
-      login,
-      password,
-      name,
-      cpf,
-      phone,
-      birthday: formattedBirthdayApi
-    };
-
-    try {
-      const userReturn = await createUser(userData);
-      Alert.alert('Conta criada!', `Bem-vindo, ${userReturn?.name}`);
-      //troca pra tela de login
-    } catch (error: any) {
-      Alert.alert('Erro', 'Ocorreu um erro ao criar um usuário: ' + error.response?.data || 'Erro desconhecido');
-    }
-  }
   
   return (
     <PageDefault>
@@ -78,13 +49,16 @@ function Create() {
           keyboardType="phone-pad"
         />
 
-        <TextInput
+        <MaskInput
           placeholder="Complete your birthday"
           style={styles.input}
-          value={birthdaySelected ? formattedBirthday : ''}
-          onPressIn={() => setOpen(true)}
+          value={birthday}
+          onChangeText={(masked, unmasked) => setBirthday(masked)}
+          mask={Masks.DATE_DDMMYYYY}
+          keyboardType="phone-pad"
         />
 
+        {/*componente não suportado pelo expogo, exige componentes nativos
         <DatePicker
           modal
           open={open}
@@ -100,6 +74,7 @@ function Create() {
           }}
           mode="date"
         />
+        */}
 
         <TextInput
           placeholder="Complete your email/login"

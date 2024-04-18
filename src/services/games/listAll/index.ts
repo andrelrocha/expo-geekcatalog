@@ -19,7 +19,6 @@ export const listAllGames = async (params: string) => {
 
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {
-                console.log('Jogos listados com sucesso.');
                 return response;
             })
             .catch((error) => {

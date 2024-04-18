@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { loginUser } from '../../../services/user/login';
 import { UserLogin } from '../../../types/user/userLoginDTO';
