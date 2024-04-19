@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { colors } from "../../utils/colors";
 
 export const styles = StyleSheet.create({
@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center', 
         paddingHorizontal: 10,
-        paddingTop: 30,
-        backgroundColor: colors.sage
+        backgroundColor: colors.sage,
+        paddingTop: Platform.OS === 'ios' ? 25 : 5,
     },
     logo: {
         width: 80,
@@ -19,5 +19,5 @@ export const styles = StyleSheet.create({
         lineHeight: 40,
         fontWeight: 'bold',
         color: colors.black
-    }
+    },
 });

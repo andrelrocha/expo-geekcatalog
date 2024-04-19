@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { ScrollView, View, StyleSheet } from "react-native";
+import { ScrollView } from "react-native";
 import { styles } from "./styles";
 
 interface PageDefaultProps {
@@ -12,6 +12,7 @@ const PageDefault = ({ children }: PageDefaultProps) => {
       contentContainerStyle={styles.container}
       contentInsetAdjustmentBehavior="automatic"
       automaticallyAdjustKeyboardInsets={true}
+      keyboardShouldPersistTaps="handled"
     >
       {children}
     </ScrollView>
