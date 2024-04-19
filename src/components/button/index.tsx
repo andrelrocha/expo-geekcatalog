@@ -6,12 +6,13 @@ import { colors } from "../../utils/colors"
 type ButtonProps = {
   children: ReactNode
   isLoading?: boolean
-  backgroundColor?: string
+  //backgroundColor?: string
 } & ComponentProps<typeof ThemedButton>
 
 const StyledButton = styled(
   ThemedButton,
   {
+    //FALTA FAZER COM QUE BACKGROUND COLOR SEJA PASSADO COMO PROPS
     backgroundColor: colors.buttonBlue,
     height: 46,
     justifyContent: 'center',
@@ -20,14 +21,12 @@ const StyledButton = styled(
     marginBottom: 10,
     marginTop: 20,
     paddingHorizontal: 60,
-  }
-)
-
-const StyledText = styled(
-  ButtonText,
-  {
-    color: colors.whiteSmoke,
-    fontSize: 16,
+    _text: {
+      color: colors.whiteSmoke,
+      fontSize: 16,
+    },
+  }, {
+    descendantStyle: ["_text"],
   }
 )
 
@@ -37,9 +36,10 @@ const Button = (props: ButtonProps) => (
       disabled={props.isLoading || props.disabled}
       ref={null}
       >
-      {!props.isLoading && <StyledText>{props.children}</StyledText>}
+      {!props.isLoading && <ButtonText>{props.children}</ButtonText>}
 
       {props.isLoading ? <ButtonSpinner size={14} /> : null}
     </StyledButton>
 );
+
 export default Button;

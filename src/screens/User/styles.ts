@@ -7,7 +7,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginBottom: 20,
-    color: colors.black
+    color: colors.black,
+    marginTop: 0
   },
   subtitle: {
     fontSize: 18,
@@ -16,8 +17,10 @@ export const styles = StyleSheet.create({
     color: colors.black,
     width: '80%'
   },
-  input: {
+  box: {
     width: '90%',
+  },
+  input: {
     height: 50,
     borderColor: 'gray',
     borderWidth: 1,

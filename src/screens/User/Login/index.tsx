@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, TextInput } from 'react-native';
+import { useForm } from 'react-hook-form';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { styles } from '../styles';
 import useUserLogin from '../../../hooks/user/useUserLogin';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
-import { useForm } from 'react-hook-form';
-import Button from '../../../components/button';
+import { Button, BoxInput, Heading } from '../../../components';
 
 const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
@@ -15,6 +15,7 @@ const Login = () => {
   const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
   const {
+    control,
     formState: { isValid },
     handleSubmit,
   } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
@@ -41,23 +42,31 @@ const Login = () => {
 
   return (
       <PageDefault>
-        <Text style={styles.title}>Faça seu login</Text>
+        <Heading>Faça seu login</Heading>
 
+        {/*
         <TextInput
           style={styles.input}
           placeholder="Digite seu login"
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
-        />
+        /> */}
 
-        <TextInput
-          style={styles.input}
-          placeholder="Digite sua senha"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={true}
-        />
+        <BoxInput> 
+
+
+          
+          <TextInput
+            style={styles.input}
+            placeholder="Digite sua senha"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={true}
+          />
+        </BoxInput>
+
+
     
         <Button
           isDisabled={!isValid}

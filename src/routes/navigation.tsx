@@ -7,7 +7,7 @@ import Login from '../screens/User/Login';
 import LoginWithContext from '../screens/User/Login';
 import UserStack from './stack/UserStack';
 import GamesStack from './stack/GameStack';
-import Header from '../components/header';
+import { Header } from '../components';
 import Home from '../screens/Home';
 import ListAllGames from '../screens/Games/ListAll';
 
