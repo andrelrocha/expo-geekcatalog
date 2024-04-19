@@ -6,6 +6,7 @@ import { colors } from "../../utils/colors"
 type ButtonProps = {
   children: ReactNode
   isLoading?: boolean
+  backgroundColor?: string
 } & ComponentProps<typeof ThemedButton>
 
 const StyledButton = styled(
@@ -36,7 +37,7 @@ const Button = (props: ButtonProps) => (
       disabled={props.isLoading || props.disabled}
       ref={null}
       >
-      <StyledText>{props.children}</StyledText>
+      {!props.isLoading && <StyledText>{props.children}</StyledText>}
 
       {props.isLoading ? <ButtonSpinner size={14} /> : null}
     </StyledButton>

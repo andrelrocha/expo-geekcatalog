@@ -15,7 +15,6 @@ const Login = () => {
   const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
   const {
-    control,
     formState: { isValid },
     handleSubmit,
   } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
