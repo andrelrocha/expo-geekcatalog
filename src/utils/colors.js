@@ -2,6 +2,7 @@ export const colors = {
   blue: '#87CEEB',
   green: '#98FB98',
   redWeak: '#FFB6C1',
+  redWeakDarker: '#DAAEB6',
   redStrong: '#FF0000',
   greenStrong: '#008000',
   black: '#000000',

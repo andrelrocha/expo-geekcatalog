@@ -47,47 +47,53 @@ const InputText = <T extends FieldValues>({
   // Definindo a visibilidade padrão da validação.
   const _visibleValidation = visibleValidation ?? true
 
+  const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
+    if (icon && !isValid && !isInvalid) {
+      return (
+        <InputSlot>
+          <InputIcon as={icon} />
+        </InputSlot>
+      );
+    } else if (isValid && _visibleValidation) {
+      return (
+        <InputSlot>
+          <CheckIcon />
+        </InputSlot>
+      );
+    } else if (isInvalid && _visibleValidation) {
+      return (
+        <InputSlot>
+          <CloseIcon />
+        </InputSlot>
+      );
+    }
+    return null;
+  };
+
   return (
     <Controller
-      control={control} // Passa o objeto de controle para o componente Controller.
-      name={name} // Passa o nome do campo de entrada para o componente Controller.
+      control={control} 
+      name={name} 
       render={({ field: { onChange, value }, fieldState: { invalid } }) => {
         // Renderiza o componente Input com base no estado do campo de entrada.
         const externalValue = _formatVisibleValue(value) || ""; // Formata o valor visível do campo de entrada.
 
-        const isInvalid = externalValue.length > 0 && invalid; // Verifica se o campo é inválido.
-        const isValid = externalValue.length > 0 && !invalid; // Verifica se o campo é válido.
+        const isInvalid = externalValue.length > 0 && invalid;
+        const isValid = externalValue.length > 0 && !invalid;
 
         return (
           <Input isInvalid={isInvalid} {...props}>
               <InputField
-                placeholder={placeholder} // Define o placeholder do campo de entrada.
-                value={externalValue} // Define o valor visível do campo de entrada.
+                placeholder={placeholder}
+                value={externalValue}
                 {...inputProps} // Passa as props adicionais para o componente InputField.
                 onChangeText={(value) => onChange(_formatInternalValue(value))}
                 />
 
             <Text>{props.children}</Text> 
 
-            {icon ? ( // Renderiza o ícone se fornecido.
-            
-              <InputSlot>
-                <InputIcon as={icon} />
-              </InputSlot>
-            ) : null}
+            {handleInputIcon(isValid, isInvalid)}
 
-            {/* Renderiza o ícone de validação se o campo for válido ou inválido e a validação for visível. */}
-            {isValid && _visibleValidation ? (
-              <InputSlot>
-                <CheckIcon/>
-              </InputSlot>
-            ) : isInvalid && _visibleValidation ? (
-              <InputSlot>
-                <CloseIcon/>
-              </InputSlot>
-            ) : null}
-
-            {/* Renderiza o indicador de carregamento se o componente estiver em estado de carregamento. */}
             {isLoading ? (
               <InputSlot>
                 <Spinner color="$textLight300" size="small" />

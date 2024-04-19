@@ -7,7 +7,6 @@ import { isEmail } from "../../../libs/validators/email"
 
 import InputText from "../input-text"
 
-// Função de validação personalizada para validar o formato do e-mail.
 const validate = (value: string) => {
   if (!value) return true
 

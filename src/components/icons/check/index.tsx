@@ -1,10 +1,10 @@
 import React from 'react';
-import { InputIcon, CheckIcon as GLCheckIcon } from "@gluestack-ui/themed"; 
 import { colors } from '../../../utils/colors';
+import { Check } from 'lucide-react-native';
 
 const CheckIcon = () => {
   return (
-    <InputIcon as={GLCheckIcon} color={colors.green} />
+      <Check color={colors.greenStrong} />
   );
 };
 
