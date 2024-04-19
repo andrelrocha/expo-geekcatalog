@@ -14,9 +14,8 @@ const validate = (value: string) => {
   return isEmail(value) || "Email inválido"
 }
 
-// Componente InputEmail que recebe as mesmas props do componente InputText e adiciona um ícone de e-mail e validação de e-mail.
 const InputEmail = <T extends FieldValues>(props: ComponentProps<typeof InputText<T>>) => (
-  <InputText {...props} icon={MailIcon} rules={{ ...props.rules, validate }} />
+    <InputText {...props} icon={MailIcon} rules={{ ...props.rules, validate}} inputProps={{ keyboardType: 'email-address' }}/>
 )
 
 export default InputEmail

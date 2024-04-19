@@ -1,33 +1,26 @@
 import React, { useContext } from 'react';
 import { Alert, TextInput } from 'react-native';
-import { Control, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { styles } from '../styles';
 import useUserLogin from '../../../hooks/user/useUserLogin';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
-import { Button, BoxInput, Heading, InputEmail } from '../../../components';
+import { Button, BoxInput, Heading } from '../../../components';
 
 const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
-type FormData = {
-  email: string;
-  password: string;
-};
-
 const Login = () => {
-  const { password, setPassword } = useUserLogin();
+  const { email, setEmail, password, setPassword } = useUserLogin();
   const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
   const {
     control,
     formState: { isValid },
-    handleSubmit
+    handleSubmit,
   } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
 
-  const handleLogin = async (control: Control<FormData>) => {
-    const email = control._formValues.email;
-
+  const handleLogin = async () => {
     if (email === '' || password === '') {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
       return null;
@@ -53,11 +46,12 @@ const Login = () => {
 
         <BoxInput> 
 
-          <InputEmail
-            control={control}
-            name="email"
-            placeholder="Digite seu e-mail"
-            rules={{ required: true }}
+          <TextInput
+            style={styles.input}
+            placeholder="Digite seu login"
+            value={email}
+            onChangeText={setEmail}
+            autoCapitalize="none"
           />
           
           <TextInput
@@ -68,12 +62,14 @@ const Login = () => {
             secureTextEntry={true}
           />
         </BoxInput>
+
+
     
         <Button
           isDisabled={!isValid}
           isLoading={isLoggingIn}
           onPress={handleSubmit(async () =>
-            handleLogin(control)
+            handleLogin()
             )}
         >Entrar
         </Button>

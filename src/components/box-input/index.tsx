@@ -12,13 +12,6 @@ const StyledBox = styled(
     width: '90%',
     marginTop: 0, 
     borderColor: colors.gray,
-
-    /*
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 20,
-    marginBottom: 10,
-    */
   }
 );
 

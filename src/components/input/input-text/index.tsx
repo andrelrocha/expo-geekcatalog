@@ -2,16 +2,16 @@ import { ComponentProps } from "react"
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
 
 import {
-  CheckIcon,
-  CloseIcon,
-  Input,
   InputField,
   InputIcon,
   InputSlot,
   Spinner,
+  Text,
 } from "@gluestack-ui/themed"
 
 import { identity } from "../../../libs/functional"
+import Input from "../input"
+import { CheckIcon, CloseIcon } from "../../icons"
 
 type InputTextProps<T extends FieldValues> = {
     control: Control<T>; // O objeto de controle fornecido pelo React Hook Form para controlar o formulário.
@@ -60,6 +60,15 @@ const InputText = <T extends FieldValues>({
 
         return (
           <Input isInvalid={isInvalid} {...props}>
+              <InputField
+                placeholder={placeholder} // Define o placeholder do campo de entrada.
+                value={externalValue} // Define o valor visível do campo de entrada.
+                {...inputProps} // Passa as props adicionais para o componente InputField.
+                onChangeText={(value) => onChange(_formatInternalValue(value))}
+                />
+
+            <Text>{props.children}</Text> 
+
             {icon ? ( // Renderiza o ícone se fornecido.
             
               <InputSlot>
@@ -67,23 +76,14 @@ const InputText = <T extends FieldValues>({
               </InputSlot>
             ) : null}
 
-            <InputField
-              onChangeText={(value) => onChange(_formatInternalValue(value))} // Atualiza o valor interno do campo de entrada.
-              placeholder={placeholder} // Define o placeholder do campo de entrada.
-              value={externalValue} // Define o valor visível do campo de entrada.
-              {...inputProps} // Passa as props adicionais para o componente InputField.
-            />
-
-            {props.children} {/* Renderiza os filhos do componente InputText. */}
-
             {/* Renderiza o ícone de validação se o campo for válido ou inválido e a validação for visível. */}
             {isValid && _visibleValidation ? (
               <InputSlot>
-                <InputIcon as={CheckIcon} color="$teal400" />
+                <CheckIcon/>
               </InputSlot>
             ) : isInvalid && _visibleValidation ? (
               <InputSlot>
-                <InputIcon as={CloseIcon} color="$error400" />
+                <CloseIcon/>
               </InputSlot>
             ) : null}
 
@@ -99,6 +99,6 @@ const InputText = <T extends FieldValues>({
       rules={rules} // Passa as regras de validação para o componente Controller.
     />
   );
-};
+};  
 
 export default InputText
