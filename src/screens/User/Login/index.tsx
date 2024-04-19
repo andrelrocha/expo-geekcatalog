@@ -2,11 +2,9 @@ import React, { useContext } from 'react';
 import { Alert, TextInput } from 'react-native';
 import { Control, useForm } from 'react-hook-form';
 import { UserLogin } from '../../../types/user/userLoginDTO';
-import { styles } from '../styles';
-import useUserLogin from '../../../hooks/user/useUserLogin';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
-import { Button, BoxInput, Heading, InputEmail } from '../../../components';
+import { Button, BoxInput, Heading, InputEmail, InputPassword } from '../../../components';
 
 const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
@@ -16,7 +14,6 @@ type FormData = {
 };
 
 const Login = () => {
-  const { password, setPassword } = useUserLogin();
   const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
   const {
@@ -27,6 +24,7 @@ const Login = () => {
 
   const handleLogin = async (control: Control<FormData>) => {
     const email = control._formValues.email;
+    const password = control._formValues.password;
 
     if (email === '' || password === '') {
       Alert.alert('Erro', 'Por favor, preencha todos os campos.');
@@ -60,12 +58,12 @@ const Login = () => {
             rules={{ required: true }}
           />
           
-          <TextInput
-            style={styles.input}
+          <InputPassword
+            control={control}
+            name="password"
             placeholder="Digite sua senha"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={true}
+            rules={{ required: true }}
+            visibleValidation={false}
           />
         </BoxInput>
     
