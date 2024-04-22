@@ -1,4 +1,4 @@
-import Button from './button';
+import Button from './button/button-loading';
 import BoxInput from './box-input';
 import Header from './header';
 import Heading from './heading';

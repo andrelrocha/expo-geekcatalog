@@ -1,8 +1,11 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Image } from 'react-native';
+import { Text } from '@gluestack-ui/themed';
 import { styles } from './styles';
 import gamerImg from '../../assets/gamer.png';
 import PageDefault from '../Default';
+import ButtonTouchable from '../../components/button/button-touchable';
+import { colors } from '../../utils/colors';
 
 export default function Home() {
     return (
@@ -13,13 +16,8 @@ export default function Home() {
             </View>
 
             <View style={styles.containerButton}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Sign-In</Text>
-                </TouchableOpacity>
+                <ButtonTouchable>Login</ButtonTouchable>
+                <ButtonTouchable backgroundColor={colors.greenStrong}>Sign-Up</ButtonTouchable>
             </View>
             
             <View style={styles.imageContainer}>
