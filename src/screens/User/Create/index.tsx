@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../../context/hooks";
 import InputCPF from "../../../components/input/input-cpf";
 import { BoxInput, Heading, InputText } from "../../../components";
+import InputPhone from "../../../components/input/input-phone";
 
 const DEFAULT_FORM_VALUES = {
   cpf: "",
@@ -49,6 +50,8 @@ function Create() {
           <InputText control={control} name="name" placeholder="Nome Completo" rules={{ required: true }} />
 
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
+
+          <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
 
         </BoxInput>
   

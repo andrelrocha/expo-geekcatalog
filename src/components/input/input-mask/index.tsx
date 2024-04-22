@@ -7,6 +7,7 @@ import { InputIcon, InputSlot } from "@gluestack-ui/themed"
 import Input from "../input"
 import { CheckIcon, CloseIcon } from "../../icons"
 import { identity } from "../../../libs/functional"
+import { InfoIcon } from "lucide-react-native"
 
 type InputMaskProps<T extends FieldValues> = {
   control: Control<T>
@@ -40,18 +41,30 @@ const InputMask = <T extends FieldValues>({
   const _visibleValidation = visibleValidation ?? true
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
-    if (isValid && _visibleValidation) {
-      return <CheckIcon />;
-    } else if (isInvalid && _visibleValidation) {
-      return <CloseIcon />;
-    } else if (icon) {
+    if (icon && !isValid && !isInvalid) {
       return (
         <InputSlot>
           <InputIcon as={icon} />
         </InputSlot>
       );
+    } else if (isValid && _visibleValidation) {
+      return (
+        <InputSlot>
+          <CheckIcon />
+        </InputSlot>
+      );
+    } else if (isInvalid && _visibleValidation) {
+      return (
+        <InputSlot>
+          <CloseIcon />
+        </InputSlot>
+      );
     }
-    return null;
+    return (
+      <InputSlot>
+        <InputIcon as={InfoIcon} />
+      </InputSlot>
+    );
   };
   
   return (
