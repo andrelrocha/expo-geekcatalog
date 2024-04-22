@@ -28,6 +28,7 @@ const InputPassword = <T extends FieldValues>(props: ComponentProps<typeof Input
         secureTextEntry: !showPassword,
         type: showPassword ? "text" : "password",
       }}
+      icon={0}
       rules={{ validate, ...props.rules }}
     >
       <InputSlot onPress={togglePassword}>

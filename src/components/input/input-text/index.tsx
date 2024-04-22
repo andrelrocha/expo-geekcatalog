@@ -48,6 +48,8 @@ const InputText = <T extends FieldValues>({
   const _visibleValidation = visibleValidation ?? true
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
+    if (icon === 0) return null;
+    
     if (icon && !isValid && !isInvalid) {
       return (
         <InputSlot>
