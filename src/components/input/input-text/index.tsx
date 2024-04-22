@@ -1,6 +1,6 @@
 import { ComponentProps } from "react"
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
-
+import { InfoIcon } from "lucide-react-native"
 import {
   InputField,
   InputIcon,
@@ -67,7 +67,9 @@ const InputText = <T extends FieldValues>({
         </InputSlot>
       );
     }
-    return null;
+    return (<InputSlot>
+      <InputIcon as={InfoIcon} />
+    </InputSlot>);
   };
 
   return (

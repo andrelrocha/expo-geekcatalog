@@ -2,10 +2,10 @@ import { ComponentProps } from "react"
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
 import { TextInput } from "react-native"
 import { MaskedTextInput } from "react-native-mask-text"
-
 import { InputIcon, InputSlot } from "@gluestack-ui/themed"
-import Input from "../input"
 
+import Input from "../input"
+import { CheckIcon, CloseIcon } from "../../icons"
 import { identity } from "../../../libs/functional"
 
 type InputMaskProps<T extends FieldValues> = {
@@ -36,6 +36,23 @@ const InputMask = <T extends FieldValues>({
 }: InputMaskProps<T>) => {
   const _formatVisibleValue = formatVisibleValue || identity
   const _formatInternalValue = formatInternalValue || identity
+
+  const _visibleValidation = visibleValidation ?? true
+
+  const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
+    if (isValid && _visibleValidation) {
+      return <CheckIcon />;
+    } else if (isInvalid && _visibleValidation) {
+      return <CloseIcon />;
+    } else if (icon) {
+      return (
+        <InputSlot>
+          <InputIcon as={icon} />
+        </InputSlot>
+      );
+    }
+    return null;
+  };
   
   return (
     <Controller
@@ -45,6 +62,7 @@ const InputMask = <T extends FieldValues>({
         const externalValue = _formatVisibleValue(value) || ""
 
         const isInvalid = externalValue.length > 0 && invalid
+        const isValid = externalValue.length > 0 && !invalid
 
         return (
           <Input isInvalid={isInvalid} {...props}>
@@ -57,11 +75,7 @@ const InputMask = <T extends FieldValues>({
               {...inputProps}
             />
 
-            {icon ? (
-              <InputSlot>
-                <InputIcon as={icon} />
-              </InputSlot>
-            ) : null}
+            {handleInputIcon(isValid, isInvalid)} 
           </Input>
         )
       }}
