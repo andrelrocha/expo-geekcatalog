@@ -1,10 +1,12 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { loginUser } from '../services/user/login';
+import { createUser } from "../services/user/create";
 import { UserLogin } from '../types/user/userLoginDTO';
 import { getUserByJWT } from "../services/user/getByJWT";
 import { verifyJWT } from "../services/user/verifyJWT";
 import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
+import { UserCreate } from "../types/user/userCreateDTO";
 
 type AuthContextData = {
     authState: {
@@ -14,6 +16,7 @@ type AuthContextData = {
     currentUser?: UserReturn;
     isLoading: boolean;
     login: (credentials: UserLogin) => any;
+    signUp: (credentials: UserCreate) => any;
     logout: () => any;
 };
 
@@ -29,6 +32,7 @@ const AuthContext = createContext<AuthContextData>({
     currentUser: undefined,
     isLoading: false,
     login: async () => {},
+    signUp: async () => {},
     logout: async () => {},
 });
 
@@ -88,6 +92,37 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setIsLoading(false);
         }
     };
+
+    const signUp = async (credentials: UserCreate) => {
+        setIsLoading(true);
+        try {
+          const newUser = await createUser(credentials);
+            if (newUser === undefined) {
+                console.error("Erro ao criar usuário");
+                return;
+            }
+            const tokenJWT = await loginUser({
+                login: credentials.login,
+                password: credentials.password
+            });
+          if (tokenJWT === '' || tokenJWT === undefined) {
+            console.error("Token JWT vazio ou indefinido");
+            return;
+          }
+          setAuthState({
+            token: tokenJWT,
+            authenticated: true,
+          });
+
+          setCurrentUser(newUser);
+
+          await setToken(tokenJWT);
+        } catch (error) {
+          console.error("Erro ao fazer login:", error);
+        } finally {
+          setIsLoading(false);
+        }
+    }
   
     const logout = async () => {
         setAuthState({
@@ -104,6 +139,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         currentUser,
         isLoading,
         login,
+        signUp,
         logout,
     };
 
