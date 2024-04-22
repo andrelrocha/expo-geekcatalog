@@ -6,16 +6,17 @@ export const styles = StyleSheet.create({
         flexDirection: 'row', 
         alignItems: 'center', 
         paddingHorizontal: 10,
-        backgroundColor: colors.sage,
+        justifyContent: 'space-between',
         paddingTop: Platform.OS === 'ios' ? 25 : 5,
+        backgroundColor: colors.sage,
     },
     logo: {
-        width: 80,
-        height: 80,
+        width: 60,
+        height: 60,
         marginRight: 10
     },
     title: {
-        fontSize: 30,
+        fontSize: 26,
         lineHeight: 40,
         fontWeight: 'bold',
         color: colors.black

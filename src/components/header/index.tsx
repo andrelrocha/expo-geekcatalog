@@ -4,19 +4,13 @@ import { styles } from './styles';
 
 const logo = require('../../assets/controller-xbox.png');
 
-class Header extends React.Component {
-  render () {
-    if (Platform.OS === 'ios') {
-      StatusBar.setHidden(true);
-    }
-
+const Header = (props: any) => {
     return (
         <View style={styles.container}>
-          <Image source={logo} style={styles.logo} />
-          <Text style={styles.title}>Geek Catalog</Text>
+            <Text style={styles.title}>{props.name}</Text>
+            <Image source={logo} style={styles.logo} />
         </View>
     );
-  }
 }
 
 export default Header;

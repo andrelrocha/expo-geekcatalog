@@ -5,7 +5,6 @@ import LoginWithContext from '../screens/User/Login';
 import { Header } from '../components';
 import Home from '../screens/Home';
 
-import Create from '../screens/User/Create';
 import UserStack from './stack/UserStack';
 import GamesStack from './stack/GameStack';
 import ListAllGames from '../screens/Games/ListAll';
@@ -16,7 +15,9 @@ export default function Navigation() {
     return (
       <NavigationContainer>
           <Stack.Navigator 
-              screenOptions={{ header: () => <Header /> }}
+              screenOptions={{ 
+                    headerShown: false 
+               }}
               initialRouteName='Home'
           >
             <Stack.Screen name="Home" component={Home} 
