@@ -22,7 +22,7 @@ export default function Navigation() {
             <Stack.Screen name="Home" component={Home} 
                 options={{ headerTitle: 'Home', headerShown: false }}
             />
-            <Stack.Screen name="Login" component={LoginWithContext} />
+            <Stack.Screen name="UserStack" component={UserStack}/>
               
           </Stack.Navigator>
       </NavigationContainer>

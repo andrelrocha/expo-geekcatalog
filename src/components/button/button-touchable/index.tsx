@@ -1,9 +1,9 @@
 import { ReactNode } from "react"
-import {TouchableOpacity } from "react-native";
+import {TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { stylesSheet } from "../styles";
 import { Text } from "@gluestack-ui/themed";
 
-type ButtonProps = {
+type ButtonProps = TouchableOpacityProps & {
     children: ReactNode
     backgroundColor?: string
     textColor?: string
@@ -16,7 +16,7 @@ const ButtonTouchable = (props: ButtonProps) => {
     };
 
     return (
-        <TouchableOpacity style={[stylesSheet.button, stylesSheet.containerButton, dynamicButtonStyles]}>
+        <TouchableOpacity onPress={props.onPress} style={[stylesSheet.button, stylesSheet.containerButton, dynamicButtonStyles]}>
             <Text style={stylesSheet.buttonText}>{props.children}</Text>
         </TouchableOpacity>
     );

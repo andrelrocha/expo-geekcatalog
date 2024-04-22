@@ -1,13 +1,16 @@
 import React from 'react';
 import { View, Image } from 'react-native';
 import { Text } from '@gluestack-ui/themed';
+import { ParamListBase } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { styles } from './styles';
-import gamerImg from '../../assets/gamer.png';
 import PageDefault from '../Default';
 import ButtonTouchable from '../../components/button/button-touchable';
 import { colors } from '../../utils/colors';
 
-export default function Home() {
+const gamerImg = require('../../assets/gamer.png');
+
+export default function Home({ navigation }: NativeStackScreenProps<ParamListBase>) {
     return (
         <PageDefault>
             <View style={styles.containerTitle}>
@@ -16,8 +19,15 @@ export default function Home() {
             </View>
 
             <View style={styles.containerButton}>
-                <ButtonTouchable>Login</ButtonTouchable>
-                <ButtonTouchable backgroundColor={colors.greenStrong}>Sign-Up</ButtonTouchable>
+                <ButtonTouchable 
+                    onPress={() => {navigation.navigate('UserStack', { screen: 'Login' })}}
+                >Login
+                </ButtonTouchable>
+                <ButtonTouchable 
+                    backgroundColor={colors.greenStrong}
+                    onPress={() => {navigation.navigate('UserStack', { screen: 'SignUp' })}}
+                >Sign-Up
+                </ButtonTouchable>
             </View>
             
             <View style={styles.imageContainer}>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, Image, View, StyleSheet, SafeAreaView, Platform, StatusBar } from 'react-native';
-import logo from '../../assets/controller-xbox.png';
+import { Text, Image, View, Platform, StatusBar } from 'react-native';
 import { styles } from './styles';
+
+const logo = require('../../assets/controller-xbox.png');
 
 class Header extends React.Component {
   render () {
