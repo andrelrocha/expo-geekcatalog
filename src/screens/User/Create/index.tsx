@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { Text, TextInput, TouchableOpacity } from "react-native";
+import { Text  } from "react-native";
 import { styles } from "../styles";
 import PageDefault from "../../Default";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../../context/hooks";
 import InputCPF from "../../../components/input/input-cpf";
-import { BoxInput, Heading, InputText } from "../../../components";
+import { BoxInput, Heading, InputEmail, InputPassword, InputText } from "../../../components";
 import InputPhone from "../../../components/input/input-phone";
+import InputPasswordValidation from "../../../components/input/input-password-validation";
+import ButtonTouchable from "../../../components/button/button-touchable";
+import { colors } from "../../../utils/colors";
+import TextWarning from "../../../components/text/text-warning";
 
 const DEFAULT_FORM_VALUES = {
   cpf: "",
@@ -53,12 +57,19 @@ function Create() {
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
 
+          <InputEmail control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
+
+          <InputPasswordValidation control={control} name="password" placeholder="Senha" rules={{ required: true}}/>
+          <TextWarning>Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.</TextWarning>
+          <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
+
+          {/* FALTA BIRTHDAY  E PROFILEPIC*/}
         </BoxInput>
   
 
-        <TouchableOpacity style={[styles.smallButtonGreen, styles.buttonCadastro]}>
-            <Text style={styles.smallButtonText} >Cadastre-se</Text>
-          </TouchableOpacity>
+        <ButtonTouchable backgroundColor={colors.greenStrong}>
+          Cadastrar
+        </ButtonTouchable>
       </PageDefault>
   );
 }

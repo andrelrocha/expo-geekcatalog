@@ -41,6 +41,8 @@ const InputMask = <T extends FieldValues>({
   const _visibleValidation = visibleValidation ?? true
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
+    if (icon === 0) return null;
+
     if (icon && !isValid && !isInvalid) {
       return (
         <InputSlot>
@@ -83,7 +85,7 @@ const InputMask = <T extends FieldValues>({
               mask={mask}
               onChangeText={(value, rawValue) => onChange(_formatInternalValue(value, rawValue))}
               placeholder={placeholder}
-              style={{ flex: 1, fontSize: 16, marginLeft: 12 }}
+              style={{ flex: 1}}
               value={externalValue}
               {...inputProps}
             />

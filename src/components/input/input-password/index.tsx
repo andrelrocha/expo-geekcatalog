@@ -1,8 +1,9 @@
 import { ComponentProps, useState } from "react"
 import { FieldValues } from "react-hook-form"
+import { View } from "react-native"
 
 import { InputIcon, InputSlot } from "@gluestack-ui/themed"
-import { EyeIcon, EyeOffIcon, LockKeyholeIcon } from "lucide-react-native"
+import { EyeIcon, EyeOffIcon } from "lucide-react-native"
 
 import { isValidPassword } from "../../../libs/validators/password"
 
@@ -22,7 +23,7 @@ const InputPassword = <T extends FieldValues>(props: ComponentProps<typeof Input
 
   return (
     <InputText
-      {...props}
+      {...props} 
       inputProps={{
         ...props.inputProps,
         secureTextEntry: !showPassword,
@@ -31,9 +32,9 @@ const InputPassword = <T extends FieldValues>(props: ComponentProps<typeof Input
       icon={0}
       rules={{ validate, ...props.rules }}
     >
-      <InputSlot onPress={togglePassword}>
-        <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
-      </InputSlot>
+        <InputSlot onPress={togglePassword} style={{ paddingTop: 8 }}>
+          <InputIcon as={showPassword ? EyeIcon : EyeOffIcon} />
+        </InputSlot>
     </InputText>
   )
 }
