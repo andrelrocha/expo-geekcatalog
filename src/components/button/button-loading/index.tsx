@@ -1,31 +1,26 @@
 import { ComponentProps, ReactNode } from "react"
 
-import { ButtonSpinner, ButtonText, styled, Button as ThemedButton } from "@gluestack-ui/themed"
+import { ButtonSpinner, ButtonText, Button as ThemedButton } from "@gluestack-ui/themed"
 import { buttonStyles, textStyles } from "../styles";
+import StyledButton from "../button-styled";
 
 type ButtonProps = {
   children: ReactNode
   isLoading?: boolean
   backgroundColor?: string
   textColor?: string
+  mt?: number
+  w?: number
+  ph?: number
 } & ComponentProps<typeof ThemedButton>
-
-const StyledButton = styled(
-  ThemedButton,
-  {
-    ...buttonStyles,
-    _text: {
-      ...textStyles,
-    },
-  }, {
-    descendantStyle: ["_text"],
-  }
-)
 
 const Button = (props: ButtonProps) => {
   const dynamicButtonStyles = {
     backgroundColor: props.backgroundColor || buttonStyles.backgroundColor,
     color: props.backgroundColor || textStyles.color,
+    paddingHorizontal: props.ph || 50,
+    marginTop: props.mt || 0,
+    width: props.w || 200,
   };
   
   return (

@@ -8,8 +8,7 @@ export const buttonStyles: ViewStyle = {
     alignItems: 'center',
     borderRadius: 20,
     marginBottom: 10,
-    marginTop: 20,
-    paddingHorizontal: 50,
+    marginTop: 0,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
@@ -22,12 +21,27 @@ export const textStyles: TextStyle = {
     fontSize: 16
 };
 
+export const buttonImage: ViewStyle = {
+    width: 60,
+    height: 40,
+    borderRadius: 8,
+    borderColor: colors.black,
+    borderWidth: 1,
+    backgroundColor: colors.gray,
+    padding: 5,
+    paddingTop: 10,
+    shadowOpacity: 0,
+};
+
 export const stylesSheet = StyleSheet.create({
     button: {
         ...buttonStyles
     },
     buttonText: {
         ...textStyles
+    },
+    buttonImage: {
+        ...buttonImage
     },
     containerButton: {
         width: '70%',

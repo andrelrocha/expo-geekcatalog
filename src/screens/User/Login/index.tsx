@@ -73,6 +73,7 @@ const Login = () => {
           onPress={handleSubmit(async () =>
             handleLogin(control)
             )}
+          mt={20}
         >Entrar
         </Button>
       </PageDefault>
