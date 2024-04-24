@@ -4,7 +4,6 @@ import { InputIcon, InputSlot } from "@gluestack-ui/themed";
 import { EyeIcon, EyeOffIcon } from "lucide-react-native";
 import { isValidPassword } from "../../../libs/validators/password";
 import InputText from "../input-text";
-import { CheckIcon, CloseIcon } from "../../icons";
 
 const DEFAULT_ERROR_MESSAGE = "Senha inválida";
 

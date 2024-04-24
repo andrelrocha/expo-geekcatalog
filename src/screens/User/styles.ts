@@ -78,6 +78,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingRight: 100,
-    marginBottom: 20
+    marginBottom: 10
   }
 });

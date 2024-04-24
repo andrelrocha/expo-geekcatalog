@@ -2,17 +2,15 @@ import React, { useState } from "react";
 import { Text  } from "react-native";
 import { useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
+import * as Animatable from "react-native-animatable";
 import { styles } from "../styles";
+import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
-import InputCPF from "../../../components/input/input-cpf";
-import { BoxInput, Heading, InputEmail, InputPassword, InputText } from "../../../components";
-import InputPhone from "../../../components/input/input-phone";
-import InputPasswordValidation from "../../../components/input/input-password-validation";
-import ButtonTouchable from "../../../components/button/button-touchable";
-import ButtonAddImage from "../../../components/button/button-add-image";
-import { colors } from "../../../utils/colors";
-import TextWarning from "../../../components/text/text-warning";
+import { BoxInput, Heading, InputEmail, InputPassword, 
+  InputText, InputCPF, InputPhone, InputPasswordValidation, 
+  ButtonTouchable, ButtonAddImage, TextWarning
+} from "../../../components";
 
 
 const DEFAULT_FORM_VALUES = {
@@ -38,6 +36,11 @@ function Create() {
   })
   const { isLoading, signUp } = useAuth()
 
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const handlePasswordWarning = () => {
+    setIsPasswordFocused(true);
+  };
+
   const [termsVisibility, setTermsVisibility] = useState(false)
 
   const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
@@ -62,15 +65,23 @@ function Create() {
 
           <InputEmail control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
 
-          <InputPasswordValidation control={control} name="password" placeholder="Senha" rules={{ required: true}}/>
-          <TextWarning>Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.</TextWarning>
+          <InputPasswordValidation control={control} name="password" placeholder="Senha" rules={{ required: true}} onTouchStart={handlePasswordWarning}/>
+
+          {isPasswordFocused && ( 
+            <Animatable.View animation={isPasswordFocused ? "fadeIn" : "fadeOut"} duration={400}>
+              <TextWarning>
+                Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
+              </TextWarning>
+            </Animatable.View>
+          )}
+
           <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
 
           {/* FALTA BIRTHDAY*/}
 
           <View style={styles.containerAddImage}>
             <ButtonAddImage children={undefined}></ButtonAddImage>
-            <TextWarning w={160}>Click on the camera icon to add a profile picture</TextWarning>
+            <TextWarning w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
           </View>
         </BoxInput>
 

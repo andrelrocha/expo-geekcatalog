@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         borderColor: colors.blackOpacity,
         backgroundColor: colors.sageOpacity,
         width: '100%',
+        opacity: 0.8,
     },
     warningText: {
         color: colors.black,

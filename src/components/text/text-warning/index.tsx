@@ -8,12 +8,14 @@ interface TextWarningProps {
   textColor?: string
   fontSize?: number
   w?: number
+  o?: number
 }
 
 const TextWarning = (props: TextWarningProps) => {
     const dynamicStylesBG = {
         backgroundColor: props.backgroundColor || styles.warningWrapper.backgroundColor,
         width: props.w || styles.warningWrapper.width,
+        opacity: props.o || styles.warningWrapper.opacity,
     };
 
     const dynamicStylesText = {
