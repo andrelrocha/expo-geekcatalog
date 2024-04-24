@@ -1,5 +1,5 @@
 import { cpf } from "cpf-cnpj-validator"
-import moment from "moment"
+import { isValid, isAfter, isBefore } from 'date-fns';
 
 // ##################### REGEX #####################
 
@@ -15,26 +15,33 @@ export const isName = (name: string) => NAME_REGEX.test(name)
 
 // Phone validations
 
-// Date validations
-export const isDateValid = (
+// Date validations (day.js has critical bugs https://github.com/iamkun/dayjs/issues/2069), so i've made my own date validation method
+// date-fns doesn't handle well when the date is formatted as "dd/MM/yyyy", so i have a mask which come as dateValue and i have to parse it to a valid Date object
+export const isDateValid =  (
   dateValue: string,
-  dateFormat: string,
   reference: "after" | "before"
 ) => {
-  const now = moment()
-  const date = moment(dateValue, dateFormat, true).startOf("month")
+  if (dateValue.length !== 8) return false;
 
-  const validDate = date.isValid()
+  const now = new Date();
 
-  if (reference === "after") {
-    const isAfterToday = date.isAfter(now)
-    return validDate && isAfterToday
-  } else if (reference === "before") {
-    const isBeforeToday = date.isBefore(now)
-    return validDate && isBeforeToday
+  const day = dateValue.slice(0, 2);
+  const month = dateValue.slice(2, 4);
+  const year = dateValue.slice(4, 8);
+
+  const date = new Date(Number(year), Number(month) - 1, Number(day));
+
+  const validDate = isValid(date);
+
+  if (reference === 'after') {
+    const isAfterToday = isAfter(date, now);
+    return validDate && isAfterToday;
+  } else if (reference === 'before') {
+    const isBeforeToday = isBefore(date, now);
+    return validDate && isBeforeToday;
   }
 
-  return false
+  return false;
 }
 
 // CEP validations

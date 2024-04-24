@@ -9,7 +9,8 @@ import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
 import { BoxInput, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
-  ButtonTouchable, ButtonAddImage, TextWarning
+  ButtonTouchable, ButtonAddImage, TextWarning,
+  InputDate
 } from "../../../components";
 
 
@@ -59,6 +60,8 @@ function Create() {
         <BoxInput>
           <InputText control={control} name="name" placeholder="Nome Completo" rules={{ required: true }} />
 
+          <InputDate control={control} name="birthday" placeholder="Data de Nascimento" rules={{ required: true }}/>
+
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
@@ -76,8 +79,6 @@ function Create() {
           )}
 
           <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
-
-          {/* FALTA BIRTHDAY*/}
 
           <View style={styles.containerAddImage}>
             <ButtonAddImage children={undefined}></ButtonAddImage>
