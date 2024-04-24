@@ -7,8 +7,9 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         borderWidth: 1,
-        borderColor: colors.black,
-        backgroundColor: colors.sage,
+        borderColor: colors.blackOpacity,
+        backgroundColor: colors.sageOpacity,
+        width: '100%',
     },
     warningText: {
         color: colors.black,

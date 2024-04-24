@@ -1,4 +1,3 @@
-import { colors } from "../../../utils/colors";
 import Text from "../text-styled";
 import { styles } from "../styles";
 import { View } from "@gluestack-ui/themed";
@@ -8,11 +7,13 @@ interface TextWarningProps {
   backgroundColor?: string
   textColor?: string
   fontSize?: number
+  w?: number
 }
 
 const TextWarning = (props: TextWarningProps) => {
     const dynamicStylesBG = {
         backgroundColor: props.backgroundColor || styles.warningWrapper.backgroundColor,
+        width: props.w || styles.warningWrapper.width,
     };
 
     const dynamicStylesText = {

@@ -72,5 +72,12 @@ export const styles = StyleSheet.create({
   smallButtonText: {
     color: '#fff',
     fontSize: 16
+  },
+  containerAddImage: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingRight: 100,
+    marginBottom: 20
   }
 });

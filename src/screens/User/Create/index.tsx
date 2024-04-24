@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Text  } from "react-native";
 import { useForm } from "react-hook-form";
+import { View } from "@gluestack-ui/themed";
 import { styles } from "../styles";
 import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
@@ -12,7 +13,6 @@ import ButtonTouchable from "../../../components/button/button-touchable";
 import ButtonAddImage from "../../../components/button/button-add-image";
 import { colors } from "../../../utils/colors";
 import TextWarning from "../../../components/text/text-warning";
-import { View } from "@gluestack-ui/themed";
 
 
 const DEFAULT_FORM_VALUES = {
@@ -66,14 +66,16 @@ function Create() {
           <TextWarning>Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.</TextWarning>
           <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
 
-          {/* FALTA BIRTHDAY  E PROFILEPIC*/}
-          <View>
-            <ButtonAddImage>Profile Pic</ButtonAddImage>
+          {/* FALTA BIRTHDAY*/}
+
+          <View style={styles.containerAddImage}>
+            <ButtonAddImage children={undefined}></ButtonAddImage>
+            <TextWarning w={160}>Click on the camera icon to add a profile picture</TextWarning>
           </View>
         </BoxInput>
 
           <ButtonTouchable backgroundColor={colors.greenStrong}>
-            <Text>Register</Text>
+            Register
           </ButtonTouchable>
         </PageDefault>
   );

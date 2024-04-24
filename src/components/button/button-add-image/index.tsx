@@ -1,8 +1,7 @@
 import React, { ComponentProps, ReactNode } from "react";
-import { stylesSheet, textStyles } from "../styles";
+import { stylesSheet } from "../styles";
 import ButtonTouchable from "../button-touchable";
 import { CameraIcon } from "../../icons";
-import { View } from "lucide-react-native";
 
 type ButtonProps = {
   children: ReactNode;
@@ -24,7 +23,7 @@ const ButtonAddImage = (props: ButtonProps) => {
       style={dynamicButtonStyles}  
     > 
       <CameraIcon/>
-
+      {props.children}
     </ButtonTouchable>
   );
 };

@@ -24,9 +24,9 @@ export const textStyles: TextStyle = {
 export const buttonImage: ViewStyle = {
     width: 60,
     height: 40,
-    borderRadius: 8,
+    borderRadius: 12,
     borderColor: colors.black,
-    borderWidth: 1,
+    borderWidth: 0.5,
     backgroundColor: colors.gray,
     padding: 5,
     paddingTop: 10,
