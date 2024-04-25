@@ -35,16 +35,16 @@ function Create() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
   })
-  const { isLoading, signUp } = useAuth()
+  //const { isLoading, signUp } = useAuth()
 
-  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   const handlePasswordWarning = () => {
-    setIsPasswordFocused(true);
+    setIsPasswordClicked(true);
   };
 
-  const [termsVisibility, setTermsVisibility] = useState(false)
+  //const [termsVisibility, setTermsVisibility] = useState(false)
 
-  const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
+  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
 
   
   return (
@@ -70,8 +70,8 @@ function Create() {
 
           <InputPasswordValidation control={control} name="password" placeholder="Senha" rules={{ required: true}} onTouchStart={handlePasswordWarning}/>
 
-          {isPasswordFocused && ( 
-            <Animatable.View animation={isPasswordFocused ? "fadeIn" : "fadeOut"} duration={400}>
+          {isPasswordClicked && ( 
+            <Animatable.View animation={isPasswordClicked ? "fadeIn" : "fadeOut"} duration={400}>
               <TextWarning>
                 Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
               </TextWarning>

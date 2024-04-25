@@ -13,6 +13,7 @@ export const colors = {
   lightBlue: '#E4D9FF',
   whiteSmoke: "#F4F4F4",
   buttonBlue: '#007bff',
+  lightGray: '#D3D3D3',
   gray: '#808080',
   grayOpacity: hexToRGBA('#808080', 0.3),
 };
