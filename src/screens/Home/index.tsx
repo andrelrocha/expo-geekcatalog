@@ -7,9 +7,9 @@ import { styles } from './styles';
 import PageDefault from '../Default';
 import ButtonTouchable from '../../components/button/button-touchable';
 import { colors } from '../../utils/colors';
-import ProfilePicTouchable from '../../components/image/image-touchable';
 
 const gamerImg = require('../../assets/gamer.png');
+
 
 export default function Home({ navigation }: NativeStackScreenProps<ParamListBase>) {
     return (

@@ -10,6 +10,7 @@ import InputPhone from './input/input-phone';
 import InputDate from './input/input-date';
 import InputPasswordValidation from './input/input-password-validation';
 import { ButtonTouchable, ButtonAddImage } from './button';
+import PhotoSelectionModal from './modal/select-photo';
 import TextWarning from './text/text-warning';
 
 
@@ -27,5 +28,6 @@ export {
     InputPhone, 
     InputDate,
     InputPasswordValidation, 
+    PhotoSelectionModal,
     TextWarning
 };

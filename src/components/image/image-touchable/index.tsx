@@ -1,7 +1,6 @@
 import {StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
 import { styles } from "../styles";
 import { Image } from "@gluestack-ui/themed";
-import { CameraIcon } from "../../icons";
 
 type ButtonProps = TouchableOpacityProps & {
     mt?: number 
@@ -37,9 +36,10 @@ const PicTouchable = (props: ButtonProps) => {
 }
 
 /*
+const profileUser = require('../../assets/profile_user.png');
 <ProfilePicTouchable 
                 onPress={() => { console.log('ProfilePicTouchable pressed')}} 
-                source={gamerImg}   
+                source={gamerImg || profileUser}   
                 mt={20} 
                 alt='Profile Picture'
             />

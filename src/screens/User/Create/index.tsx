@@ -10,7 +10,7 @@ import { useAuth } from "../../../context/hooks";
 import { BoxInput, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
   ButtonTouchable, ButtonAddImage, TextWarning,
-  InputDate
+  InputDate, PhotoSelectionModal
 } from "../../../components";
 
 
@@ -36,7 +36,7 @@ function Create() {
     mode: "onChange",
   })
   //const { isLoading, signUp } = useAuth()
-
+  const [modalPicVisible, setModalPicVisible] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   const handlePasswordWarning = () => {
     setIsPasswordClicked(true);
@@ -48,6 +48,7 @@ function Create() {
 
   
   return (
+    <>
     <PageDefault>
         <Heading>
           Welcome to Geek Catalog!
@@ -81,15 +82,25 @@ function Create() {
           <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
 
           <View style={styles.containerAddImage}>
-            <ButtonAddImage children={undefined}></ButtonAddImage>
+            <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)}/>
             <TextWarning w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
           </View>
         </BoxInput>
 
-          <ButtonTouchable backgroundColor={colors.greenStrong}>
-            Register
-          </ButtonTouchable>
+        <ButtonTouchable backgroundColor={colors.greenStrong}>
+          Register
+        </ButtonTouchable>
+
         </PageDefault>
+
+      { modalPicVisible && (
+        <PhotoSelectionModal 
+          visible={modalPicVisible} 
+          onRequestClose={() => setModalPicVisible(false)} 
+        />
+      )
+      }
+      </>
   );
 }
 

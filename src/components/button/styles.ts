@@ -18,7 +18,8 @@ export const buttonStyles: ViewStyle = {
 
 export const textStyles: TextStyle = {
     color: colors.whiteSmoke,
-    fontSize: 16
+    fontSize: 16,
+    textAlign: 'center',
 };
 
 export const buttonImage: ViewStyle = {
