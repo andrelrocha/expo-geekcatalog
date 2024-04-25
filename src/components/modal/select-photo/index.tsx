@@ -4,6 +4,7 @@ import * as Animatable from "react-native-animatable";
 import ButtonTouchable from "../../button/button-touchable";
 import { colors } from "../../../utils/colors";
 import { handleImageSelection } from "../../../services/image/getImageFromUser"; 
+import { TapGestureHandler, State, PanGestureHandler } from "react-native-gesture-handler";
 
 type PhotoSelectionModalProps = {
     visible: boolean;
@@ -13,29 +14,47 @@ type PhotoSelectionModalProps = {
 };  
 
 const PhotoSelectionModal = (props: PhotoSelectionModalProps) => {
-  return (
-    <Animatable.View 
-      animation="slideInUp" 
-      duration={500} 
-      style={[styles.modalContainer, { display: props.visible ? "flex" : "none" }]}
-    >
-      <View style={styles.modalContent}>
-        <View style={styles.buttonContainer}>
-            <ButtonTouchable w={300} onPress={props.onCameraPress ? props.onCameraPress : () => handleImageSelection({ mode: 'camera' })}>
-            Take a Picture
-            </ButtonTouchable>
-            <ButtonTouchable w={300} onPress={props.onGalleryPress ? props.onGalleryPress : () => handleImageSelection({ mode: 'gallery' })}>
-            Select from Gallery
-            </ButtonTouchable>
-            <ButtonTouchable w={300} backgroundColor={colors.redStrong} onPress={props.onRequestClose}>
-                Cancel
-            </ButtonTouchable>
+    const closeHandler = () => {
+      if (props.visible) {
+        props.onRequestClose();
+      }
+    };
+  
+    return (
+      <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {
+        if (nativeEvent.state === State.ACTIVE) {
+          closeHandler();
+        }
+      }}>
+        <View style={[styles.modalContainer, { display: props.visible ? "flex" : "none" }]}>
+        <PanGestureHandler onGestureEvent={({ nativeEvent }) => {
+          if (nativeEvent.translationY > 50) {
+            closeHandler();
+          }
+        }}>
+          <Animatable.View 
+            animation="slideInUp" 
+            duration={500} 
+            style={styles.modalContent}
+          >
+            <View style={styles.buttonContainer}>
+                <ButtonTouchable w={300} onPress={props.onCameraPress ? props.onCameraPress : () => handleImageSelection({ mode: 'camera' })}>
+                    Take a Picture
+                </ButtonTouchable>
+                <ButtonTouchable w={300} onPress={props.onGalleryPress ? props.onGalleryPress : () => handleImageSelection({ mode: 'gallery' })}>
+                    Select from Gallery
+                </ButtonTouchable>
+                <ButtonTouchable w={300} backgroundColor={colors.redStrong} onPress={props.onRequestClose}>
+                    Cancel
+                </ButtonTouchable>
+            </View>
+          </Animatable.View>
+          </PanGestureHandler>
         </View>
-      </View>
-    </Animatable.View>
-  );
-};
-
+      </TapGestureHandler>
+    );
+  };
+  
 const styles = StyleSheet.create({
     modalContainer: {
         position: 'absolute',
@@ -53,8 +72,8 @@ const styles = StyleSheet.create({
         right: 0,
         height: '40%',
         backgroundColor: colors.gray,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
         padding: 20,
         paddingBottom: 100,
         justifyContent: 'center',
