@@ -10,8 +10,11 @@ import { useAuth } from "../../../context/hooks";
 import { BoxInput, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
   ButtonTouchable, ButtonAddImage, TextWarning,
-  InputDate, PhotoSelectionModal
+  InputDate, PhotoSelectionModal,
+  ImageTouchable
 } from "../../../components";
+import { handleImageSelection } from "../../../services/image/getImageFromUser";
+import { saveProfilePic } from "../../../services/user/saveProfilePic";
 
 
 const DEFAULT_FORM_VALUES = {
@@ -41,6 +44,14 @@ function Create() {
   const handlePasswordWarning = () => {
     setIsPasswordClicked(true);
   };
+
+  const [uri, setUri] = useState("");
+
+  const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
+    const uri = await handleImageSelection({ mode: mode });
+    setUri(uri as string);
+  }
+
 
   //const [termsVisibility, setTermsVisibility] = useState(false)
 
@@ -82,8 +93,14 @@ function Create() {
           <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
 
           <View style={styles.containerAddImage}>
-            <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)}/>
-            <TextWarning w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
+            {!uri ? (
+              <>
+                <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
+                <TextWarning w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
+              </>
+            ) : (
+              <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
+            )}
           </View>
         </BoxInput>
 
@@ -97,6 +114,8 @@ function Create() {
         <PhotoSelectionModal 
           visible={modalPicVisible} 
           onRequestClose={() => setModalPicVisible(false)} 
+          onCameraPress={() => handleProfilePicture('camera')}
+          onGalleryPress={() => handleProfilePicture('gallery')}
         />
       )
       }

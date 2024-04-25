@@ -3,11 +3,11 @@ import { ApiManager } from "../../../utils/API-axios/ApiManager"
 import { FlatList, Text, View } from "react-native"
 import { TouchableOpacity } from "react-native";
 import Header from "../../../components/header"
+import { useAuth } from "../../../context/hooks";
 
-export default function Users() {
-    const [id, setId] = useState('')
-    const [login, setLogin] = useState('')
-    const [name, setName] = useState('')
+export default function UserInfo() {
+    const { currentUser } = useAuth();
+    const userId = currentUser?.id;
 
     //const [selected, setSelected] = useState(false)
     const [selected, invertSelected] = useReducer(

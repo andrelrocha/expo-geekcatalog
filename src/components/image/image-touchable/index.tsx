@@ -16,7 +16,7 @@ type ButtonProps = TouchableOpacityProps & {
     source: any
 } 
 
-const PicTouchable = (props: ButtonProps) => {
+const ImageTouchable = (props: ButtonProps) => {
     const dynamicProfilePicStyles = {
         width: props.w || styles.imageContainer.width,
         height: props.h || styles.imageContainer.height,
@@ -45,4 +45,4 @@ const profileUser = require('../../assets/profile_user.png');
             />
 */
 
-export default PicTouchable;
+export default ImageTouchable;

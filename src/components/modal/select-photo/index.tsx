@@ -3,17 +3,17 @@ import { StyleSheet, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import ButtonTouchable from "../../button/button-touchable";
 import { colors } from "../../../utils/colors";
-import { handleImageSelection } from "../../../services/image/getImageFromUser"; 
 import { TapGestureHandler, State, PanGestureHandler } from "react-native-gesture-handler";
 
-type PhotoSelectionModalProps = {
+type ImageSelectionModalProps = {
     visible: boolean;
     onRequestClose: () => void;
     onCameraPress?: () => void;
     onGalleryPress?: () => void;
+    onRemovePress?: () => void; 
 };  
 
-const PhotoSelectionModal = (props: PhotoSelectionModalProps) => {
+const ImageSelectionModal = (props: ImageSelectionModalProps) => {
     const closeHandler = () => {
       if (props.visible) {
         props.onRequestClose();
@@ -38,12 +38,17 @@ const PhotoSelectionModal = (props: PhotoSelectionModalProps) => {
             style={styles.modalContent}
           >
             <View style={styles.buttonContainer}>
-                <ButtonTouchable w={300} onPress={props.onCameraPress ? props.onCameraPress : () => handleImageSelection({ mode: 'camera' })}>
+                <ButtonTouchable w={300} onPress={props.onCameraPress}>
                     Take a Picture
                 </ButtonTouchable>
-                <ButtonTouchable w={300} onPress={props.onGalleryPress ? props.onGalleryPress : () => handleImageSelection({ mode: 'gallery' })}>
+                <ButtonTouchable w={300} onPress={props.onGalleryPress}>
                     Select from Gallery
                 </ButtonTouchable>
+                {props.onRemovePress && (
+                    <ButtonTouchable w={300} backgroundColor={colors.redStrong} onPress={props.onRemovePress}>
+                        Remove Picture
+                    </ButtonTouchable>
+                )}
                 <ButtonTouchable w={300} backgroundColor={colors.redStrong} onPress={props.onRequestClose}>
                     Cancel
                 </ButtonTouchable>
@@ -55,6 +60,7 @@ const PhotoSelectionModal = (props: PhotoSelectionModalProps) => {
     );
   };
   
+
 const styles = StyleSheet.create({
     modalContainer: {
         position: 'absolute',
@@ -87,4 +93,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default PhotoSelectionModal;
+export default ImageSelectionModal;
