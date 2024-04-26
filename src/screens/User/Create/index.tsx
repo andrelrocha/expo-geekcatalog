@@ -21,6 +21,10 @@ import { listAllCountries } from "../../../services/countries/listAll";
 import { DropdownData } from "../../../types/utils/dropDownDTO";
 
 
+import data from "../../../components/dropdown/data.js";
+
+
+
 const DEFAULT_FORM_VALUES = {
   name: "",
   birthday: "",
@@ -31,7 +35,7 @@ const DEFAULT_FORM_VALUES = {
   passwordConfirm: "",
   term: "",
   country: "",
-}
+};
 
 function Create() {
   const {
@@ -57,15 +61,15 @@ function Create() {
     const uri = await handleImageSelection({ mode: mode });
     setUri(uri as string);
   }
+
+  //HANDLE USER CREATION RECEBENDO O ID DO USUÁRIO
   
   const handleUserCreateProfilePic = async () => {
     const userId = currentUser?.id;
     saveProfilePic({ uri: uri, userId: userId as string});
   }
-  
-  const handleCountrySelection = (item: DropdownData) => {
-    setCountry(item.id);
-  }
+
+
   
   const [country, setCountry] = useState("");
   const [termsVisibility, setTermsVisibility] = useState(false)
@@ -80,7 +84,8 @@ function Create() {
       label: country.name
     }));
 
-    setCountries(dropdownData);
+    //setCountries(dropdownData);
+    console.log(dropdownData);
 
     return dropdownData;
   }
@@ -103,8 +108,8 @@ function Create() {
 
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
 
-
-          <DropdownSelection icon={<EarthIcon />} data={countries} onChange={handleCountrySelection} label="name" placeholder="País"/>
+          {/*/@ts-ignore*/}
+          <DropdownSelection control={control} name="country" icon={<EarthIcon />} label="name" placeholder="País" />
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
 

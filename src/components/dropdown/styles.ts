@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         borderColor: colors.gray,
     },
     dropdownContainer: {
-        borderRadius: 8,
+        borderRadius: 6,
         height: 50,
         borderWidth: 1,
         marginBottom: 10,
@@ -76,5 +76,14 @@ export const styles = StyleSheet.create({
     textSelectedStyle: {
         marginRight: 5,
         fontSize: 16,
+    },
+    label: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        left: 22,
+        top: 8,
+        zIndex: 999,
+        paddingHorizontal: 8,
+        fontSize: 14,
     },
 });

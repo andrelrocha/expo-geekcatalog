@@ -1,77 +1,80 @@
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
-import { MultiSelect } from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import { styles } from './styles';
-import { DropdownData } from '../../types/utils/dropDownDTO';
+import { useState } from 'react';
+import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 
-type DropdownProps = typeof MultiSelect & {
+import data from "./data";
+
+type DropdownProps<T extends FieldValues> = typeof Dropdown & {
+    control: Control<T>;
     mt?: number 
     mb?: number
     w?: number
     h?: number
     br?: number
+    shadowOpacity?: number
     dynamicPropStyle?: StyleProp<ViewStyle>
-    data: DropdownData[];
     icon?: React.ReactNode;
-    onChange: (item: DropdownData) => void;
-    selected: string[];
     placeholder: string;
     label: string;
+    name: Path<T>;
 } 
 
-const DropdownSelection = (props: DropdownProps) => {
+const DropdownSelection = <T extends FieldValues>({
+    control,
+    name,
+    icon,
+    label,
+    placeholder,
+    ...props
+}: DropdownProps<T>) => {
+    
     const dynamicDropdownStyles = {
         width: props.w || styles.dropdownContainer.width,
         height: props.h || styles.dropdownContainer.height,
         marginTop: props.mt || styles.dropdownContainer.marginTop,
         marginBottom: props.mb || styles.dropdownContainer.marginBottom,
         borderRadius: props.br || styles.dropdownContainer.borderRadius,
+        shadowOpacity: props.shadowOpacity || styles.dropdown.shadowOpacity,
     };
 
-    const renderItem = (item: DropdownData) => {
-        return (
-            <View style={styles.item}>
-                <Text style={styles.selectedTextStyle}>{item.label}</Text>
-            </View>
-        );
-    };
+    const [isFocus, setIsFocus] = useState(false);
 
     return (
-        <View style={styles.container}>
-            <MultiSelect
-                valueField="id"
-                labelField="label"
-                value={props.selected}
-                {...props}
-                placeholder={props.placeholder}
-                search
-                onChange={(value: string[]) => {
-                    const selectedItem = props.data.find(item => item.id === value[0]);
-                    if (selectedItem) {
-                        props.onChange(selectedItem);
-                    }
-                }}
-                searchPlaceholder="Search..."
-                style={[styles.dropdown, dynamicDropdownStyles]}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                data={props.data}
-                renderRightIcon={() => (
-                    <View style={styles.dropdownIconContainer}>
-                        {props.icon}
-                    </View>
-                )}
-                renderItem={renderItem}
-                renderSelectedItem={(item, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
-                      <View style={styles.selectedStyle}>
-                        <Text style={styles.textSelectedStyle}>{item.label}</Text>
-                      </View>
-                    </TouchableOpacity>
-                  )}
-            />
-
-        </View>
+        <Controller
+            control={control}
+            name={name}
+            render={({ field: { onChange, value } }) => (
+                <Dropdown
+                    {...props}
+                    style={[styles.dropdown, dynamicDropdownStyles, isFocus && { borderColor: 'black' }]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    data={data}
+                    search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocus ? placeholder : ''}
+                    searchPlaceholder="Search"
+                    value={value}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    onChange={(item: { label: string; value: string }) => {
+                        console.log(item);
+                        onChange(item.value);
+                        setIsFocus(false);
+                    }}
+                    renderRightIcon={() => (
+                        <View style={styles.dropdownIconContainer}>
+                            {icon}
+                        </View>
+                    )}
+                />
+            )}
+        />
     );
 }
 
