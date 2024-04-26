@@ -5,4 +5,5 @@ export interface UserReturn {
     cpf: string;
     phone: string;
     birthday: string;
+    countryName: string;
 }

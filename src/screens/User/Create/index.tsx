@@ -3,6 +3,8 @@ import { Text  } from "react-native";
 import { useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
 import * as Animatable from "react-native-animatable";
+
+import { EarthIcon } from "../../../components/icons";
 import { styles } from "../styles";
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
@@ -11,21 +13,24 @@ import { BoxInput, Heading, InputEmail, InputPassword,
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
   ButtonTouchable, ButtonAddImage, TextWarning,
   InputDate, PhotoSelectionModal,
-  ImageTouchable
+  ImageTouchable, DropdownSelection
 } from "../../../components";
 import { handleImageSelection } from "../../../services/image/getImageFromUser";
 import { saveProfilePic } from "../../../services/user/saveProfilePic";
+import { listAllCountries } from "../../../services/countries/listAll";
+import { DropdownData } from "../../../types/utils/dropDownDTO";
 
 
 const DEFAULT_FORM_VALUES = {
-  cpf: "",
-  email: "",
   name: "",
+  birthday: "",
+  cpf: "",
+  phone: "",
+  email: "",
   password: "",
   passwordConfirm: "",
-  phone: "",
-  birthday: "",
   term: "",
+  country: "",
 }
 
 function Create() {
@@ -38,25 +43,47 @@ function Create() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
   })
-  //const { isLoading, signUp } = useAuth()
+  const { isLoading, signUp, currentUser } = useAuth()
   const [modalPicVisible, setModalPicVisible] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   const handlePasswordWarning = () => {
     setIsPasswordClicked(true);
   };
-
-  const [uri, setUri] = useState("");
-
+  
+  const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
+  
+  
   const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
     const uri = await handleImageSelection({ mode: mode });
     setUri(uri as string);
   }
+  
+  const handleUserCreateProfilePic = async () => {
+    const userId = currentUser?.id;
+    saveProfilePic({ uri: uri, userId: userId as string});
+  }
+  
+  const handleCountrySelection = (item: DropdownData) => {
+    setCountry(item.id);
+  }
+  
+  const [country, setCountry] = useState("");
+  const [termsVisibility, setTermsVisibility] = useState(false)
+  const [uri, setUri] = useState("");
+  const [countries, setCountries] = useState<DropdownData[]>([]);
 
+  const loadCountries = async () => {
+    const countries = await listAllCountries();
 
-  //const [termsVisibility, setTermsVisibility] = useState(false)
+    const dropdownData = countries.map(country => ({
+      id: country.id,
+      label: country.name
+    }));
 
-  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
+    setCountries(dropdownData);
 
+    return dropdownData;
+  }
   
   return (
     <>
@@ -75,6 +102,9 @@ function Create() {
           <InputDate control={control} name="birthday" placeholder="Data de Nascimento" rules={{ required: true }}/>
 
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
+
+
+          <DropdownSelection icon={<EarthIcon />} data={countries} onChange={handleCountrySelection} label="name" placeholder="País"/>
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
 

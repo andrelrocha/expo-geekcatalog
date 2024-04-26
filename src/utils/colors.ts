@@ -16,6 +16,7 @@ export const colors = {
   lightGray: '#D3D3D3',
   gray: '#808080',
   grayOpacity: hexToRGBA('#808080', 0.3),
+  grayPlaceholder: hexToRGBA('#808080', 0.5),
 };
 
 function hexToRGBA(hex: string, alpha: number) {

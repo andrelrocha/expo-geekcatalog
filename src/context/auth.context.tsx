@@ -84,8 +84,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           const user = await getUserByJWT(tokenJWT);
           setCurrentUser(user);
-          console.log('User: ', user);
-          console.log('Token: ', tokenJWT);
 
           await setToken(tokenJWT);
         } catch (error) {
