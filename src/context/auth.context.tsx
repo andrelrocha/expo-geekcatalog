@@ -88,6 +88,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           await setToken(tokenJWT);
         } catch (error) {
           console.error("Erro ao fazer login:", error);
+          await removeToken();
         } finally {
           setIsLoading(false);
         }
@@ -118,7 +119,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           await setToken(tokenJWT);
         } catch (error) {
-          console.error("Erro ao fazer login:", error);
+          console.error("Erro ao criar um novo usuário:", error);
+          await removeToken();
         } finally {
           setIsLoading(false);
         }

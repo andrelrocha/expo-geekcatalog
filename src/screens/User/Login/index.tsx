@@ -26,19 +26,16 @@ const Login = () => {
     const email = control._formValues.email;
     const password = control._formValues.password;
 
-    if (email === '' || password === '') {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return null;
-    }
-
     const userData: UserLogin = {
       login: email,
       password
     };
 
     try {
-      await login(userData);
-      Alert.alert('Sucesso', 'Usuário logado com sucesso!');
+      const token = await login(userData);
+      if (token) {
+        Alert.alert('Sucesso', 'Usuário logado com sucesso!');
+      }
       // Trocar para a tela de home
     } catch (error: any) {
       Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response?.data || 'Erro desconhecido');

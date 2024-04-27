@@ -50,9 +50,6 @@ function Create() {
   const { isLoading, signUp, currentUser } = useAuth()
   const [modalPicVisible, setModalPicVisible] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
-  const handlePasswordWarning = () => {
-    setIsPasswordClicked(true);
-  };
   
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
   
@@ -123,7 +120,13 @@ function Create() {
 
           <InputEmail control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
 
-          <InputPasswordValidation control={control} name="password" placeholder="Senha" rules={{ required: true}} onTouchStart={handlePasswordWarning}/>
+          <InputPasswordValidation 
+            control={control} 
+            name="password" 
+            placeholder="Senha" 
+            rules={{ required: true}} 
+            onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
+          />
 
           {isPasswordClicked && ( 
             <Animatable.View animation={isPasswordClicked ? "fadeIn" : "fadeOut"} duration={400}>

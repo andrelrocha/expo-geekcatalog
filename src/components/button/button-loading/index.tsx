@@ -21,6 +21,7 @@ const Button = (props: ButtonProps) => {
     paddingHorizontal: props.ph || 50,
     marginTop: props.mt || 0,
     width: props.w || 200,
+    //opacity: props.disabled ? 0.5 : 1, -- FALTA AJEITAR ISSO
   };
   
   return (

@@ -5,10 +5,15 @@ import Home from '../screens/Home';
 
 import UserStack from './stack/UserStack';
 import GamesStack from './stack/GameStack';
+import useAuth from '../context/hooks/use-auth.hook';
 
 const Stack = createStackNavigator();
 
 export default function Navigation() {
+  const { authState, currentUser } = useAuth(); // FAZER VALIDAÇÃO DE O USUÁRIO ESTÁ LOGADO OU NÃO PARA EXIBIR AS VIEWS OU REDIRECIONAR PARA LOGIN
+  const { authenticated } = authState;
+
+
     return (
       <NavigationContainer>
           <Stack.Navigator 
