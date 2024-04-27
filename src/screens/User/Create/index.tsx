@@ -54,7 +54,7 @@ function Create() {
     setIsPasswordClicked(true);
   };
   
-  const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
+  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
   
   
   const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
@@ -69,7 +69,9 @@ function Create() {
     saveProfilePic({ uri: uri, userId: userId as string});
   }
 
-
+  const handleDropdownData = () => {
+    return data;
+  }
   
   const [country, setCountry] = useState("");
   const [termsVisibility, setTermsVisibility] = useState(false)
@@ -108,8 +110,14 @@ function Create() {
 
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
 
-          {/*/@ts-ignore*/}
-          <DropdownSelection control={control} name="country" icon={<EarthIcon />} label="name" placeholder="País" />
+          <DropdownSelection
+            control={control}
+            name="country"
+            placeholder="País"
+            icon={<EarthIcon />}
+            data={data}
+            onChange={(item: unknown) => console.log(item)}
+          />
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
 

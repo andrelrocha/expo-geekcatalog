@@ -1,12 +1,15 @@
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { styles } from './styles';
-import { useState } from 'react';
+import { ComponentProps, JSXElementConstructor, useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 
-import data from "./data";
+type DropdownData = { 
+    value: string; 
+    label: string; 
+};
 
-type DropdownProps<T extends FieldValues> = typeof Dropdown & {
+type DropdownProps<T extends FieldValues> = {
     control: Control<T>;
     mt?: number 
     mb?: number
@@ -17,18 +20,25 @@ type DropdownProps<T extends FieldValues> = typeof Dropdown & {
     dynamicPropStyle?: StyleProp<ViewStyle>
     icon?: React.ReactNode;
     placeholder: string;
-    label: string;
     name: Path<T>;
-} 
+    data: Array<DropdownData>;
+    inputProps?: ComponentProps<typeof Dropdown>;
+    valueField?: string;
+    labelField?: string;
+    onChange?: (item: unknown) => void;
+};
 
 const DropdownSelection = <T extends FieldValues>({
     control,
     name,
     icon,
-    label,
+    inputProps,
     placeholder,
+    labelField, 
+    valueField,
+    onChange,
     ...props
-}: DropdownProps<T>) => {
+}: DropdownProps<T>): React.ReactElement<any, string | JSXElementConstructor<any>> | null => {
     
     const dynamicDropdownStyles = {
         width: props.w || styles.dropdownContainer.width,
@@ -52,17 +62,17 @@ const DropdownSelection = <T extends FieldValues>({
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
-                    data={data}
+                    data={props.data}
                     search
                     maxHeight={300}
-                    labelField="label"
-                    valueField="value"
+                    labelField={"label" || labelField}
+                    valueField={"value" || valueField}
                     placeholder={!isFocus ? placeholder : ''}
                     searchPlaceholder="Search"
                     value={value}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
-                    onChange={(item: { label: string; value: string }) => {
+                    onChange={(item: DropdownData) => {
                         console.log(item);
                         onChange(item.value);
                         setIsFocus(false);
