@@ -56,22 +56,23 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.gray,
         padding: 12,
+        shadowOpacity: 0,
         shadowColor: '#000',
         shadowOffset: {
           width: 0,
           height: 1,
         },
-        shadowOpacity: 0,
         shadowRadius: 1.41,
         elevation: 2,
     },
     placeholderStyle: {
-        fontSize: 16,
+        fontSize: 14,
         color: colors.grayPlaceholder,
     },
     inputSearchStyle: {
         height: 40,
         fontSize: 16,
+        borderRadius: 10
     },
     textSelectedStyle: {
         marginRight: 5,
@@ -79,11 +80,21 @@ export const styles = StyleSheet.create({
     },
     label: {
         position: 'absolute',
-        backgroundColor: 'white',
+        backgroundColor: colors.whiteSmoke,
         left: 22,
         top: 8,
         zIndex: 999,
         paddingHorizontal: 8,
-        fontSize: 14,
+        fontSize: 16,
     },
+    itemStyle: {
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: colors.gray,
+        backgroundColor: 'white',
+    },
+    separatorStyle: {
+        borderBottomWidth: 1,
+        borderBottomColor: colors.grayOpacity,
+    }
 });

@@ -91,7 +91,7 @@ function Create() {
   
   return (
     <>
-    <PageDefault>
+      <PageDefault>
         <Heading>
           Welcome to Geek Catalog!
         </Heading>
@@ -111,9 +111,9 @@ function Create() {
             control={control}
             name="country"
             placeholder="País"
-            icon={<EarthIcon />}
+            icon={<EarthIcon size={22} />}
             data={data}
-            onChange={(item: unknown) => console.log(item)}
+            onChange={(item: unknown) => console.log(item)} // FALTA AJEITAR PARA O VALUE SETADO SEJA O COUNTRY ESCOLHIDO
           />
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
@@ -154,7 +154,7 @@ function Create() {
           Register
         </ButtonTouchable>
 
-        </PageDefault>
+      </PageDefault>
 
       { modalPicVisible && (
         <PhotoSelectionModal 
@@ -163,9 +163,8 @@ function Create() {
           onCameraPress={() => handleProfilePicture('camera')}
           onGalleryPress={() => handleProfilePicture('gallery')}
         />
-      )
-      }
-      </>
+      )}
+    </>
   );
 }
 

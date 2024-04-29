@@ -8,7 +8,7 @@ type EarthIconProps = {
 };
 
 const EarthIcon = (props: EarthIconProps) => {
-    return <Earth color={props.color || colors.buttonBlue} size={20} />;
+    return <Earth color={props.color || colors.buttonBlue} size={props.size || 20} />;
 }
 
 export default EarthIcon;

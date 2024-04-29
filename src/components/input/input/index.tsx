@@ -2,7 +2,7 @@ import { styled } from "@gluestack-ui/themed";
 import { colors } from "../../../utils/colors";
 import { Input as GLInput } from "@gluestack-ui/themed"; 
 
-const Input = styled(
+let Input = styled(
     GLInput,
     {
         height: 50,

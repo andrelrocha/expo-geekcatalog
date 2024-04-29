@@ -1,4 +1,4 @@
-import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { styles } from './styles';
 import { ComponentProps, JSXElementConstructor, useState } from 'react';
@@ -58,10 +58,12 @@ const DropdownSelection = <T extends FieldValues>({
             render={({ field: { onChange, value } }) => (
                 <Dropdown
                     {...props}
-                    style={[styles.dropdown, dynamicDropdownStyles, isFocus && { borderColor: 'black' }]}
+                    style={[styles.dropdown, dynamicDropdownStyles, isFocus && { borderColor: styles.dropdown.borderColor }]}
                     placeholderStyle={styles.placeholderStyle}
                     selectedTextStyle={styles.selectedTextStyle}
                     inputSearchStyle={styles.inputSearchStyle}
+                    containerStyle={styles.itemStyle}
+                    itemContainerStyle={styles.separatorStyle}
                     data={props.data}
                     search
                     maxHeight={300}
@@ -82,6 +84,7 @@ const DropdownSelection = <T extends FieldValues>({
                             {icon}
                         </View>
                     )}
+                    
                 />
             )}
         />

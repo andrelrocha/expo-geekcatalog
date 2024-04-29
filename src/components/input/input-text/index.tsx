@@ -1,4 +1,4 @@
-import { ComponentProps } from "react"
+import { ComponentProps, useState } from "react"
 import { Control, Controller, FieldValues, Path } from "react-hook-form"
 import { InfoIcon } from "lucide-react-native"
 import {
@@ -12,6 +12,7 @@ import {
 import { identity } from "../../../libs/functional"
 import Input from "../input"
 import { CheckIcon, CloseIcon } from "../../icons"
+import { colors } from "../../../utils/colors"
 
 type InputTextProps<T extends FieldValues> = {
     control: Control<T>; // O objeto de controle fornecido pelo React Hook Form para controlar o formulário.
@@ -24,6 +25,7 @@ type InputTextProps<T extends FieldValues> = {
     placeholder?: string; // Texto de placeholder para o campo de entrada.
     rules?: ComponentProps<typeof Controller<T>>["rules"]; // Regras de validação para o campo de entrada.
     visibleValidation?: boolean; // Indica se a validação deve ser exibida visualmente.
+    bColorFocus?: string;
   } & ComponentProps<typeof Input>; // Junta as props do componente Input com as props específicas do InputText.
   
 
@@ -46,6 +48,8 @@ const InputText = <T extends FieldValues>({
 
   // Definindo a visibilidade padrão da validação.
   const _visibleValidation = visibleValidation ?? true
+
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
     if (icon === 0) return null;
@@ -86,11 +90,11 @@ const InputText = <T extends FieldValues>({
         const isValid = externalValue.length > 0 && !invalid;
 
         return (
-          <Input isInvalid={isInvalid} {...props}>
+          <Input isInvalid={isInvalid} {...props} >
               <InputField
                 placeholder={placeholder}
                 value={externalValue}
-                {...inputProps} // Passa as props adicionais para o componente InputField.
+                {...inputProps}
                 onChangeText={(value) => onChange(_formatInternalValue(value))}
                 />
 
@@ -106,7 +110,7 @@ const InputText = <T extends FieldValues>({
           </Input>
         );
       }}
-      rules={rules} // Passa as regras de validação para o componente Controller.
+      rules={rules} 
     />
   );
 };  
