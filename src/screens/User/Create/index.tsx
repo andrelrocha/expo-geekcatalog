@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text  } from "react-native";
 import { useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
@@ -18,12 +18,8 @@ import { BoxInput, Heading, InputEmail, InputPassword,
 import { handleImageSelection } from "../../../services/image/getImageFromUser";
 import { saveProfilePic } from "../../../services/user/saveProfilePic";
 import { listAllCountries } from "../../../services/countries/listAll";
-import { DropdownData } from "../../../types/utils/dropDownDTO";
-
-
-import data from "../../../components/dropdown/data.js";
-
-
+import { set } from "immutable";
+import useUserCreation from "../../../hooks/user/useUserCreation";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -48,16 +44,15 @@ function Create() {
     mode: "onChange",
   })
   const { isLoading, signUp, currentUser } = useAuth()
-  const [modalPicVisible, setModalPicVisible] = useState(false);
-  const [isPasswordClicked, setIsPasswordClicked] = useState(false);
   
+  const { uri, setUri,
+    dropdownData, setDropdownData,
+    modalPicVisible, setModalPicVisible,
+    isPasswordClicked, setIsPasswordClicked, 
+    handleProfilePicture
+  } = useUserCreation();
+
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
-  
-  
-  const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
-    const uri = await handleImageSelection({ mode: mode });
-    setUri(uri as string);
-  }
 
   //HANDLE USER CREATION RECEBENDO O ID DO USUÁRIO
   
@@ -65,30 +60,10 @@ function Create() {
     const userId = currentUser?.id;
     saveProfilePic({ uri: uri, userId: userId as string});
   }
-
-  const handleDropdownData = () => {
-    return data;
-  }
   
-  const [country, setCountry] = useState("");
   const [termsVisibility, setTermsVisibility] = useState(false)
-  const [uri, setUri] = useState("");
-  const [countries, setCountries] = useState<DropdownData[]>([]);
-
-  const loadCountries = async () => {
-    const countries = await listAllCountries();
-
-    const dropdownData = countries.map(country => ({
-      id: country.id,
-      label: country.name
-    }));
-
-    //setCountries(dropdownData);
-    console.log(dropdownData);
-
-    return dropdownData;
-  }
   
+
   return (
     <>
       <PageDefault>
@@ -112,8 +87,9 @@ function Create() {
             name="country"
             placeholder="País"
             icon={<EarthIcon size={22} />}
-            data={data}
-            onChange={(item: unknown) => console.log(item)} // FALTA AJEITAR PARA O VALUE SETADO SEJA O COUNTRY ESCOLHIDO
+            label="name"
+            value="id"
+            data={dropdownData}
           />
 
           <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>

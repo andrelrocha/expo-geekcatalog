@@ -19,7 +19,7 @@ export const listAllCountries = async () => {
                 return {
                     id: country.id,
                     name: country.name,
-                    abbreviation: country.abbreviation
+                    code: country.code,
                 };
             });
             return countries;

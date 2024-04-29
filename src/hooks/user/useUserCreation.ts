@@ -1,56 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { createUser } from "../../services/user/create";
-import { UserCreate } from "../../types/user/userCreateDTO";
+import { listAllCountries } from "../../services/countries/listAll";
+import { handleImageSelection } from "../../services/image/getImageFromUser";
 
 export default function useUserCreation() {
-  const [login, setLogin] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [phone, setPhone] = useState('');
-  const [birthday, setBirthday] = useState('');
-  
-  const handleBirthdayInputChange = () => {
-    const [day, month, year] = birthday.split('/');
-    const parsedDate = new Date(`${year}-${month}-${day}`);
-    const formattedDate = parsedDate.toISOString().substring(0, 10);
-    return formattedDate;
-  };
+  const [uri, setUri] = useState("");
+  const [dropdownData, setDropdownData] = useState<any[]>([]);
+  const [modalPicVisible, setModalPicVisible] = useState(false);
+  const [isPasswordClicked, setIsPasswordClicked] = useState(false);
 
-  const handleCreateUser = async () => {
-    if (login === '' || password === '' || name === '' || cpf === '' || phone === '' || birthday === '') {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const parsedDate = handleBirthdayInputChange();
-
-    const userData: UserCreate = {
-      login,
-      password,
-      name,
-      cpf,
-      phone,
-      birthday: parsedDate
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await listAllCountries();
+        setDropdownData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        Alert.alert("Erro", "Erro ao buscar os países");
+      }
     };
+    fetchData();
+  }, []);
 
-    try {
-      const userReturn = await createUser(userData);
-      Alert.alert('Conta criada!', `Bem-vindo, ${userReturn?.name}`);
-      // Troca para tela de login
-    } catch (error: any) {
-      Alert.alert('Erro', 'Ocorreu um erro ao criar um usuário: ' + (error.response?.data || 'Erro desconhecido'));
-    }
+  const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
+    const uri = await handleImageSelection({ mode: mode });
+    setUri(uri as string);
   }
 
   return {
-    login, setLogin,
-    password, setPassword,
-    name, setName,
-    cpf, setCpf,
-    phone, setPhone,
-    birthday, setBirthday,
-    handleCreateUser
+    uri,
+    setUri,
+    dropdownData,
+    setDropdownData,
+    modalPicVisible,
+    setModalPicVisible,
+    isPasswordClicked,
+    setIsPasswordClicked,
+    handleProfilePicture,
   };
 }

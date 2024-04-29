@@ -1,13 +1,11 @@
 import { StyleProp, View, ViewStyle } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
-import { styles } from './styles';
-import { ComponentProps, JSXElementConstructor, useState } from 'react';
+import { ComponentProps, JSXElementConstructor, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import { styles } from './styles';
+import { DropdownData } from '../../types/utils/dropDownDTO';
 
-type DropdownData = { 
-    value: string; 
-    label: string; 
-};
+import { convertArrayToDropdown } from '../../services/utils/convertArrayToDropdown';
 
 type DropdownProps<T extends FieldValues> = {
     control: Control<T>;
@@ -21,7 +19,9 @@ type DropdownProps<T extends FieldValues> = {
     icon?: React.ReactNode;
     placeholder: string;
     name: Path<T>;
-    data: Array<DropdownData>;
+    data: any[];
+    label: string;
+    value: string;
     inputProps?: ComponentProps<typeof Dropdown>;
     valueField?: string;
     labelField?: string;
@@ -37,6 +37,8 @@ const DropdownSelection = <T extends FieldValues>({
     labelField, 
     valueField,
     onChange,
+    label,
+    value,
     ...props
 }: DropdownProps<T>): React.ReactElement<any, string | JSXElementConstructor<any>> | null => {
     
@@ -51,6 +53,20 @@ const DropdownSelection = <T extends FieldValues>({
 
     const [isFocus, setIsFocus] = useState(false);
 
+    const [data, setData] = useState<DropdownData[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const convertedData = convertArrayToDropdown(props.data, labelField || label, valueField || value);
+                setData(convertedData);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, [props.data]);
+
     return (
         <Controller
             control={control}
@@ -64,18 +80,17 @@ const DropdownSelection = <T extends FieldValues>({
                     inputSearchStyle={styles.inputSearchStyle}
                     containerStyle={styles.itemStyle}
                     itemContainerStyle={styles.separatorStyle}
-                    data={props.data}
+                    data={data}
                     search
                     maxHeight={300}
-                    labelField={"label" || labelField}
-                    valueField={"value" || valueField}
+                    labelField={"label" || label}
+                    valueField={"value" || value}
                     placeholder={!isFocus ? placeholder : ''}
                     searchPlaceholder="Search"
                     value={value}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
-                    onChange={(item: DropdownData) => {
-                        console.log(item);
+                    onChange={async (item: DropdownData) => {
                         onChange(item.value);
                         setIsFocus(false);
                     }}
