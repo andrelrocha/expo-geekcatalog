@@ -6,4 +6,5 @@ export interface UserCreate {
     phone: string;
     birthday: string;
     countryId: string;
+    uri: string;
 }

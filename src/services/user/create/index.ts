@@ -18,7 +18,8 @@ export const createUser = async (userData: UserCreate) => {
             id: response.data.id,
             login: response.data.login,
             name: response.data.name,
-            phone
+            phone,
+            countryName: response.data.countryName,
           };
 
         return userReturn;

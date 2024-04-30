@@ -8,6 +8,8 @@ import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
 import { UserCreate } from "../types/user/userCreateDTO";
 import { Alert } from "react-native";
+import { set } from "immutable";
+import { saveProfilePic } from "../services/user/saveProfilePic";
 
 type AuthContextData = {
     authState: {
@@ -63,9 +65,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
                     const user = await getUserByJWT(token);
                     setCurrentUser(user);
                 } else {
-                    await removeToken();
+                    logout();
                     Alert.alert('Faça login novamente.', 'Token inválido ou expirado.');
                 }
+            } else {
+              logout();
             }
         };
 
@@ -111,18 +115,20 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
       try {
         const newUser = await createUser(credentials);
-          if (newUser === undefined) {
-              console.error("Erro ao criar usuário");
-              return;
-          }
-          const tokenJWT = await loginUser({
-              login: credentials.login,
-              password: credentials.password
-          });
-          if (tokenJWT === '' || tokenJWT === undefined) {
-            console.error("Token JWT vazio ou indefinido");
+
+        if (newUser === undefined) {
+            console.error("Erro ao criar usuário");
             return;
-          }
+        }
+        const tokenJWT = await loginUser({
+            login: credentials.login,
+            password: credentials.password
+        });
+        if (tokenJWT === '' || tokenJWT === undefined) {
+          console.error("Token JWT vazio ou indefinido");
+          return;
+        }
+
         setAuthState({
           token: tokenJWT,
           authenticated: true,
@@ -131,6 +137,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         setCurrentUser(newUser);
 
         await setToken(tokenJWT);
+
+        saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
 
         Alert.alert('Sucesso', 'Usuário criado com sucesso!');
       } catch (error: any) {

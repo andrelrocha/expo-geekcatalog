@@ -2,11 +2,8 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { listAllCountries } from "../../services/countries/listAll";
 import { handleImageSelection } from "../../services/image/getImageFromUser";
-import { useAuth } from "../../context/hooks";
-import { saveProfilePic } from "../../services/user/saveProfilePic";
 
 export default function useUserCreation() {
-  const {currentUser} = useAuth();
 
   const [uri, setUri] = useState("");
   const [dropdownData, setDropdownData] = useState<any[]>([]);
@@ -31,17 +28,6 @@ export default function useUserCreation() {
     setUri(uri as string);
   }
 
-  const handleUserCreateProfilePic = async () => {
-    const userId = currentUser?.id;
-    try {
-      saveProfilePic({ uri: uri, userId: userId as string});
-      console.log("Profile pic saved successfully");
-    } catch (error) {
-      console.error("Error saving profile pic:", error);
-      Alert.alert("Erro", "Erro ao salvar a foto de perfil");
-    }
-  }
-
   return {
     uri,
     setUri,
@@ -52,6 +38,5 @@ export default function useUserCreation() {
     isPasswordClicked,
     setIsPasswordClicked,
     handleProfilePicture,
-    handleUserCreateProfilePic
   };
 }

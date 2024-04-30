@@ -11,6 +11,7 @@ export default function UserInfo() {
     const userId = currentUser?.id;
 
     useEffect(() => {
+        console.log(userId)
         console.log('useEffect')
 
         /*

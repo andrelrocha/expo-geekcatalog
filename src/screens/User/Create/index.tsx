@@ -39,6 +39,7 @@ type FormData = {
   email: string,
   password: string,
   country: string,
+  uri: string,
 }
 
 function Create() {
@@ -51,7 +52,7 @@ function Create() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
   })
-  const { isLoading, signUp } = useAuth()
+  const { isLoading, signUp, currentUser } = useAuth()
 
   const { uri, setUri,
     dropdownData, setDropdownData,
@@ -77,15 +78,17 @@ function Create() {
       login: email,
       password,
       countryId: country,
+      uri: uri,
     };
 
+    await signUp(userData);
+    /*
     try {
-      await signUp(userData);
-      await handleUserCreateProfilePic();
+      //await handleUserCreateProfilePic();
     } catch (error) {
       console.error("Error creating user:", error);
       Alert.alert("Error", "Erro durante o processo de criação de usuário");
-    }
+    } */
   }
 
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
@@ -170,7 +173,7 @@ function Create() {
           onPress={handleSubmit(async () =>
             handleSignUp(control as unknown as Control<FormData>)
             )}
-        >Sign up
+        >Sign up //FAALTA AAJHEITAR PARA QUE LEVE PARA TELA DE USER
         </Button>
 
       </PageDefault>
