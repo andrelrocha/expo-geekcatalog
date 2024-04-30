@@ -5,6 +5,7 @@ import { colors } from '../../../utils/colors';
 
 type AppStackNavigatorProps = {
   children: React.ReactNode;
+  initialRouteName?: string;
 };
 
 const logo = require('../../../assets/controller-xbox.png');
@@ -19,7 +20,7 @@ const headerStyle = {
   backgroundColor: colors.sage
 };
 
-export default function MyStackNavigator({ children }: AppStackNavigatorProps) {
+export default function MyStackNavigator(props: AppStackNavigatorProps) {
   return (
     <Stack.Navigator 
     screenOptions={({ route, navigation }) => ({
@@ -29,9 +30,10 @@ export default function MyStackNavigator({ children }: AppStackNavigatorProps) {
         fontWeight: 'bold', // Define o texto do route.name em negrito
       },
       headerTintColor: colors.black,
+      initialRouteName: props.initialRouteName,
     })}
   >
-      {children}
+      {props.children}
       
     </Stack.Navigator>
   );

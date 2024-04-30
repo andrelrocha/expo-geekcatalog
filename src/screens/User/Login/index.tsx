@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { Alert, TextInput } from 'react-native';
 import { Control, useForm } from 'react-hook-form';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
-import { Button, BoxInput, Heading, InputEmail, InputPassword } from '../../../components';
+import { Button, Box, Heading, InputEmail, InputPassword } from '../../../components';
 
 const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
@@ -38,7 +37,7 @@ const Login = () => {
       <PageDefault>
         <Heading>Faça seu login</Heading>
 
-        <BoxInput> 
+        <Box> 
 
           <InputEmail
             control={control}
@@ -54,7 +53,7 @@ const Login = () => {
             rules={{ required: true }}
             visibleValidation={false}
           />
-        </BoxInput>
+        </Box>
     
         <Button
           isDisabled={!isValid}

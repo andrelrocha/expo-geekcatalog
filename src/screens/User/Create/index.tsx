@@ -9,7 +9,7 @@ import { styles } from "../styles";
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
-import { BoxInput, Heading, InputEmail, InputPassword, 
+import { Box, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
   ButtonAddImage, TextWarning,
   InputDate, PhotoSelectionModal,
@@ -91,11 +91,7 @@ function Create() {
     }
   }
 
-  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
-
-  //HANDLE USER CREATION RECEBENDO O ID DO USUÁRIO
-  
-  
+  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
   
   const [termsVisibility, setTermsVisibility] = useState(false)
   
@@ -111,7 +107,7 @@ function Create() {
           Fill in the fields below to create your account
         </Text>
 
-        <BoxInput>
+        <Box>
           <InputText control={control} name="name" placeholder="Nome Completo" rules={{ required: true }} />
 
           <InputDate control={control} name="birthday" placeholder="Data de Nascimento" rules={{ required: true }}/>
@@ -166,7 +162,7 @@ function Create() {
               <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
             )}
           </View>
-        </BoxInput>
+        </Box>
 
         <Button
           isDisabled={!isValid}

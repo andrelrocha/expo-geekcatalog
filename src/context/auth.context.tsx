@@ -47,7 +47,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         token: null,
         authenticated: false,
     });
-
+    
     useEffect(() => {
         const loadStorageData = async () => {
             const token = await getToken();
@@ -86,6 +86,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setCurrentUser(user);
 
           await setToken(tokenJWT);
+
+          Alert.alert('Sucesso', 'Login efetuado com sucesso!');   
+
         } catch (error: any) {
           console.error("Erro ao fazer login:", error);
           if (error.response?.data) {
@@ -113,7 +116,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
               login: credentials.login,
               password: credentials.password
           });
-          console.log("tokenJwt: " + tokenJWT);
           if (tokenJWT === '' || tokenJWT === undefined) {
             console.error("Token JWT vazio ou indefinido");
             return;

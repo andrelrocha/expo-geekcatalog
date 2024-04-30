@@ -12,7 +12,7 @@ type ButtonProps = TouchableOpacityProps & {
     br?: number
     alt?: string
     dynamicPropStyle?: StyleProp<ViewStyle>
-    onPress: () => void
+    onPress?: () => void
     source: any
 } 
 
@@ -34,15 +34,5 @@ const ImageTouchable = (props: ButtonProps) => {
         </TouchableOpacity>
     );
 }
-
-/*
-const profileUser = require('../../assets/profile_user.png');
-<ProfilePicTouchable 
-                onPress={() => { console.log('ProfilePicTouchable pressed')}} 
-                source={gamerImg || profileUser}   
-                mt={20} 
-                alt='Profile Picture'
-            />
-*/
 
 export default ImageTouchable;

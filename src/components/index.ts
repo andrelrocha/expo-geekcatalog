@@ -1,5 +1,5 @@
 import Button from './button/button-loading';
-import BoxInput from './box-input';
+import Box from './box';
 import DropdownSelection from './dropdown';
 import Header from './header';
 import Heading from './heading';
@@ -20,7 +20,7 @@ export {
     Button, 
     ButtonTouchable, 
     ButtonAddImage, 
-    BoxInput, 
+    Box, 
     DropdownSelection,
     Header, 
     Heading, 

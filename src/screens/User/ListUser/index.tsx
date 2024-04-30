@@ -1,25 +1,26 @@
-import { useEffect, useReducer, useState } from "react"
-import { ApiManager } from "../../../utils/API-axios/ApiManager"
-import { FlatList, Text, View } from "react-native"
-import { TouchableOpacity } from "react-native";
-import Header from "../../../components/header"
+import { useEffect, useState } from "react"
+import { View } from "react-native"
 import { useAuth } from "../../../context/hooks";
+import { Heading, ImageTouchable } from "../../../components";
+import { getProfilePic } from "../../../services/user/getProfilePic";
 
 export default function UserInfo() {
     const { currentUser } = useAuth();
+    const [profilePicURI, setProfilePicURI] = useState('');
     const userId = currentUser?.id;
-
-    //const [selected, setSelected] = useState(false)
-    const [selected, invertSelected] = useReducer(
-        (selected) => {
-            console.log('useReducer')
-            console.log(selected)
-            return !selected;
-        }, false
-    );
 
     useEffect(() => {
         console.log('useEffect')
+
+        const fetchProfilePic = async () => {
+            try {
+                const uri = await getProfilePic({ userId: userId || '' });
+                setProfilePicURI(uri as string);
+            } catch (error) {
+                console.log('Erro ao buscar a imagem de perfil:', error);
+            }
+        };
+        fetchProfilePic();
         /*
         ApiManager.get('/users').then((response) => {
             console.log(response.data)
@@ -34,15 +35,9 @@ export default function UserInfo() {
 
     return (
         <View>
-            <TouchableOpacity onPress={invertSelected}>
-                <Text>Selecionar</Text>
-            </TouchableOpacity>
+            <Heading>Bem vindo {currentUser?.name}</Heading>
 
-            <FlatList
-                data={[{ key: id, login, name }]}
-                renderItem={({ item }) => <Text>{item.key} - {item.login} / {item.name}</Text>}
-                ListHeaderComponent={Header}
-            />
+            <ImageTouchable source={profilePicURI} alt='Profile Picture' />
         </View>
     )
 }

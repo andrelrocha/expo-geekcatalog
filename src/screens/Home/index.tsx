@@ -21,14 +21,14 @@ export default function Home({ navigation }: NativeStackScreenProps<ParamListBas
 
             <View style={styles.containerButton}>
                 <ButtonTouchable 
-                    onPress={() => {navigation.navigate('UserStack', { screen: 'Login' })}} 
+                    onPress={() => {navigation.navigate('NotAuthStack', { screen: 'Login' })}} 
                     mt={30}
                 >Login
                 </ButtonTouchable>
                 <ButtonTouchable 
                     backgroundColor={colors.greenStrong}
                     mt={20}
-                    onPress={() => {navigation.navigate('UserStack', { screen: 'SignUp' })}}
+                    onPress={() => {navigation.navigate('NotAuthStack', { screen: 'SignUp' })}}
                 >Sign-Up
                 </ButtonTouchable>
             </View>

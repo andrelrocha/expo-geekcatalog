@@ -33,7 +33,11 @@ export const saveProfilePic = async (props: HandleSaveProfilePicProps) => {
                 }
             })
             .catch((error) => {
-                console.log('Erro ao salvar a imagem de perfil: ', error);
+                if (error.response) {
+                    console.log('Erro ao salvar a imagem de perfil: ', error.response.data);
+                } else {
+                    console.log('Erro ao salvar a imagem de perfil: ', error);
+                }
             });
 
         return response;
