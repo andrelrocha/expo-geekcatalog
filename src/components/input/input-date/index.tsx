@@ -20,7 +20,6 @@ const InputDate = <T extends FieldValues>(props: ComponentProps<typeof InputMask
   return (
   <InputMask
     {...props}
-    formatInternalValue={(_v: any, raw: any) => raw || ""}
     icon={Calendar}
     inputProps={{ keyboardType: "numeric", ...props.inputProps }}
     mask="99/99/9999"

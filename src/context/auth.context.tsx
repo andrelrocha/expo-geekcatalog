@@ -7,6 +7,7 @@ import { verifyJWT } from "../services/user/verifyJWT";
 import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
 import { UserCreate } from "../types/user/userCreateDTO";
+import { Alert } from "react-native";
 
 type AuthContextData = {
     authState: {
@@ -47,7 +48,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
         authenticated: false,
     });
 
-    
     useEffect(() => {
         const loadStorageData = async () => {
             const token = await getToken();
@@ -86,8 +86,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setCurrentUser(user);
 
           await setToken(tokenJWT);
-        } catch (error) {
+        } catch (error: any) {
           console.error("Erro ao fazer login:", error);
+          if (error.response?.data) {
+            Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response?.data || 'Erro desconhecido');
+          } else {
+            Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error || 'Erro desconhecido');
+          }
           await removeToken();
         } finally {
           setIsLoading(false);
@@ -95,35 +100,45 @@ export const AuthProvider = (props: AuthProviderProps) => {
     };
 
     const signUp = async (credentials: UserCreate) => {
-        setIsLoading(true);
-        try {
-          const newUser = await createUser(credentials);
-            if (newUser === undefined) {
-                console.error("Erro ao criar usuário");
-                return;
-            }
-            const tokenJWT = await loginUser({
-                login: credentials.login,
-                password: credentials.password
-            });
+      setIsLoading(true);
+      credentials.phone = credentials.phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
+
+      try {
+        const newUser = await createUser(credentials);
+          if (newUser === undefined) {
+              console.error("Erro ao criar usuário");
+              return;
+          }
+          const tokenJWT = await loginUser({
+              login: credentials.login,
+              password: credentials.password
+          });
+          console.log("tokenJwt: " + tokenJWT);
           if (tokenJWT === '' || tokenJWT === undefined) {
             console.error("Token JWT vazio ou indefinido");
             return;
           }
-          setAuthState({
-            token: tokenJWT,
-            authenticated: true,
-          });
+        setAuthState({
+          token: tokenJWT,
+          authenticated: true,
+        });
 
-          setCurrentUser(newUser);
+        setCurrentUser(newUser);
 
-          await setToken(tokenJWT);
-        } catch (error) {
-          console.error("Erro ao criar um novo usuário:", error);
-          await removeToken();
-        } finally {
-          setIsLoading(false);
+        await setToken(tokenJWT);
+
+        console.log("Usuário criado com sucesso")
+      } catch (error: any) {
+        console.error("Erro ao criar um novo usuário:", error);
+        if (error.response?.data) {
+          Alert.alert('Erro', 'Ocorreu um erro ao criar a sua conta: ' + error.response?.data || 'Erro desconhecido');
+        } else {
+          Alert.alert('Erro', 'Ocorreu um erro ao criar a sua conta: ' + error || 'Erro desconhecido');
         }
+        await removeToken();
+      } finally {
+        setIsLoading(false);
+      }
     }
   
     const logout = async () => {

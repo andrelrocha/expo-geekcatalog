@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Text  } from "react-native";
-import { useForm } from "react-hook-form";
+import { Alert, Text  } from "react-native";
+import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
 import * as Animatable from "react-native-animatable";
 
@@ -11,15 +11,13 @@ import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
 import { BoxInput, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
-  ButtonTouchable, ButtonAddImage, TextWarning,
+  ButtonAddImage, TextWarning,
   InputDate, PhotoSelectionModal,
-  ImageTouchable, DropdownSelection
+  ImageTouchable, DropdownSelection,
+  Button
 } from "../../../components";
-import { handleImageSelection } from "../../../services/image/getImageFromUser";
-import { saveProfilePic } from "../../../services/user/saveProfilePic";
-import { listAllCountries } from "../../../services/countries/listAll";
-import { set } from "immutable";
 import useUserCreation from "../../../hooks/user/useUserCreation";
+import { UserCreate } from "../../../types/user/userCreateDTO";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -33,6 +31,16 @@ const DEFAULT_FORM_VALUES = {
   country: "",
 };
 
+type FormData = {
+  name: string,
+  birthday: string,
+  cpf: string,
+  phone: string,
+  email: string,
+  password: string,
+  country: string,
+}
+
 function Create() {
   const {
     control,
@@ -43,23 +51,51 @@ function Create() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
   })
-  const { isLoading, signUp, currentUser } = useAuth()
-  
+  const { isLoading, signUp } = useAuth()
+
   const { uri, setUri,
     dropdownData, setDropdownData,
     modalPicVisible, setModalPicVisible,
     isPasswordClicked, setIsPasswordClicked, 
-    handleProfilePicture
+    handleProfilePicture, handleUserCreateProfilePic
   } = useUserCreation();
+
+  const handleSignUp = async (control: Control<FormData>) => {
+    const name = control._formValues.name;
+    const cpf = control._formValues.cpf;
+    const email = control._formValues.email;
+    const password = control._formValues.password;
+    const country = control._formValues.country;
+    let birthday = control._formValues.birthday;
+    let phone = control._formValues.phone;
+
+    const userData: UserCreate = {
+      name,
+      birthday,
+      cpf,
+      phone,
+      login: email,
+      password,
+      countryId: country,
+    };
+
+    try {
+      await signUp(userData);
+      var status = await handleUserCreateProfilePic();
+      if (status) {
+        Alert.alert("Successo", "Usuário criado com sucesso");
+      }
+    } catch (error) {
+      console.error("Error creating user:", error);
+      Alert.alert("Error", "Erro criando o usuário");
+    }
+  }
 
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");
 
   //HANDLE USER CREATION RECEBENDO O ID DO USUÁRIO
   
-  const handleUserCreateProfilePic = async () => {
-    const userId = currentUser?.id;
-    saveProfilePic({ uri: uri, userId: userId as string});
-  }
+  
   
   const [termsVisibility, setTermsVisibility] = useState(false)
   
@@ -112,7 +148,13 @@ function Create() {
             </Animatable.View>
           )}
 
-          <InputPassword control={control} name="passwordConfirm" placeholder="Confirme sua senha" rules={{ required: true }}/>
+          <InputPassword 
+            control={control} 
+            name="passwordConfirm" 
+            placeholder="Confirme sua senha" 
+            rules={{ required: true }}
+            onTouchStart={() => setIsPasswordClicked(false)}
+          />
 
           <View style={styles.containerAddImage}>
             {!uri ? (
@@ -126,9 +168,17 @@ function Create() {
           </View>
         </BoxInput>
 
-        <ButtonTouchable backgroundColor={colors.greenStrong}>
-          Register
-        </ButtonTouchable>
+        <Button
+          isDisabled={!isValid}
+          isLoading={isLoading}
+          mt={5}
+          backgroundColor={colors.greenStrong}
+          w={250}
+          onPress={handleSubmit(async () =>
+            handleSignUp(control)
+            )}
+        >Sign up
+        </Button>
 
       </PageDefault>
 

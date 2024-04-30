@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { Keyboard, StyleSheet, View } from "react-native";
 import * as Animatable from "react-native-animatable";
 import ButtonTouchable from "../../button/button-touchable";
 import { colors } from "../../../utils/colors";
@@ -19,6 +19,12 @@ const ImageSelectionModal = (props: ImageSelectionModalProps) => {
         props.onRequestClose();
       }
     };
+
+    useEffect(() => {
+      if (props.visible) {
+        Keyboard.dismiss();
+      }
+    }, [props.visible]);
   
     return (
       <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {

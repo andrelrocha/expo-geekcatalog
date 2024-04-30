@@ -1,5 +1,5 @@
 import { cpf } from "cpf-cnpj-validator"
-import { isValid, isAfter, isBefore } from 'date-fns';
+import { isValid, isAfter, isBefore, format } from 'date-fns';
 
 // ##################### REGEX #####################
 
@@ -21,15 +21,12 @@ export const isDateValid =  (
   dateValue: string,
   reference: "after" | "before"
 ) => {
-  if (dateValue.length !== 8) return false;
+  if (dateValue.length !== 10) return false;
 
   const now = new Date();
 
-  const day = dateValue.slice(0, 2);
-  const month = dateValue.slice(2, 4);
-  const year = dateValue.slice(4, 8);
-
-  const date = new Date(Number(year), Number(month) - 1, Number(day));
+  const [day, month, year] = dateValue.split('/').map(Number);
+  const date = new Date(year, month - 1, day);
 
   const validDate = isValid(date);
 

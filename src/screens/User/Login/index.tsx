@@ -31,15 +31,7 @@ const Login = () => {
       password
     };
 
-    try {
-      const token = await login(userData);
-      if (token) {
-        Alert.alert('Sucesso', 'Usuário logado com sucesso!');
-      }
-      // Trocar para a tela de home
-    } catch (error: any) {
-      Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response?.data || 'Erro desconhecido');
-    }
+    await login(userData);
   };
 
   return (
