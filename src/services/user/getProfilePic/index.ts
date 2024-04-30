@@ -10,11 +10,10 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
     try {
         console.log("getProfilePic")
 
-
         const token = await getToken();
         
         const headers = {
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
         };
 
@@ -22,17 +21,14 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
 
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {
-                console.log(typeof response.data);
-                /*
                 if (response && response.data) {
-                    const uri = { uri: `data:image/jpeg;base64,${response.data}` };
-                    console.log(uri);
-                    return uri;
+                    const blob = new Blob([response.data]);
+                    const url = URL.createObjectURL(blob);
+                    return url;
                 } else {
                     console.log('Resposta inválida ou imagem não encontrada');
                     return null;
                 }
-                */
             })
             .catch((error) => {
                 if (error.response) {
@@ -45,6 +41,8 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
                     console.log('Erro ao buscar a imagem de perfil: ', error);
                 }
             });
+
+            console.log('response', response);
 
         return response;
 

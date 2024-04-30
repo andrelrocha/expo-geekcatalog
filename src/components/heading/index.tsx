@@ -1,7 +1,7 @@
 import { styled, Heading  as GLHeading } from "@gluestack-ui/themed"
 import { ReactNode } from "react";
 import { colors } from "../../utils/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 interface HeadingProps {
   children: ReactNode
@@ -10,6 +10,7 @@ interface HeadingProps {
   fs?: number
   color?: string
   textAlign?: string
+  w?: number
 }
 
 const headingStyles = StyleSheet.create({
@@ -19,7 +20,8 @@ const headingStyles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     color: colors.black,
-    marginTop: 0
+    marginTop: 0,
+    width: '100%',
   }
 });
 
@@ -37,10 +39,11 @@ const Heading = (props: HeadingProps) => {
       fontSize: props.fs || headingStyles.heading.fontSize,
       color: props.color || headingStyles.heading.color,
       textAlign: props.textAlign || headingStyles.heading.textAlign,
+      width: props.w || headingStyles.heading.width
     };
 
     return (
-      <StyledHeading style={dynamicHeadingStyles}>
+      <StyledHeading style={dynamicHeadingStyles as ViewStyle}>
           {props.children}
       </StyledHeading>
     );

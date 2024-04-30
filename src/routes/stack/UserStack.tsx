@@ -8,7 +8,10 @@ const Stack = createStackNavigator();
 export default function UserStack() {
   return (
     <MyStackNavigator>
-      <Stack.Screen name="HomeUserInfo" component={ListUser} options={{ headerTitle: 'User Info'}}/>
+      <Stack.Screen name="HomeUserInfo" component={ListUser} options={{ 
+        headerTitle: 'User Info',
+        headerLeft: () => null,
+      }}/>
     </MyStackNavigator>
   );
 }

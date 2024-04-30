@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Alert, Text  } from "react-native";
+import React, { useState } from "react";
+import { Text  } from "react-native";
 import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
 import * as Animatable from "react-native-animatable";
@@ -52,13 +52,13 @@ function Create() {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
   })
-  const { isLoading, signUp, currentUser } = useAuth()
+  const { isLoading, signUp } = useAuth()
 
   const { uri, setUri,
     dropdownData, setDropdownData,
     modalPicVisible, setModalPicVisible,
     isPasswordClicked, setIsPasswordClicked, 
-    handleProfilePicture, handleUserCreateProfilePic
+    handleProfilePicture
   } = useUserCreation();
 
   const handleSignUp = async (control: Control<FormData>) => {
@@ -82,13 +82,6 @@ function Create() {
     };
 
     await signUp(userData);
-    /*
-    try {
-      //await handleUserCreateProfilePic();
-    } catch (error) {
-      console.error("Error creating user:", error);
-      Alert.alert("Error", "Erro durante o processo de criação de usuário");
-    } */
   }
 
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  

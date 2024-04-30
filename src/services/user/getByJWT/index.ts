@@ -19,13 +19,17 @@ export async function getUserByJWT(tokenJWT: string) {
                 Alert.alert('Erro', 'Ocorreu um erro ao buscar suas informações: ' + error.response.data);
             });
 
+            const phone = response.phone.substring(0, 4) + " " + response.phone.substring(4);
+            const birthday = response.birthday.split('-').reverse().join('/')
+
             const user: UserReturn = {
                 id: response.id,
                 login: response.login,
                 name: response.name,
                 cpf: response.cpf,
-                phone: response.phone,
-                birthday: response.birthday
+                phone: phone,
+                birthday: birthday,
+                countryName: response.countryName,
             };
 
         return user;
