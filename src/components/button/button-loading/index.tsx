@@ -1,5 +1,5 @@
 import { ComponentProps, ReactNode } from "react"
-
+import { ViewStyle } from "react-native";
 import { ButtonSpinner, ButtonText, Button as ThemedButton } from "@gluestack-ui/themed"
 import { buttonStyles, textStyles } from "../styles";
 import StyledButton from "../button-styled";
@@ -21,7 +21,7 @@ const Button = (props: ButtonProps) => {
     paddingHorizontal: props.ph || 50,
     marginTop: props.mt || 0,
     width: props.w || 200,
-    //opacity: props.disabled ? 0.5 : 1, -- FALTA AJEITAR ISSO
+    //opacity: disabled ? 0.5 : 1,
   };
   
   return (
@@ -29,7 +29,7 @@ const Button = (props: ButtonProps) => {
         {...props}
         disabled={props.isLoading || props.disabled}
         ref={null}
-        style={dynamicButtonStyles}
+        style={dynamicButtonStyles as ViewStyle}
         >
         {!props.isLoading && <ButtonText>{props.children}</ButtonText>}
 

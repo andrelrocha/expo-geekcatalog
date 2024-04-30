@@ -81,13 +81,10 @@ function Create() {
 
     try {
       await signUp(userData);
-      var status = await handleUserCreateProfilePic();
-      if (status) {
-        Alert.alert("Successo", "Usuário criado com sucesso");
-      }
+      await handleUserCreateProfilePic();
     } catch (error) {
       console.error("Error creating user:", error);
-      Alert.alert("Error", "Erro criando o usuário");
+      Alert.alert("Error", "Erro durante o processo de criação de usuário");
     }
   }
 
@@ -156,7 +153,7 @@ function Create() {
             {!uri ? (
               <>
                 <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
-                <TextWarning w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
+                <TextWarning ml={10} w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
               </>
             ) : (
               <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
@@ -171,7 +168,7 @@ function Create() {
           backgroundColor={colors.greenStrong}
           w={250}
           onPress={handleSubmit(async () =>
-            handleSignUp(control)
+            handleSignUp(control as unknown as Control<FormData>)
             )}
         >Sign up
         </Button>

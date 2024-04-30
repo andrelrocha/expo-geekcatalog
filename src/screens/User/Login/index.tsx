@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { Control, useForm } from 'react-hook-form';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
@@ -12,7 +14,7 @@ type FormData = {
   password: string;
 };
 
-const Login = () => {
+const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const { isLoading: isLoggingIn, login } = useContext(AuthContext);
 
   const {
@@ -31,6 +33,7 @@ const Login = () => {
     };
 
     await login(userData);
+    navigation.navigate('UserStack', { screen: 'HomeUserInfo' });
   };
 
   return (
@@ -68,12 +71,4 @@ const Login = () => {
   );
 };
 
-const LoginWithContext = () => {
-  return (
-    <AuthProvider>
-      <Login />
-    </AuthProvider>
-  );
-};
-
-export default LoginWithContext;
+export default Login;

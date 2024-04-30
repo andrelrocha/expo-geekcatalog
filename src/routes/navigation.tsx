@@ -3,9 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import NotAuthStack from './stack/NotAuthStack';
+import UserStack from './stack/UserStack';
+
 import useAuth from '../context/hooks/use-auth.hook';
-import Home from '../screens/Home';
 import GamesStack from './stack/GameStack';
+import HomeUserInfo from '../screens/User/ListUser';
 
 const Stack = createStackNavigator();
 
@@ -22,8 +24,9 @@ export default function Navigation() {
                }}
               initialRouteName='NotAuthStack'
           >
-            
+            <Stack.Screen name='HomeUserInfo' component={HomeUserInfo}/>
             <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
+            <Stack.Screen name="UserStack" component={UserStack}/>
               
           </Stack.Navigator>
       </NavigationContainer>

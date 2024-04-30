@@ -3,7 +3,7 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 type HandleSaveProfilePicProps = {
     uri: string;
-    userId: string;
+    userId: any;
 };
 export const saveProfilePic = async (props: HandleSaveProfilePicProps) => {
     try {    

@@ -9,6 +9,10 @@ interface TextWarningProps {
   fontSize?: number
   w?: number
   o?: number
+  mt?: number
+  mb?: number
+  mr?: number
+  ml?: number
 }
 
 const TextWarning = (props: TextWarningProps) => {
@@ -16,6 +20,10 @@ const TextWarning = (props: TextWarningProps) => {
         backgroundColor: props.backgroundColor || styles.warningWrapper.backgroundColor,
         width: props.w || styles.warningWrapper.width,
         opacity: props.o || styles.warningWrapper.opacity,
+        marginTop: props.mt || styles.warningWrapper.marginTop,
+        marginBottom: props.mb || styles.warningWrapper.marginBottom,
+        marginRight: props.mr || styles.warningWrapper.marginRight,
+        marginLeft: props.ml || styles.warningWrapper.marginLeft,
     };
 
     const dynamicStylesText = {

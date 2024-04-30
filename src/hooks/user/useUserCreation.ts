@@ -33,10 +33,9 @@ export default function useUserCreation() {
 
   const handleUserCreateProfilePic = async () => {
     const userId = currentUser?.id;
-    let status = false;
     try {
       saveProfilePic({ uri: uri, userId: userId as string});
-      return status = true;
+      console.log("Profile pic saved successfully");
     } catch (error) {
       console.error("Error saving profile pic:", error);
       Alert.alert("Erro", "Erro ao salvar a foto de perfil");

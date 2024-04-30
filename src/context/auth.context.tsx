@@ -58,10 +58,13 @@ export const AuthProvider = (props: AuthProviderProps) => {
                     setAuthState({
                         token,
                         authenticated: true,
-                    });
+                    }); 
                     
                     const user = await getUserByJWT(token);
                     setCurrentUser(user);
+                } else {
+                    await removeToken();
+                    Alert.alert('Faça login novamente.', 'Token inválido ou expirado.');
                 }
             }
         };
@@ -129,7 +132,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
         await setToken(tokenJWT);
 
-        console.log("Usuário criado com sucesso")
+        Alert.alert('Sucesso', 'Usuário criado com sucesso!');
       } catch (error: any) {
         console.error("Erro ao criar um novo usuário:", error);
         if (error.response?.data) {

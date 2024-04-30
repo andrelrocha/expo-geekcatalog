@@ -1,15 +1,18 @@
 import { styled, Box as GLBox } from "@gluestack-ui/themed"
 import { ReactNode } from "react";
 import { colors } from "../../utils/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 interface BoxProps {
   children: ReactNode;
   w?: number;
   mt?: number;
   mb?: number;
-  bc?: string;
+  mr?: number;
+  ml?: number;
   bw?: number;
+  bc?: string;
+  alignItems?: string;
 }
 
 const boxStyles = StyleSheet.create({
@@ -17,8 +20,11 @@ const boxStyles = StyleSheet.create({
     width: '90%',
     marginTop: 0, 
     marginBottom: 0,
+    marginLeft: 0,
+    marginRight: 0,
     borderColor: colors.gray,
     borderWidth: 0,
+    alignItems: 'flex-start',
   }
 });
 
@@ -36,10 +42,13 @@ const Box = (props: BoxProps) => {
     marginBottom: props.mb || boxStyles.box.marginBottom,
     borderColor: props.bc || boxStyles.box.borderColor,
     borderWidth: props.bw || boxStyles.box.borderWidth,
+    marginLeft: props.ml || boxStyles.box.marginLeft,
+    marginRight: props.mr || boxStyles.box.marginRight,
+    alignItems: props.alignItems || boxStyles.box.alignItems,
   };
 
   return (
-    <StyledBox style={dynamicStyles}>
+    <StyledBox style={[dynamicStyles as ViewStyle]}>
       {props.children}
     </StyledBox>
   );
