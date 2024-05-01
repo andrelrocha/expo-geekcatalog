@@ -18,7 +18,7 @@ const headingStyles = StyleSheet.create({
     fontSize: 34,
     textAlign: 'center',
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 0,
     color: colors.black,
     marginTop: 0,
     width: '100%',

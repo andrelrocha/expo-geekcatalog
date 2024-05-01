@@ -15,8 +15,8 @@ export async function getUserByJWT(tokenJWT: string) {
             })
             .catch((error) => {
                 console.log(error)
-                console.error('Erro ao buscar usuário:', error.response.data);
-                Alert.alert('Erro', 'Ocorreu um erro ao buscar suas informações: ' + error.response.data);
+                console.error('Error fetching user:', error.response.data);
+                Alert.alert('Error', 'An error occurred while fetching your information: ' + error.response.data);
             });
 
             const phone = response.phone.substring(0, 4) + " " + response.phone.substring(4);

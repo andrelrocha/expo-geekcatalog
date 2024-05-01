@@ -17,7 +17,7 @@ export default function useUserCreation() {
         setDropdownData(data);
       } catch (error) {
         console.error("Error fetching data:", error);
-        Alert.alert("Erro", "Erro ao buscar os países");
+        Alert.alert("Error", "Error fetching countries");
       }
     };
     fetchData();

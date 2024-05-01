@@ -1,6 +1,7 @@
-import Text from "../text-styled";
+import Text from "../text";
 import { styles } from "../styles";
 import { View } from "@gluestack-ui/themed";
+import { ViewStyle } from "react-native";
 
 interface TextWarningProps {
   children: string
@@ -33,7 +34,7 @@ const TextWarning = (props: TextWarningProps) => {
 
     return (
         <View style={[styles.warningWrapper, dynamicStylesBG]}>
-            <Text style={[styles.warningText, dynamicStylesText]}>{props.children}</Text>
+            <Text style={[styles.warningText, dynamicStylesText] as ViewStyle}>{props.children}</Text>
         </View>
     );
 }

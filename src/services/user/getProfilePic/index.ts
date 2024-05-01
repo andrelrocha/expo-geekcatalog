@@ -26,19 +26,19 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
                     const url = URL.createObjectURL(blob);
                     return url;
                 } else {
-                    console.log('Resposta inválida ou imagem não encontrada');
+                    console.log('Invalid response or image not found');
                     return null;
                 }
             })
             .catch((error) => {
                 if (error.response) {
                     if (error.response.status === 401 || error.response.status === 403) {
-                        console.log("Erro ao buscar a imagem de perfil: Token inválido ou expirado");
+                        console.log("Error fetching profile image: Invalid or expired token");
                     } else {
-                        console.log('Erro ao buscar a imagem de perfil: ', error.response.data);
+                        console.log('Error fetching profile image: ', error.response.data);
                     }
                 } else {
-                    console.log('Erro ao buscar a imagem de perfil: ', error);
+                    console.log('Error fetching profile image: ', error);
                 }
             });
 
@@ -47,7 +47,7 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
         return response;
 
     } catch (error) {
-        console.log('Erro no processo de buscar a imagem de perfil: ', error);
+        console.log('Error in the process of fetching the profile image: ', error);
         return;
     }
 };

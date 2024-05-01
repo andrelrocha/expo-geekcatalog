@@ -23,13 +23,13 @@ export default function Home({ navigation }: NativeStackScreenProps<ParamListBas
                 <ButtonTouchable 
                     onPress={() => {navigation.navigate('NotAuthStack', { screen: 'Login' })}} 
                     mt={30}
-                >Login
+                >Sign In
                 </ButtonTouchable>
                 <ButtonTouchable 
                     backgroundColor={colors.greenStrong}
                     mt={20}
                     onPress={() => {navigation.navigate('NotAuthStack', { screen: 'SignUp' })}}
-                >Sign-Up
+                >Sign Up
                 </ButtonTouchable>
             </View>
             

@@ -30,14 +30,14 @@ export const createUser = async (userData: UserCreate) => {
       })
       .catch((error) => {
         console.log(error.response?.data);
-        console.error('Erro ao criar usuário:', error);
+        console.error('Error while creating a user:', error.response?.data);
         throw error;
       });
 
     return response;
   } catch (error: any) {
     console.log(error);
-    console.error('Erro ao criar um usuário:', error.response?.data);
+    console.error('Error while creating a user:', error);
     throw error;
   }
 };

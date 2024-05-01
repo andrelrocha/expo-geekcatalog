@@ -16,12 +16,13 @@ export async function loginUser(userData: UserLogin) {
       })
       .catch((error) => {
         console.log(error)
-        console.error('Erro ao fazer login:', error.response.data);
-        Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response.data);
+        console.error('Error logging in:', error.response.data);
+        throw error;
       });
     
     return response;
   } catch (error) {
     console.error(error);
+    throw error;
   }
 }

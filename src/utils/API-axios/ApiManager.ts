@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Alert } from "react-native";
 
-const url = "https://6cc9-2804-248-fb40-900-6119-db39-25cc-3609.ngrok-free.app";
+const url = "https://8dfc-2804-248-fb40-900-6119-db39-25cc-3609.ngrok-free.app";
 
 export const ApiManager = axios.create({
     baseURL: url,
@@ -11,10 +11,10 @@ export const ApiManager = axios.create({
 async function checkServerAvailability() {
     try {
         await ApiManager.get("/infra/ping");
-        console.log("Servidor está online.");
+        console.log("Server is online.");
     } catch (error) {
-        console.error("Servidor não está disponível.");
-        Alert.alert("Erro", "Servidor não está disponível.");
+        console.error("Servidor is not available.");
+        Alert.alert("Error", "Server is not available.");
     }
 }
 

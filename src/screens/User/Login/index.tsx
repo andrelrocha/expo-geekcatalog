@@ -5,7 +5,8 @@ import { ParamListBase } from '@react-navigation/native';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import PageDefault from '../../Default';
 import AuthContext, { AuthProvider } from '../../../context/auth.context';
-import { Button, Box, Heading, InputEmail, InputPassword } from '../../../components';
+import { Button, Box, Heading, InputEmail, InputPassword, ButtonTouchable } from '../../../components';
+import { colors } from '../../../utils/colors';
 
 const DEFAULT_FORM_VALUES = { email: "", password: "" }
 
@@ -37,21 +38,21 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
   return (
       <PageDefault>
-        <Heading>Faça seu login</Heading>
+        <Heading mb={20} mt={10}>Sign In</Heading>
 
         <Box> 
 
           <InputEmail
             control={control}
             name="email"
-            placeholder="Digite seu e-mail"
+            placeholder="Enter your e-mail"
             rules={{ required: true }}
           />
           
           <InputPassword
             control={control}
             name="password"
-            placeholder="Digite sua senha"
+            placeholder="Enter your password"
             rules={{ required: true }}
             visibleValidation={false}
           />
@@ -64,8 +65,24 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             handleLogin(control)
             )}
           mt={20}
-        >Entrar
+        >Login
         </Button>
+
+        <ButtonTouchable
+          onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignUp' })}
+          mt={6}
+          w={150}
+          backgroundColor={colors.greenStrong}
+        >Sign Up
+        </ButtonTouchable>
+
+        <ButtonTouchable
+          onPress={() => navigation.navigate('NotAuthStack', { screen: 'ForgotPassword' })}
+          mt={6}
+          w={150}
+          backgroundColor={colors.redStrong} 
+        >Forgot Password - falta implementar!
+        </ButtonTouchable>
       </PageDefault>
   );
 };

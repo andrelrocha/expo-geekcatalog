@@ -50,37 +50,37 @@ export const AuthProvider = (props: AuthProviderProps) => {
     });
     
     useEffect(() => {
-        const loadStorageData = async () => {
-            const token = await getToken();
-            if (token) {
-                const response = await verifyJWT(token);
-                
-                if (response.data === true) {
-                    setAuthState({
-                        token,
-                        authenticated: true,
-                    }); 
-                    
-                    const user = await getUserByJWT(token);
-                    setCurrentUser(user);
-                } else {
-                    logout();
-                    Alert.alert('Faça login novamente.', 'Token inválido ou expirado.');
-                }
-            } else {
-              logout();
-            }
-        };
+      const loadStorageData = async () => {
+          const token = await getToken();
+          if (token) {
+              const response = await verifyJWT(token);
+              
+              if (response.data === true) {
+                  setAuthState({
+                      token,
+                      authenticated: true,
+                  }); 
+                  
+                  const user = await getUserByJWT(token);
+                  setCurrentUser(user);
+              } else {
+                  logout();
+                  Alert.alert('Please log in again.', 'Invalid or expired token.');
+              }
+          } else {
+            logout();
+          }
+      };
 
-        loadStorageData();
+      loadStorageData();
     }, []);
-  
+
     const login = async (credentials: UserLogin, navigate: () => void) => {
         setIsLoading(true);
         try {
           const tokenJWT = await loginUser(credentials);
           if (tokenJWT === '' || tokenJWT === undefined) {
-            console.error("Token JWT vazio ou indefinido");
+            console.error("Empty or undefined JWT token");
             return;
           }
           setAuthState({
@@ -93,15 +93,15 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           await setToken(tokenJWT);
 
-          Alert.alert('Sucesso', 'Login efetuado com sucesso!');   
+          Alert.alert('Success', 'Logged in successfully!');   
 
           navigate();
         } catch (error: any) {
-          console.error("Erro ao fazer login:", error);
+          console.error("Error while logging in:", error);
           if (error.response?.data) {
-            Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error.response?.data || 'Erro desconhecido');
+            Alert.alert('Error', 'An error occurred while logging into your account: ' + error.response?.data || 'Unknown error');
           } else {
-            Alert.alert('Erro', 'Ocorreu um erro ao logar na sua conta: ' + error || 'Erro desconhecido');
+            Alert.alert('Error', 'An error occurred while logging into your account: ' + error || 'Unknown error');
           }
           await removeToken();
         } finally {
@@ -117,7 +117,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         const newUser = await createUser(credentials);
 
         if (newUser === undefined) {
-            console.error("Erro ao criar usuário");
+            console.error("Error creating user");
             return;
         }
         const tokenJWT = await loginUser({
@@ -125,7 +125,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
             password: credentials.password
         });
         if (tokenJWT === '' || tokenJWT === undefined) {
-          console.error("Token JWT vazio ou indefinido");
+          console.error("Empty or undefined JWT token");
           return;
         }
 
@@ -140,15 +140,15 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
         saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
 
-        Alert.alert('Sucesso', 'Usuário criado com sucesso!');
+        Alert.alert('Success', 'User created successfully!');
 
         navigate();
       } catch (error: any) {
-        console.error("Erro ao criar um novo usuário:", error);
+        console.error("Error creating a new user:", error);
         if (error.response?.data) {
-          Alert.alert('Erro', 'Ocorreu um erro ao criar a sua conta: ' + error.response?.data || 'Erro desconhecido');
+          Alert.alert('Error', 'An error occurred while creating your account: ' + error.response?.data || 'Unknown error');
         } else {
-          Alert.alert('Erro', 'Ocorreu um erro ao criar a sua conta: ' + error || 'Erro desconhecido');
+          Alert.alert('Error', 'An error occurred while creating your account: ' + error || 'Unknown error');
         }
         await removeToken();
       } finally {

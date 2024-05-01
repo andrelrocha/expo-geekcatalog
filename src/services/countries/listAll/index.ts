@@ -24,10 +24,10 @@ export const listAllCountries = async () => {
             });
             return countries;
         } else {
-            throw new Error('Erro ao listar países: ' + response.status);
+            throw new Error('Error listing countries: ' + response.status);
         }
     } catch (error) {
-        console.error('Erro ao listar países:', error);
+        console.error('Error listing countries:', error);
         throw error;
     }
 }

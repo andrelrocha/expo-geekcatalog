@@ -12,7 +12,7 @@ export const handleImageSelection = async (props: HandleImageSelectionProps) => 
         try {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
             if (status !== 'granted') {
-                console.log('Permissão negada para acessar a galeria de imagens');
+                console.log('Permission denied to access image gallery');
                 return;
             }
             
@@ -27,13 +27,13 @@ export const handleImageSelection = async (props: HandleImageSelectionProps) => 
                 return result.assets[0].uri;
             }
         } catch (error) {
-            console.log('Erro ao acessar a galeria de imagens: ', error);
+            console.log('Error accessing image gallery: ', error);
         }
     } else if (props.mode === 'camera') {
         try {
             const { status } = await ImagePicker.requestCameraPermissionsAsync();
             if (status !== 'granted') {
-                console.log('Permissão negada para acessar a câmera');
+                console.log('Permission denied to access camera');
                 return;
             }
             
@@ -50,11 +50,11 @@ export const handleImageSelection = async (props: HandleImageSelectionProps) => 
                 return result.assets[0].uri;
             }
         } catch (error) {
-            console.log('Erro ao acessar a câmera: ', error);
+            console.log('Error accessing camera: ', error);
             return;
         }
     } else {
-        console.log('Modo de seleção de imagem inválido');
+        console.log('Invalid image selection mode');
         return;
     }
 };

@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react"
-import { Text } from "react-native"
+import { useEffect } from "react"
 import { useAuth } from "../../../context/hooks";
-import { Box, Button, Heading, ImageTouchable } from "../../../components";
+import { Box, Heading, ImageTouchable, Text } from "../../../components";
 import { getProfilePic } from "../../../services/user/getProfilePic";
 import PageDefault from "../../Default";
+import { colors } from "../../../utils/colors";
 
 export default function UserInfo() {
     const { currentUser } = useAuth();
 
     useEffect(() => {
-        console.log('currentUser quando a tela de listagem de user carregou', currentUser);
+        console.log('currentUser when user listing screen loaded', currentUser);
         
     }, [currentUser]);
 
@@ -18,27 +18,27 @@ export default function UserInfo() {
         <PageDefault>
 
             <Box w={400} mt={40} alignItems="center">
-                <Heading mt={20} textAlign="center" fs={26} mb={0}>Bem vindo, {currentUser?.name}!</Heading>
-                <Text>{currentUser?.countryName}</Text>
+                <Heading mt={20} textAlign="center" fs={26} mb={5}>Welcome, {currentUser?.name}!</Heading>
+                <Text mt={0} fontSize={18} color={colors.buttonBlue}>{currentUser?.countryName}</Text>
                 {/*<ImageTouchable source={uri} alt='Profile Picture' /> */}
             </Box>
 
-            <Heading fs={20} mt={10}>Informações do Usuário</Heading>
+            <Heading fs={20} mt={30} mb={20}>User Information</Heading>
             <Box alignItems="center">
-                <Text>Nome: {currentUser?.name}</Text>
+                <Text>Name: {currentUser?.name}</Text>
                 <Text>Login: {currentUser?.login}</Text>
                 <Text>CPF: {currentUser?.cpf}</Text>
-                <Text>País: {currentUser?.countryName}</Text>
-                <Text>Telefone: {currentUser?.phone}</Text>
-                <Text>Data de Nascimento: {currentUser?.birthday}</Text>
+                <Text>Country: {currentUser?.countryName}</Text>
+                <Text>Phone: {currentUser?.phone}</Text>
+                <Text>Date of Birth: {currentUser?.birthday}</Text>
             </Box>                
             {/*
-                <Text>Nome: {currentUser?.name}</Text>
+                <Text>Name: {currentUser?.name}</Text>
                 <Text>Login: {currentUser?.login}</Text>
                 <Text>CPF: {currentUser?.cpf}</Text>
-                <Text>País: {currentUser?.countryName}</Text>
-                <Text>Telefone: {currentUser?.phone}</Text>
-                <Text>Data de Nascimento: {currentUser?.birthday}</Text> */}
+                <Text>Country: {currentUser?.countryName}</Text>
+                <Text>Phone: {currentUser?.phone}</Text>
+                <Text>Date of Birth: {currentUser?.birthday}</Text> */}
         </PageDefault>
     )
 }

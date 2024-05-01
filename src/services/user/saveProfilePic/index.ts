@@ -27,23 +27,23 @@ export const saveProfilePic = async (props: HandleSaveProfilePicProps) => {
         const response = await ApiManager.post(endpoint, formData, { headers })
             .then((response) => {
                 if (response.data.id === props.userId) {
-                    console.log('Imagem salva com sucesso');
+                    console.log('Image saved successfully');
                 } else {
-                    throw new Error('Erro ao salvar a imagem de perfil');
+                    throw new Error('Error saving profile image');
                 }
             })
             .catch((error) => {
                 if (error.response) {
-                    console.log('Erro ao salvar a imagem de perfil: ', error.response.data);
+                    console.log('Error saving profile image: ', error.response.data);
                 } else {
-                    console.log('Erro ao salvar a imagem de perfil: ', error);
+                    console.log('Error saving profile image: ', error);
                 }
             });
 
         return response;
     }
     catch (error) {
-        console.log('Erro no processo de salvar a imagem de perfil: ', error);
+        console.log('Error in the process of saving the profile image: ', error);
         return;
     }
 };

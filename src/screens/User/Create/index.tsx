@@ -14,7 +14,8 @@ import { Box, Heading, InputEmail, InputPassword,
   ButtonAddImage, TextWarning,
   InputDate, PhotoSelectionModal,
   ImageTouchable, DropdownSelection,
-  Button
+  Button,
+  ButtonTouchable
 } from "../../../components";
 import useUserCreation from "../../../hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
@@ -94,7 +95,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   return (
     <>
       <PageDefault>
-        <Heading>
+        <Heading mb={20} mt={10}>
           Welcome to Geek Catalog!
         </Heading>
 
@@ -103,37 +104,37 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         </Text>
 
         <Box>
-          <InputText control={control} name="name" placeholder="Nome Completo" rules={{ required: true }} />
+          <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
 
-          <InputDate control={control} name="birthday" placeholder="Data de Nascimento" rules={{ required: true }}/>
+          <InputDate control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
 
           <InputCPF control={control} name="cpf" placeholder="CPF" rules={{ required: true }} />
 
           <DropdownSelection
             control={control}
             name="country"
-            placeholder="País"
+            placeholder="Country"
             icon={<EarthIcon size={22} />}
             label="name"
             value="id"
             data={dropdownData}
           />
 
-          <InputPhone control={control} name="phone" placeholder="Celular" rules={{ required: true }}/>
+          <InputPhone control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
 
           <InputEmail control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
 
           <InputPasswordValidation 
             control={control} 
             name="password" 
-            placeholder="Senha" 
+            placeholder="Password" 
             rules={{ required: true}} 
             onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
           />
 
           {isPasswordClicked && ( 
             <Animatable.View animation={isPasswordClicked ? "fadeIn" : "fadeOut"} duration={400}>
-              <TextWarning>
+              <TextWarning w={340}>
                 Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
               </TextWarning>
             </Animatable.View>
@@ -142,7 +143,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           <InputPassword 
             control={control} 
             name="passwordConfirm" 
-            placeholder="Confirme sua senha" 
+            placeholder="Confirm Password"
             rules={{ required: true }}
             onTouchStart={() => setIsPasswordClicked(false)}
           />
@@ -170,6 +171,14 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             )}
         >Sign up
         </Button>
+
+        <ButtonTouchable
+          onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignIn' })}
+          mt={8}
+          w={180}
+          backgroundColor={colors.buttonBlue}
+        >Already have an account?
+        </ButtonTouchable>
 
       </PageDefault>
 
