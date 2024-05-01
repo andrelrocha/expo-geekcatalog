@@ -8,7 +8,6 @@ import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
 import { UserCreate } from "../types/user/userCreateDTO";
 import { Alert } from "react-native";
-import { set } from "immutable";
 import { saveProfilePic } from "../services/user/saveProfilePic";
 
 type AuthContextData = {
@@ -18,8 +17,8 @@ type AuthContextData = {
     };
     currentUser?: UserReturn;
     isLoading: boolean;
-    login: (credentials: UserLogin) => any;
-    signUp: (credentials: UserCreate) => any;
+    login: (credentials: UserLogin, navigate: () => void) => any;
+    signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
 };
 
@@ -76,7 +75,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         loadStorageData();
     }, []);
   
-    const login = async (credentials: UserLogin) => {
+    const login = async (credentials: UserLogin, navigate: () => void) => {
         setIsLoading(true);
         try {
           const tokenJWT = await loginUser(credentials);
@@ -96,6 +95,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           Alert.alert('Sucesso', 'Login efetuado com sucesso!');   
 
+          navigate();
         } catch (error: any) {
           console.error("Erro ao fazer login:", error);
           if (error.response?.data) {
@@ -109,7 +109,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         }
     };
 
-    const signUp = async (credentials: UserCreate) => {
+    const signUp = async (credentials: UserCreate, navigate: () => void) => {
       setIsLoading(true);
       credentials.phone = credentials.phone.replace(/(\d{2})(\d{5})(\d{4})/, '($1)$2-$3');
 
@@ -141,6 +141,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
 
         Alert.alert('Sucesso', 'Usuário criado com sucesso!');
+
+        navigate();
       } catch (error: any) {
         console.error("Erro ao criar um novo usuário:", error);
         if (error.response?.data) {

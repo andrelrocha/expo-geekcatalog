@@ -11,6 +11,7 @@ export default function UserStack() {
       <Stack.Screen name="HomeUserInfo" component={ListUser} options={{ 
         headerTitle: 'User Info',
         headerLeft: () => null,
+        gestureEnabled: false,
       }}/>
     </MyStackNavigator>
   );

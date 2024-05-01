@@ -7,10 +7,9 @@ import PageDefault from "../../Default";
 
 export default function UserInfo() {
     const { currentUser } = useAuth();
-    const countryName = currentUser?.countryName;
 
     useEffect(() => {
-        console.log('currentUser', currentUser);
+        console.log('currentUser quando a tela de listagem de user carregou', currentUser);
         
     }, [currentUser]);
 

@@ -18,6 +18,8 @@ import { Box, Heading, InputEmail, InputPassword,
 } from "../../../components";
 import useUserCreation from "../../../hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -42,7 +44,7 @@ type FormData = {
   uri: string,
 }
 
-function Create() {
+const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const {
     control,
     formState: { isValid },
@@ -81,7 +83,7 @@ function Create() {
       uri: uri,
     };
 
-    await signUp(userData);
+    await signUp(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));
   }
 
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
@@ -166,7 +168,7 @@ function Create() {
           onPress={handleSubmit(async () =>
             handleSignUp(control as unknown as Control<FormData>)
             )}
-        >Sign up //FAALTA AAJHEITAR PARA QUE LEVE PARA TELA DE USER
+        >Sign up
         </Button>
 
       </PageDefault>
