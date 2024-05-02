@@ -52,7 +52,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     control,
     formState: { isValid },
     handleSubmit,
-    watch,
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange",
