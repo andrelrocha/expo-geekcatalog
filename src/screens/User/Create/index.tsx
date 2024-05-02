@@ -146,28 +146,23 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             onTouchStart={() => setIsPasswordClicked(false)}
           />
 
-          {/*
           <InputCheckbox
               aria-label="Aceito os Termos e Condições de Uso"
               control={control}
               label={
                 <>
-                  <Text size="sm">Aceito os </Text>
+                  <Text>Aceito os </Text>
 
                   <Text
-                    color="$teal400"
                     onPress={() => setTermsVisibility(true)}
-                    size="sm"
-                    underline
-                  >
-                    Termos e Condições de Uso
+                    style={{ color: colors.buttonBlue}}
+                  >Termos e Condições de Uso
                   </Text>
                 </>
               }
               name="term"
               value="accepted"
           />
-          */}
 
           <View style={styles.containerAddImage}>
             {!uri ? (

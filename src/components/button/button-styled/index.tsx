@@ -1,4 +1,4 @@
-import { styled, Button as ThemedButton } from "@gluestack-ui/themed";
+import { createStyle, styled, Button as ThemedButton } from "@gluestack-ui/themed";
 import { buttonStyles, textStyles } from "../styles";
 
 const StyledButton = styled(
