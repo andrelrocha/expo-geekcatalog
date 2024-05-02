@@ -2,9 +2,13 @@ import React from 'react';
 import { X } from 'lucide-react-native';
 import { colors } from '../../../utils/colors';
 
-const CloseIcon = () => {
+interface CloseIconProps {
+  size?: number;
+}
+
+const CloseIcon = (props: CloseIconProps) => {
   return (
-    <X color={colors.redStrong} />
+    <X size={props.size || 20} color={colors.redStrong} />
   );
 };
 

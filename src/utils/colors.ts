@@ -3,7 +3,7 @@ export const colors = {
   green: '#98FB98',
   redWeak: '#FFB6C1',
   redWeakDarker: '#DAAEB6',
-  redStrong: '#FF0000',
+  redStrong: '#E51A0F',
   greenStrong: '#008000',
   black: '#000000',
   blackOpacity: hexToRGBA('#000000', 0.5),

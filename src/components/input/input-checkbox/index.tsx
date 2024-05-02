@@ -58,8 +58,10 @@ const InputCheckbox = <T extends FieldValues>({
         width: props.w || styles.checkbox.width,
         marginTop: props.mt || styles.checkbox.marginTop,
         marginBottom: props.mb || styles.checkbox.marginBottom,
-        fontSize: props.fs || styles.checkboxLabel.fontSize,
+    }
 
+    const dynamicStylesLabel = {
+      fontSize: props.fs || styles.checkboxLabel.fontSize,
     }
 
   return (
@@ -67,12 +69,12 @@ const InputCheckbox = <T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { onChange } }) => (
-        <Checkbox style={styles.checkbox} onChange={(value) => onChange(value ? props.value : null)} {...props}>
+        <Checkbox style={[styles.checkbox, dynamicStyles]} onChange={(value) => onChange(value ? props.value : null)} {...props}>
           <CheckboxIndicator style={styles.checkboxIndicator}>
             <CheckboxIcon as={CheckIcon}/>
           </CheckboxIndicator>
 
-          <CheckboxLabel style={styles.checkboxLabel}>{label}</CheckboxLabel>
+          <CheckboxLabel style={[styles.checkboxLabel, dynamicStylesLabel]}>{label}</CheckboxLabel>
         </Checkbox>
       )}
     />

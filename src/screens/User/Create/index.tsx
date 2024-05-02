@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text  } from "react-native";
+import { Alert, Text  } from "react-native";
 import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
 
@@ -15,7 +15,7 @@ import { Box, Heading, InputEmail, InputPassword,
   ImageTouchable, DropdownSelection,
   Button, ButtonTouchable,
   PasswordWarning,
-  InputCheckbox
+  InputCheckbox, Modal
 } from "../../../components";
 import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
@@ -23,6 +23,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 import { isSamePassword } from "../../../libs/validators/password";
+import { set } from "immutable";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -67,7 +68,12 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
   const { dropdownData } = useCountriesDropdown();
 
+  const [showTerms, setShowTerms] = useState(false)
+  const [isAccepted, setIsAccepted] = useState('')
+
   const handleSignUp = async (control: Control<FormData>) => {
+    if (isAccepted === '') return Alert.alert('You must accept the Terms and Conditions of Use');
+
     const name = control._formValues.name;
     const cpf = control._formValues.cpf;
     const email = control._formValues.email;
@@ -92,9 +98,8 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
   
-  const [termsVisibility, setTermsVisibility] = useState(false)
-  //const isEqualPassword = isSamePassword(password, passwordConfirm)
   
+  //const isEqualPassword = isSamePassword(password, passwordConfirm)
 
   return (
     <>
@@ -147,21 +152,22 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           />
 
           <InputCheckbox
-              aria-label="Aceito os Termos e Condições de Uso"
+              aria-label="I accept the Terms and Conditions of Use"
               control={control}
               label={
                 <>
-                  <Text>Aceito os </Text>
+                  <Text>I accept the </Text>
 
                   <Text
-                    onPress={() => setTermsVisibility(true)}
+                    onPress={() => setShowTerms(true)}
                     style={{ color: colors.buttonBlue}}
-                  >Termos e Condições de Uso
+                  >Terms and Conditions of Use
                   </Text>
                 </>
               }
               name="term"
-              value="accepted"
+              onPress={() => setIsAccepted(!isAccepted ? 'accepted' : '')}
+              value={isAccepted ? "accepted" : ""}
           />
 
           <View style={styles.containerAddImage}>
@@ -208,15 +214,12 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         />
       )}
 
-      {/*
-
       <Modal
         body="Lorem Ipsum Dolor"
-        isOpen={termsVisibility}
-        onClose={() => setTermsVisibility(false)}
-        title="Termos e Condições de Uso"
-      /> 
-      */}
+        isOpen={showTerms}
+        onClose={() => setShowTerms(false)}
+        title="Terms and Conditions of Use"
+      />
     </> 
   );
 }
