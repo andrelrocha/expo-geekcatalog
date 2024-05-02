@@ -23,7 +23,6 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 import { isSamePassword } from "../../../libs/validators/password";
-import { set } from "immutable";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -73,6 +72,9 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
   const handleSignUp = async (control: Control<FormData>) => {
     if (isAccepted === '') return Alert.alert('You must accept the Terms and Conditions of Use');
+    
+    const isEqualPassword = isSamePassword(control._formValues.password, control._formValues.passwordConfirm);
+    if (!isEqualPassword) return Alert.alert('The passwords do not match');
 
     const name = control._formValues.name;
     const cpf = control._formValues.cpf;
@@ -95,11 +97,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
     await signUp(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));
   }
-
-  //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
-  
-  
-  //const isEqualPassword = isSamePassword(password, passwordConfirm)
 
   return (
     <>
@@ -157,7 +154,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
               label={
                 <>
                   <Text>I accept the </Text>
-
                   <Text
                     onPress={() => setShowTerms(true)}
                     style={{ color: colors.buttonBlue}}
