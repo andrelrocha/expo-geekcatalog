@@ -21,6 +21,7 @@ import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
+import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -58,11 +59,12 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const { isLoading, signUp } = useAuth()
 
   const { uri, setUri,
-    dropdownData, setDropdownData,
     modalPicVisible, setModalPicVisible,
     isPasswordClicked, setIsPasswordClicked, 
     handleProfilePicture
   } = useUserCreation();
+
+  const { dropdownData, setDropdownData } = useCountriesDropdown();
 
   const handleSignUp = async (control: Control<FormData>) => {
     const name = control._formValues.name;
