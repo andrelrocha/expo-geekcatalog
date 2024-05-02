@@ -68,21 +68,25 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         >Login
         </Button>
 
-        <ButtonTouchable
-          onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignUp' })}
-          mt={4}
-          w={150}
-          backgroundColor={colors.greenStrong}
-        >Sign Up
-        </ButtonTouchable>
+        <Box alignItems="center" flexDirection='row' gap={20} >
+          <ButtonTouchable
+            onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignUp' })}
+            mt={4}
+            w={150}
+            h={40}
+            backgroundColor={colors.greenStrong}
+          >Sign Up
+          </ButtonTouchable>
 
-        <ButtonTouchable
-          onPress={() => navigation.navigate('NotAuthStack', { screen: 'ForgotPassword' })}
-          mt={4}
-          w={150}
-          backgroundColor={colors.redStrong} 
-        >Forgot Password 
-        </ButtonTouchable>
+          <ButtonTouchable
+            onPress={() => navigation.navigate('NotAuthStack', { screen: 'ForgotPassword' })}
+            mt={4}
+            w={150}
+            h={40}
+            backgroundColor={colors.redStrong} 
+          >Forgot Password 
+          </ButtonTouchable>
+        </Box>
       </PageDefault>
   );
 };

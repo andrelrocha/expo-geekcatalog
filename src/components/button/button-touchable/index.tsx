@@ -9,6 +9,7 @@ type ButtonProps = TouchableOpacityProps & {
     textColor?: string
     mt?: number 
     w?: number
+    h?: number
     dynamicPropStyle?: StyleProp<ViewStyle>
 } 
 
@@ -18,6 +19,7 @@ const ButtonTouchable = (props: ButtonProps) => {
         color: props.textColor || stylesSheet.buttonText.color,
         marginTop: props.mt || stylesSheet.button.marginTop,
         width: props.w || stylesSheet.containerButton.width,
+        height: props.h || stylesSheet.containerButton.height,
     };
 
     return (

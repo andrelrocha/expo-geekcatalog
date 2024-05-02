@@ -171,6 +171,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         <ButtonTouchable
           onPress={() => navigation.navigate('NotAuthStack', { screen: 'Login' })}
           mt={8}
+          h={40}
           w={200}
           backgroundColor={colors.buttonBlue}
         >Already have an account?

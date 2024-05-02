@@ -12,7 +12,11 @@ interface BoxProps {
   ml?: number;
   bw?: number;
   bc?: string;
-  alignItems?: string;
+  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
+  display?: 'flex' | 'none';
+  flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
+  gap?: number;
+  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
 }
 
 const boxStyles = StyleSheet.create({
@@ -25,6 +29,10 @@ const boxStyles = StyleSheet.create({
     borderColor: colors.gray,
     borderWidth: 0,
     alignItems: 'flex-start',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 0,
+    justifyContent: 'center',
   }
 });
 
@@ -45,6 +53,10 @@ const Box = (props: BoxProps) => {
     marginLeft: props.ml || boxStyles.box.marginLeft,
     marginRight: props.mr || boxStyles.box.marginRight,
     alignItems: props.alignItems || boxStyles.box.alignItems,
+    display: props.display || boxStyles.box.display,
+    flexDirection: props.flexDirection || boxStyles.box.flexDirection,
+    gap: props.gap || boxStyles.box.gap,
+    justifyContent: props.justifyContent || boxStyles.box.justifyContent,
   };
 
   return (
