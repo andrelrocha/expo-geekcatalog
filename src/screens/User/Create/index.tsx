@@ -14,8 +14,8 @@ import { Box, Heading, InputEmail, InputPassword,
   ButtonAddImage, TextWarning,
   InputDate, PhotoSelectionModal,
   ImageTouchable, DropdownSelection,
-  Button,
-  ButtonTouchable
+  Button, ButtonTouchable,
+  PasswordWarning
 } from "../../../components";
 import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
@@ -132,13 +132,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
           />
 
-          {isPasswordClicked && ( 
-            <Animatable.View animation={isPasswordClicked ? "fadeIn" : "fadeOut"} duration={400}>
-              <TextWarning w={340}>
-                Password must have at least 8 characters, one uppercase letter, one lowercase letter, and one number.
-              </TextWarning>
-            </Animatable.View>
-          )}
+          {isPasswordClicked && <PasswordWarning isVisible={isPasswordClicked} />}
 
           <InputPassword 
             control={control} 

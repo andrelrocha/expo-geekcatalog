@@ -13,6 +13,7 @@ import InputPasswordValidation from './input/input-password-validation';
 import ImageTouchable from './image/image-touchable';
 import { ButtonTouchable, ButtonAddImage } from './button';
 import PhotoSelectionModal from './modal/select-photo';
+import PasswordWarning from './password-warning';
 import Text from './text/text';
 import TextWarning from './text/text-warning';
 
@@ -33,6 +34,7 @@ export {
     InputDate,
     InputPasswordValidation, 
     ImageTouchable,
+    PasswordWarning,
     PhotoSelectionModal,
     Text,
     TextWarning
