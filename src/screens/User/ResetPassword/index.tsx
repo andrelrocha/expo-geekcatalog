@@ -11,10 +11,9 @@ type FormData = {
     email: string;
     tokenMail: string;
     password: string;
-    //passwordConfirm: string;
 };
 
-const DEFAULT_FORM_VALUES = { email: "", tokenMail: "", password: "", passwordConfirm: ""};
+const DEFAULT_FORM_VALUES = { email: "", tokenMail: "", password: ""};
 
 const ResetPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     const { isLoading, isSuccess, handleResetPassword } = useResetPassword();
@@ -24,12 +23,15 @@ const ResetPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) =>
         control,
         formState: { isValid },
         handleSubmit,
-        getValues,
     } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: 'onChange' });
 
     const handleResetPasswordControl = async (control: Control<FormData>) => {
-        const formData = getValues();
-        await handleResetPassword(formData, () => navigation.navigate('NotAuthStack', { screen: 'Login' }))
+        const data = {
+            login: control._formValues.email,
+            tokenMail: control._formValues.tokenMail,
+            password: control._formValues.password,
+        }
+        await handleResetPassword(data, () => navigation.navigate('NotAuthStack', { screen: 'Login' }))
     };
 
     return (

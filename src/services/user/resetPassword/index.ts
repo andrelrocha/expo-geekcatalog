@@ -1,23 +1,16 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 
 type HandleResetPasswordProps = {
-    email: string;
+    login: string;
     password: string;
     tokenMail: string;
 };
 
-export const resetPassword = async (props: HandleResetPasswordProps) => {
+export const resetPassword = async (resetPasswordData: HandleResetPasswordProps) => {
     try {
         const endpoint = "/user/reset_password";
-        const data = {
-            login: props.email,
-            password: props.password,
-            tokenMail: props.tokenMail,
-        };
 
-        console.log("resetPassword data", data);
-
-        const response = await ApiManager.post(endpoint, data)
+        const response = await ApiManager.post(endpoint, resetPasswordData)
             .then((response) => {
                 return response.data;
             })

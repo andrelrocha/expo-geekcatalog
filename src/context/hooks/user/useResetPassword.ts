@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Alert } from "react-native";
 
 interface ResetPassword {
-    email: string;
+    login: string;
     tokenMail: string;
     password: string;
 }

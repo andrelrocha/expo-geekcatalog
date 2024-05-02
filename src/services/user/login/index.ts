@@ -1,6 +1,5 @@
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
-import { Alert } from 'react-native';
 
 export async function loginUser(userData: UserLogin) {
   try {
