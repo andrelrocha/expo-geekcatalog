@@ -4,6 +4,7 @@ import { colors } from "../../utils/colors"
 export const buttonStyles: ViewStyle = {
     backgroundColor: colors.buttonBlue,
     height: 50,
+    width: 200,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,

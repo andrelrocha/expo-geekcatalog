@@ -11,6 +11,7 @@ type ButtonProps = {
   textColor?: string
   mt?: number
   w?: number
+  h?: number
   ph?: number
 } & ComponentProps<typeof ThemedButton>
 
@@ -20,7 +21,8 @@ const Button = (props: ButtonProps) => {
     color: props.backgroundColor || textStyles.color,
     paddingHorizontal: props.ph || 50,
     marginTop: props.mt || 0,
-    width: props.w || 200,
+    width: props.w || buttonStyles.width,
+    height: props.h || buttonStyles.height,
     //opacity: disabled ? 0.5 : 1,
   };
   

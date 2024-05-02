@@ -8,7 +8,7 @@ type HandleResetPasswordProps = {
 
 export const resetPassword = async (props: HandleResetPasswordProps) => {
     try {
-        const endpoint = "/users/reset_password";
+        const endpoint = "/user/reset_password";
         const data = {
             login: props.email,
             password: props.password,
