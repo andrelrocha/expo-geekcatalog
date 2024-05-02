@@ -17,7 +17,7 @@ import { Box, Heading, InputEmail, InputPassword,
   Button,
   ButtonTouchable
 } from "../../../components";
-import useUserCreation from "../../../hooks/user/useUserCreation";
+import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";

@@ -25,7 +25,7 @@ const ForgotPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
 
     const handleForgotPasswordControl = async (control: Control<FormData>) => {
         const email = control._formValues.email;
-        await handleForgotPassword({ email });
+        await handleForgotPassword( email, () => navigation.navigate('NotAuthStack', { screen: 'ResetPassword' }));
     }
     
     return (

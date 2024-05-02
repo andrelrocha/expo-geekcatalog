@@ -21,7 +21,7 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const {
     control,
     formState: { isValid },
-    handleSubmit
+    handleSubmit,
   } = useForm({ defaultValues: DEFAULT_FORM_VALUES, mode: "onChange" })
 
   const handleLogin = async (control: Control<FormData>) => {

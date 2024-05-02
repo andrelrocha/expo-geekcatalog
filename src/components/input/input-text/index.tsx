@@ -49,8 +49,6 @@ const InputText = <T extends FieldValues>({
   // Definindo a visibilidade padrão da validação.
   const _visibleValidation = visibleValidation ?? true
 
-  const [isFocused, setIsFocused] = useState(false);
-
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
     if (icon === 0) return null;
     
