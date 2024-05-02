@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { listAllGames } from "../../services/games/listAll";
-import GameReturn from "../../types/games/gameReturnDTO";
+import { listAllGames } from "../../../services/games/listAll";
+import GameReturn from "../../../types/games/gameReturnDTO";
 
 export default function useGamesListAll(): GameReturn[] {
     const [games, setGames] = useState<GameReturn[]>([]);

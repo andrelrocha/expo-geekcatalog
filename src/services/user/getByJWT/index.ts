@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { UserReturn } from "../../../types/user/userReturnDTO";
 
@@ -16,7 +15,7 @@ export async function getUserByJWT(tokenJWT: string) {
             .catch((error) => {
                 console.log(error)
                 console.error('Error fetching user:', error.response.data);
-                Alert.alert('Error', 'An error occurred while fetching your information: ' + error.response.data);
+                throw new Error('Error fetching user: ' + error.response.data);
             });
 
             const phone = response.phone.substring(0, 4) + " " + response.phone.substring(4);
@@ -35,5 +34,6 @@ export async function getUserByJWT(tokenJWT: string) {
         return user;
     } catch (error) {
         console.error(error);
+        throw new Error('Error fetching user: ' + error);
     }
 }

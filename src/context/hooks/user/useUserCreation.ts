@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { listAllCountries } from "../../services/countries/listAll";
-import { handleImageSelection } from "../../services/image/getImageFromUser";
+import { listAllCountries } from "../../../services/countries/listAll";
+import { handleImageSelection } from "../../../services/image/getImageFromUser";
 
 export default function useUserCreation() {
 

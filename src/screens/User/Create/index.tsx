@@ -173,9 +173,9 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         </Button>
 
         <ButtonTouchable
-          onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignIn' })}
+          onPress={() => navigation.navigate('NotAuthStack', { screen: 'Login' })}
           mt={8}
-          w={180}
+          w={200}
           backgroundColor={colors.buttonBlue}
         >Already have an account?
         </ButtonTouchable>

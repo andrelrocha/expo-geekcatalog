@@ -70,7 +70,7 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
         <ButtonTouchable
           onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignUp' })}
-          mt={6}
+          mt={4}
           w={150}
           backgroundColor={colors.greenStrong}
         >Sign Up
@@ -78,10 +78,10 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
         <ButtonTouchable
           onPress={() => navigation.navigate('NotAuthStack', { screen: 'ForgotPassword' })}
-          mt={6}
+          mt={4}
           w={150}
           backgroundColor={colors.redStrong} 
-        >Forgot Password - falta implementar!
+        >Forgot Password 
         </ButtonTouchable>
       </PageDefault>
   );

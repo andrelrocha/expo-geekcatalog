@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MyStackNavigator from './navigator';
 import Login from '../../screens/User/Login';
 import Create from '../../screens/User/Create';
+import ForgotPassword from '../../screens/User/ForgotPassword';
 import Home from '../../screens/Home';
 
 const Stack = createStackNavigator();
@@ -17,6 +18,7 @@ export default function NotAuthStack() {
       />
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="SignUp" component={Create} options={{ title: 'Sign Up' }} />
+      <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: 'Forgot Password' }} />
     </MyStackNavigator>
   );
 }

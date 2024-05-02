@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { loginUser } from '../services/user/login';
 import { createUser } from "../services/user/create";
 import { UserLogin } from '../types/user/userLoginDTO';
@@ -7,7 +8,6 @@ import { verifyJWT } from "../services/user/verifyJWT";
 import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
 import { UserCreate } from "../types/user/userCreateDTO";
-import { Alert } from "react-native";
 import { saveProfilePic } from "../services/user/saveProfilePic";
 
 type AuthContextData = {

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, SectionList, TouchableOpacity } from "react-native";
-import useGamesListAll from "../../../hooks/games/useGamesListAll";
+import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import { styles } from "./../styles";
 
