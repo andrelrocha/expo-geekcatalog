@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 
 import PageDefault from '../../Default';
-import { Box, Button, Heading, InputEmail, InputText, InputPassword, PasswordWarning } from '../../../components';
+import { Box, Button, Heading, InputEmail, InputText, InputPassword, PasswordWarning, InputPasswordValidation } from '../../../components';
 import useResetPassword from '../../../context/hooks/user/useResetPassword';
 import { Control, useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -11,9 +11,10 @@ type FormData = {
     email: string;
     tokenMail: string;
     password: string;
+    //passwordConfirm: string;
 };
 
-const DEFAULT_FORM_VALUES = { email: "", tokenMail: "", password: "" };
+const DEFAULT_FORM_VALUES = { email: "", tokenMail: "", password: "", passwordConfirm: ""};
 
 const ResetPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     const { isLoading, isSuccess, handleResetPassword } = useResetPassword();
@@ -28,7 +29,7 @@ const ResetPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) =>
 
     const handleResetPasswordControl = async (control: Control<FormData>) => {
         const formData = getValues();
-        await handleResetPassword(formData);
+        await handleResetPassword(formData, () => navigation.navigate('NotAuthStack', { screen: 'Login' }))
     };
 
     return (
@@ -49,15 +50,25 @@ const ResetPassword = ({ navigation }: NativeStackScreenProps<ParamListBase>) =>
                     placeholder="Enter your token"
                     rules={{ required: true }}
                 />
-                <InputPassword
-                    control={control}
-                    name="password"
-                    placeholder="Enter your new password"
-                    rules={{ required: true }}
+                <InputPasswordValidation 
+                    control={control} 
+                    name="password" 
+                    placeholder="Enter your new password" 
+                    rules={{ required: true}} 
                     onTouchStart={() => setIsPasswordClicked(!isPasswordClicked)}
                 />
 
                 {isPasswordClicked && <PasswordWarning isVisible={isPasswordClicked} />}
+
+                {/*
+                <InputPassword 
+                    control={control} 
+                    name="passwordConfirm" 
+                    placeholder="Confirm new password"
+                    rules={{ required: true }}
+                    onTouchStart={() => setIsPasswordClicked(false)}
+                />
+                */}
             </Box>
 
             <Button

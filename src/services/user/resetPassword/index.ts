@@ -15,6 +15,8 @@ export const resetPassword = async (props: HandleResetPasswordProps) => {
             tokenMail: props.tokenMail,
         };
 
+        console.log("resetPassword data", data);
+
         const response = await ApiManager.post(endpoint, data)
             .then((response) => {
                 return response.data;

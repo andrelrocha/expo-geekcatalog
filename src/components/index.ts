@@ -8,6 +8,7 @@ import InputEmail from './input/input-email';
 import InputPassword from './input/input-password';
 import InputCPF from './input/input-cpf';
 import InputPhone from './input/input-phone';
+import InputCheckbox from './input/input-checkbox';
 import InputDate from './input/input-date';
 import InputPasswordValidation from './input/input-password-validation';
 import ImageTouchable from './image/image-touchable';
@@ -27,6 +28,7 @@ export {
     Header, 
     Heading, 
     InputText, 
+    InputCheckbox,
     InputEmail, 
     InputPassword, 
     InputCPF, 

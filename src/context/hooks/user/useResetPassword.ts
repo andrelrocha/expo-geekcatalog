@@ -12,14 +12,15 @@ export default function useResetPassword() {
     const [isLoading, setIsLoading] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const handleResetPassword = async (credentials: ResetPassword) => {
+    const handleResetPassword = async (credentials: ResetPassword, navigate: () => void) => {
         setIsLoading(true);
         try {
             await resetPassword(credentials);
             setIsSuccess(true);
             Alert.alert('Success', 'Password reset successfully');
+            navigate();
         } catch (error) {
-            console.error('Error resetting password:', error);
+            console.error(error);
             Alert.alert('Error', 'Error resetting password');
         } finally {
             setIsLoading(false);

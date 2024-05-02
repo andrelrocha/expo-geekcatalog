@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Text  } from "react-native";
 import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
-import * as Animatable from "react-native-animatable";
 
 import { EarthIcon } from "../../../components/icons";
 import { styles } from "../styles";
@@ -15,13 +14,15 @@ import { Box, Heading, InputEmail, InputPassword,
   InputDate, PhotoSelectionModal,
   ImageTouchable, DropdownSelection,
   Button, ButtonTouchable,
-  PasswordWarning
+  PasswordWarning,
+  InputCheckbox
 } from "../../../components";
 import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
+import { isSamePassword } from "../../../libs/validators/password";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -58,13 +59,13 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   })
   const { isLoading, signUp } = useAuth()
 
-  const { uri, setUri,
+  const { uri,
     modalPicVisible, setModalPicVisible,
     isPasswordClicked, setIsPasswordClicked, 
     handleProfilePicture
   } = useUserCreation();
 
-  const { dropdownData, setDropdownData } = useCountriesDropdown();
+  const { dropdownData } = useCountriesDropdown();
 
   const handleSignUp = async (control: Control<FormData>) => {
     const name = control._formValues.name;
@@ -92,6 +93,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   //const [password, passwordConfirm, term] = watch("password", "passwordConfirm", "term");  
   
   const [termsVisibility, setTermsVisibility] = useState(false)
+  //const isEqualPassword = isSamePassword(password, passwordConfirm)
   
 
   return (
@@ -144,6 +146,29 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             onTouchStart={() => setIsPasswordClicked(false)}
           />
 
+          {/*
+          <InputCheckbox
+              aria-label="Aceito os Termos e Condições de Uso"
+              control={control}
+              label={
+                <>
+                  <Text size="sm">Aceito os </Text>
+
+                  <Text
+                    color="$teal400"
+                    onPress={() => setTermsVisibility(true)}
+                    size="sm"
+                    underline
+                  >
+                    Termos e Condições de Uso
+                  </Text>
+                </>
+              }
+              name="term"
+              value="accepted"
+          />
+          */}
+
           <View style={styles.containerAddImage}>
             {!uri ? (
               <>
@@ -187,7 +212,17 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           onGalleryPress={() => handleProfilePicture('gallery')}
         />
       )}
-    </>
+
+      {/*
+
+      <Modal
+        body="Lorem Ipsum Dolor"
+        isOpen={termsVisibility}
+        onClose={() => setTermsVisibility(false)}
+        title="Termos e Condições de Uso"
+      /> 
+      */}
+    </> 
   );
 }
 
