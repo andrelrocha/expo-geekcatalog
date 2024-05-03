@@ -3,6 +3,7 @@ import { ViewStyle } from "react-native";
 import { ButtonSpinner, ButtonText, Button as ThemedButton } from "@gluestack-ui/themed"
 import { buttonStyles, textStyles } from "../styles";
 import StyledButton from "../button-styled";
+import TextWarning from "../../text/text-warning";
 
 type ButtonProps = {
   children: ReactNode
@@ -23,15 +24,17 @@ const Button = (props: ButtonProps) => {
     marginTop: props.mt || 0,
     width: props.w || buttonStyles.width,
     height: props.h || buttonStyles.height,
-    //opacity: disabled ? 0.5 : 1,
+    opacity: props.isLoading || props.isDisabled ? 0.5 : 1,
   };
+  
   
   return (
       <StyledButton
         {...props}
-        disabled={props.isLoading || props.disabled}
+        disabled={props.isLoading || props.isDisabled}
         ref={null}
         style={dynamicButtonStyles as ViewStyle}
+        onPress={props.onPress}
         >
         {!props.isLoading && <ButtonText>{props.children}</ButtonText>}
 
