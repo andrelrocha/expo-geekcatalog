@@ -6,6 +6,7 @@ import { View } from "@gluestack-ui/themed";
 import { EarthIcon } from "../../../components/icons";
 import { styles } from "../styles";
 import { colors } from "../../../utils/colors";
+import { loremIpsum } from "../../../utils/lorem";
 import PageDefault from "../../Default";
 import { useAuth } from "../../../context/hooks";
 import { Box, Heading, InputEmail, InputPassword, 
@@ -210,7 +211,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       )}
 
       <Modal
-        body="Lorem Ipsum Dolor"
+        body={loremIpsum}
         isOpen={showTerms}
         onClose={() => setShowTerms(false)}
         title="Terms and Conditions of Use"

@@ -49,7 +49,7 @@ const Modal = (props: CustomModalProps) => {
                     </ButtonTouchable>
 
                     <View style={styles.headingContainer}>
-                        {props.title && <Heading>{props.title}</Heading>}
+                        {props.title && <Heading mb={10}>{props.title}</Heading>}
                     </View>
 
                     <ScrollView contentContainerStyle={styles.bodyContainer} showsVerticalScrollIndicator={false}>
@@ -142,8 +142,6 @@ const styles = StyleSheet.create({
     bodyContent: {
         flex: 1,
         padding: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
