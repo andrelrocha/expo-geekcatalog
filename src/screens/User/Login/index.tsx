@@ -33,7 +33,8 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       password
     };
 
-    await login(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));
+    await login(userData);
+    navigation.navigate('AppTabs');
   };
 
   return (

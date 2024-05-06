@@ -95,7 +95,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       uri: uri,
     };
 
-    await signUp(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));    
+    await signUp(userData, () => navigation.navigate('AppTabs'));    
   }
 
   return (

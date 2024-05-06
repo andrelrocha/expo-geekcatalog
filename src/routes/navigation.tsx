@@ -10,8 +10,6 @@ import AppTabs from './tab/AppTab';
 import useAuth from '../context/hooks/use-auth.hook';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
 
 export default function Navigation() {
   const { authState } = useAuth();
@@ -29,6 +27,7 @@ export default function Navigation() {
           initialRouteName={'NotAuthStack'}
         >
           <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
+          <Stack.Screen name="AppTabs" component={AppTabs}/>
         </Stack.Navigator>
       )}
     </NavigationContainer>

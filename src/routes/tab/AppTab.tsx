@@ -12,8 +12,8 @@ export default function AppTabs() {
         headerShown: false
       }}
     >
-      <Tab.Screen name="UserInfo" component={UserStack} />
       <Tab.Screen name="Games" component={GamesStack} />
+      <Tab.Screen name="User Info" component={UserStack} />
     </Tab.Navigator>
   );
 }

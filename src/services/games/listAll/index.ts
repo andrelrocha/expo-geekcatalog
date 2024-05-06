@@ -1,22 +1,33 @@
 import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameReturn from '../../../types/games/gameReturnDTO'
-import { getToken } from '../../../modules/auth.module';
 
-export const listAllGames = async (params: string) => {
+type HandleListAllGamesProps = {
+    params: string;
+    token: string;
+};
+
+export const listAllGames = async (props: HandleListAllGamesProps) => {
     try {
-        const token = await getToken();
+        console.log('listAllGames params'+ props.params );
+
+        if (props.token === null) {
+            throw new Error('Token inválido');
+        }
 
         const headers = {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${props.token}`
         }
 
-        //FALTA IMPLEMENTAR NO BACKEND
         let endpoint = "/games/getall";
         
-        if (!(params === '' || params === undefined)) {
-            endpoint += '/' + params;
+        if (props.params === '' || props.params === undefined) {
+            endpoint += '/';
+        } else {
+            endpoint += props.params;
         }
+
+        console.log(endpoint);
 
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {
@@ -33,12 +44,8 @@ export const listAllGames = async (params: string) => {
                 return {
                     id: game.id,
                     name: game.name,
-                    console: game.console,
-                    note: game.note,
-                    opinion: game.opinion,
-                    gameId: game.gameId,
                     metacritic: game.metacritic,
-                    genre: game.genre
+                    yearOfRelease: game.yearOfRelease,
                 };
             });
         return games;

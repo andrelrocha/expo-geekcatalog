@@ -17,7 +17,7 @@ type AuthContextData = {
     };
     currentUser?: UserReturn;
     isLoading: boolean;
-    login: (credentials: UserLogin, navigate: () => void) => any;
+    login: (credentials: UserLogin) => any;
     signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
 };
@@ -75,7 +75,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       loadStorageData();
     }, []);
 
-    const login = async (credentials: UserLogin, navigate: () => void) => {
+    const login = async (credentials: UserLogin) => {
         setIsLoading(true);
         try {
           const tokenJWT = await loginUser(credentials);
@@ -92,10 +92,6 @@ export const AuthProvider = (props: AuthProviderProps) => {
           setCurrentUser(user);
 
           await setToken(tokenJWT);
-
-          Alert.alert('Success', 'Logged in successfully!');   
-
-          navigate();
         } catch (error: any) {
           console.error("Error while logging in:", error);
           if (error.response?.data) {

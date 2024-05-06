@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
 import { listAllGames } from "../../../services/games/listAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
+import useAuth from "../use-auth.hook";
 
 export default function useGamesListAll(): GameReturn[] {
     const [games, setGames] = useState<GameReturn[]>([]);
+    const { authState } = useAuth();
+    const { token } = authState;
 
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                const gamesData = await listAllGames('');
-                setGames(gamesData);
+                if (token !== null) {
+                    const params ={
+                        token: token,
+                        params: '?size=100'
+                    }
+                    const gamesData = await listAllGames(params);
+                    setGames(gamesData);
+                }
             } catch (error) {
                 console.error('Erro ao buscar jogos:', error);
             }
