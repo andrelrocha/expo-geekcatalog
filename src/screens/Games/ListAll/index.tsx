@@ -34,7 +34,9 @@ export default function ListAllGames() {
                     renderSectionHeader={() => null}
                     keyExtractor={(item) => item.id.toString()}
                     ListHeaderComponent={renderHeader}
-                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
+                    decelerationRate="fast"
+                    //renderSectionFooter={() => <View style={{ height: 20 }} />  - FALTA IMPLEMENTAR PAGINAÇÃO
                 />
             )}
         </View>
