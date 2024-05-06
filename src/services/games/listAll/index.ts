@@ -9,8 +9,6 @@ type HandleListAllGamesProps = {
 
 export const listAllGames = async (props: HandleListAllGamesProps) => {
     try {
-        console.log('listAllGames params'+ props.params );
-
         if (props.token === null) {
             throw new Error('Token inválido');
         }
@@ -24,10 +22,8 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';
         } else {
-            endpoint += props.params;
+            endpoint += "?" + props.params;
         }
-
-        console.log(endpoint);
 
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {

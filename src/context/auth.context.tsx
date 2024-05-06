@@ -17,7 +17,7 @@ type AuthContextData = {
     };
     currentUser?: UserReturn;
     isLoading: boolean;
-    login: (credentials: UserLogin) => any;
+    login: (credentials: UserLogin, navigate: () => void) => any;
     signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
 };
@@ -49,33 +49,35 @@ export const AuthProvider = (props: AuthProviderProps) => {
         token: null,
         authenticated: false,
     });
-    
-    useEffect(() => {
-      const loadStorageData = async () => {
-          const token = await getToken();
-          if (token) {
-              const response = await verifyJWT(token);
-              
-              if (response.data === true) {
-                  setAuthState({
-                      token,
-                      authenticated: true,
-                  }); 
-                  
-                  const user = await getUserByJWT(token);
-                  setCurrentUser(user);
-              } else {
-                  logout();
-                }
-          } else {
-            logout();
-          }
-      };
 
+    useEffect(() => {
       loadStorageData();
     }, []);
 
-    const login = async (credentials: UserLogin) => {
+    const loadStorageData = async () => {
+        const token = await getToken();
+        if (token) {
+            const response = await verifyJWT(token);
+            
+            if (response.data === true) {
+                setAuthState({
+                    token,
+                    authenticated: true,
+                }); 
+
+                if (currentUser == undefined) {
+                  const user = await getUserByJWT(token);
+                  setCurrentUser(user);
+                }
+            } else {
+                logout();
+              }
+        } else {
+          logout();
+        }
+    };
+
+    const login = async (credentials: UserLogin, navigate: () => void) => {
         setIsLoading(true);
         try {
           const tokenJWT = await loginUser(credentials);
@@ -88,10 +90,11 @@ export const AuthProvider = (props: AuthProviderProps) => {
             authenticated: true,
           });
 
-          const user = await getUserByJWT(tokenJWT);
-          setCurrentUser(user);
-
           await setToken(tokenJWT);
+
+          loadStorageData();
+
+          navigate();
         } catch (error: any) {
           console.error("Error while logging in:", error);
           if (error.response?.data) {
@@ -130,9 +133,9 @@ export const AuthProvider = (props: AuthProviderProps) => {
           authenticated: true,
         });
 
-        setCurrentUser(newUser);
-
         await setToken(tokenJWT);
+
+        loadStorageData();
 
         saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
 

@@ -11,14 +11,15 @@ export default function useGamesListAll(): GameReturn[] {
     useEffect(() => {
         const fetchGames = async () => {
             try {
-                if (token !== null) {
-                    const params ={
-                        token: token,
-                        params: '?size=100'
-                    }
-                    const gamesData = await listAllGames(params);
-                    setGames(gamesData);
+                const params ={
+                    token: token as string,
+                    params: 'size=100'
                 }
+                const now = new Date();
+                console.log('list all games called at:' , now);
+                const gamesData = await listAllGames(params);
+                setGames(gamesData);
+            
             } catch (error) {
                 console.error('Erro ao buscar jogos:', error);
             }

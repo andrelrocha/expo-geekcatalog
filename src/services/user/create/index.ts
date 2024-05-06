@@ -5,9 +5,6 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 export const createUser = async (userData: UserCreate) => {
   const endpoint = '/user/create';
 
-  const birthday = handleBirthdayInputChange(userData.birthday);
-  const phone = handlePhoneInput(userData.phone);
-
   try {
     const response = await ApiManager.post(endpoint, userData)
       .then((response) => {
@@ -40,15 +37,4 @@ export const createUser = async (userData: UserCreate) => {
     console.error('Error while creating a user:', error);
     throw error;
   }
-};
-
-const handleBirthdayInputChange = (birthday: string) => {
-  const [day, month, year] = birthday.split('/');
-  const parsedDate = new Date(`${year}-${month}-${day}`);
-  const formattedDate = parsedDate.toISOString().substring(0, 10);
-  return formattedDate;
-};
-
-const handlePhoneInput = (phoneNumber: string): string => {
-  return phoneNumber.replace(/\s/g, "");
 };

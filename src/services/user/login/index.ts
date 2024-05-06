@@ -2,9 +2,9 @@ import { UserLogin } from '../../../types/user/userLoginDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export async function loginUser(userData: UserLogin) {
+  const endpoint = '/user/login';
+  
   try {
-    const endpoint = '/user/login';
-
     const headers = {
       'Content-Type': 'application/json',
     };
