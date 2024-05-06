@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import NotAuthStack from './stack/NotAuthStack';
 
-import AppTabs from './tab/AppTab';
+import AuthTabs from './tab/AuthTab';
 
 import useAuth from '../context/hooks/use-auth.hook';
 
@@ -15,10 +14,10 @@ export default function Navigation() {
   const { authState } = useAuth();
   const { authenticated } = authState;
 
-  return (
+  return (  
     <NavigationContainer>
       {authenticated ? (
-        <AppTabs />
+        <AuthTabs />
       ) : (
         <Stack.Navigator 
           screenOptions={{ 
@@ -27,7 +26,7 @@ export default function Navigation() {
           initialRouteName={'NotAuthStack'}
         >
           <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
-          <Stack.Screen name="AppTabs" component={AppTabs}/>
+          <Stack.Screen name="AuthTabs" component={AuthTabs}/>
         </Stack.Navigator>
       )}
     </NavigationContainer>

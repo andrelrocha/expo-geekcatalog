@@ -15,8 +15,6 @@ export default function useGamesListAll(): GameReturn[] {
                     token: token as string,
                     params: 'size=100'
                 }
-                const now = new Date();
-                console.log('list all games called at:' , now);
                 const gamesData = await listAllGames(params);
                 setGames(gamesData);
             
