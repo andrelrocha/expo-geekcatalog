@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NotAuthStack from './stack/NotAuthStack';
 
 import AuthTabs from './tab/AuthTab';
+import InfoDrawer from './drawer/InfoDrawer';
 
 import useAuth from '../context/hooks/use-auth.hook';
 
@@ -26,6 +27,7 @@ export default function Navigation() {
           initialRouteName={'NotAuthStack'}
         >
           <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
+          
           <Stack.Screen name="AuthTabs" component={AuthTabs}/>
         </Stack.Navigator>
       )}

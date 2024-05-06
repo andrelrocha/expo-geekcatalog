@@ -34,6 +34,7 @@ export default function ListAllGames() {
                     renderSectionHeader={() => null}
                     keyExtractor={(item) => item.id.toString()}
                     ListHeaderComponent={renderHeader}
+                    showsHorizontalScrollIndicator={false}
                 />
             )}
         </View>

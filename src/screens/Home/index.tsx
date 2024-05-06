@@ -31,6 +31,12 @@ export default function Home({ navigation }: NativeStackScreenProps<ParamListBas
                     onPress={() => {navigation.navigate('NotAuthStack', { screen: 'SignUp' })}}
                 >Sign Up
                 </ButtonTouchable>
+                <ButtonTouchable
+                    backgroundColor={colors.sage}
+                    mt={20}
+                    onPress={() => {navigation.navigate('NotAuthStack', { screen: 'About' })}}
+                >About
+                </ButtonTouchable>
             </View>
             
             <View style={styles.imageContainer}>
