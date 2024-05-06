@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Alert, Text  } from "react-native";
 import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
 
 import { EarthIcon } from "../../../components/icons";
 import { styles } from "../styles";
@@ -20,8 +22,6 @@ import { Box, Heading, InputEmail, InputPassword,
 } from "../../../components";
 import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { ParamListBase } from "@react-navigation/native";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 import { isSamePassword } from "../../../libs/validators/password";
 
@@ -55,20 +55,20 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     handleSubmit,
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
-    mode: "onChange",
-  })
+    mode: "onChange"})
   const { isLoading, signUp } = useAuth()
 
   const { uri,
     modalPicVisible, setModalPicVisible,
     isPasswordClicked, setIsPasswordClicked, 
-    handleProfilePicture
+    showTerms, setShowTerms,
+    isAccepted, setIsAccepted,
+    handleProfilePicture, 
   } = useUserCreation();
 
   const { dropdownData } = useCountriesDropdown();
 
-  const [showTerms, setShowTerms] = useState(false)
-  const [isAccepted, setIsAccepted] = useState('')
+  
 
   const handleSignUp = async (control: Control<FormData>) => {
     if (isAccepted === '') return Alert.alert('You must accept the Terms and Conditions of Use');
@@ -95,7 +95,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       uri: uri,
     };
 
-    await signUp(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));
+    await signUp(userData, () => navigation.navigate('UserStack', { screen: 'HomeUserInfo' }));    
   }
 
   return (

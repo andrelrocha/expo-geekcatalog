@@ -9,10 +9,10 @@ import Home from '../../screens/Home';
 
 const Stack = createStackNavigator();
 
-export default function NotAuthStack() {
+export default function NotAuthStack({ initialRouteName = 'Home' }) {
   return (
     <MyStackNavigator
-      initialRouteName="Home"
+      initialRouteName={initialRouteName}
     >
       <Stack.Screen name="Home" component={Home} 
                     options={{ headerTitle: 'Home', headerShown: false }}

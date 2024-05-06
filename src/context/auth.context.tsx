@@ -39,6 +39,7 @@ const AuthContext = createContext<AuthContextData>({
 });
 
 export const AuthProvider = (props: AuthProviderProps) => {
+
     const [isLoading, setIsLoading] = useState(false);
     const [currentUser, setCurrentUser] = useState<UserReturn | undefined>(undefined);
     const [authState, setAuthState] = useState<{
@@ -65,8 +66,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
                   setCurrentUser(user);
               } else {
                   logout();
-                  Alert.alert('Please log in again.', 'Invalid or expired token.');
-              }
+                }
           } else {
             logout();
           }

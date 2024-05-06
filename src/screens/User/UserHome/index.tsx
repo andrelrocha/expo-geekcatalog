@@ -30,7 +30,6 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
         if (currentUser?.id) {
             fetchProfilePic();
         }
-
         
     }, [currentUser]);
 
@@ -45,9 +44,13 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
                 <Text mt={0} fontSize={18} color={colors.buttonBlue}>{currentUser?.countryName}</Text>
             </Box>
 
-            <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} onPress={() => navigation.navigate('EditProfile')}>Access your info</ButtonTouchable>
+            <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
+                onPress={() => navigation.navigate('EditProfile')}
+            >Access your info</ButtonTouchable>
 
-            <ButtonTouchable mt={10} backgroundColor={colors.redStrong} textColor={colors.black} onPress={logout}>Logout</ButtonTouchable>
+            <ButtonTouchable mt={10} w={200} backgroundColor={colors.redMid} textColor={colors.black} 
+                onPress={logout}
+            >Logout</ButtonTouchable>
 
             {/*
             <Box gap={5}>   

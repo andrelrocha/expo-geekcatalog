@@ -4,6 +4,7 @@ export const colors = {
   redWeak: '#FFB6C1',
   redWeakDarker: '#DAAEB6',
   redStrong: '#E51A0F',
+  redMid: '#FF3131',
   greenStrong: '#008000',
   black: '#000000',
   blackOpacity: hexToRGBA('#000000', 0.5),
