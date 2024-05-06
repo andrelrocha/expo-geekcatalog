@@ -1,6 +1,7 @@
-import { Platform } from 'react-native';
 import { getToken } from '../../../modules/auth.module';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
+import * as FileSystem from 'expo-file-system'; 
+
 
 type HandleGetProfilePicProps = {
     userId: string;
@@ -24,10 +25,20 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
                 if (response && response.data) {
                     const blob = new Blob([response.data]);
                     const url = URL.createObjectURL(blob);
-                    return url;
+                    const localUri = `${FileSystem.cacheDirectory}profile_pic.jpg`;
+                    return { url, localUri }
+                    /*await FileSystem.writeAsStringAsync(localUri, url, { encoding: FileSystem.EncodingType.Base64 });
+                    console.log(url)
+                    return url;*/
                 } else {
                     console.log('Invalid response or image not found');
                     return null;
+                }
+            })
+            .then(async (response) => {
+                if (response) {
+                    await FileSystem.writeAsStringAsync(response.localUri, response.url, { encoding: FileSystem.EncodingType.Base64 });
+                    return response;
                 }
             })
             .catch((error) => {
@@ -41,8 +52,6 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
                     console.log('Error fetching profile image: ', error);
                 }
             });
-
-            console.log('response', response);
 
         return response;
 

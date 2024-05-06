@@ -30,7 +30,6 @@ const ImageTouchable = (props: ButtonProps) => {
     return (
         <TouchableOpacity onPress={props.onPress} style={[styles.imageContainer, dynamicProfilePicStyles, props.style]}>
             <Image source={props.source} style={styles.image} alt={props.alt} />
-
         </TouchableOpacity>
     );
 }

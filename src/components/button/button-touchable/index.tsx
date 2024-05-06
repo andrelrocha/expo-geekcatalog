@@ -16,15 +16,18 @@ type ButtonProps = TouchableOpacityProps & {
 const ButtonTouchable = (props: ButtonProps) => {
     const dynamicButtonStyles = {
         backgroundColor: props.backgroundColor || stylesSheet.button.backgroundColor,
-        color: props.textColor || stylesSheet.buttonText.color,
         marginTop: props.mt || stylesSheet.button.marginTop,
         width: props.w || stylesSheet.containerButton.width,
         height: props.h || stylesSheet.containerButton.height,
     };
 
+    const dynamicTextStyles = {
+        color: props.textColor || stylesSheet.buttonText.color,
+    };
+
     return (
         <TouchableOpacity onPress={props.onPress} style={[stylesSheet.button, stylesSheet.containerButton, dynamicButtonStyles, props.style]}>
-            <Text style={stylesSheet.buttonText}>{props.children}</Text>
+            <Text style={[stylesSheet.buttonText, dynamicTextStyles]}>{props.children}</Text>
         </TouchableOpacity>
     );
 }

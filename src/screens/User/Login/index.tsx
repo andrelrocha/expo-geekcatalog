@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 import { UserLogin } from '../../../types/user/userLoginDTO';
 import PageDefault from '../../Default';
-import AuthContext, { AuthProvider } from '../../../context/auth.context';
+import AuthContext from '../../../context/auth.context';
 import { Button, Box, Heading, InputEmail, InputPassword, ButtonTouchable } from '../../../components';
 import { colors } from '../../../utils/colors';
 

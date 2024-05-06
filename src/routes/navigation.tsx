@@ -7,7 +7,7 @@ import UserStack from './stack/UserStack';
 
 import useAuth from '../context/hooks/use-auth.hook';
 import GamesStack from './stack/GameStack';
-import HomeUserInfo from '../screens/User/ListUser';
+import HomeUserInfo from '../screens/User/UserHome';
 
 const Stack = createStackNavigator();
 
@@ -24,7 +24,6 @@ export default function Navigation() {
                }}
               initialRouteName='NotAuthStack'
           >
-            <Stack.Screen name='HomeUserInfo' component={HomeUserInfo}/>
             <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
             <Stack.Screen name="UserStack" component={UserStack}/>
               
