@@ -95,7 +95,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       uri: uri,
     };
 
-    await signUp(userData, () => navigation.navigate('AppTabs'));    
+    await signUp(userData, () => navigation.navigate('AuthTabs'));    
   }
 
   return (
@@ -170,7 +170,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             {!uri ? (
               <>
                 <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
-                <TextWarning ml={10} w={160} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
+                <TextWarning ml={10} w={200} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
               </>
             ) : (
               <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />

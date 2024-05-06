@@ -3,9 +3,10 @@ import { colors } from "../../utils/colors";
 
 export const styles = StyleSheet.create({
     container: {
-        height: "100%",
-        width: '100%',
-        paddingTop: 15,
+      justifyContent: "center",
+      alignItems: 'center',
+      width: '100%',
+      paddingTop: 20,
     },
     scrollContainer: {
         flexGrow: 1,
@@ -22,10 +23,13 @@ export const styles = StyleSheet.create({
         marginVertical: 10,
         borderWidth: 5,
         borderColor: colors.sage,
-        backgroundColor: colors.whiteSmoke,
+        backgroundColor: colors.sageOpacity,
         borderRadius: 30,
         padding: 20,
         alignItems: 'center',
+        alignSelf: 'center',
+
+        width: 300,
 
         elevation: 5,
         shadowColor: colors.black,
@@ -38,6 +42,7 @@ export const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 5,
         color: colors.black,
+        textAlign: 'center',
     },
     subText: {
         fontSize: 14,

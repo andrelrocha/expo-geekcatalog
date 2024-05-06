@@ -1,11 +1,13 @@
 import React from "react";
-import { View, Text, SectionList, TouchableOpacity } from "react-native";
+import { Text, SectionList, TouchableOpacity, View } from "react-native";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import { styles } from "./../styles";
+import { TextWarning } from "../../../components";
 
 export default function ListAllGames() {
-    const games: GameReturn[] = useGamesListAll();
+    const games = useGamesListAll().games;
+    const isLoading = useGamesListAll().isLoading;
 
     const renderItem = ({ item }: { item: GameReturn }) => {
         return (
@@ -23,13 +25,17 @@ export default function ListAllGames() {
 
     return (
         <View style={styles.container}>
-            <SectionList
-                sections={[{ title: "", data: games }]}
-                renderItem={({ item }) => renderItem({ item })}
-                renderSectionHeader={() => null}
-                keyExtractor={(item) => item.id.toString()}
-                ListHeaderComponent={renderHeader}
-            />
+            {isLoading ? (
+                <TextWarning w={200}>Carregando...</TextWarning>
+            ) : (
+                <SectionList
+                    sections={[{ title: "", data: games }]}
+                    renderItem={({ item }) => renderItem({ item })}
+                    renderSectionHeader={() => null}
+                    keyExtractor={(item) => item.id.toString()}
+                    ListHeaderComponent={renderHeader}
+                />
+            )}
         </View>
     );
 }
