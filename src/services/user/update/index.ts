@@ -1,0 +1,45 @@
+import { ApiManager } from "../../../utils/API-axios/ApiManager";
+import { UserReturn } from "../../../types/user/userReturnDTO";
+import { getToken } from "../../../modules/auth.module";
+import { UserUpdate } from "../../../types/user/userUpdateDTO";
+
+export async function updateUserInfo(userData: UserUpdate) {
+    try {
+        const endpoint = '/user/update';
+
+        const token = await getToken();
+
+        const headers = {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        };
+
+        const response = await ApiManager.put(endpoint, userData, { headers })
+            .then((response) => {
+                return response.data;
+            })
+            .catch((error) => {
+                console.error('Error updating user:', error.response.data);
+                throw new Error('Error updating user: ' + error.response.data);
+            });
+
+        const phone = response.phone.substring(0, 4) + " " + response.phone.substring(4);
+        const birthday = response.birthday.split('-').reverse().join('/')
+
+        const user: UserReturn = {
+            id: response.id,
+            login: response.login,
+            name: response.name,
+            cpf: response.cpf,
+            phone: phone,
+            birthday: birthday,
+            countryName: response.countryName,
+            countryId: response.countryId
+        };
+
+        return user;
+    } catch (error) {
+        console.error("Caught error:", error);
+        throw new Error('Error updating user: ' + error);
+    }
+}

@@ -2,34 +2,37 @@ import { useEffect, useState } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 import { useAuth } from "../../../context/hooks";
-import { Box, ButtonTouchable, DropdownSelection, Heading, ImageTouchable, InputCPF, InputDate, InputEmail, InputPhone, InputText, Text } from "../../../components";
+import { Box, Button, ButtonTouchable, DropdownSelection, Heading, ImageTouchable, InputCPF, InputDate, InputEmail, InputPhone, InputText, Text } from "../../../components";
 import { getProfilePic } from "../../../services/user/getProfilePic";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
-import { useForm } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 import { EarthIcon } from "../../../components/icons";
-import { InfoIcon } from "lucide-react-native"
-import { TouchableOpacity } from "react-native";
-
+import { UserUpdate } from "../../../types/user/userUpdateDTO";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
     birthday: "",
     phone: "",
     country: "",
+    cpf: "",
+    email: "",
 };
 
 type FormData = {
     name: string,
     birthday: string,
+    cpf: string,
     phone: string,
+    email: string,
+    password: string,
     country: string,
 }
 
-export default function UserInfo() {
+export default function UserInfo({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [editEnabled, setEditEnabled] = useState(false);
-    const { currentUser, logout } = useAuth();
+    const { currentUser, updateUser, isLoading } = useAuth();
     const {
         control,
         formState: { isValid },
@@ -41,53 +44,101 @@ export default function UserInfo() {
 
     const { dropdownData } = useCountriesDropdown();
 
-    useEffect(() => {
+    const setFields = () => {
         if (currentUser) {
             setValue("name", currentUser.name);
             setValue("birthday", currentUser.birthday);
             setValue("phone", currentUser.phone);
+            setValue("cpf", currentUser.cpf);
+            setValue("email", currentUser.login);
             setValue("country", currentUser.countryId);
+        }
+    }
+
+    const handleEdit = async (control: Control<FormData>) => {
+        const name = control._formValues.name;
+        const country = control._formValues.country;
+        const birthday = control._formValues.birthday;
+        const phone = control._formValues.phone;
+
+        const userData: UserUpdate = {
+            name,
+            countryId: country,
+            birthday,
+            phone,
+        }
+
+        await updateUser(userData);
+        setEditEnabled(false);
+    }
+
+    useEffect(() => {
+        if (currentUser) {
+            setFields();
         }
     }, [currentUser, setValue]);
 
+    const renderInputsNotEditing = () => {
+        return (
+            <>
+                <InputText icon={0} control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+                <InputDate icon={0} control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
+                <InputPhone icon={0} control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
+                <DropdownSelection
+                    control={control}
+                    name="country"
+                    placeholder="Country"
+                    label="name"
+                    value="id"
+                    data={dropdownData}
+                />
+                <InputCPF icon={0} control={control} name="cpf" placeholder="CPF" rules={{ required: true }}/>
+                <InputEmail icon={0} control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
+            </>
+        )
+    }
+
+    const renderInputsEditing = () => {
+        return (
+            <>
+                <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+                <InputDate control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
+                <InputPhone control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
+                <DropdownSelection
+                    control={control}
+                    name="country"
+                    placeholder="Country"
+                    icon={<EarthIcon size={22} />}
+                    label="name"
+                    value="id"
+                    data={dropdownData}
+                />
+            </>
+        )
+    }
    
     return (
-        <PageDefault>
+         <PageDefault>
             <Heading mb={20} mt={10}>Your Info</Heading>
-            <TouchableOpacity activeOpacity={1} disabled={!editEnabled}>
-                <Box mt={20} alignItems="center">
-                    <InputText icon={0} control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+            <Box mt={20} alignItems="center" >
+                {editEnabled ? renderInputsEditing() : renderInputsNotEditing()}
+            </Box>
 
-                    <InputDate icon={0} control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
+            {editEnabled && (
+                <Button isLoading={isLoading} mt={20} backgroundColor={colors.buttonBlue} textColor={colors.black}
+                    onPress={handleSubmit(async () => {
+                        handleEdit(control as unknown as Control<FormData>)
+                    })}
+                    disabled={!isValid}
+                >Save</Button>
+            )}
 
-                    <InputPhone icon={0} control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
-
-                    <DropdownSelection
-                        control={control}
-                        name="country"
-                        placeholder="Country"
-                        label="name"
-                        value="id"
-                        data={dropdownData}
-                    />
-                </Box>
-            </TouchableOpacity>
-
-            {!editEnabled && (
-                <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
-                    onPress={() => setEditEnabled(!editEnabled)}
-                >Edit your info</ButtonTouchable>
-                )
-            } : {
-                <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
-                    onPress={() => handleSubmit(() => console.log("Save your updated info"))}
-                >Save your updated info</ButtonTouchable>
-            }
-
-
-            <ButtonTouchable mt={10} w={200} backgroundColor={colors.redMid} textColor={colors.black} 
-                onPress={logout}
-            >Logout</ButtonTouchable>         
+            <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
+                onPress={() => {
+                    setEditEnabled(!editEnabled)
+                    setFields()
+                }}
+            >{editEnabled ? "Cancel" : "Edit your info"}</ButtonTouchable>       
         </PageDefault>
     )
 }

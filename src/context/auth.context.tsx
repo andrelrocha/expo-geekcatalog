@@ -9,6 +9,8 @@ import { UserReturn } from "../types/user/userReturnDTO";
 import { getToken, removeToken, setToken } from "../modules/auth.module";
 import { UserCreate } from "../types/user/userCreateDTO";
 import { saveProfilePic } from "../services/user/saveProfilePic";
+import { UserUpdate } from "../types/user/userUpdateDTO";
+import { updateUserInfo } from "../services/user/update";
 
 type AuthContextData = {
     authState: {
@@ -20,6 +22,7 @@ type AuthContextData = {
     login: (credentials: UserLogin, navigate: () => void) => any;
     signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
+    updateUser: (user: UserUpdate) => void;
 };
 
 type AuthProviderProps = {
@@ -36,6 +39,7 @@ const AuthContext = createContext<AuthContextData>({
     login: async () => {},
     signUp: async () => {},
     logout: async () => {},
+    updateUser: async () => {},
 });
 
 export const AuthProvider = (props: AuthProviderProps) => {
@@ -154,6 +158,31 @@ export const AuthProvider = (props: AuthProviderProps) => {
         setIsLoading(false);
       }
     }
+
+    const updateUser = async (user: UserUpdate) => {
+      setIsLoading(true);
+      try {
+        const updatedUser = await updateUserInfo(user);
+        if (updatedUser === undefined) {
+          console.error("Error updating user");
+          return;
+        }
+        setCurrentUser(updatedUser);
+
+        loadStorageData();
+
+        Alert.alert('Success', 'User updated successfully!');
+        
+        setIsLoading(false);
+      } catch (error: any) {
+        console.error("Error updating user:", error);
+        if (error.response?.data) {
+          Alert.alert('Error', 'An error occurred while updating your account: ' + error.response?.data || 'Unknown error');
+        } else {
+          Alert.alert('Error', 'An error occurred while updating your account: ' + error || 'Unknown error');
+        }
+      }
+    };
   
     const logout = async () => {
         setAuthState({
@@ -172,6 +201,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         login,
         signUp,
         logout,
+        updateUser,
     };
 
     return (

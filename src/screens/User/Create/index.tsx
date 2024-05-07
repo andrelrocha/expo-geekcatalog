@@ -69,7 +69,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const { dropdownData } = useCountriesDropdown();
 
   
-
   const handleSignUp = async (control: Control<FormData>) => {
     if (isAccepted === '') return Alert.alert('You must accept the Terms and Conditions of Use');
     
@@ -81,8 +80,8 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     const email = control._formValues.email;
     const password = control._formValues.password;
     const country = control._formValues.country;
-    let birthday = control._formValues.birthday;
-    let phone = control._formValues.phone;
+    const birthday = control._formValues.birthday;
+    const phone = control._formValues.phone;
 
     const userData: UserCreate = {
       name,

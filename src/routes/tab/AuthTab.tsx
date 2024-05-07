@@ -32,9 +32,10 @@ export default function AuthTab() {
       />
 
       <Tab.Screen 
-        name="User Info" 
+        name="InfoUser" 
         component={UserStack} 
         options={{
+          title: 'User Info',
           tabBarIcon: ({focused, color, size}) => {
             if (focused) {
               color = colors.black;

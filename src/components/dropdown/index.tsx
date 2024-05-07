@@ -83,8 +83,8 @@ const DropdownSelection = <T extends FieldValues>({
                     data={data}
                     search
                     maxHeight={300}
-                    labelField={"label" || label}
-                    valueField={"value" || value}
+                    labelField={"label"}
+                    valueField={"value"}
                     placeholder={!isFocus ? placeholder : ''}
                     searchPlaceholder="Search"
                     value={value}
