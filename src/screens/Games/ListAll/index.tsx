@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Text, SectionList, TouchableOpacity, View } from "react-native";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import { styles } from "./../styles";
-import { TextWarning } from "../../../components";
+import { Heading, PaginationButtons, TextWarning } from "../../../components";
+import { colors } from "../../../utils/colors";
 
 export default function ListAllGames() {
-    const games = useGamesListAll().games;
-    const isLoading = useGamesListAll().isLoading;
+    const [currentPageUser, setCurrentPageUser] = useState(0);
+    const {games, isLoading, paginationInfo} = useGamesListAll({ page: currentPageUser});
 
     const renderItem = ({ item }: { item: GameReturn }) => {
         return (
@@ -20,8 +21,18 @@ export default function ListAllGames() {
     };
 
     const renderHeader = () => (
-        <Text style={styles.title}>Lista de Jogos</Text>
+        <Heading fs={32} mb={20}>Lista de Jogos</Heading>
     );
+
+    const renderFooter = () => {        
+        return (
+            <PaginationButtons 
+                totalPages={paginationInfo.totalPages} 
+                currentPage={paginationInfo.currentPage} 
+                onPageChange={setCurrentPageUser}
+            />
+        );
+    };
 
     return (
         <View style={styles.container}>
@@ -29,14 +40,14 @@ export default function ListAllGames() {
                 <TextWarning w={200}>Carregando...</TextWarning>
             ) : (
                 <SectionList
-                    sections={[{ title: "", data: games }]}
+                    sections={[{  data: games }]}
                     renderItem={({ item }) => renderItem({ item })}
                     renderSectionHeader={() => null}
                     keyExtractor={(item) => item.id.toString()}
                     ListHeaderComponent={renderHeader}
                     showsVerticalScrollIndicator={false}
                     decelerationRate="fast"
-                    //renderSectionFooter={() => <View style={{ height: 20 }} />  - FALTA IMPLEMENTAR PAGINAÇÃO
+                    renderSectionFooter={renderFooter}
                 />
             )}
         </View>

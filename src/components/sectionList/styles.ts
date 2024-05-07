@@ -30,14 +30,14 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
     },
-    name: {
+    itemTitle: {
         fontSize: 20,
         fontWeight: "bold",
         marginBottom: 5,
         color: colors.black,
         textAlign: 'center',
     },
-    subText: {
+    itemText: {
         fontSize: 14,
         color: colors.black, 
     },

@@ -44,7 +44,8 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
                     yearOfRelease: game.yearOfRelease,
                 };
             });
-        return games;
+            
+            return {games, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages};
         } else {
             throw new Error('Erro ao listar jogos: ' + response.status);
         }
