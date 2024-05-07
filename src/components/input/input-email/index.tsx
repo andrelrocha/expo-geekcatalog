@@ -13,8 +13,14 @@ const validate = (value: string) => {
   return isEmail(value) || "Email inválido"
 }
 
-const InputEmail = <T extends FieldValues>(props: ComponentProps<typeof InputText<T>>) => (
-    <InputText {...props} icon={MailIcon} rules={{ ...props.rules, validate}} inputProps={{ keyboardType: 'email-address' }}/>
-)
+const InputEmail = <T extends FieldValues>(props: ComponentProps<typeof InputText<T>>) => {
+  let icon;
+  if (props.icon === 0) icon = 0;
+  else icon = MailIcon;
+
+  return (
+    <InputText {...props} icon={icon} rules={{ ...props.rules, validate}} inputProps={{ keyboardType: 'email-address' }}/>
+  )
+}
 
 export default InputEmail

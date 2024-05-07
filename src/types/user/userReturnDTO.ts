@@ -6,4 +6,5 @@ export interface UserReturn {
     phone: string;
     birthday: string;
     countryName: string;
+    countryId: string;
 }

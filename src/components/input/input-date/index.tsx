@@ -17,10 +17,14 @@ const validate = (value: string) => {
 }
 
 const InputDate = <T extends FieldValues>(props: ComponentProps<typeof InputMask<T>>) => {
+  let icon;
+  if (props.icon === 0) icon = 0;
+  else icon = Calendar;
+  
   return (
   <InputMask
     {...props}
-    icon={Calendar}
+    icon={icon}
     inputProps={{ keyboardType: "numeric", ...props.inputProps }}
     mask="99/99/9999"
     rules={{ validate, ...props.rules }}

@@ -45,7 +45,7 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
             </Box>
 
             <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
-                onPress={() => navigation.navigate('EditProfile')}
+                onPress={() => navigation.navigate('UserInfo')}
             >Access your info</ButtonTouchable>
 
             <ButtonTouchable mt={10} w={200} backgroundColor={colors.redMid} textColor={colors.black} 

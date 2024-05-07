@@ -15,15 +15,22 @@ const validate = (value: string) => {
   return isMobilePhone(value) || DEFAULT_ERROR_MESSAGE
 }
 
-const InputPhone = <T extends FieldValues>(props: ComponentProps<typeof InputMask<T>>) => (
-  <InputMask
-    {...props}
-    formatInternalValue={(_v: any, raw: any) => raw || ""}
-    icon={Phone}
-    inputProps={{ keyboardType: "numeric", ...props.inputProps }}
-    mask="(99) 99999-9999"
-    rules={{ validate, ...props.rules }}
-  />
-)
+const InputPhone = <T extends FieldValues>(props: ComponentProps<typeof InputMask<T>>) => {
+  let icon;
+  if (props.icon === 0) icon = 0;
+  else icon = Phone;
+
+  return (
+    <InputMask
+      {...props}
+      formatInternalValue={(_v: any, raw: any) => raw || ""}
+      icon={icon}
+      inputProps={{ keyboardType: "numeric", ...props.inputProps }}
+      mask="(99) 99999-9999"
+      rules={{ validate, ...props.rules }}
+    />
+  )
+}
+
 
 export default InputPhone

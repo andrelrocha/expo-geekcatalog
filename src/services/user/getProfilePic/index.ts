@@ -16,7 +16,7 @@ export const getProfilePic = async (props: HandleGetProfilePicProps) => {
         const headers = {
             'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
-        };
+        };  
 
         const endpoint = `/profilepic/user/${props.userId}`;
 

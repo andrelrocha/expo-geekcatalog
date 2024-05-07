@@ -15,14 +15,20 @@ const validate = (value: string) => {
   return isCPF(value) || DEFAULT_ERROR_MESSAGE
 }
 
-const InputCPF = <T extends FieldValues>(props: ComponentProps<typeof InputMask<T>>) => (
-  <InputMask
-    {...props}
-    icon={InfoIcon}
-    inputProps={{ keyboardType: "numeric", ...props.inputProps }}
-    mask="999.999.999-99"
-    rules={{ validate, ...props.rules }}
-  />
-)
+const InputCPF = <T extends FieldValues>(props: ComponentProps<typeof InputMask<T>>) => {
+  let icon;
+  if (props.icon === 0) icon = 0;
+  else icon = InfoIcon;
+
+  return (
+    <InputMask
+      {...props}
+      icon={icon}
+      inputProps={{ keyboardType: "numeric", ...props.inputProps }}
+      mask="999.999.999-99"
+      rules={{ validate, ...props.rules }}
+    />
+  )
+}
 
 export default InputCPF
