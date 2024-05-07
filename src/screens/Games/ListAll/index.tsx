@@ -4,11 +4,10 @@ import { List } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const [grid, setGrid] = useState(false);
-    const {games, isLoading, paginationInfo} = useGamesListAll({ page: currentPageUser});
-    const fields = ['metacritic', 'yearOfRelease'];
-    const fieldsLabels = ['Metacritic', 'Year of Release'];
-
+    const {games, isLoading, paginationInfo, 
+        fields, fieldsLabels, grid, setGrid
+    } = useGamesListAll({ page: currentPageUser});
+    
     return (
         <>
             <List
@@ -17,7 +16,7 @@ export default function ListAllGames() {
                 fieldsLabels={fieldsLabels}
                 keyExtractor={(item) => item.id}
                 isLoading={isLoading}
-                title={'Lista de Jogos'}
+                title={'List of Games'}
                 itemTitle="name"
                 decelerationRate="fast"
                 totalPages={paginationInfo.totalPages}

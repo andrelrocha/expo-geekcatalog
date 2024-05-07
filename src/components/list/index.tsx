@@ -76,8 +76,7 @@ export default function List (props: SectionListProps) {
             <Heading w={250} fs={32} mb={20} mt={20}>{props.title}</Heading>
             <TouchableOpacity
                 onPress={() => props.setGrid && props.setGrid(!props.grid)}
-            >
-                {handleDisplay()}
+            >{handleDisplay()}
             </TouchableOpacity>
         </View>
     );

@@ -25,6 +25,10 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         totalElements: 0,
         pageSize: 0
     });
+    const [grid, setGrid] = useState(false);
+    const fields = ['metacritic', 'yearOfRelease'];
+    const fieldsLabels = ['Metacritic', 'Year of Release'];
+
     const { authState } = useAuth();
     const { token } = authState;
 
@@ -74,5 +78,5 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         fetchGames();
     }, [props.page]);
 
-    return {games, isLoading, paginationInfo};
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid};
 }
