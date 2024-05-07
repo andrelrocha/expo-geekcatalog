@@ -34,7 +34,7 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
     }, [currentUser]);
 
 
- 
+   
     return (
         <PageDefault>
 

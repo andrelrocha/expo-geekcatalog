@@ -17,7 +17,7 @@ import PaginationButtons from './pagination-buttons';
 import PhotoSelectionModal from './modal/select-photo';
 import Modal from './modal/modal-popup';
 import PasswordWarning from './password-warning';
-import SectionList from './sectionList';
+import List from './list';
 import Text from './text/text';
 import TextWarning from './text/text-warning';
 
@@ -39,11 +39,11 @@ export {
     InputDate,
     InputPasswordValidation, 
     ImageTouchable,
+    List,
     Modal,
     PaginationButtons,
     PasswordWarning,
     PhotoSelectionModal,
-    SectionList,
     Text,
     TextWarning
 };

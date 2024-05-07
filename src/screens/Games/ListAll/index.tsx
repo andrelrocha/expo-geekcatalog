@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { SectionList } from "../../../components";
+import { List } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
+    const [grid, setGrid] = useState(false);
     const {games, isLoading, paginationInfo} = useGamesListAll({ page: currentPageUser});
     const fields = ['metacritic', 'yearOfRelease'];
     const fieldsLabels = ['Metacritic', 'Year of Release'];
 
     return (
-            <SectionList
+        <>
+            <List
                 data={games}
                 fields={fields}
                 fieldsLabels={fieldsLabels}
@@ -21,7 +23,9 @@ export default function ListAllGames() {
                 totalPages={paginationInfo.totalPages}
                 currentPage={currentPageUser}
                 onPageChange={setCurrentPageUser}
+                grid={grid}
+                setGrid={setGrid}
             />
-
+        </>
     );
 }

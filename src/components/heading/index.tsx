@@ -11,6 +11,7 @@ interface HeadingProps {
   color?: string
   textAlign?: string
   w?: number
+  style?: ViewStyle
 }
 
 const headingStyles = StyleSheet.create({
@@ -43,7 +44,7 @@ const Heading = (props: HeadingProps) => {
     };
 
     return (
-      <StyledHeading style={dynamicHeadingStyles as ViewStyle}>
+      <StyledHeading style={[props.style, dynamicHeadingStyles as ViewStyle]}>
           {props.children}
       </StyledHeading>
     );

@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NotAuthStack from './stack/NotAuthStack';
 
 import AuthTabs from './tab/AuthTab';
-import InfoDrawer from './drawer/InfoDrawer';
 
 import useAuth from '../context/hooks/use-auth.hook';
 
