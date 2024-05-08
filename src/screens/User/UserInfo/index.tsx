@@ -32,7 +32,7 @@ type FormData = {
 
 export default function UserInfo({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [editEnabled, setEditEnabled] = useState(false);
-    const { currentUser, updateUser, isLoading } = useAuth();
+    const { currentUser, update, isLoading } = useAuth();
     const {
         control,
         formState: { isValid },
@@ -51,7 +51,7 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
             setValue("phone", currentUser.phone);
             setValue("cpf", currentUser.cpf);
             setValue("email", currentUser.login);
-            setValue("country", currentUser.countryId);
+            setValue("country", currentUser.countryId); //ISSO TÁ ESTOURANDO ALEATORIAMENTE AO DIGITAR - CONFERIR SE PODE PASSAR VALUE
         }
     }
 
@@ -68,7 +68,7 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
             phone,
         }
 
-        await updateUser(userData);
+        await update(userData);
         setEditEnabled(false);
     }
 

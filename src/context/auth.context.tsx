@@ -22,7 +22,7 @@ type AuthContextData = {
     login: (credentials: UserLogin, navigate: () => void) => any;
     signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
-    updateUser: (user: UserUpdate) => void;
+    update: (user: UserUpdate) => any;
 };
 
 type AuthProviderProps = {
@@ -39,7 +39,7 @@ const AuthContext = createContext<AuthContextData>({
     login: async () => {},
     signUp: async () => {},
     logout: async () => {},
-    updateUser: async () => {},
+    update: async () => {},
 });
 
 export const AuthProvider = (props: AuthProviderProps) => {
@@ -159,7 +159,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
       }
     }
 
-    const updateUser = async (user: UserUpdate) => {
+    const update = async (user: UserUpdate) => {
       setIsLoading(true);
       try {
         const updatedUser = await updateUserInfo(user);
@@ -201,7 +201,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         login,
         signUp,
         logout,
-        updateUser,
+        update,
     };
 
     return (
