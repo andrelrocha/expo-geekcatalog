@@ -29,7 +29,8 @@ export async function getUserByJWT(tokenJWT: string) {
                 phone: phone,
                 birthday: birthday,
                 countryName: response.countryName,
-                countryId: response.countryId
+                countryId: response.countryId,
+                role: response.role,
             };
 
         return user;

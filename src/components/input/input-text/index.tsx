@@ -26,6 +26,7 @@ type InputTextProps<T extends FieldValues> = {
     rules?: ComponentProps<typeof Controller<T>>["rules"]; // Regras de validação para o campo de entrada.
     visibleValidation?: boolean; // Indica se a validação deve ser exibida visualmente.
     bColorFocus?: string;
+    editable?: boolean;
   } & ComponentProps<typeof Input>; // Junta as props do componente Input com as props específicas do InputText.
   
 
@@ -40,6 +41,7 @@ const InputText = <T extends FieldValues>({
   placeholder,
   rules,
   visibleValidation,
+  editable,
   ...props
 }: InputTextProps<T>) => {
   // Definindo funções de formatação padrão, caso não sejam fornecidas.
@@ -94,6 +96,7 @@ const InputText = <T extends FieldValues>({
                 value={externalValue}
                 {...inputProps}
                 onChangeText={(value) => onChange(_formatInternalValue(value))}
+                editable={editable}
                 />
 
             <Text>{props.children}</Text> 

@@ -20,6 +20,7 @@ type InputMaskProps<T extends FieldValues> = {
   placeholder?: string
   rules?: ComponentProps<typeof Controller<T>>["rules"]
   visibleValidation?: boolean
+  editable?: boolean
 } & ComponentProps<typeof Input>
 
 const InputMask = <T extends FieldValues>({
@@ -33,6 +34,7 @@ const InputMask = <T extends FieldValues>({
   placeholder,
   rules,
   visibleValidation,
+  editable,
   ...props
 }: InputMaskProps<T>) => {
   const _formatVisibleValue = formatVisibleValue || identity
@@ -87,6 +89,7 @@ const InputMask = <T extends FieldValues>({
               placeholder={placeholder}
               style={{ flex: 1}}
               value={externalValue}
+              editable={editable}
               {...inputProps}
             />
 

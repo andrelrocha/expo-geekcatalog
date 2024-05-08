@@ -7,4 +7,5 @@ export interface UserReturn {
     birthday: string;
     countryName: string;
     countryId: string;
+    role: string;
 }

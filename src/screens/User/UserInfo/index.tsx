@@ -51,7 +51,8 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
             setValue("phone", currentUser.phone);
             setValue("cpf", currentUser.cpf);
             setValue("email", currentUser.login);
-            setValue("country", currentUser.countryId); //ISSO TÁ ESTOURANDO ALEATORIAMENTE AO DIGITAR - CONFERIR SE PODE PASSAR VALUE
+            if (!editEnabled) setValue("country", currentUser.countryName);
+            else setValue("country", currentUser.countryId);
         }
     }
 
@@ -76,24 +77,17 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
         if (currentUser) {
             setFields();
         }
-    }, [currentUser, setValue]);
+    }, [currentUser, editEnabled]);
 
     const renderInputsNotEditing = () => {
         return (
             <>
-                <InputText icon={0} control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
-                <InputDate icon={0} control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
-                <InputPhone icon={0} control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
-                <DropdownSelection
-                    control={control}
-                    name="country"
-                    placeholder="Country"
-                    label="name"
-                    value="id"
-                    data={dropdownData}
-                />
-                <InputCPF icon={0} control={control} name="cpf" placeholder="CPF" rules={{ required: true }}/>
-                <InputEmail icon={0} control={control} name="email" placeholder="E-mail" rules={{ required: true }}/>
+                <InputText icon={0} control={control} name="name" placeholder="Full Name" editable={false}/>
+                <InputDate icon={0} control={control} name="birthday" placeholder="Birth date" editable={false}/>
+                <InputPhone icon={0} control={control} name="phone" placeholder="Mobile Phone" editable={false}/>
+                <InputText icon={0} control={control} name="country" placeholder="Country" editable={false}/>
+                <InputCPF icon={0} control={control} name="cpf" placeholder="CPF" editable={false}/>
+                <InputEmail icon={0} control={control} name="email" placeholder="E-mail" editable={false}/>
             </>
         )
     }
@@ -101,9 +95,9 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
     const renderInputsEditing = () => {
         return (
             <>
-                <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
-                <InputDate control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}/>
-                <InputPhone control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}/>
+                <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }}  editable={true}/>
+                <InputDate control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}  editable={true}/>
+                <InputPhone control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}  editable={true}/>
                 <DropdownSelection
                     control={control}
                     name="country"
