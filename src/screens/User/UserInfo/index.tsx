@@ -10,6 +10,7 @@ import { Control, useForm } from "react-hook-form";
 import useCountriesDropdown from "../../../context/hooks/countries/useCountriesDropdown";
 import { EarthIcon } from "../../../components/icons";
 import { UserUpdate } from "../../../types/user/userUpdateDTO";
+import InputWithLabel from "../../../components/input/input-label";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
@@ -82,38 +83,58 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
     const renderInputsNotEditing = () => {
         return (
             <>
-                <InputText icon={0} control={control} name="name" placeholder="Full Name" editable={false}/>
-                <InputDate icon={0} control={control} name="birthday" placeholder="Birth date" editable={false}/>
-                <InputPhone icon={0} control={control} name="phone" placeholder="Mobile Phone" editable={false}/>
-                <InputText icon={0} control={control} name="country" placeholder="Country" editable={false}/>
-                <InputCPF icon={0} control={control} name="cpf" placeholder="CPF" editable={false}/>
-                <InputEmail icon={0} control={control} name="email" placeholder="E-mail" editable={false}/>
-            </>
+                <InputWithLabel label="Full Name">
+                    <InputText icon={0} control={control} name="name" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Birth date">
+                    <InputDate icon={0} control={control} name="birthday" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Mobile Phone">
+                    <InputPhone icon={0} control={control} name="phone" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Country">
+                    <InputText icon={0} control={control} name="country" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="CPF">
+                    <InputCPF icon={0} control={control} name="cpf" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="E-mail">
+                    <InputEmail icon={0} control={control} name="email"  editable={false}/>
+                </InputWithLabel>
+        </>
         )
     }
 
     const renderInputsEditing = () => {
         return (
             <>
-                <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }}  editable={true}/>
-                <InputDate control={control} name="birthday" placeholder="Birth date" rules={{ required: true }}  editable={true}/>
-                <InputPhone control={control} name="phone" placeholder="Mobile Phone" rules={{ required: true }}  editable={true}/>
-                <DropdownSelection
-                    control={control}
-                    name="country"
-                    placeholder="Country"
-                    icon={<EarthIcon size={22} />}
-                    label="name"
-                    value="id"
-                    data={dropdownData}
-                />
+                <InputWithLabel label="Full Name">
+                    <InputText control={control} name="name" rules={{ required: true }} editable={true}/>
+                </InputWithLabel>
+                <InputWithLabel label="Birth date">
+                    <InputDate control={control} name="birthday" rules={{ required: true }} editable={true}/>
+                </InputWithLabel>
+                <InputWithLabel label="Mobile Phone">
+                    <InputPhone control={control} name="phone" rules={{ required: true }} editable={true}/>
+                </InputWithLabel>
+                <InputWithLabel label="Country">
+                    <DropdownSelection
+                        control={control}
+                        name="country"
+                        placeholder="Country"
+                        icon={<EarthIcon size={22} />}
+                        label="name"
+                        value="id"
+                        data={dropdownData}
+                    />
+                </InputWithLabel>
             </>
         )
     }
    
     return (
          <PageDefault>
-            <Heading mb={20} mt={10}>Your Info</Heading>
+            <Heading mb={10} mt={10}>Your Info</Heading>
             <Box mt={20} alignItems="center" >
                 {editEnabled ? renderInputsEditing() : renderInputsNotEditing()}
             </Box>
