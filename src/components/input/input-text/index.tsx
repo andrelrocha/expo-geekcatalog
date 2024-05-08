@@ -12,17 +12,16 @@ import {
 import { identity } from "../../../libs/functional"
 import Input from "../input"
 import { CheckIcon, CloseIcon } from "../../icons"
-import { colors } from "../../../utils/colors"
 
 type InputTextProps<T extends FieldValues> = {
-    control: Control<T>; // O objeto de controle fornecido pelo React Hook Form para controlar o formulário.
+    control: Control<T>; 
     formatInternalValue?: (str: string) => string; // Função para formatar o valor interno do campo de entrada.
     formatVisibleValue?: (str: string) => string; // Função para formatar o valor visível do campo de entrada.
-    icon?: unknown; // Ícone opcional a ser exibido ao lado do campo de entrada.
+    icon?: unknown; 
     inputProps?: ComponentProps<typeof InputField>; // Props adicionais para o componente InputField.
-    isLoading?: boolean; // Indica se o componente está em um estado de carregamento.
+    isLoading?: boolean; 
     name: Path<T>; // Nome do campo de entrada.
-    placeholder?: string; // Texto de placeholder para o campo de entrada.
+    placeholder?: string; 
     rules?: ComponentProps<typeof Controller<T>>["rules"]; // Regras de validação para o campo de entrada.
     visibleValidation?: boolean; // Indica se a validação deve ser exibida visualmente.
     bColorFocus?: string;
