@@ -3,4 +3,5 @@ export interface UserUpdate {
     phone: string;
     birthday: string;
     countryId: string;
+    uri?: string;
 }

@@ -9,7 +9,7 @@ export const createUser = async (userData: UserCreate) => {
     const response = await ApiManager.post(endpoint, userData)
       .then((response) => {
         if (response.data) {
-          const phoneResponse = response.data.phone.substring(0, 4) + " " + response.data.phone.substring(4);
+          const phone = response.data.phone.replace(/\D/g, '');
           const birthdayResponse = response.data.birthday.split('-').reverse().join('/')
 
           const userReturn: UserReturn = {
@@ -18,8 +18,10 @@ export const createUser = async (userData: UserCreate) => {
             login: response.data.login,
             name: response.data.name,
             birthday: birthdayResponse,
-            phone: phoneResponse,
+            phone: phone,
             countryName: response.data.countryName,
+            countryId: response.data.countryId,
+            role: response.data.role,
           };
 
         return userReturn;

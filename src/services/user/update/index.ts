@@ -23,7 +23,7 @@ export async function updateUserInfo(userData: UserUpdate) {
                 throw new Error('Error updating user: ' + error.response.data);
             });
 
-        const phone = response.phone.substring(0, 4) + " " + response.phone.substring(4);
+        const phone = response.phone.replace(/\D/g, '');
         const birthday = response.birthday.split('-').reverse().join('/')
 
         const user: UserReturn = {
@@ -34,7 +34,8 @@ export async function updateUserInfo(userData: UserUpdate) {
             phone: phone,
             birthday: birthday,
             countryName: response.countryName,
-            countryId: response.countryId
+            countryId: response.countryId,
+            role: response.role,
         };
 
         return user;

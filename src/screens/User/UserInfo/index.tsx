@@ -69,6 +69,7 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
             countryId: country,
             birthday,
             phone,
+            uri,
         }
 
         await update(userData);
@@ -131,16 +132,16 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
                 </InputWithLabel>
             
                 <InputWithLabel label="Profile Pic">
-                <View style={styles.containerAddImage}>
-                    {!uri ? (
-                    <>
-                        <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
-                        <TextWarning ml={10} w={200} o={0.7}>Click on the camera icon to update your profile picture</TextWarning>
-                    </>
-                    ) : (
-                    <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
-                    )}
-                </View>
+                    <View style={styles.containerAddImage}>
+                        {!uri ? (
+                        <>
+                            <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
+                            <TextWarning ml={10} w={200} o={0.7}>Click on the camera icon to update your profile picture</TextWarning>
+                        </>
+                        ) : (
+                        <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
+                        )}
+                    </View>
                 </InputWithLabel>
             </>
         )

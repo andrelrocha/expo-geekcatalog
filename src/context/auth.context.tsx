@@ -141,7 +141,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
         loadStorageData();
 
-        saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
+        await saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
 
         Alert.alert('Success', 'User created successfully!');
 
@@ -168,6 +168,10 @@ export const AuthProvider = (props: AuthProviderProps) => {
           return;
         }
         setCurrentUser(updatedUser);
+
+        if (user.uri) {
+          await saveProfilePic({ uri: user.uri as string, userId: updatedUser?.id as string});
+        }
 
         loadStorageData();
 
