@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { MultiSelect } from 'react-native-element-dropdown';
+import { ComponentProps, JSXElementConstructor, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
-import MultiSelect from 'react-native-multiple-select';
-import { StyleProp, ViewStyle } from 'react-native';
+
 import { styles } from './styles';
 import { DropdownData } from '../../types/utils/dropDownDTO';
-
 import { convertArrayToDropdown } from '../../services/utils/convertArrayToDropdown';
 
-type DropdownProps<T extends FieldValues> = {
+type MultiSelectProps<T extends FieldValues> = {
     control: Control<T>;
     mt?: number 
     mb?: number
@@ -22,13 +22,13 @@ type DropdownProps<T extends FieldValues> = {
     data: any[];
     label: string;
     value: string;
-    inputProps?: any; // Alterado para aceitar qualquer propriedade
+    inputProps?: ComponentProps<typeof MultiSelect>;
     valueField?: string;
     labelField?: string;
     onChange?: (item: unknown) => void;
 };
 
-const MultiSelectDropdown = <T extends FieldValues>({
+const DropdownSelection = <T extends FieldValues>({
     control,
     name,
     icon,
@@ -40,8 +40,7 @@ const MultiSelectDropdown = <T extends FieldValues>({
     label,
     value,
     ...props
-}: DropdownProps<T>): React.ReactElement<any, string | React.JSXElementConstructor<any>> | null => {
-    
+}: MultiSelectProps<T>): React.ReactElement<any, string | JSXElementConstructor<any>> | null => {
     const dynamicDropdownStyles = {
         width: props.w || styles.dropdownContainer.width,
         height: props.h || styles.dropdownContainer.height,
@@ -54,6 +53,8 @@ const MultiSelectDropdown = <T extends FieldValues>({
     const [isFocus, setIsFocus] = useState(false);
 
     const [data, setData] = useState<DropdownData[]>([]);
+
+    const [selected, setSelected] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,39 +82,30 @@ const MultiSelectDropdown = <T extends FieldValues>({
                     containerStyle={styles.itemStyle}
                     itemContainerStyle={styles.separatorStyle}
                     data={data}
-                    hideTags={false}
-                    fixedHeight={true}
-                    hideDropdown={false}
-                    hideSubmitButton={true}
-                    onSelectedItemsChange={(selectedItems) => {
-                        onChange(selectedItems);
-                        setIsFocus(false);
-                    }}
-                    selectedItems={value}
+                    search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocus ? placeholder : ''}
+                    searchPlaceholder="Search"
+                    value={selected}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
-                    selectedItemTextColor={styles.selectedItemTextColor}
-                    selectedItemIconColor={styles.selectedItemIconColor}
-                    single={true}
-                    searchInputPlaceholderText={placeholder}
-                    searchInputPlaceholderColor={styles.inputSearchStyle}
-                    selectText={placeholder}
-                    styleDropdownMenu={styles.styleDropdownMenu}
-                    styleInputGroup={styles.styleInputGroup}
-                    styleItemsContainer={styles.styleItemsContainer}
-                    styleSelectorContainer={styles.styleSelectorContainer}
-                    styleTextDropdown={styles.styleTextDropdown}
-                    styleTextDropdownSelected={styles.styleTextDropdownSelected}
-                    styleTextTag={styles.styleTextTag}
-                    styleTextInput={styles.styleTextInput}
-                    styleRowList={styles.styleRowList}
-                    styleRowListText={styles.styleRowListText}
-                    styleItem={styles.itemStyle}
-                    {...inputProps}
+                    onChange={(selectedItems: any) => {
+                        setSelected(selectedItems);
+                        setIsFocus(false);
+                    }}
+                    renderRightIcon={() => (
+                        <View style={styles.dropdownIconContainer}>
+                            {icon}
+                        </View>
+                    )}
+                    selectedStyle={styles.selectedStyle}
+                    
                 />
             )}
         />
     );
 }
 
-export default MultiSelectDropdown;
+export default DropdownSelection;

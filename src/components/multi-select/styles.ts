@@ -2,6 +2,12 @@ import { StyleSheet } from "react-native";
 import { colors } from "../../utils/colors";
 
 export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: colors.gray,
+    },
     dropdownContainer: {
         borderRadius: 6,
         height: 50,
@@ -9,6 +15,10 @@ export const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 0,
         width: '100%',
+    },
+    dropdownIconContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     selectedTextStyle: {
         fontSize: 16,
@@ -20,8 +30,26 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
+    selectedStyle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 14,
+        backgroundColor: colors.whiteSmoke,
+        shadowColor: '#000',
+        marginTop: 8,
+        marginRight: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
+    },
     dropdown: {
-        height: 50,
         backgroundColor: colors.whiteSmoke,
         borderRadius: 10,
         borderWidth: 1,
@@ -37,12 +65,12 @@ export const styles = StyleSheet.create({
         elevation: 2,
     },
     placeholderStyle: {
-        fontSize: 14,
+        fontSize: 16,
         color: colors.grayPlaceholder,
     },
     inputSearchStyle: {
         height: 40,
-        fontSize: 16,
+        fontSize: 18,
         borderRadius: 10
     },
     textSelectedStyle: {
@@ -68,58 +96,4 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: colors.grayOpacity,
     },
-    styleDropdownMenu: {
-        width: 200,
-        borderRadius: 10,
-        backgroundColor: colors.whiteSmoke,
-    },
-    styleInputGroup: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        borderWidth: 1,
-        borderColor: colors.gray,
-        borderRadius: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
-        height: 40,
-    },
-    styleItemsContainer: {
-        maxHeight: 150,
-    },
-    styleSelectorContainer: {
-        backgroundColor: colors.lightGray,
-        borderRadius: 10,
-    },
-    styleTextDropdown: {
-        fontSize: 16,
-        color: colors.black,
-    },
-    styleTextDropdownSelected: {
-        fontSize: 16,
-        color: colors.blue,
-    },
-    styleTextTag: {
-        fontSize: 16,
-        color: colors.black,
-    },
-    styleTextInput: {
-        flex: 1,
-        fontSize: 16,
-        color: colors.black,
-    },
-    styleRowList: {
-        backgroundColor: colors.whiteSmoke,
-    },
-    styleRowListText: {
-        fontSize: 16,
-        color: colors.black,
-    },
-    selectedItemTextColor: {
-        color: colors.blue,
-    },
-    selectedItemIconColor: {
-        color: colors.blue,
-    },
- 
 });

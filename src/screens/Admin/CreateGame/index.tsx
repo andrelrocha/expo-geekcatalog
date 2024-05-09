@@ -77,15 +77,17 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}/>
           </InputWithLabel>
 
-          <MultiSelect
-            control={control}
-            name="consoles"
-            placeholder="Consoles"
-            icon={<GameControllerIcon size={22} />}
-            label="name"
-            value="id"
-            data={consolesData}
-          />
+          <InputWithLabel label="Consoles Available">
+            <MultiSelect
+              control={control}
+              name="consoles"
+              placeholder="Consoles"
+              icon={<GameControllerIcon color={colors.buttonBlue} size={22} />}
+              label="name"
+              value="id"
+              data={consolesData}
+            />
+          </InputWithLabel>
 
           {/*
           <View style={styles.containerAddImage}>
