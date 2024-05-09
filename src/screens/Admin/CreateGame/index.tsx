@@ -9,21 +9,25 @@ import { Box, Heading, DropdownSelection,
   Button, ButtonTouchable,
   InputText,
   InputDate,
+  MultiSelect,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
 import InputWithLabel from "../../../components/input/input-label";
+import { GameControllerIcon } from "../../../components/icons";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
   metacritic: "",
   yearOfRelease: "",
+  consoles: [],
 };
 
 type FormData = {
   name: string,
   metacritic: number,
   yearOfRelease: number,
+  consoles: string[],
 }
 
 const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
@@ -36,21 +40,21 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-    const { createGameMethod, isLoading } = useGamesCreate();
+  const { createGameMethod, consolesData, isLoading } = useGamesCreate();
   
   const handleCreate = async (control: Control<FormData>) => {
-    const name = control._formValues.name;
-    const metacritic = control._formValues.metacritic;
-    const yearOfRelease = control._formValues.yearOfRelease;
-  
-    const userData: GameCreate = {
-      name,
-      metacritic,
-      yearOfRelease,
-    };
+      const name = control._formValues.name;
+      const metacritic = control._formValues.metacritic;
+      const yearOfRelease = control._formValues.yearOfRelease;
+    
+      const userData: GameCreate = {
+        name,
+        metacritic,
+        yearOfRelease,
+      };
 
-    await createGameMethod(userData, () => navigation.goBack());
-    reset();
+      await createGameMethod(userData, () => navigation.goBack());
+      reset();
   }
 
   return (
@@ -73,18 +77,17 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}/>
           </InputWithLabel>
 
-          {/*
-          <DropdownSelection
+          <MultiSelect
             control={control}
-            name="country"
-            placeholder="Country"
-            icon={<EarthIcon size={22} />}
+            name="consoles"
+            placeholder="Consoles"
+            icon={<GameControllerIcon size={22} />}
             label="name"
             value="id"
-            data={dropdownData}
+            data={consolesData}
           />
 
-          
+          {/*
           <View style={styles.containerAddImage}>
             {!uri ? (
               <>

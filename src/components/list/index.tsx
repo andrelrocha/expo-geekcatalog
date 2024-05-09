@@ -38,13 +38,11 @@ export default function List (props: SectionListProps) {
         setTimeout(async () => {
             try {
                 setRefreshing(false); 
-                props.onRefresh && props.onRefresh();
-                console.log('props: ', props.onRefresh);
             } catch (error) {
                 console.error('Erro ao buscar os dados:', error);
             }
         }, 2000);
-    }, [props]);
+    }, []);
 
     const handleDisplay = () => {
         if (props.grid) {
