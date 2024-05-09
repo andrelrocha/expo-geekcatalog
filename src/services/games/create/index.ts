@@ -1,3 +1,4 @@
+import { getToken } from '../../../modules/auth.module';
 import GameCreate from '../../../types/games/gameCreateDTO';
 import GameReturn from '../../../types/games/gameReturnDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
@@ -5,8 +6,13 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 export const createGame = async (gameData: GameCreate) => {
   const endpoint = '/games/create';
 
+  const token = await getToken();
+  const headers = {
+      'Authorization': `Bearer ${token}`
+  };  
+
   try {
-    const response = await ApiManager.post(endpoint, gameData)
+    const response = await ApiManager.post(endpoint, gameData, { headers })
       .then((response) => {
         if (response.data) {
 

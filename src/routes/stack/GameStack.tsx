@@ -8,7 +8,8 @@ const Stack = createStackNavigator();
 export default function GamesStack() {
   return (
     <MyStackNavigator>
-      <Stack.Screen name="ListAllGames" component={ListAllGames} options={{ headerTitle: 'All Games'}}/>
+      <Stack.Screen name="ListAllGames" component={ListAllGames} options={{ headerTitle: 'All Games'}}
+      />
     </MyStackNavigator>
   );
 }

@@ -11,6 +11,7 @@ import { Box, Heading, DropdownSelection,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
+import InputWithLabel from "../../../components/input/input-label";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -57,11 +58,17 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         </Heading>
 
         <Box>
-          <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+          <InputWithLabel label="Game Name">
+            <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+          </InputWithLabel>
 
-          <InputText control={control} name="metacritic" placeholder="Metacritic" rules={{ required: true }}/>
+          <InputWithLabel label="Metacritic">
+            <InputText inputProps={{ keyboardType: "numeric" }} control={control} name="metacritic" placeholder="Metacritic" rules={{ required: true }}/>
+          </InputWithLabel>
 
-          <InputText control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }} />
+          <InputWithLabel label="Year of Release">
+            <InputText inputProps={{ keyboardType: "numeric" }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }} />
+          </InputWithLabel>
 
           {/*
           <DropdownSelection
