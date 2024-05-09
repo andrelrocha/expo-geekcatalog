@@ -1,13 +1,17 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import AdminStack from '../stack/AdminStack';
 import GamesStack from '../stack/GameStack';
 import UserStack from '../stack/UserStack';
-import { UserIcon, GameControllerIcon } from '../../components/icons';
+import { UserIcon, GameControllerIcon, ShieldIcon } from '../../components/icons';
 import { colors } from '../../utils/colors';
+import { useAuth } from '../../context/hooks';
 
 const Tab = createBottomTabNavigator();
 
 export default function AuthTab() {
+  const { currentUser } = useAuth();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -30,6 +34,25 @@ export default function AuthTab() {
           tabBarActiveTintColor: colors.black,
         }}
       />
+
+        {currentUser && currentUser.role === 'ADMIN' && (
+          <Tab.Screen
+            name="Admin"
+            component={AdminStack}
+            options={{
+              tabBarIcon: ({focused, color, size}) => {
+                if (focused) {
+                  color = colors.black;
+                } else {
+                  color = colors.sage;
+                }
+
+                return <ShieldIcon color={color} size={26}/>;
+              },
+              tabBarActiveTintColor: colors.black,
+            }}
+          />  
+        )}
 
       <Tab.Screen 
         name="InfoUser" 
