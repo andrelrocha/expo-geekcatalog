@@ -8,6 +8,7 @@ import PageDefault from "../../Default";
 import { Box, Heading, DropdownSelection,
   Button, ButtonTouchable,
   InputText,
+  InputDate,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
@@ -30,6 +31,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     control,
     formState: { isValid },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
@@ -47,7 +49,8 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       yearOfRelease,
     };
 
-    await createGameMethod(userData);
+    await createGameMethod(userData, () => navigation.goBack());
+    reset();
   }
 
   return (
@@ -63,11 +66,11 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           </InputWithLabel>
 
           <InputWithLabel label="Metacritic">
-            <InputText inputProps={{ keyboardType: "numeric" }} control={control} name="metacritic" placeholder="Metacritic" rules={{ required: true }}/>
+            <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} name="metacritic" placeholder="Metacritic" rules={{ required: true }}/>
           </InputWithLabel>
 
           <InputWithLabel label="Year of Release">
-            <InputText inputProps={{ keyboardType: "numeric" }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }} />
+            <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}/>
           </InputWithLabel>
 
           {/*

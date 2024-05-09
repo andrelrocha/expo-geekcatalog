@@ -53,6 +53,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     control,
     formState: { isValid },
     handleSubmit,
+    reset,
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"})
@@ -95,6 +96,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     };
 
     await signUp(userData, () => navigation.navigate('AuthTabs'));    
+    reset();
   }
 
   return (

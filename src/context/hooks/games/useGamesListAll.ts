@@ -49,34 +49,34 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         return paramsToApi;
     }
 
-    useEffect(() => {
-        const fetchGames = async () => {
-            try {
-                setIsLoading(true);
-                
-                const paramsToApi = handleParams();
+    const loadData = async () => {
+        try {
+            setIsLoading(true);
+            
+            const paramsToApi = handleParams();
 
-                const params ={
-                    token: token as string,
-                    params: paramsToApi
-                }
-
-                const {games, pageable, totalElements, totalPages} = await listAllGames(params);
-                setGames(games);
-                setPaginationInfo({
-                    currentPage: pageable.pageNumber,
-                    pageSize: pageable.pageSize,
-                    totalPages: totalPages,
-                    totalElements: totalElements,
-                });
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Erro ao buscar jogos:', error);
+            const params ={
+                token: token as string,
+                params: paramsToApi
             }
-        };
 
-        fetchGames();
+            const {games, pageable, totalElements, totalPages} = await listAllGames(params);
+            setGames(games);
+            setPaginationInfo({
+                currentPage: pageable.pageNumber,
+                pageSize: pageable.pageSize,
+                totalPages: totalPages,
+                totalElements: totalElements,
+            });
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Erro ao buscar jogos:', error);
+        }
+    };
+
+    useEffect(() => {
+        loadData();
     }, [props.page]);
 
-    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid};
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData};
 }

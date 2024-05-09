@@ -1,6 +1,6 @@
 import { FlatList as GLFlatList, SectionList as GLSectionList } from "@gluestack-ui/themed";
-import React, { ComponentProps } from "react";
-import { Text, TouchableOpacity, View, ViewStyle } from "react-native";
+import React, { ComponentProps, useCallback, useState } from "react";
+import { RefreshControl, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { styles } from "./styles";
 import Heading from "../heading";
 import PaginationButtons from "../pagination-buttons";
@@ -31,6 +31,21 @@ type SectionListProps = {
 } & ComponentProps<typeof GLSectionList>;
 
 export default function List (props: SectionListProps) {
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true); 
+        setTimeout(async () => {
+            try {
+                setRefreshing(false); 
+                props.onRefresh && props.onRefresh();
+                console.log('props: ', props.onRefresh);
+            } catch (error) {
+                console.error('Erro ao buscar os dados:', error);
+            }
+        }, 2000);
+    }, [props]);
+
     const handleDisplay = () => {
         if (props.grid) {
             return <GalleryVerticalIcon color={colors.black} size={26}/>;
@@ -108,6 +123,12 @@ export default function List (props: SectionListProps) {
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={props.decelerationRate}
                         renderSectionFooter={renderFooter}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh} 
+                            />
+                        }
                     />
                 ) : (
                     <GLFlatList
@@ -120,6 +141,12 @@ export default function List (props: SectionListProps) {
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={props.decelerationRate}
                         ListFooterComponent={renderFooter}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh} 
+                            />
+                        }
                     />
                 )}
              </>

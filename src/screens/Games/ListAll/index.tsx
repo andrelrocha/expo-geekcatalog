@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import { List } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {games, isLoading, paginationInfo, 
+    const {games, isLoading, loadData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
     } = useGamesListAll({ page: currentPageUser});
+
+    const reloadGamesList = () => {
+        loadData();
+        setCurrentPageUser(0);
+    };
+
+    useEffect(() => {
+        reloadGamesList();
+    }, []);
     
     return (
         <>
@@ -24,6 +33,7 @@ export default function ListAllGames() {
                 onPageChange={setCurrentPageUser}
                 grid={grid}
                 setGrid={setGrid}
+                onRefresh={reloadGamesList}
             />
         </>
     );
