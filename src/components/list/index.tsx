@@ -28,6 +28,7 @@ type SectionListProps = {
     color?: string;
     textAlign?: string;
     w?: number;
+    onRefresh?: () => void;
 } & ComponentProps<typeof GLSectionList>;
 
 export default function List (props: SectionListProps) {
@@ -35,12 +36,15 @@ export default function List (props: SectionListProps) {
 
     const onRefresh = useCallback(() => {
         setRefreshing(true); 
-        setTimeout(async () => {
-            try {
+        if (props.onRefresh) {
+            setTimeout(async () => {
                 setRefreshing(false); 
-            } catch (error) {
-                console.error('Erro ao buscar os dados:', error);
-            }
+                props.onRefresh && props.onRefresh(); 
+                return;
+            }, 2000);
+        }
+        setTimeout(async () => {
+            setRefreshing(false); 
         }, 2000);
     }, []);
 

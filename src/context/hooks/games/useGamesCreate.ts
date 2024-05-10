@@ -7,6 +7,7 @@ import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
 import { createGameGenre } from "../../../services/gameGenre/create";
+import { createGameStudio } from "../../../services/gameStudio/create";
 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,14 +32,26 @@ export default function useGamesCreate() {
         }
     }
 
+    const handleGameStudioCreate = async (gameId: string, studios: string[]) => {
+        for (const studioId of studios) {
+            const createGameStudioData = {
+                gameId,
+                studioId,
+            };
+            await createGameStudio(createGameStudioData);
+        }
+    }
+
     const createGameMethod = async (gameData: GameCreate, navigate: () => void) => {
         setIsLoading(true);
         
         const game = await createGame(gameData);
 
-        handleGameConsoleCreate(game?.id || '', gameData.consoles);
-
-        handleGameGenreCreate(game?.id || '', gameData.genres);
+        if (game?.id) {
+            await handleGameConsoleCreate(game.id, gameData.consoles);
+            await handleGameGenreCreate(game.id, gameData.genres);
+            await handleGameStudioCreate(game.id, gameData.studios);
+        }
 
         setIsLoading(false);
         Alert.alert('Game created successfully!');

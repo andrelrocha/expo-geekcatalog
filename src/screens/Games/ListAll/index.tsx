@@ -9,8 +9,8 @@ export default function ListAllGames() {
     } = useGamesListAll({ page: currentPageUser});
 
     const reloadGamesList = () => {
-        loadData();
         setCurrentPageUser(0);
+        loadData();
     };
 
     useEffect(() => {

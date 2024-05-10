@@ -41,6 +41,27 @@ export const isDateValid =  (
   return false;
 }
 
+//Year Validation
+export const isYearValid = (
+  yearValue: string,
+  reference: "equalOrBefore" | "equalOrAfter"
+) => {
+  if (yearValue.length !== 4) return false; 
+
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  const year = Number(yearValue);
+
+  if (reference === 'equalOrBefore') {
+    return year <= currentYear;
+  } else if (reference === 'equalOrAfter') {
+    return year >= currentYear;
+  }
+
+  return false;
+}
+
 // CEP validations
 export const isCEP = async (cepValue: string) => {
   const validLength = cepValue.length === 8

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Control, useForm } from "react-hook-form";
+import React from "react";
+import { Control, useForm, Validate } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
+import { InfoIcon } from "lucide-react-native"
 
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
@@ -13,7 +14,7 @@ import { Box, Heading,
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
 import InputWithLabel from "../../../components/input/input-label";
-import { InfoIcon } from "lucide-react-native"
+import { isYearValid } from "../../../libs/validators/validations";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -66,6 +67,11 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       reset();
   }
 
+  const validateYear = (value: string) => {
+    if (!value) return true;
+    return isYearValid(value, "equalOrBefore") || "Please enter a valid year";
+  }
+
   return (
     <>
       <PageDefault>
@@ -83,7 +89,12 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           </InputWithLabel>
 
           <InputWithLabel label="Year of Release">
-            <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}/>
+            <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release"  
+            rules={{ 
+              required: true,
+              //validate: validateYear, -- FALTA VALIDAR O CAMPO DO ANO
+            }}
+            />
           </InputWithLabel>
 
           <InputWithLabel label="Consoles Available">

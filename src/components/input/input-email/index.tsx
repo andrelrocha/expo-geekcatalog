@@ -10,7 +10,7 @@ import InputText from "../input-text"
 const validate = (value: string) => {
   if (!value) return true
 
-  return isEmail(value) || "Email inválido"
+  return isEmail(value) || "Invalid Email"
 }
 
 const InputEmail = <T extends FieldValues>(props: ComponentProps<typeof InputText<T>>) => {
