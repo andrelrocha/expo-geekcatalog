@@ -21,6 +21,7 @@ const DEFAULT_FORM_VALUES = {
   yearOfRelease: "",
   consoles: [],
   genres: [],
+  studios: [],
 };
 
 type FormData = {
@@ -29,6 +30,7 @@ type FormData = {
   yearOfRelease: number,
   consoles: string[],
   genres: string[],
+  studios: string[],
 }
 
 const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
@@ -41,7 +43,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { createGameMethod, consolesData, genresData, isLoading } = useGamesCreate();
+  const { createGameMethod, consolesData, genresData, studiosData, isLoading } = useGamesCreate();
   
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
@@ -49,20 +51,19 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       const yearOfRelease = control._formValues.yearOfRelease;
       const consoles = control._formValues.consoles;
       const genres = control._formValues.genres;
-
-      console.log(genres)
-
-      /*
+      const studios = control._formValues.studios;
     
       const userData: GameCreate = {
         name,
         metacritic,
         yearOfRelease,
+        consoles,
+        genres,
+        studios,
       };
 
       await createGameMethod(userData, () => navigation.goBack());
       reset();
-      */
   }
 
   return (
@@ -109,6 +110,18 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             />
           </InputWithLabel>
 
+          <InputWithLabel label="Studios">
+            <MultiSelect
+              control={control}
+              name="studios"
+              placeholder="Studios"
+              icon={<InfoIcon/>}
+              label="name"
+              value="id"
+              data={studiosData}
+            />
+          </InputWithLabel>
+
           {/*
           <View style={styles.containerAddImage}>
             {!uri ? (
@@ -127,6 +140,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           isDisabled={!isValid}
           isLoading={isLoading}
           mt={5}
+          marginBottom={40}
           backgroundColor={colors.greenStrong}
           w={250}
           onPress={handleSubmit(async () =>

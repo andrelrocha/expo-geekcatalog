@@ -4,6 +4,7 @@ import GameCreate from "../../../types/games/gameCreateDTO";
 import { Alert } from "react-native";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
+import useStudiosDropdown from "../studios/useStudiosDropdown";
 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
@@ -17,11 +18,13 @@ export default function useGamesCreate() {
 
     const { dropdownData: consolesData } = useConsolesDropdown();
     const { dropdownData: genresData } = useGenresDropdown();
+    const { dropdownData: studiosData } = useStudiosDropdown();
 
     return {
         createGameMethod,
         consolesData,
         genresData,
+        studiosData,
         isLoading,
     }
 }
