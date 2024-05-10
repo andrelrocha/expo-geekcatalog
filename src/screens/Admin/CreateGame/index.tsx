@@ -5,22 +5,22 @@ import { ParamListBase } from "@react-navigation/native";
 
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
-import { Box, Heading, DropdownSelection,
-  Button, ButtonTouchable,
+import { Box, Heading,
+  Button, 
   InputText,
-  InputDate,
   MultiSelect,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
 import InputWithLabel from "../../../components/input/input-label";
-import { GameControllerIcon } from "../../../components/icons";
+import { InfoIcon } from "lucide-react-native"
 
 const DEFAULT_FORM_VALUES = {
   name: "",
   metacritic: "",
   yearOfRelease: "",
   consoles: [],
+  genres: [],
 };
 
 type FormData = {
@@ -28,6 +28,7 @@ type FormData = {
   metacritic: number,
   yearOfRelease: number,
   consoles: string[],
+  genres: string[],
 }
 
 const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
@@ -40,12 +41,18 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { createGameMethod, consolesData, isLoading } = useGamesCreate();
+  const { createGameMethod, consolesData, genresData, isLoading } = useGamesCreate();
   
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
       const metacritic = control._formValues.metacritic;
       const yearOfRelease = control._formValues.yearOfRelease;
+      const consoles = control._formValues.consoles;
+      const genres = control._formValues.genres;
+
+      console.log(genres)
+
+      /*
     
       const userData: GameCreate = {
         name,
@@ -55,6 +62,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
       await createGameMethod(userData, () => navigation.goBack());
       reset();
+      */
   }
 
   return (
@@ -82,10 +90,22 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
               control={control}
               name="consoles"
               placeholder="Consoles"
-              icon={<GameControllerIcon color={colors.buttonBlue} size={22} />}
+              icon={<InfoIcon/>}
               label="name"
               value="id"
               data={consolesData}
+            />
+          </InputWithLabel>
+
+          <InputWithLabel label="Genres">
+            <MultiSelect
+              control={control}
+              name="genres"
+              placeholder="Genres"
+              icon={<InfoIcon/>}
+              label="name"
+              value="id"
+              data={genresData}
             />
           </InputWithLabel>
 
@@ -114,7 +134,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             )}
         >Create
         </Button>
-
       </PageDefault>
 
     {/*

@@ -9,7 +9,7 @@ export const listAllCountries = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Erro ao listar os países:', error);
+                console.error('Error listing countries:', error);
                 throw error;
             });
 

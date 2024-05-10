@@ -2,7 +2,8 @@ import { useState } from "react";
 import { createGame } from "../../../services/games/create";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import { Alert } from "react-native";
-import useConsolesDropdown from "../consoles";
+import useConsolesDropdown from "../consoles/useConsolesDropdown";
+import useGenresDropdown from "../genres/useGenresDropdown";
 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
@@ -15,10 +16,12 @@ export default function useGamesCreate() {
     }
 
     const { dropdownData: consolesData } = useConsolesDropdown();
+    const { dropdownData: genresData } = useGenresDropdown();
 
     return {
         createGameMethod,
         consolesData,
+        genresData,
         isLoading,
     }
 }

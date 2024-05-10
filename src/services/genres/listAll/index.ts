@@ -2,9 +2,9 @@ import { getToken } from '../../../modules/auth.module';
 import { NameAndIdDTO } from '../../../types/utils/nameAndIdDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
-export const listAllConsoles = async () => {
+export const listAllGenres = async () => {
     try {
-        const endpoint = "/consoles/getall";
+        const endpoint = "/genres/getall";
 
         const token = await getToken();
 
@@ -17,24 +17,24 @@ export const listAllConsoles = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing consoles: ', error);
+                console.error('Error listing game genres:', error);
                 throw error;
             });
 
         if (response.data) {
             const content = response.data.content;
-            const consoles: NameAndIdDTO[] = content.map((console: any) => {
+            const genres: NameAndIdDTO[] = content.map((genre: any) => {
                 return {
-                    id: console.id,
-                    name: console.name,
+                    id: genre.id,
+                    name: genre.name,
                 };
             });
-            return consoles;
+            return genres;
         } else {
-            throw new Error('Error listing consoles: ' + response.status);
+            throw new Error('Error listing game genres: ' + response.status);
         }
     } catch (error) {
-        console.error('Error listing consoles:', error);
+        console.error('Error listing game genres:', error);
         throw error;
     }
 }

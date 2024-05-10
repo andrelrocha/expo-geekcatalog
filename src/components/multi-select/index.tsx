@@ -6,6 +6,7 @@ import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { styles } from './styles';
 import { DropdownData } from '../../types/utils/dropDownDTO';
 import { convertArrayToDropdown } from '../../services/utils/convertArrayToDropdown';
+import { colors } from '../../utils/colors';
 
 type MultiSelectProps<T extends FieldValues> = {
     control: Control<T>;
@@ -93,6 +94,7 @@ const DropdownSelection = <T extends FieldValues>({
                     onBlur={() => setIsFocus(false)}
                     onChange={(selectedItems: any) => {
                         setSelected(selectedItems);
+                        onChange(selectedItems);
                         setIsFocus(false);
                     }}
                     renderRightIcon={() => (
@@ -101,7 +103,8 @@ const DropdownSelection = <T extends FieldValues>({
                         </View>
                     )}
                     selectedStyle={styles.selectedStyle}
-                    
+                    activeColor={colors.sage}
+                    alwaysRenderSelectedItem={true}
                 />
             )}
         />

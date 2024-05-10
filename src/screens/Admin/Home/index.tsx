@@ -4,7 +4,7 @@ import { ButtonTouchable } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
 import { useEffect } from 'react';
-import useConsolesDropdown from "../../../context/hooks/consoles";
+import useConsolesDropdown from "../../../context/hooks/consoles/useConsolesDropdown";
 
 export default function HomeAdmin({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const { dropdownData } = useConsolesDropdown();
