@@ -1,5 +1,5 @@
 export default interface GameReturn {
-    id: number;
+    id: string;
     name: string;
     metacritic: number;
     yearOfRelease: number;
