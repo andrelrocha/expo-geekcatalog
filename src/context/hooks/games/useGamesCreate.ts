@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
+import { createGameGenre } from "../../../services/gameGenre/create";
 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
@@ -20,14 +21,24 @@ export default function useGamesCreate() {
         }
     }
 
+    const handleGameGenreCreate = async (gameId: string, genres: string[]) => {
+        for (const genreId of genres) {
+            const createGameGenreData = {
+                gameId,
+                genreId,
+            };
+            await createGameGenre(createGameGenreData);
+        }
+    }
+
     const createGameMethod = async (gameData: GameCreate, navigate: () => void) => {
         setIsLoading(true);
-
-        //const game = await createGame(gameData);
-
-        console.log(gameData);
-        handleGameConsoleCreate('f2c40adc-64c8-4cac-8547-5e5778d04166', gameData.consoles);
         
+        const game = await createGame(gameData);
+
+        handleGameConsoleCreate(game?.id || '', gameData.consoles);
+
+        handleGameGenreCreate(game?.id || '', gameData.genres);
 
         setIsLoading(false);
         Alert.alert('Game created successfully!');
