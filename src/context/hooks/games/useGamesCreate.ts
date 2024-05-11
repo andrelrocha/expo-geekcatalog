@@ -8,9 +8,18 @@ import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
 import { createGameGenre } from "../../../services/gameGenre/create";
 import { createGameStudio } from "../../../services/gameStudio/create";
+import { handleImageSelection } from "../../../services/image/getImageFromUser";
+import { saveImageGame } from "../../../services/imageGame/create";
 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
+    const [uri, setUri] = useState("");
+    const [modalPicVisible, setModalPicVisible] = useState(false);
+
+    const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
+        const uri = await handleImageSelection({ mode: mode });
+        setUri(uri as string);
+      }
 
     const handleGameConsoleCreate = async (gameId: string, consoles: string[]) => {
         for (const consoleId of consoles) {
@@ -51,6 +60,7 @@ export default function useGamesCreate() {
             await handleGameConsoleCreate(game.id, gameData.consoles);
             await handleGameGenreCreate(game.id, gameData.genres);
             await handleGameStudioCreate(game.id, gameData.studios);
+            await saveImageGame({ uri: gameData.uri, gameId: game.id });
         }
 
         setIsLoading(false);
@@ -68,5 +78,10 @@ export default function useGamesCreate() {
         genresData,
         studiosData,
         isLoading,
+        uri,
+        setUri,
+        modalPicVisible,
+        setModalPicVisible,
+        handleProfilePicture
     }
 }

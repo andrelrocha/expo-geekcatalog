@@ -5,4 +5,5 @@ export default interface GameCreate {
     consoles: string[],
     genres: string[],
     studios: string[],
+    uri: string,
 }

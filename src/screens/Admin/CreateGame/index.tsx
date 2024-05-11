@@ -10,11 +10,17 @@ import { Box, Heading,
   Button, 
   InputText,
   MultiSelect,
+  ButtonAddImage,
+  TextWarning,
+  ImageTouchable,
+  PhotoSelectionModal,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
 import InputWithLabel from "../../../components/input/input-label";
 import { isYearValid } from "../../../libs/validators/validations";
+import { View } from "react-native";
+import { styles } from "../styles";
 
 const DEFAULT_FORM_VALUES = {
   name: "",
@@ -23,6 +29,7 @@ const DEFAULT_FORM_VALUES = {
   consoles: [],
   genres: [],
   studios: [],
+  uri: "",
 };
 
 type FormData = {
@@ -32,6 +39,7 @@ type FormData = {
   consoles: string[],
   genres: string[],
   studios: string[],
+  uri: string,
 }
 
 const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
@@ -44,7 +52,9 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { createGameMethod, consolesData, genresData, studiosData, isLoading } = useGamesCreate();
+  const { createGameMethod, consolesData, genresData, 
+          studiosData, isLoading, uri, setUri, 
+          handleProfilePicture, modalPicVisible, setModalPicVisible } = useGamesCreate();
   
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
@@ -61,6 +71,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         consoles,
         genres,
         studios,
+        uri: uri as string,
       };
 
       await createGameMethod(userData, () => navigation.goBack());
@@ -85,7 +96,9 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           </InputWithLabel>
 
           <InputWithLabel label="Metacritic">
-            <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} name="metacritic" placeholder="Metacritic" rules={{ required: true }}/>
+            <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} 
+                        name="metacritic" placeholder="Metacritic" rules={{ required: true }}
+            />
           </InputWithLabel>
 
           <InputWithLabel label="Year of Release">
@@ -134,18 +147,16 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             />
           </InputWithLabel>
 
-          {/*
           <View style={styles.containerAddImage}>
             {!uri ? (
               <>
                 <ButtonAddImage children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
-                <TextWarning ml={10} w={200} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
+                <TextWarning ml={10} w={200} o={0.7}>Click on the camera icon to add a Game Image</TextWarning>
               </>
             ) : (
-              <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
+              <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
             )}
           </View>
-        */}
         </Box>
 
         <Button
@@ -162,7 +173,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         </Button>
       </PageDefault>
 
-    {/*
       { modalPicVisible && (
         <PhotoSelectionModal 
           visible={modalPicVisible} 
@@ -171,7 +181,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
           onGalleryPress={() => handleProfilePicture('gallery')}
         />
       )}
-    */}
     </> 
   );
 }
