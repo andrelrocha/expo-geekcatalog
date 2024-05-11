@@ -12,18 +12,18 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
 
     const [profilePicUri, setProfilePicUri] = useState('');
 
-    useEffect(() => {   
-        const fetchProfilePic = async () => {
-            try {
-                const response = await getProfilePic({ userId: currentUser?.id || '' });
-                if (response) {
-                    setProfilePicUri(response);
-                }
-            } catch (error) {
-                console.error("Error fetching profile picture:", error);
+    const fetchProfilePic = async () => {
+        try {
+            const response = await getProfilePic({ userId: currentUser?.id || '' });
+            if (response) {
+                setProfilePicUri(response);
             }
-        };
+        } catch (error) {
+            console.error("Error fetching profile picture:", error);
+        }   
+    };
 
+    useEffect(() => {   
         if (currentUser?.id) {
             fetchProfilePic();
         }
@@ -33,8 +33,9 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
 
    
     return (
-        <PageDefault>
-
+        <PageDefault
+            onRefresh={() => {fetchProfilePic();}}
+        >
             <Box w={400} mt={20} alignItems="center" >
                 <ImageTouchable alt='Profile Picture' source={{uri: profilePicUri}} />
                 <Heading mt={20} textAlign="center" fs={26} mb={5}>Welcome, {currentUser?.name || "User"}!</Heading>
