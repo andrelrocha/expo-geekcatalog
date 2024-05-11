@@ -92,7 +92,8 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} name="yearOfRelease" placeholder="Year of Release"  
             rules={{ 
               required: true,
-              //validate: validateYear, -- FALTA VALIDAR O CAMPO DO ANO
+              //@ts-ignore
+              validate: validateYear,
             }}
             />
           </InputWithLabel>
