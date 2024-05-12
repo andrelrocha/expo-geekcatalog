@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { List } from "../../../components";
+import { List, Modal } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
@@ -19,6 +19,8 @@ export default function ListAllGames() {
     
     return (
         <>
+            
+
             <List
                 data={games}
                 fields={fields}
@@ -34,6 +36,8 @@ export default function ListAllGames() {
                 grid={grid}
                 setGrid={setGrid}
                 onRefresh={reloadGamesList}
+                modalComponent={true}
+                //modalContent={}
             />
         </>
     );

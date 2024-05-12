@@ -7,6 +7,7 @@ import PaginationButtons from "../pagination-buttons";
 import TextWarning from "../text/text-warning";
 import { GridIcon, GalleryVerticalIcon } from "../icons";
 import { colors } from "../../utils/colors";
+import Modal from "../modal/modal-popup";
 
 type SectionListProps = {
     title: string;
@@ -29,10 +30,15 @@ type SectionListProps = {
     textAlign?: string;
     w?: number;
     onRefresh?: () => void;
+    modalComponent?: boolean;
+    modalContentService?: () => JSON;
+    modalItemTitle?: string;
 } & ComponentProps<typeof GLSectionList>;
 
 export default function List (props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalData, setModalData] = useState<any>(null);
 
     const onRefresh = useCallback(() => {
         setRefreshing(true); 
@@ -56,9 +62,21 @@ export default function List (props: SectionListProps) {
         }
     };
 
+    const openModal = (item: any) => {
+        setModalData(item);
+        setIsOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsOpen(false);
+    };
+
     const defaultRenderItem = ({ item }: { item: any }) => {
         return (
-            <TouchableOpacity style={styles.itemContainer}>
+            <TouchableOpacity 
+                style={styles.itemContainer}
+                onPress={() => openModal(item)}
+            >
                 <Text style={styles.itemTitle}>{item[props.itemTitle]}</Text>
                 {props.fields.map((field, index) => (
                     <Text key={index} style={styles.itemText as ViewStyle}>
@@ -75,7 +93,10 @@ export default function List (props: SectionListProps) {
         const title = item[props.itemTitle].length > 25 ? `${item[props.itemTitle].substring(0, 25)}...` : item[props.itemTitle];
 
         return (
-            <TouchableOpacity style={styles.gridItemContainer}>
+            <TouchableOpacity 
+                style={styles.gridItemContainer}
+                onPress={() => openModal(item)}    
+            >
                 <Text style={styles.gridItemTitle}>{title}</Text>
                 {props.fields.map((field, index) => (
                     <Text key={index} style={styles.gridItemText}>
@@ -153,6 +174,22 @@ export default function List (props: SectionListProps) {
                 )}
              </>
             )}
+     
+        {props.modalComponent && isOpen && (
+            <Modal
+                body={props.modalContent ? (
+                    <>
+                        {Object.entries(modalData).map(([key, value]) => (
+                            <Text key={key}>{key}: {value}</Text>
+                        ))}
+                    </>
+                ) : null}
+                isOpen={isOpen}
+                onClose={closeModal}
+                title={props.modalItemTitle}
+            />
+        )}
         </View>
+
     );
 }

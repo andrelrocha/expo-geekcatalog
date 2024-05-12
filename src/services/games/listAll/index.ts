@@ -9,10 +9,6 @@ type HandleListAllGamesProps = {
 
 export const listAllGames = async (props: HandleListAllGamesProps) => {
     try {
-        if (props.token === null) {
-            throw new Error('Token inválido');
-        }
-
         const headers = {
             'Authorization': `Bearer ${props.token}`
         }
@@ -30,7 +26,7 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Erro ao listar os jogos:', error);
+                console.error('Error listing games:', error);
                 throw error;
             });
     
@@ -47,11 +43,11 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
             
             return {games, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages};
         } else {
-            throw new Error('Erro ao listar jogos: ' + response.status);
+            throw new Error('Error listing games: ' + response.status);
         }
     } catch (error) {
-        console.error('Erro ao listar jogos:', error);
-        Alert.alert('Erro ao listar jogos:' + (error as Error).message);
+        console.error('Error listing games:', error);
+        Alert.alert('Error listing games:' + (error as Error).message);
         throw error;
     }
     }
