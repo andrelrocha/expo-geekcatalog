@@ -1,5 +1,5 @@
 import React from "react";
-import { Control, useForm, Validate } from "react-hook-form";
+import { Control, useForm } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import { InfoIcon } from "lucide-react-native"
@@ -64,7 +64,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       const genres = control._formValues.genres;
       const studios = control._formValues.studios;
     
-      const userData: GameCreate = {
+      const gameData: GameCreate = {
         name,
         metacritic,
         yearOfRelease,
@@ -74,7 +74,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         uri: uri as string,
       };
 
-      await createGameMethod(userData, () => navigation.goBack());
+      await createGameMethod(gameData, () => navigation.goBack());
       reset();
   }
 
@@ -92,7 +92,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
         <Box>
           <InputWithLabel label="Game Name">
-            <InputText control={control} name="name" placeholder="Full Name" rules={{ required: true }} />
+            <InputText control={control} name="name" placeholder="Name" rules={{ required: true }} />
           </InputWithLabel>
 
           <InputWithLabel label="Metacritic">
