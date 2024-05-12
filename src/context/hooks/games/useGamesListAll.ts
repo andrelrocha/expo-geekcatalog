@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { listAllGames } from "../../../services/games/listAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
+import { listAllInfoByGameID } from "../../../services/games/listAllInfoById";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -70,13 +71,24 @@ export default function useGamesListAll(props: UseGamesListAllProps){
             });
             setIsLoading(false);
         } catch (error) {
-            console.error('Erro ao buscar jogos:', error);
+            console.error('Error fetching games:', error);
         }
     };
+
+    const loadGameInfoData = async (gameId: string) => {
+        try {
+            setIsLoading(true);
+            const gameInfo = await listAllInfoByGameID({gameId, token: token as string});
+            setIsLoading(false);
+            return gameInfo;
+        } catch (error) {
+            console.error('Error fetching full game info:', error);
+        }
+    }
 
     useEffect(() => {
         loadData();
     }, [props.page]);
 
-    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData};
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData};
 }

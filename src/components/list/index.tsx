@@ -31,7 +31,7 @@ type SectionListProps = {
     w?: number;
     onRefresh?: () => void;
     modalComponent?: boolean;
-    modalContentService?: () => JSON;
+    modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
 } & ComponentProps<typeof GLSectionList>;
 
@@ -62,13 +62,18 @@ export default function List (props: SectionListProps) {
         }
     };
 
-    const openModal = (item: any) => {
-        setModalData(item);
+    const openModal = async (item: any) => {
+        const itemId = item.id;
+
+        const response = props.modalContentService && await props.modalContentService(itemId); 
+
+        setModalData(response);
         setIsOpen(true);
     };
 
     const closeModal = () => {
         setIsOpen(false);
+        setModalData(null);
     };
 
     const defaultRenderItem = ({ item }: { item: any }) => {
@@ -129,6 +134,32 @@ export default function List (props: SectionListProps) {
         );
     };
 
+    const handleModalData = (data: any) => {
+        return Object.entries(data).map(([key, value]: any) => {
+            if (Array.isArray(value)) {
+                return (
+                    <View key={key}>
+                        <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
+                        {value.map((item: any, index: number) => (
+                            <Text key={index}>{item}</Text>
+                        ))}
+                    </View>
+                );
+            } else {
+                return (
+                    <View key={key}>
+                        <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
+                        <Text style={styles.modalItemValue}>{value}</Text>
+                    </View>
+                );
+            }
+        });
+    };
+
+    const capitalizeFirstLetter = (str: string) => {
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    };
+
     return (
         <View style={styles.container}>
             {props.isLoading ? (
@@ -175,20 +206,14 @@ export default function List (props: SectionListProps) {
              </>
             )}
      
-        {props.modalComponent && isOpen && (
-            <Modal
-                body={props.modalContent ? (
-                    <>
-                        {Object.entries(modalData).map(([key, value]) => (
-                            <Text key={key}>{key}: {value}</Text>
-                        ))}
-                    </>
-                ) : null}
-                isOpen={isOpen}
-                onClose={closeModal}
-                title={props.modalItemTitle}
-            />
-        )}
+            {props.modalComponent && isOpen && !props.isLoading && (
+                <Modal
+                    body={handleModalData(modalData)}
+                    isOpen={isOpen}
+                    onClose={closeModal}
+                    title={props.modalItemTitle}
+                />
+            )}
         </View>
 
     );

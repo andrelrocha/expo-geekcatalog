@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { List, Modal } from "../../../components";
+import { ButtonTouchable, List, Modal } from "../../../components";
+import { colors } from "../../../utils/colors";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {games, isLoading, loadData, paginationInfo, 
+    const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
     } = useGamesListAll({ page: currentPageUser});
 
@@ -19,8 +20,6 @@ export default function ListAllGames() {
     
     return (
         <>
-            
-
             <List
                 data={games}
                 fields={fields}
@@ -37,7 +36,8 @@ export default function ListAllGames() {
                 setGrid={setGrid}
                 onRefresh={reloadGamesList}
                 modalComponent={true}
-                //modalContent={}
+                modalContentService={(gameId: string) => loadGameInfoData(gameId)}
+                modalItemTitle="Game Info"
             />
         </>
     );

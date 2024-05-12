@@ -28,7 +28,6 @@ export const listAllInfoByGameID = async (props: HandleListAllInfoGamesProps) =>
             const data = response.data;
 
             const game: GameFullInfo = {
-                id: data.id,
                 name: data.name,
                 metacritic: data.metacritic,
                 yearOfRelease: data.yearOfRelease,
@@ -37,8 +36,6 @@ export const listAllInfoByGameID = async (props: HandleListAllInfoGamesProps) =>
                 consoles: data.consoles.map((console: any) => console),
             };
         
-            console.log('Game:', game);
-            
             return game;
         } else {
             throw new Error('Error listing full game info: ' + response);

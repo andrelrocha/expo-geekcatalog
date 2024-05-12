@@ -1,5 +1,4 @@
 export default interface GameFullInfo {
-    id: string;
     name: string;
     metacritic: number;
     yearOfRelease: number;

@@ -84,4 +84,15 @@ export const styles = StyleSheet.create({
         marginBottom: 5,
         textAlign: 'center',
     },
+    modalItemLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: colors.black,
+        marginBottom: 5,
+    },
+    modalItemValue: {
+        fontSize: 16,
+        color: colors.black,
+        marginBottom: 10,
+    },
 });
