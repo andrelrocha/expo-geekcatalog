@@ -142,7 +142,7 @@ export default function List (props: SectionListProps) {
                 }
                 return (
                     <View key={key}>
-                    <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
+                    <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}</Text>
                     {value.map((item: any, index: number) => (
                         <Text 
                             style={[

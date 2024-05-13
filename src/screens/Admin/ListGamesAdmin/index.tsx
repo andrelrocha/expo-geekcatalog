@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import { List } from "../../../components";
 
-export default function ListAllGames() {
+export default function ListAllGamesAdmin() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
@@ -25,7 +25,7 @@ export default function ListAllGames() {
                 fieldsLabels={fieldsLabels}
                 keyExtractor={(item) => item.id}
                 isLoading={isLoading}
-                title={'All Games'}
+                title={'List of Games'}
                 itemTitle="name"
                 decelerationRate="fast"
                 totalPages={paginationInfo.totalPages}
