@@ -2,11 +2,14 @@ import { useState } from "react";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
-import { listAllGameInfoByGameIDAdmin } from "../../../services/games/listAllInfoById";
+import { listAllGameInfoByGameIDAdmin } from "../../../services/games/listAllInfoAdminById";
 import useAuth from "../use-auth.hook";
 
 export default function useGamesManage() {
     const [editEnabled, setEditEnabled] = useState(false);
+    const [ valueSelectedConsole, setValueSelectedConsole ] = useState<string[]>([]);
+    const [ valueSelectedGenre, setValueSelectedGenre ] = useState<string[]>([]);
+    const [ valueSelectedStudio, setValueSelectedStudio ] = useState<string[]>([]);
 
     const { authState } = useAuth();
     const { token } = authState;
@@ -30,6 +33,12 @@ export default function useGamesManage() {
         studiosData,
         editEnabled,
         setEditEnabled,
-        loadGameInfoData
+        loadGameInfoData,
+        valueSelectedConsole,
+        setValueSelectedConsole,
+        valueSelectedGenre,
+        setValueSelectedGenre,
+        valueSelectedStudio,
+        setValueSelectedStudio
     }
 }

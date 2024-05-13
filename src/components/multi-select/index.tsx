@@ -23,6 +23,7 @@ type MultiSelectProps<T extends FieldValues> = {
     data: any[];
     label: string;
     value: string;
+    valuesSelected?: string[];
     inputProps?: ComponentProps<typeof MultiSelect>;
     valueField?: string;
     labelField?: string;
@@ -89,7 +90,7 @@ const DropdownSelection = <T extends FieldValues>({
                     valueField="value"
                     placeholder={!isFocus ? placeholder : ''}
                     searchPlaceholder="Search"
-                    value={selected}
+                    value={props.valuesSelected || selected}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     onChange={(selectedItems: any) => {

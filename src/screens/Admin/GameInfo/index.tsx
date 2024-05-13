@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
-import { styles } from "../styles";
 import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
@@ -9,7 +8,8 @@ import { Control, useForm } from "react-hook-form";
 import InputWithLabel from "../../../components/input/input-label";
 import { InfoIcon } from "lucide-react-native";
 import useGamesManage from "../../../context/hooks/games/useGamesManage";
-import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
+import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
+import { NameAndIdDTO } from "../../../types/utils/nameAndIdDTO";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
@@ -47,16 +47,30 @@ export default function GameInfo({ navigation, route }: Props) {
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"})
     
-    const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData } = useGamesManage();
+    const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData, setValueSelectedConsole, valueSelectedConsole,
+        setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio } = useGamesManage();
 
-    const setFields = (data: GameFullInfoUser) => {
+    const setFields = (data: GameFullInfoAdminDTO) => {
         if (gameId) {
-            console.log('data on setFields: '+ JSON.stringify(data));
             setValue("name", data.name);
             setValue("metacritic", data.metacritic.toString());
             setValue("yearOfRelease", data.yearOfRelease.toString());
+
+            const genreIds = data.genres.map(genre => genre.id);
+            setValueSelectedGenre(genreIds);
+            const studioIds = data.studios.map(studio => studio.id);
+            setValueSelectedStudio(studioIds);
+            const consoleIds = data.consoles.map(console => console.id);
+            setValueSelectedConsole(consoleIds);
+            //setValue("genres", genreIds);
+            //console.log('consoles: '+ JSON.stringify(data.consoles));
+            //console.log('studios: '+ JSON.stringify(data.studios));
+
+            //const genreIds = data.genres.map(genre => genre.id);
             
-            //setValue("studios", data.studios.map((studio) => studio.id));
+            //const test = ["e1413d4b-5eb1-4de9-a814-ef9c4cc05b43", "4e0bd7e0-aa04-4088-b2ee-ffec59cf53c6"]
+
+            //setValue("genres", test);
         }
     }
 
@@ -68,7 +82,7 @@ export default function GameInfo({ navigation, route }: Props) {
         const genres = control._formValues.genres;
         const consoles = control._formValues.consoles;
 
-        const gameData: GameFullInfoUser = {
+        const gameData: GameFullInfoAdminDTO = {
             name,
             metacritic,
             yearOfRelease,
@@ -84,7 +98,7 @@ export default function GameInfo({ navigation, route }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             const gameData = await loadGameInfoData(gameId);
-            setFields(gameData as any as GameFullInfoUser);
+            setFields(gameData as GameFullInfoAdminDTO);
         };
         fetchData();
     }, []);
@@ -113,6 +127,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     icon={<InfoIcon/>}
                     label="name"
                     value="id"
+                    valuesSelected={valueSelectedConsole ? valueSelectedConsole : undefined}
                     data={consolesData}
                     />
                 </InputWithLabel>
@@ -125,6 +140,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     icon={<InfoIcon/>}
                     label="name"
                     value="id"
+                    valuesSelected={valueSelectedGenre ? valueSelectedGenre : undefined}
                     data={genresData}
                     />
                 </InputWithLabel>
@@ -137,6 +153,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     icon={<InfoIcon/>}
                     label="name"
                     value="id"
+                    valuesSelected={valueSelectedStudio ? valueSelectedStudio : undefined}
                     data={studiosData}
                     />
                 </InputWithLabel>
