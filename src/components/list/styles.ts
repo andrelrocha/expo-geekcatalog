@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
     },
     modalItemLabel: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         color: colors.black,
         marginBottom: 5,
@@ -95,4 +95,9 @@ export const styles = StyleSheet.create({
         color: colors.black,
         marginBottom: 10,
     },
+    modalListValue: {
+        fontSize: 16,
+        color: colors.black,
+        marginBottom: 5,
+    }
 });

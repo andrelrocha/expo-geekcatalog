@@ -137,18 +137,29 @@ export default function List (props: SectionListProps) {
     const handleModalData = (data: any) => {
         return Object.entries(data).map(([key, value]: any) => {
             if (Array.isArray(value)) {
+                if (value.length === 0) {
+                    return null;
+                }
                 return (
                     <View key={key}>
-                        <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
-                        {value.map((item: any, index: number) => (
-                            <Text key={index}>{item}</Text>
-                        ))}
-                    </View>
+                    <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
+                    {value.map((item: any, index: number) => (
+                        <Text 
+                            style={[
+                                styles.modalListValue,
+                                index === value.length - 1 ? { marginBottom: 10 } : { marginBottom: 5 }
+                            ]} 
+                            key={index}
+                        >
+                            {item}
+                        </Text>
+                    ))}
+                </View>
                 );
             } else {
                 return (
                     <View key={key}>
-                        <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}:</Text>
+                        <Text style={styles.modalItemLabel}>{capitalizeFirstLetter(key)}</Text>
                         <Text style={styles.modalItemValue}>{value}</Text>
                     </View>
                 );
