@@ -175,7 +175,7 @@ export default function List (props: SectionListProps) {
     return (
         <View style={styles.container}>
             {props.isLoading ? (
-                <TextWarning mt={50} w={300} fs={20}>Loading...</TextWarning>
+                <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
                 <>
                 {!props.grid ? (

@@ -15,6 +15,7 @@ interface TextWarningProps {
   mr?: number
   ml?: number
   h?: number
+  fw?: string
 }
 
 const TextWarning = (props: TextWarningProps) => {
@@ -29,13 +30,9 @@ const TextWarning = (props: TextWarningProps) => {
         height: props.h || styles.warningWrapper.height,
     };
 
-    const dynamicStylesText = {
-        color: props.textColor || styles.warningText.color,
-    };
-
     return (
         <View style={[styles.warningWrapper, dynamicStylesBG]}>
-            <Text fs={props.fs} style={dynamicStylesText as ViewStyle}>{props.children}</Text>
+            <Text fs={props.fs} fw={props.fw} color={props.textColor}>{props.children}</Text>
         </View>
     );
 }

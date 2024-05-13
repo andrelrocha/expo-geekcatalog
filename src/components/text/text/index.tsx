@@ -14,6 +14,7 @@ interface TextProps {
     mb?: number;
     mr?: number;
     ml?: number;
+    fw?: string;
     style?: ViewStyle;
 }
 
@@ -27,6 +28,7 @@ const textStyles = StyleSheet.create({
         marginBottom: 0,
         marginLeft: 0,
         marginRight: 0,
+        fontWeight: 'normal',
     }
 });
 
@@ -47,6 +49,7 @@ const Text = (props: TextProps) => {
         marginBottom: props.mb || textStyles.text.marginBottom,
         marginLeft: props.ml || textStyles.text.marginLeft,
         marginRight: props.mr || textStyles.text.marginRight,
+        fontWeight: props.fw || textStyles.text.fontWeight,
     };
 
     return (
