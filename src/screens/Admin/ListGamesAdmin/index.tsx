@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
 import { List } from "../../../components";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
 
-export default function ListAllGamesAdmin() {
+export default function ListAllGamesAdmin({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
@@ -34,9 +36,7 @@ export default function ListAllGamesAdmin() {
                 grid={grid}
                 setGrid={setGrid}
                 onRefresh={reloadGamesList}
-                modalComponent={true}
-                modalContentService={(gameId: string) => loadGameInfoData(gameId)}
-                modalItemTitle="Game Info"
+                navigate={() => navigation.navigate('GameInfo')}
             />
         </>
     );
