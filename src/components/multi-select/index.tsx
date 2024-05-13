@@ -56,7 +56,7 @@ const DropdownSelection = <T extends FieldValues>({
 
     const [data, setData] = useState<DropdownData[]>([]);
 
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(props.valuesSelected || []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -90,7 +90,7 @@ const DropdownSelection = <T extends FieldValues>({
                     valueField="value"
                     placeholder={!isFocus ? placeholder : ''}
                     searchPlaceholder="Search"
-                    value={props.valuesSelected || selected}
+                    value={selected}
                     onFocus={() => setIsFocus(true)}
                     onBlur={() => setIsFocus(false)}
                     onChange={(selectedItems: any) => {
