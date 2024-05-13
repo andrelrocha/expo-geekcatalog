@@ -7,7 +7,7 @@ import { colors } from "../../../utils/colors";
 interface TextProps {
     children: ReactNode;
     color?: string,
-    fontSize?: number,
+    fs?: number,
     textAlign?: string,
     w?: number;
     mt?: number;
@@ -20,7 +20,7 @@ interface TextProps {
 const textStyles = StyleSheet.create({
     text: {
         color: colors.black,
-        fontSize: 12,
+        fontSize: 16,
         textAlign: 'center',
         width: '100%',
         marginTop: 0,
@@ -40,7 +40,7 @@ const StyledText = styled(
 const Text = (props: TextProps) => {
     const dynamicStyles = {
         color: props.color || textStyles.text.color,
-        fontSize: props.fontSize || textStyles.text.fontSize,
+        fontSize: props.fs || textStyles.text.fontSize,
         textAlign: props.textAlign || textStyles.text.textAlign,
         width: props.w || textStyles.text.width,
         marginTop: props.mt || textStyles.text.marginTop,

@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.sageOpacity,
         width: '100%',
         opacity: 0.8,
+        height: 30,
     },
     warningText: {
         color: colors.black,

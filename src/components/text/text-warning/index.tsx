@@ -7,13 +7,14 @@ interface TextWarningProps {
   children: string
   backgroundColor?: string
   textColor?: string
-  fontSize?: number
+  fs?: number
   w?: number
   o?: number
   mt?: number
   mb?: number
   mr?: number
   ml?: number
+  h?: number
 }
 
 const TextWarning = (props: TextWarningProps) => {
@@ -25,16 +26,16 @@ const TextWarning = (props: TextWarningProps) => {
         marginBottom: props.mb || styles.warningWrapper.marginBottom,
         marginRight: props.mr || styles.warningWrapper.marginRight,
         marginLeft: props.ml || styles.warningWrapper.marginLeft,
+        height: props.h || styles.warningWrapper.height,
     };
 
     const dynamicStylesText = {
         color: props.textColor || styles.warningText.color,
-        fontSize: props.fontSize || 12,
     };
 
     return (
         <View style={[styles.warningWrapper, dynamicStylesBG]}>
-            <Text style={[styles.warningText, dynamicStylesText] as ViewStyle}>{props.children}</Text>
+            <Text fs={props.fs} style={dynamicStylesText as ViewStyle}>{props.children}</Text>
         </View>
     );
 }
