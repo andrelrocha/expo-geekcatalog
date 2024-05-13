@@ -39,6 +39,6 @@ export default function useGamesManage() {
         valueSelectedGenre,
         setValueSelectedGenre,
         valueSelectedStudio,
-        setValueSelectedStudio
+        setValueSelectedStudio,
     }
 }

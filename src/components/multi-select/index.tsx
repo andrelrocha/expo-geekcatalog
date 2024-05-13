@@ -27,6 +27,9 @@ type MultiSelectProps<T extends FieldValues> = {
     inputProps?: ComponentProps<typeof MultiSelect>;
     valueField?: string;
     labelField?: string;
+    search?: boolean;
+    displayInput?: string;
+    disabled?: boolean;
     onChange?: (item: unknown) => void;
 };
 
@@ -41,8 +44,11 @@ const DropdownSelection = <T extends FieldValues>({
     onChange,
     label,
     value,
+    search,
+    disabled=false,
     ...props
 }: MultiSelectProps<T>): React.ReactElement<any, string | JSXElementConstructor<any>> | null => {
+
     const dynamicDropdownStyles = {
         width: props.w || styles.dropdownContainer.width,
         height: props.h || styles.dropdownContainer.height,
@@ -56,7 +62,7 @@ const DropdownSelection = <T extends FieldValues>({
 
     const [data, setData] = useState<DropdownData[]>([]);
 
-    const [selected, setSelected] = useState(props.valuesSelected || []);
+    const [selected, setSelected] = useState<any>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,8 +73,11 @@ const DropdownSelection = <T extends FieldValues>({
                 console.error("Error fetching data:", error);
             }
         };
+
+        setSelected(props.valuesSelected || []);
+
         fetchData();
-    }, [props.data]);
+    }, [props.data, props.valuesSelected]);
 
     return (
         <Controller
@@ -84,7 +93,7 @@ const DropdownSelection = <T extends FieldValues>({
                     containerStyle={styles.itemStyle}
                     itemContainerStyle={styles.separatorStyle}
                     data={data}
-                    search
+                    search={search}
                     maxHeight={300}
                     labelField="label"
                     valueField="value"
@@ -106,6 +115,7 @@ const DropdownSelection = <T extends FieldValues>({
                     selectedStyle={styles.selectedStyle}
                     activeColor={colors.sage}
                     alwaysRenderSelectedItem={true}
+                    disable={disabled}
                 />
             )}
         />

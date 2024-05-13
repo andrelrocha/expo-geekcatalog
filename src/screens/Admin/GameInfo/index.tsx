@@ -62,15 +62,6 @@ export default function GameInfo({ navigation, route }: Props) {
             setValueSelectedStudio(studioIds);
             const consoleIds = data.consoles.map(console => console.id);
             setValueSelectedConsole(consoleIds);
-            //setValue("genres", genreIds);
-            //console.log('consoles: '+ JSON.stringify(data.consoles));
-            //console.log('studios: '+ JSON.stringify(data.studios));
-
-            //const genreIds = data.genres.map(genre => genre.id);
-            
-            //const test = ["e1413d4b-5eb1-4de9-a814-ef9c4cc05b43", "4e0bd7e0-aa04-4088-b2ee-ffec59cf53c6"]
-
-            //setValue("genres", test);
         }
     }
 
@@ -98,6 +89,7 @@ export default function GameInfo({ navigation, route }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             const gameData = await loadGameInfoData(gameId);
+            console.log(gameData);
             setFields(gameData as GameFullInfoAdminDTO);
         };
         fetchData();
@@ -110,13 +102,70 @@ export default function GameInfo({ navigation, route }: Props) {
                     <InputText icon={0} control={control} placeholder="Name" name="name" editable={false}/>
                 </InputWithLabel>
                 <InputWithLabel label="Metacritic">
-                    <InputText icon={0} control={control} 
-                            name="metacritic" placeholder="Metacritic"
+                    <InputText icon={0} control={control} name="metacritic" placeholder="Metacritic" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Year of Release">
+                    <InputText icon={0} control={control} name="yearOfRelease" placeholder="Year of Release" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Consoles Available">
+                    <MultiSelect
+                    control={control}
+                    name="consoles"
+                    placeholder="Consoles"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    valuesSelected={valueSelectedConsole ? valueSelectedConsole : undefined}
+                    data={consolesData}
+                    disabled={true}
+                    />
+                </InputWithLabel>
+
+                <InputWithLabel label="Genres">
+                    <MultiSelect
+                    control={control}
+                    name="genres"
+                    placeholder="Genres"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    valuesSelected={valueSelectedGenre ? valueSelectedGenre : undefined}
+                    data={genresData}
+                    disabled={true}
+                    />
+                </InputWithLabel>
+
+                <InputWithLabel label="Studios">
+                    <MultiSelect
+                    control={control}
+                    name="studios"
+                    placeholder="Studios"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    valuesSelected={valueSelectedStudio ? valueSelectedStudio : undefined}
+                    data={studiosData}
+                    disabled={true}
+                    />
+                </InputWithLabel>
+            </>
+        )
+    }
+
+    const renderInputsEditing = () => {
+        return (
+            <>
+               <InputWithLabel label="Name">
+                    <InputText control={control} placeholder="Name" name="name" editable={false}/>
+                </InputWithLabel>
+                <InputWithLabel label="Metacritic">
+                    <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} 
+                            name="metacritic" placeholder="Metacritic" rules={{ required: true }}
                     />
                 </InputWithLabel>
                 <InputWithLabel label="Year of Release">
-                    <InputText icon={0} control={control} 
-                            name="yearOfRelease" placeholder="Year of Release"
+                    <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} 
+                            name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}
                     />
                 </InputWithLabel>
                 <InputWithLabel label="Consoles Available">
@@ -160,61 +209,6 @@ export default function GameInfo({ navigation, route }: Props) {
             </>
         )
     }
-
-    const renderInputsEditing = () => {
-        return (
-            <>
-               <InputWithLabel label="Name">
-                    <InputText control={control} placeholder="Name" name="name" editable={false}/>
-                </InputWithLabel>
-                <InputWithLabel label="Metacritic">
-                    <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} 
-                            name="metacritic" placeholder="Metacritic" rules={{ required: true }}
-                    />
-                </InputWithLabel>
-                <InputWithLabel label="Year of Release">
-                    <InputText inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} 
-                            name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}
-                    />
-                </InputWithLabel>
-                <InputWithLabel label="Consoles Available">
-                    <MultiSelect
-                    control={control}
-                    name="consoles"
-                    placeholder="Consoles"
-                    icon={<InfoIcon/>}
-                    label="name"
-                    value="id"
-                    data={consolesData}
-                    />
-                </InputWithLabel>
-
-                <InputWithLabel label="Genres">
-                    <MultiSelect
-                    control={control}
-                    name="genres"
-                    placeholder="Genres"
-                    icon={<InfoIcon/>}
-                    label="name"
-                    value="id"
-                    data={genresData}
-                    />
-                </InputWithLabel>
-
-                <InputWithLabel label="Studios">
-                    <MultiSelect
-                    control={control}
-                    name="studios"
-                    placeholder="Studios"
-                    icon={<InfoIcon/>}
-                    label="name"
-                    value="id"
-                    data={studiosData}
-                    />
-                </InputWithLabel>
-            </>
-        )
-    }
    
     return (
         <>
@@ -238,8 +232,7 @@ export default function GameInfo({ navigation, route }: Props) {
                 <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
                     onPress={() => {
                         setEditEnabled(!editEnabled)
-                        console.log()
-                        //setFields()
+                        //setFields(gameData as GameFullInfoAdminDTO)
                     }}
                 >{editEnabled ? "Cancel" : "Edit game info"}</ButtonTouchable>       
             </PageDefault>
