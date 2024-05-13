@@ -2,6 +2,7 @@ import { StyleProp, View, ViewStyle } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import { ComponentProps, JSXElementConstructor, useEffect, useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
+import { InfoIcon } from "lucide-react-native";
 import { styles } from './styles';
 import { DropdownData } from '../../types/utils/dropDownDTO';
 
@@ -96,7 +97,7 @@ const DropdownSelection = <T extends FieldValues>({
                     }}
                     renderRightIcon={() => (
                         <View style={styles.dropdownIconContainer}>
-                            {icon}
+                            {icon || <InfoIcon/>}
                         </View>
                     )}
                     

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText } from "../../../components";
@@ -9,7 +9,6 @@ import InputWithLabel from "../../../components/input/input-label";
 import { InfoIcon } from "lucide-react-native";
 import useGamesManage from "../../../context/hooks/games/useGamesManage";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
-import { NameAndIdDTO } from "../../../types/utils/nameAndIdDTO";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
@@ -117,7 +116,6 @@ export default function GameInfo({ navigation, route }: Props) {
                     control={control}
                     name="consoles"
                     placeholder="Consoles"
-                    icon={<InfoIcon/>}
                     label="name"
                     value="id"
                     valuesSelected={valueSelectedConsole ? valueSelectedConsole : undefined}
@@ -132,7 +130,6 @@ export default function GameInfo({ navigation, route }: Props) {
                     control={control}
                     name="genres"
                     placeholder="Genres"
-                    icon={<InfoIcon/>}
                     label="name"
                     value="id"
                     valuesSelected={valueSelectedGenre ? valueSelectedGenre : undefined}
@@ -147,12 +144,12 @@ export default function GameInfo({ navigation, route }: Props) {
                     control={control}
                     name="studios"
                     placeholder="Studios"
-                    icon={<InfoIcon/>}
                     label="name"
                     value="id"
                     valuesSelected={valueSelectedStudio ? valueSelectedStudio : undefined}
                     data={studiosData}
                     disabled={true}
+                    itemBackgroundColor={colors.sage}
                     />
                 </InputWithLabel>
             </>
@@ -163,7 +160,7 @@ export default function GameInfo({ navigation, route }: Props) {
         return (
             <>
                <InputWithLabel label="Name">
-                    <InputText control={control} placeholder="Name" name="name" editable={false}/>
+                    <InputText control={control} placeholder="Name" name="name" rules={{required: true}}/>
                 </InputWithLabel>
                 <InputWithLabel label="Metacritic">
                     <InputText inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} 
@@ -244,10 +241,7 @@ export default function GameInfo({ navigation, route }: Props) {
                 >Save</ButtonTouchable>
 
                 <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
-                    onPress={() => {
-                        setEditEnabled(!editEnabled)
-                        //setFields(gameData as GameFullInfoAdminDTO)
-                    }}
+                    onPress={() => setEditEnabled(!editEnabled)}
                 >{editEnabled ? "Cancel" : "Edit game info"}</ButtonTouchable>       
             </PageDefault>
         </>

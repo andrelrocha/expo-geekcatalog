@@ -54,7 +54,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
 
   const { createGameMethod, consolesData, genresData, 
           studiosData, isLoading, uri, setUri, 
-          handleProfilePicture, modalPicVisible, setModalPicVisible } = useGamesCreate();
+          handleUserPicture, modalPicVisible, setModalPicVisible } = useGamesCreate();
   
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
@@ -147,6 +147,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             />
           </InputWithLabel>
 
+          {/*
           <View style={styles.containerAddImage}>
             {!uri ? (
               <>
@@ -157,6 +158,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
               <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
             )}
           </View>
+          */}
         </Box>
 
         <Button
@@ -177,8 +179,8 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         <PhotoSelectionModal 
           visible={modalPicVisible} 
           onRequestClose={() => setModalPicVisible(false)} 
-          onCameraPress={() => handleProfilePicture('camera')}
-          onGalleryPress={() => handleProfilePicture('gallery')}
+          onCameraPress={() => handleUserPicture('camera')}
+          onGalleryPress={() => handleUserPicture('gallery')}
         />
       )}
     </> 

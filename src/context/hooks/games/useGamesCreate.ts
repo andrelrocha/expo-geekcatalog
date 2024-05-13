@@ -16,7 +16,7 @@ export default function useGamesCreate() {
     const [uri, setUri] = useState("");
     const [modalPicVisible, setModalPicVisible] = useState(false);
 
-    const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {
+    const handleUserPicture = async (mode: "gallery" | "camera" | undefined) => {
         const uri = await handleImageSelection({ mode: mode });
         setUri(uri as string);
       }
@@ -51,21 +51,32 @@ export default function useGamesCreate() {
         }
     }
 
-    const createGameMethod = async (gameData: GameCreate, navigate: () => void) => {
+    const createGameMethod: (gameData: GameCreate, navigate: () => void) => Promise<void> = async (gameData, navigate) => {
         setIsLoading(true);
         
         const game = await createGame(gameData);
 
         if (game?.id) {
-            await handleGameConsoleCreate(game.id, gameData.consoles);
-            await handleGameGenreCreate(game.id, gameData.genres);
-            await handleGameStudioCreate(game.id, gameData.studios);
-            await saveImageGame({ uri: gameData.uri, gameId: game.id });
-        }
-
-        setIsLoading(false);
-        Alert.alert('Game created successfully!');
-        navigate();
+            if (gameData.consoles) {
+                await handleGameConsoleCreate(game.id, gameData.consoles);
+            }
+            if (gameData.genres) {
+                await handleGameGenreCreate(game.id, gameData.genres);
+            }
+            if (gameData.studios) {
+                await handleGameStudioCreate(game.id, gameData.studios);
+            }
+            if (gameData.uri) {
+                await saveImageGame({ uri: gameData.uri, gameId: game.id });
+            }
+            
+            setIsLoading(false);
+            Alert.alert('Game created successfully!');
+            navigate();
+        } else {
+            setIsLoading(false);
+            Alert.alert('Failed to create game!');
+        };
     }
 
     const { dropdownData: consolesData } = useConsolesDropdown();
@@ -82,6 +93,6 @@ export default function useGamesCreate() {
         setUri,
         modalPicVisible,
         setModalPicVisible,
-        handleProfilePicture
+        handleUserPicture
     }
 }

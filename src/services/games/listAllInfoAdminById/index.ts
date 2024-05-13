@@ -1,6 +1,7 @@
 import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameFullInfo from '../../../types/games/gameFullInfoUserDTO';
+import GameFullInfoAdminDTO from '../../../types/games/gameFullInfoAdminDTO';
 
 type HandleListAllInfoGamesProps = {
     token: string;
@@ -28,7 +29,7 @@ export const listAllGameInfoByGameIDAdmin = async (props: HandleListAllInfoGames
             const data = response.data;
             
 
-            const game: GameFullInfo = {
+            const game: GameFullInfoAdminDTO = {
                 name: data.name,
                 metacritic: data.metacritic,
                 yearOfRelease: data.yearOfRelease,
