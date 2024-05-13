@@ -9,15 +9,15 @@ import { Control, useForm } from "react-hook-form";
 import InputWithLabel from "../../../components/input/input-label";
 import { InfoIcon } from "lucide-react-native";
 import useGamesManage from "../../../context/hooks/games/useGamesManage";
-import GameFullInfo from "../../../types/games/gameFullInfoDTO";
+import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
     metacritic: "",
     yearOfRelease: "",
-    studios: [],
-    genres: [],
-    consoles: [],
+    studios: [""],
+    genres: [""],
+    consoles: [""],
 };
 
 type FormData = {
@@ -25,11 +25,19 @@ type FormData = {
     metacritic: number,
     yearOfRelease: number,
     studios: string[],
-    genres: string[],
+    genres: string[], 
     consoles: string[],
 }
 
-export default function GameInfo({ navigation }: NativeStackScreenProps<ParamListBase>) {
+type GameInfoParams = {
+    gameId: string;
+};
+  
+type Props = NativeStackScreenProps<ParamListBase, 'GameInfo'>;
+
+export default function GameInfo({ navigation, route }: Props) {
+    const { gameId } = route.params as GameInfoParams;
+
     const {
         control,
         formState: { isValid },
@@ -39,10 +47,17 @@ export default function GameInfo({ navigation }: NativeStackScreenProps<ParamLis
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"})
     
-    const { consolesData, genresData, studiosData, editEnabled, setEditEnabled } = useGamesManage();
+    const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData } = useGamesManage();
 
-    const setFields = () => {
-        
+    const setFields = (data: GameFullInfoUser) => {
+        if (gameId) {
+            console.log('data on setFields: '+ JSON.stringify(data));
+            setValue("name", data.name);
+            setValue("metacritic", data.metacritic.toString());
+            setValue("yearOfRelease", data.yearOfRelease.toString());
+            
+            //setValue("studios", data.studios.map((studio) => studio.id));
+        }
     }
 
     const handleEdit = async (control: Control<FormData>) => {
@@ -53,7 +68,7 @@ export default function GameInfo({ navigation }: NativeStackScreenProps<ParamLis
         const genres = control._formValues.genres;
         const consoles = control._formValues.consoles;
 
-        const gameData: GameFullInfo = {
+        const gameData: GameFullInfoUser = {
             name,
             metacritic,
             yearOfRelease,
@@ -67,7 +82,11 @@ export default function GameInfo({ navigation }: NativeStackScreenProps<ParamLis
     }
 
     useEffect(() => {
-     
+        const fetchData = async () => {
+            const gameData = await loadGameInfoData(gameId);
+            setFields(gameData as any as GameFullInfoUser);
+        };
+        fetchData();
     }, []);
 
     const renderInputsNotEditing = () => {
@@ -77,13 +96,13 @@ export default function GameInfo({ navigation }: NativeStackScreenProps<ParamLis
                     <InputText icon={0} control={control} placeholder="Name" name="name" editable={false}/>
                 </InputWithLabel>
                 <InputWithLabel label="Metacritic">
-                    <InputText icon={0} inputProps={{ keyboardType: "numeric", maxLength: 2 }} control={control} 
-                            name="metacritic" placeholder="Metacritic" rules={{ required: true }}
+                    <InputText icon={0} control={control} 
+                            name="metacritic" placeholder="Metacritic"
                     />
                 </InputWithLabel>
                 <InputWithLabel label="Year of Release">
-                    <InputText icon={0} inputProps={{ keyboardType: "numeric", maxLength: 4 }} control={control} 
-                            name="yearOfRelease" placeholder="Year of Release" rules={{ required: true }}
+                    <InputText icon={0} control={control} 
+                            name="yearOfRelease" placeholder="Year of Release"
                     />
                 </InputWithLabel>
                 <InputWithLabel label="Consoles Available">
@@ -202,7 +221,8 @@ export default function GameInfo({ navigation }: NativeStackScreenProps<ParamLis
                 <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
                     onPress={() => {
                         setEditEnabled(!editEnabled)
-                        setFields()
+                        console.log()
+                        //setFields()
                     }}
                 >{editEnabled ? "Cancel" : "Edit game info"}</ButtonTouchable>       
             </PageDefault>

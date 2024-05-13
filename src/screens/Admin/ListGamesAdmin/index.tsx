@@ -6,7 +6,7 @@ import { ParamListBase } from "@react-navigation/native";
 
 export default function ListAllGamesAdmin({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
+    const {games, isLoading, loadData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
     } = useGamesListAll({ page: currentPageUser});
 
@@ -36,7 +36,7 @@ export default function ListAllGamesAdmin({ navigation }: NativeStackScreenProps
                 grid={grid}
                 setGrid={setGrid}
                 onRefresh={reloadGamesList}
-                navigate={() => navigation.navigate('GameInfo')}
+                navigate={(gameId) => navigation.navigate('GameInfo', { gameId: gameId })}
             />
         </>
     );

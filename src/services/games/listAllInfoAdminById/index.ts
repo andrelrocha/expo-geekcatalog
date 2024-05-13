@@ -7,13 +7,13 @@ type HandleListAllInfoGamesProps = {
     gameId: string;
 };
 
-export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesProps) => {
+export const listAllGameInfoByGameIDAdmin = async (props: HandleListAllInfoGamesProps) => {
     try {
         const headers = {
             'Authorization': `Bearer ${props.token}`
         }
 
-        const endpoint = `/fullgame/user/info/${props.gameId}`;
+        const endpoint = `/fullgame/admin/info/${props.gameId}`;
 
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {
@@ -26,7 +26,7 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
 
         if (response.data) {
             const data = response.data;
-
+            
 
             const game: GameFullInfo = {
                 name: data.name,

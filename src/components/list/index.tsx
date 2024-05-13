@@ -33,7 +33,7 @@ type SectionListProps = {
     modalComponent?: boolean;
     modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
-    navigate?: () => void;
+    navigate?: (gameId: string) => void;
 } & ComponentProps<typeof GLSectionList>;
 
 export default function List (props: SectionListProps) {
@@ -81,7 +81,7 @@ export default function List (props: SectionListProps) {
         return (
             <TouchableOpacity 
                 style={styles.itemContainer}
-                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate()}     
+                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}     
             >
                 <Text style={styles.itemTitle}>{item[props.itemTitle]}</Text>
                 {props.fields.map((field, index) => (

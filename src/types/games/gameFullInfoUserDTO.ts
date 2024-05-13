@@ -1,4 +1,4 @@
-export default interface GameFullInfo {
+export default interface GameFullInfoUser {
     name: string;
     metacritic: number;
     yearOfRelease: number;

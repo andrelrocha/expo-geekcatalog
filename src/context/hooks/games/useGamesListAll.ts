@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { listAllGames } from "../../../services/games/listAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
-import { listAllInfoByGameID } from "../../../services/games/listAllInfoById";
+import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -78,7 +78,7 @@ export default function useGamesListAll(props: UseGamesListAllProps){
     const loadGameInfoData = async (gameId: string) => {
         try {
             setIsLoading(true);
-            const gameInfo = await listAllInfoByGameID({gameId, token: token as string});
+            const gameInfo = await listAllGameInfoByGameIDUser({gameId, token: token as string});
             setIsLoading(false);
             return gameInfo;
         } catch (error) {
