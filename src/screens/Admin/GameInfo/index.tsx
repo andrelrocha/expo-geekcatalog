@@ -69,9 +69,14 @@ export default function GameInfo({ navigation, route }: Props) {
         const name = control._formValues.name;
         const metacritic = control._formValues.metacritic;
         const yearOfRelease = control._formValues.yearOfRelease;
-        const studios = control._formValues.studios;
-        const genres = control._formValues.genres;
-        const consoles = control._formValues.consoles;
+
+        const newStudios = (control._formValues.studios || []).filter((studio: string) => studio !== "");
+        const newGenres = (control._formValues.genres || []).filter((genre: string) => genre !== "");
+        const newConsoles = (control._formValues.consoles || []).filter((console: string) => console !== "");
+        
+        const studios = [...valueSelectedStudio, ...newStudios];
+        const genres = [...valueSelectedGenre, ...newGenres];
+        const consoles = [...valueSelectedConsole, ...newConsoles];
 
         const gameData: GameFullInfoAdminDTO = {
             name,
@@ -81,7 +86,8 @@ export default function GameInfo({ navigation, route }: Props) {
             genres,
             consoles,
         }
-
+        
+        console.log(gameData);
         //await update(userData);
         setEditEnabled(false);
     }
@@ -89,11 +95,10 @@ export default function GameInfo({ navigation, route }: Props) {
     useEffect(() => {
         const fetchData = async () => {
             const gameData = await loadGameInfoData(gameId);
-            console.log(gameData);
             setFields(gameData as GameFullInfoAdminDTO);
         };
         fetchData();
-    }, []);
+    }, [editEnabled]);
 
     const renderInputsNotEditing = () => {
         return (
@@ -228,6 +233,13 @@ export default function GameInfo({ navigation, route }: Props) {
                     >Save</Button>
                 )}
                 */}
+
+                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={colors.buttonBlue} textColor={colors.black}
+                    onPress={handleSubmit(async () => {
+                        handleEdit(control as unknown as Control<FormData>)
+                    })}
+                    disabled={!isValid}
+                >Save</ButtonTouchable>
 
                 <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
                     onPress={() => {

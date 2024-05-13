@@ -27,7 +27,7 @@ export default function MyStackNavigator(props: AppStackNavigatorProps) {
       headerRight: () => <Image source={logo} style={{ width: 50, height: '90%', marginRight: 10 }} />,
       headerStyle,
       headerTitleStyle: {
-        fontWeight: 'bold', // Define o texto do route.name em negrito
+        fontWeight: 'bold',
       },
       headerTintColor: colors.black,
       initialRouteName: props.initialRouteName,
