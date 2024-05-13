@@ -123,6 +123,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     valuesSelected={valueSelectedConsole ? valueSelectedConsole : undefined}
                     data={consolesData}
                     disabled={true}
+                    itemBackgroundColor={colors.sage}
                     />
                 </InputWithLabel>
 
@@ -137,6 +138,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     valuesSelected={valueSelectedGenre ? valueSelectedGenre : undefined}
                     data={genresData}
                     disabled={true}
+                    itemBackgroundColor={colors.sage}
                     />
                 </InputWithLabel>
 

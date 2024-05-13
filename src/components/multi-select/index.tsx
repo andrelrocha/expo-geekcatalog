@@ -31,6 +31,7 @@ type MultiSelectProps<T extends FieldValues> = {
     displayInput?: string;
     disabled?: boolean;
     onChange?: (item: unknown) => void;
+    itemBackgroundColor?: string;
 };
 
 const DropdownSelection = <T extends FieldValues>({
@@ -56,6 +57,10 @@ const DropdownSelection = <T extends FieldValues>({
         marginBottom: props.mb || styles.dropdownContainer.marginBottom,
         borderRadius: props.br || styles.dropdownContainer.borderRadius,
         shadowOpacity: props.shadowOpacity || styles.dropdown.shadowOpacity,
+    };
+
+    const dynamicItemStyle = {
+        backgroundColor: props.itemBackgroundColor 
     };
 
     const [isFocus, setIsFocus] = useState(false);
@@ -112,7 +117,7 @@ const DropdownSelection = <T extends FieldValues>({
                             {icon}
                         </View>
                     )}
-                    selectedStyle={styles.selectedStyle}
+                    selectedStyle={[styles.selectedStyle, dynamicItemStyle]}
                     activeColor={colors.sage}
                     alwaysRenderSelectedItem={true}
                     disable={disabled}

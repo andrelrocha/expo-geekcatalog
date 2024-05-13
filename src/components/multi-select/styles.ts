@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: colors.gray,
-        backgroundColor: 'white',
+        backgroundColor: colors.whiteSmoke,
     },
     separatorStyle: {
         borderBottomWidth: 1,

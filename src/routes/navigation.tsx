@@ -28,6 +28,9 @@ export default function Navigation() {
 
   return (  
     <NavigationContainer>
+      {authenticated ? (
+        <AuthTabs />
+      ) : (
       <Stack.Navigator 
         screenOptions={{ 
           headerShown: false 
@@ -37,6 +40,7 @@ export default function Navigation() {
         <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
         <Stack.Screen name="AuthTabs" component={AuthTabs}/>
       </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 }
