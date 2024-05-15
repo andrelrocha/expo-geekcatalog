@@ -30,6 +30,7 @@ export const listAllGameInfoByGameIDAdmin = async (props: HandleListAllInfoGames
             
 
             const game: GameFullInfoAdminDTO = {
+                id: data.id,
                 name: data.name,
                 metacritic: data.metacritic,
                 yearOfRelease: data.yearOfRelease,

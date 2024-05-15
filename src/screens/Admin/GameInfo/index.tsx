@@ -47,7 +47,7 @@ export default function GameInfo({ navigation, route }: Props) {
         mode: "onChange"})
     
     const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData, setValueSelectedConsole, valueSelectedConsole,
-        setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio } = useGamesManage();
+        setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio, update, isLoading } = useGamesManage();
 
     const setFields = (data: GameFullInfoAdminDTO) => {
         if (gameId) {
@@ -78,6 +78,7 @@ export default function GameInfo({ navigation, route }: Props) {
         const consoles = [...valueSelectedConsole, ...newConsoles];
 
         const gameData: GameFullInfoAdminDTO = {
+            id: gameId,
             name,
             metacritic,
             yearOfRelease,
@@ -86,8 +87,7 @@ export default function GameInfo({ navigation, route }: Props) {
             consoles,
         }
         
-        console.log(gameData);
-        //await update(userData);
+        await update(gameData, navigation.goBack);
         setEditEnabled(false);
     }
 
@@ -222,7 +222,6 @@ export default function GameInfo({ navigation, route }: Props) {
                     {editEnabled ? renderInputsEditing() : renderInputsNotEditing()}
                 </Box>
 
-                {/*
                 {editEnabled && (
                     <Button isLoading={isLoading} mt={20} backgroundColor={colors.buttonBlue} textColor={colors.black}
                         onPress={handleSubmit(async () => {
@@ -231,14 +230,6 @@ export default function GameInfo({ navigation, route }: Props) {
                         disabled={!isValid}
                     >Save</Button>
                 )}
-                */}
-
-                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={colors.buttonBlue} textColor={colors.black}
-                    onPress={handleSubmit(async () => {
-                        handleEdit(control as unknown as Control<FormData>)
-                    })}
-                    disabled={!isValid}
-                >Save</ButtonTouchable>
 
                 <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
                     onPress={() => setEditEnabled(!editEnabled)}
