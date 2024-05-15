@@ -96,7 +96,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           await setToken(tokenJWT);
 
-          loadStorageData();
+          await loadStorageData();
 
           navigate();
         } catch (error: any) {
@@ -139,12 +139,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
         await setToken(tokenJWT);
 
-        loadStorageData();
-
-        await saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
+        if (credentials.uri) {
+          await saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
+        }
+        
+        await loadStorageData();
 
         Alert.alert('Success', 'User created successfully!');
-
+        
         navigate();
       } catch (error: any) {
         console.error("Error creating a new user:", error);
@@ -173,7 +175,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
           await saveProfilePic({ uri: user.uri as string, userId: updatedUser?.id as string});
         }
 
-        loadStorageData();
+        await loadStorageData();
 
         Alert.alert('Success', 'User updated successfully!');
         
