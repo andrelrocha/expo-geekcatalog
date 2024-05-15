@@ -101,7 +101,7 @@ export default function List (props: SectionListProps) {
         return (
             <TouchableOpacity 
                 style={styles.gridItemContainer}
-                onPress={() => openModal(item)}    
+                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}     
             >
                 <Text style={styles.gridItemTitle}>{title}</Text>
                 {props.fields.map((field, index) => (
