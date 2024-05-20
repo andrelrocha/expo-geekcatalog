@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { List } from "../../../components";
+import { ImageTouchable, List } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
-        fields, fieldsLabels, grid, setGrid, gamesIdWithImage
+        fields, fieldsLabels, grid, setGrid, imageUris
     } = useGamesListAll({ page: currentPageUser});
 
     const reloadGamesList = () => {
@@ -16,9 +16,14 @@ export default function ListAllGames() {
     useEffect(() => {
         reloadGamesList();
     }, []);
-    
+
     return (
         <>
+        
+        {imageUris.map((uri, index) => (
+                <ImageTouchable key={index} alt={`IMAGE GAME TESTE ${index}`} source={{uri: uri}} />
+            ))}
+        {/*
             <List
                 data={games}
                 fields={fields}
@@ -38,6 +43,7 @@ export default function ListAllGames() {
                 modalContentService={(gameId: string) => loadGameInfoData(gameId)}
                 modalItemTitle="Game Info"
             />
+        */}
         </>
     );
 }

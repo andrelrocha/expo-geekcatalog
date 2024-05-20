@@ -4,6 +4,7 @@ import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import { getImageGameGamesId } from "../../../services/imageGame/getGamesId";
+import { getImageGame } from "../../../services/imageGame/getByGameId";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -29,6 +30,7 @@ export default function useGamesListAll(props: UseGamesListAllProps){
     });
     const [grid, setGrid] = useState(false);
     const [gamesIdWithImage, setGamesIdWithImage] = useState<string[]>([]);
+    const [imageUris, setImageUris] = useState<string[]>([]);
 
     const fields = ['metacritic', 'yearOfRelease'];
     const fieldsLabels = ['Metacritic', 'Year of Release'];
@@ -94,16 +96,47 @@ export default function useGamesListAll(props: UseGamesListAllProps){
             const gameIdsResponse = await getImageGameGamesId();
             const gamesId = gameIdsResponse.map((gameId: any) => gameId.id);
             setGamesIdWithImage(gamesId);
+            console.log('gamesId:', gamesId);
             return gamesId;
         } catch (error) {
             console.error('Error fetching game ids for image games:', error);
         }
     }
-
+    
+    const loadImageGamesUri = async (gameId: string) => {
+        try {
+            const image = await getImageGame({gameId});
+            return image;
+        } catch (error) {
+            console.error('Error fetching image game:', error);
+        }
+    };
+    
+    const loadAllImageGamesUri = async () => {
+        try {
+            console.log('gamesIdWithImage in load all image games:', gamesIdWithImage);
+            const gamesId = await loadGameIdsForImageGames();
+            const imageUris = await Promise.all(gamesId.map(loadImageGamesUri));
+            return imageUris.filter(uri => uri !== undefined);
+        } catch (error) {
+            console.error('Error fetching all image games URIs:', error);
+        }
+    };
+    
     useEffect(() => {
         loadData();
-        loadGameIdsForImageGames();
     }, [props.page]);
 
-    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData, gamesIdWithImage};
+    useEffect(() => {
+        const fetchGameIdsAndImages = async () => {
+            await loadGameIdsForImageGames();
+            console.log('gamesIdWithImage:', gamesIdWithImage);
+            const imageUris = await loadAllImageGamesUri();
+            console.log('imageUris:', imageUris);
+            setImageUris(imageUris as string[]);
+        };
+        fetchGameIdsAndImages();
+    }, []);
+
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData, imageUris};
 }

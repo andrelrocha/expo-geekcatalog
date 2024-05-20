@@ -149,10 +149,7 @@ export default function List (props: SectionListProps) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    const groupedImageUris = [];
-    for (let i = 0; i < (props.imageUris ?? []).length; i += 2) {
-        groupedImageUris.push((props.imageUris ?? []).slice(i, i + 2));
-    }
+    console.log('imageUri: ', props.imageUris);
 
     return (
         <View style={styles.container}>
@@ -161,7 +158,7 @@ export default function List (props: SectionListProps) {
             ) : (
                 <>
                 <GLFlatList
-                    data={groupedImageUris}
+                    data={props.imageUris}
                     renderItem={imageRenderItem}
                     keyExtractor={(item, index) => index.toString()}
                     numColumns={1}
