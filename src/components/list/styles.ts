@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../utils/colors";
+import ImageTouchable from "../image/image-touchable";
 
 export const styles = StyleSheet.create({
     container: {
@@ -99,5 +100,28 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.black,
         marginBottom: 5,
-    }
+    },
+    imageTouchable: {
+        marginHorizontal: 10,
+        marginVertical: 5,  
+        borderWidth: 5,
+        borderColor: colors.sage,
+        backgroundColor: colors.sageOpacity,
+        borderRadius: 12,
+        padding: 10,
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+
+        width: 150,
+        height: 100,
+
+        elevation: 5,
+        shadowColor: colors.black,
+        shadowOffset: { width: 0, height:  2},
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+
+        overflow: 'hidden',
+    },
 });

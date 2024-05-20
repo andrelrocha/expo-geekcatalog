@@ -5,7 +5,7 @@ import { List } from "../../../components";
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
-        fields, fieldsLabels, grid, setGrid, gamesIdWithImage
+        fields, fieldsLabels, grid, setGrid
     } = useGamesListAll({ page: currentPageUser});
 
     const reloadGamesList = () => {

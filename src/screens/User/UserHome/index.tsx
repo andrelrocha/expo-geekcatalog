@@ -39,7 +39,7 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
             <Box w={400} mt={20} alignItems="center" >
                 <ImageTouchable alt='Profile Picture' source={{uri: profilePicUri}} />
                 <Heading mt={20} textAlign="center" fs={26} mb={5}>Welcome, {currentUser?.name || "User"}!</Heading>
-                <Text mt={0} fontSize={18} color={colors.buttonBlue}>{currentUser?.countryName}</Text>
+                <Text mt={0} fs={18} color={colors.buttonBlue}>{currentUser?.countryName}</Text>
             </Box>
 
             <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 

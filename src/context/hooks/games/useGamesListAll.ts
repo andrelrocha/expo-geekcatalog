@@ -3,6 +3,7 @@ import { listAllGames } from "../../../services/games/listAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
+import { getImageGameGamesId } from "../../../services/imageGame/getGamesId";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -27,6 +28,8 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         pageSize: 0
     });
     const [grid, setGrid] = useState(false);
+    const [gamesIdWithImage, setGamesIdWithImage] = useState<string[]>([]);
+
     const fields = ['metacritic', 'yearOfRelease'];
     const fieldsLabels = ['Metacritic', 'Year of Release'];
 
@@ -86,9 +89,21 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         }
     }
 
+    const loadGameIdsForImageGames = async () => {
+        try {
+            const gameIdsResponse = await getImageGameGamesId();
+            const gamesId = gameIdsResponse.map((gameId: any) => gameId.id);
+            setGamesIdWithImage(gamesId);
+            return gamesId;
+        } catch (error) {
+            console.error('Error fetching game ids for image games:', error);
+        }
+    }
+
     useEffect(() => {
         loadData();
+        loadGameIdsForImageGames();
     }, [props.page]);
 
-    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData};
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData, gamesIdWithImage};
 }
