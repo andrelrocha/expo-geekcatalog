@@ -25,6 +25,7 @@ type ImageUri = {
 }
 
 export default function useGamesListAll(props: UseGamesListAllProps){
+    const [games, setGames] = useState<GameReturn[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
         totalPages: 0,
@@ -32,11 +33,13 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         totalElements: 0,
         pageSize: 0
     });
+    const [grid, setGrid] = useState(false);
+
+    const fields = ['metacritic', 'yearOfRelease'];
+    const fieldsLabels = ['Metacritic', 'Year of Release'];
 
     const { authState } = useAuth();
     const { token } = authState;
-
-    const [imageUris, setImageUris] = useState<ImageUri[]>([]);
 
     const handleParams = () => {
         let paramsToApi = '';
@@ -55,6 +58,31 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         return paramsToApi;
     }
 
+    const loadData = async () => {
+        try {
+            setIsLoading(true);
+            
+            const paramsToApi = handleParams();
+
+            const params ={
+                token: token as string,
+                params: paramsToApi
+            }
+
+            const {games, pageable, totalElements, totalPages} = await listAllGames(params);
+            setGames(games);
+            setPaginationInfo({
+                currentPage: pageable.pageNumber,
+                pageSize: pageable.pageSize,
+                totalPages: totalPages,
+                totalElements: totalElements,
+            });
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error fetching games:', error);
+        }
+    };
+
     const loadGameInfoData = async (gameId: string) => {
         try {
             setIsLoading(true);
@@ -65,6 +93,9 @@ export default function useGamesListAll(props: UseGamesListAllProps){
             console.error('Error fetching full game info:', error);
         }
     }
+
+    
+    const [imageUris, setImageUris] = useState<ImageUri[]>([]);
 
     const loadGameIdsForImageGames = async () => {
         try {
@@ -107,7 +138,6 @@ export default function useGamesListAll(props: UseGamesListAllProps){
             console.error('Error fetching all image games URIs:', error);
         }
     };
-
     useEffect(() => {
         const fetchGameIdsAndImages = async () => {
             const imageUris = await loadAllImageGamesUri();
@@ -121,7 +151,12 @@ export default function useGamesListAll(props: UseGamesListAllProps){
         };
     
         fetchGameIdsAndImages();
+    }, []);
+    
+
+    useEffect(() => {
+        loadData();
     }, [props.page]);
 
-    return {isLoading, paginationInfo, loadGameInfoData, imageUris};
+    return {games, fields, isLoading, paginationInfo, fieldsLabels, grid, setGrid, loadData, loadGameInfoData, imageUris};
 }

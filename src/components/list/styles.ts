@@ -1,12 +1,22 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../utils/colors";
-import ImageTouchable from "../image/image-touchable";
 
 export const styles = StyleSheet.create({
     container: {
       justifyContent: "center",
       alignItems: 'center',
       width: '100%',
+    },
+    containerImage: {
+        justifyContent: "center",
+        alignItems: 'center',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 20,
+        marginTop: 20,
+        overflow: 'hidden',
     },
     scrollContainer: {
         flexGrow: 1,

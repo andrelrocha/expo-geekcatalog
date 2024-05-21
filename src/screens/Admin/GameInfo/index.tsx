@@ -1,14 +1,16 @@
 import { useEffect } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
-import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText } from "../../../components";
+import { InfoIcon } from "lucide-react-native";
+import { View } from "react-native";
+import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText, ButtonAddImage, TextWarning, ImageTouchable, PhotoSelectionModal } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
 import { Control, useForm } from "react-hook-form";
 import InputWithLabel from "../../../components/input/input-label";
-import { InfoIcon } from "lucide-react-native";
 import useGamesManage from "../../../context/hooks/games/useGamesManage";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
+import { styles } from "../styles";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
@@ -47,7 +49,8 @@ export default function GameInfo({ navigation, route }: Props) {
         mode: "onChange"})
     
     const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData, setValueSelectedConsole, valueSelectedConsole,
-        setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio, update, isLoading } = useGamesManage();
+        setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio, update, isLoading, uri, setUri, modalPicVisible,
+        setModalPicVisible, handleUserPicture } = useGamesManage();
 
     const setFields = (data: GameFullInfoAdminDTO) => {
         if (gameId) {
@@ -87,7 +90,7 @@ export default function GameInfo({ navigation, route }: Props) {
             consoles,
         }
         
-        await update(gameData, navigation.goBack);
+        await update(gameData, uri, navigation.goBack);
         setEditEnabled(false);
     }
 
@@ -210,6 +213,17 @@ export default function GameInfo({ navigation, route }: Props) {
                     data={studiosData}
                     />
                 </InputWithLabel>
+
+                <View style={styles.containerAddImage}>
+                    {!uri ? (
+                    <>
+                        <ButtonAddImage  children={undefined} onPress={() => setModalPicVisible(!modalPicVisible)} />
+                        <TextWarning ml={10} w={200} o={0.7} fs={12} h={42}>Click on the camera icon to update the Game Image</TextWarning>
+                    </>
+                    ) : (
+                    <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
+                    )}
+                </View>
             </>
         )
     }
@@ -218,7 +232,7 @@ export default function GameInfo({ navigation, route }: Props) {
         <>
             <PageDefault>
                 <Heading mb={10} mt={10}>Game Info</Heading>
-                <Box mt={20} alignItems="center" >
+                <Box mt={20} >
                     {editEnabled ? renderInputsEditing() : renderInputsNotEditing()}
                 </Box>
 
@@ -235,6 +249,15 @@ export default function GameInfo({ navigation, route }: Props) {
                     onPress={() => setEditEnabled(!editEnabled)}
                 >{editEnabled ? "Cancel" : "Edit game info"}</ButtonTouchable>       
             </PageDefault>
+
+            { modalPicVisible && (
+                <PhotoSelectionModal 
+                visible={modalPicVisible} 
+                onRequestClose={() => setModalPicVisible(false)} 
+                onCameraPress={() => handleUserPicture('camera')}
+                onGalleryPress={() => handleUserPicture('gallery')}
+                />
+            )}
         </>
     )
 }

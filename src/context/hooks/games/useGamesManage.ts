@@ -7,6 +7,8 @@ import useAuth from "../use-auth.hook";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
 import { updateGame } from "../../../services/games/update";
 import { Alert } from "react-native";
+import { saveImageGame } from "../../../services/imageGame/create";
+import { handleImageSelection } from "../../../services/image/getImageFromUser";
 
 export default function useGamesManage() {
     const [editEnabled, setEditEnabled] = useState(false);
@@ -15,6 +17,8 @@ export default function useGamesManage() {
     const [ valueSelectedStudio, setValueSelectedStudio ] = useState<string[]>([]);
     const [ gameId, setGameId ] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [uri, setUri] = useState("");
+    const [modalPicVisible, setModalPicVisible] = useState(false);
 
     const { authState } = useAuth();
     const { token } = authState;
@@ -32,10 +36,13 @@ export default function useGamesManage() {
         return gameInfo;
     }
 
-    const update = async (gameData: GameFullInfoAdminDTO, navigate: () => void) => {
+    const update = async (gameData: GameFullInfoAdminDTO, uri: string, navigate: () => void) => {
         try {
             setIsLoading(true);
             await updateGame(gameData);
+            if (uri !== "") {
+                await saveImageGame({uri, gameId: gameData.id});
+            }
             setIsLoading(false);
             Alert.alert('Game updated successfully!');
             navigate();
@@ -44,6 +51,11 @@ export default function useGamesManage() {
             Alert.alert('Failed to update game!');
         }
     }
+
+    const handleUserPicture = async (mode: "gallery" | "camera" | undefined) => {
+        const uri = await handleImageSelection({ mode: mode });
+        setUri(uri as string);
+      }
 
     return {
         consolesData,
@@ -61,6 +73,11 @@ export default function useGamesManage() {
         gameId,
         setGameId,
         update,
-        isLoading
+        isLoading,
+        uri,
+        setUri,
+        modalPicVisible,
+        setModalPicVisible,
+        handleUserPicture
     }
 }

@@ -1,49 +1,27 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { ImageTouchable, List } from "../../../components";
+import { List, ListImage } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {games, isLoading, loadData, loadGameInfoData, paginationInfo, 
-        fields, fieldsLabels, grid, setGrid, imageUris
+    const {isLoading, paginationInfo, imageUris, loadGameInfoData
     } = useGamesListAll({ page: currentPageUser});
-
-    const reloadGamesList = () => {
-        setCurrentPageUser(0);
-        loadData();
-    };
-
-    useEffect(() => {
-        reloadGamesList();
-    }, []);
-
+    
     return (
         <>
-        
-        {imageUris.map((uri, index) => (
-                <ImageTouchable key={index} alt={`IMAGE GAME TESTE ${index}`} source={{uri: uri}} />
-            ))}
-        {/*
-            <List
-                data={games}
-                fields={fields}
-                fieldsLabels={fieldsLabels}
-                keyExtractor={(item) => item.id}
-                isLoading={isLoading}
-                title={'All Games'}
-                itemTitle="name"
-                decelerationRate="fast"
+            <ListImage
+                title='All Games'
+                alt="Image Game"
                 totalPages={paginationInfo.totalPages}
                 currentPage={currentPageUser}
                 onPageChange={setCurrentPageUser}
-                grid={grid}
-                setGrid={setGrid}
-                onRefresh={reloadGamesList}
+                //onRefresh={reloadGamesList}
                 modalComponent={true}
                 modalContentService={(gameId: string) => loadGameInfoData(gameId)}
                 modalItemTitle="Game Info"
+                imageUris={imageUris}
+                isLoading={isLoading}
             />
-        */}
         </>
     );
 }

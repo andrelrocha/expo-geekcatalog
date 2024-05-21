@@ -27,10 +27,7 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
         if (currentUser?.id) {
             fetchProfilePic();
         }
-        
     }, [currentUser]);
-
-
    
     return (
         <PageDefault

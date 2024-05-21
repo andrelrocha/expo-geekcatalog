@@ -147,7 +147,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
             />
           </InputWithLabel>
 
-          {/*
+          
           <View style={styles.containerAddImage}>
             {!uri ? (
               <>
@@ -158,7 +158,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
               <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
             )}
           </View>
-          */}
+          
         </Box>
 
         <Button

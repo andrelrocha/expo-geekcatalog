@@ -19,6 +19,7 @@ import PhotoSelectionModal from './modal/select-photo';
 import Modal from './modal/modal-popup';
 import PasswordWarning from './password-warning';
 import List from './list';
+import ListImage from './list-image';
 import Text from './text/text';
 import TextWarning from './text/text-warning';
 
@@ -41,6 +42,7 @@ export {
     InputPasswordValidation, 
     ImageTouchable,
     List,
+    ListImage,
     Modal,
     MultiSelectDropdown as MultiSelect,
     PaginationButtons,

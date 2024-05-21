@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
+import useGamesListAllAdmin from "../../../context/hooks/games/useGamesListAllAdmin";
 import { List } from "../../../components";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
@@ -8,7 +8,7 @@ export default function ListAllGamesAdmin({ navigation }: NativeStackScreenProps
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {games, isLoading, loadData, paginationInfo, 
         fields, fieldsLabels, grid, setGrid
-    } = useGamesListAll({ page: currentPageUser});
+    } = useGamesListAllAdmin({ page: currentPageUser});
 
     const reloadGamesList = () => {
         setCurrentPageUser(0);

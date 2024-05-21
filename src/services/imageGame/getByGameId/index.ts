@@ -18,21 +18,20 @@ export const getImageGame = async (props: HandleGetImageGame) => {
         const response = await ApiManagerMultiPart.get(endpoint, { headers })
             .then((response) => {
                 if (response.status === 200 && response.data) {
-                    console.log('Image game fetched successfully');
                     const blob = new Blob([response.data]);
                     return URL.createObjectURL(blob);
                 } else {
-                    console.log('Error fetching image game: No data returned');
+                    console.error('Error fetching image game: No data returned');
                 }
             })
             .catch((error) => {
-                console.log('Error fetching image game: ', error);
-                console.log('Error fetching image game for gameId: ', props.gameId);
+                console.error('Error fetching image game: ', error);
+                console.error('Error fetching image game for gameId: ', props.gameId);
             });
 
         return response;
     } catch (error) {
-        console.log('Error in the process of fetching the image game ', error);
+        console.error('Error in the process of fetching the image game ', error);
         return null;
     }
 };

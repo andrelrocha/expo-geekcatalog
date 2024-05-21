@@ -8,7 +8,6 @@ import TextWarning from "../text/text-warning";
 import { GridIcon, GalleryVerticalIcon } from "../icons";
 import { colors } from "../../utils/colors";
 import Modal from "../modal/modal-popup";
-import ImageTouchable from "../image/image-touchable";
 
 type SectionListProps = {
     title: string;
@@ -35,14 +34,12 @@ type SectionListProps = {
     modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
     navigate?: (gameId: string) => void;
-    imageUris?: Array<string>;
 } & ComponentProps<typeof GLSectionList>;
 
 export default function List (props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [modalData, setModalData] = useState<any>(null);
-    const [imageUri] = props.imageUris || [''];
 
     const onRefresh = useCallback(() => {
         setRefreshing(true); 
@@ -80,13 +77,39 @@ export default function List (props: SectionListProps) {
         setModalData(null);
     };
 
-    const imageRenderItem = ({ item }: { item: any }) => {
+    const defaultRenderItem = ({ item }: { item: any }) => {
         return (
-            <View style={styles.gridItemContainer}>
-                {item.map((uri: any, index: React.Key | null | undefined) => (
-                    <ImageTouchable key={index} alt='Game Image' source={{ uri }} style={styles.imageTouchable} />
+            <TouchableOpacity 
+                style={styles.itemContainer}
+                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}     
+            >
+                <Text style={styles.itemTitle}>{item[props.itemTitle]}</Text>
+                {props.fields.map((field, index) => (
+                    <Text key={index} style={styles.itemText as ViewStyle}>
+                        {props.fieldsLabels && props.fieldsLabels[index]
+                            ? `${props.fieldsLabels[index]}: ${item[field]}`
+                            : `${field.charAt(0).toUpperCase() + field.slice(1)}: ${item[field]}`}
+                    </Text>
                 ))}
-            </View>
+            </TouchableOpacity>
+        );
+    };
+
+    const gridRenderItem = ({ item }: { item: any }) => {
+        const title = item[props.itemTitle].length > 25 ? `${item[props.itemTitle].substring(0, 25)}...` : item[props.itemTitle];
+
+        return (
+            <TouchableOpacity 
+                style={styles.gridItemContainer}
+                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}     
+            >
+                <Text style={styles.gridItemTitle}>{title}</Text>
+                {props.fields.map((field, index) => (
+                    <Text key={index} style={styles.gridItemText}>
+                        {item[field]}
+                    </Text>
+                ))}
+            </TouchableOpacity>
         );
     };
     
@@ -149,31 +172,49 @@ export default function List (props: SectionListProps) {
         return str.charAt(0).toUpperCase() + str.slice(1);
     };
 
-    console.log('imageUri: ', props.imageUris);
-
     return (
         <View style={styles.container}>
             {props.isLoading ? (
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
                 <>
-                <GLFlatList
-                    data={props.imageUris}
-                    renderItem={imageRenderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                    numColumns={1}
-                    ListHeaderComponent={renderHeader}
-                    showsVerticalScrollIndicator={false}
-                    showsHorizontalScrollIndicator={false}
-                    decelerationRate={props.decelerationRate}
-                    ListFooterComponent={renderFooter}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh} 
-                        />
-                    }
-                />
+                {!props.grid ? (
+                    <GLSectionList
+                        sections={[{ data: props.data }]}
+                        renderItem={defaultRenderItem}
+                        keyExtractor={(item: any) => item.id.toString()}
+                        renderSectionHeader={() => null}
+                        ListHeaderComponent={renderHeader}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        decelerationRate={props.decelerationRate}
+                        renderSectionFooter={renderFooter}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh} 
+                            />
+                        }
+                    />
+                ) : (
+                    <GLFlatList
+                        data={props.data}
+                        renderItem={gridRenderItem}
+                        keyExtractor={(item: any) => item.id.toString()}
+                        numColumns={2}
+                        ListHeaderComponent={renderHeader}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        decelerationRate={props.decelerationRate}
+                        ListFooterComponent={renderFooter}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh} 
+                            />
+                        }
+                    />
+                )}
              </>
             )}
      
