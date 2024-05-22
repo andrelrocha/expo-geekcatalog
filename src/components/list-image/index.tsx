@@ -25,7 +25,6 @@ type SectionListProps = {
     isLoading?: boolean;
     grid?: boolean;
     setGrid?: (grid: boolean) => void;
-    displayName?: boolean;
 };
 
 export default function ListImage(props: SectionListProps) {
@@ -35,7 +34,6 @@ export default function ListImage(props: SectionListProps) {
 
     const imageRenderItemGrid = () => {
         return (props.imageUris ?? []).map((item: any) => (
-            
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
@@ -45,8 +43,6 @@ export default function ListImage(props: SectionListProps) {
                 w={150}
                 h={150}
             />
-  
-        
         ));
     };
 
@@ -164,15 +160,15 @@ export default function ListImage(props: SectionListProps) {
                         {renderFooter()}
                     </Box>
 
-                    {props.modalComponent && isOpen && !props.isLoading && (
-                        <Modal
-                            body={handleModalData(modalData)}
-                            isOpen={isOpen}
-                            onClose={closeModal}
-                            title={props.modalItemTitle}
-                        />
-                    )}
                 </ScrollView>
+            )}
+            {props.modalComponent && isOpen && !props.isLoading && (
+                <Modal
+                    body={handleModalData(modalData)}
+                    isOpen={isOpen}
+                    onClose={closeModal}
+                    title={props.modalItemTitle}
+                />
             )}
         </View>
     );

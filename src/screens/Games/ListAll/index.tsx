@@ -24,6 +24,7 @@ export default function ListAllGames() {
                 modalItemTitle="Game Info"
                 imageUris={imageGames}
                 isLoading={isLoading}
+                grid={grid}
             />
         </>
     );

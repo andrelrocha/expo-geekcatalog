@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import useAuth from "../use-auth.hook";
 import { listAllImageGames } from "../../../services/imageGame/getAllPageable";
+import ImageUriList from "../../../types/image/ImageUriListDTO";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -55,12 +56,14 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
             const { imageGames, pageable, totalElements, totalPages } = await listAllImageGames(params);
 
             const imageGameListFormat = imageGames.map((imageGame: any) => {
-                return {
+                const imageUriList: ImageUriList = {
                     id: imageGame.gameId,
                     uri: imageGame.imageUrl,
                     name: imageGame.gameName,
                 };
+                return imageUriList;
             });
+            
             setImageGames(imageGameListFormat);
             setPaginationInfo({
                 currentPage: pageable.pageNumber,
