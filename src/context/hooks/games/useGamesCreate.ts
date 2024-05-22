@@ -9,8 +9,8 @@ import useStudiosDropdown from "../studios/useStudiosDropdown";
 import { createGameGenre } from "../../../services/gameGenre/create";
 import { createGameStudio } from "../../../services/gameStudio/create";
 import { handleImageSelection } from "../../../services/image/getImageFromUser";
-import { saveImageGame } from "../../../services/imageGame/create";
-
+import { uploadImageGame } from "../../../services/imageGame/upload";
+ 
 export default function useGamesCreate() {
     const [isLoading, setIsLoading] = useState(false);
     const [uri, setUri] = useState("");
@@ -67,7 +67,7 @@ export default function useGamesCreate() {
                 await handleGameStudioCreate(game.id, gameData.studios);
             }
             if (gameData.uri) {
-                await saveImageGame({ uri: gameData.uri, gameId: game.id });
+                await uploadImageGame({ uri: gameData.uri, gameId: game.id });
             }
             
             setIsLoading(false);

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
 import ImageTouchable from "../image/image-touchable";
 import Heading from "../heading";
-import PageDefault from "../../screens/Default";
 import PaginationButtons from "../pagination-buttons";
 import { colors } from "../../utils/colors";
 import Modal from "../modal/modal-popup";
@@ -25,7 +24,7 @@ type SectionListProps = {
 type ImageUri = {
     id: string;
     uri: string;
-}
+}  
 
 export default function ListImage(props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
@@ -34,6 +33,7 @@ export default function ListImage(props: SectionListProps) {
 
     const imageRenderItem = () => {
         return (props.imageUris ?? []).map((item: any) => (
+            console.log(item),
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}

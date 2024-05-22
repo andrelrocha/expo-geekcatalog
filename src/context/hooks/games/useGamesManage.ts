@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
@@ -7,8 +7,8 @@ import useAuth from "../use-auth.hook";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
 import { updateGame } from "../../../services/games/update";
 import { Alert } from "react-native";
-import { saveImageGame } from "../../../services/imageGame/create";
 import { handleImageSelection } from "../../../services/image/getImageFromUser";
+import { uploadImageGame } from "../../../services/imageGame/upload";
 
 export default function useGamesManage() {
     const [editEnabled, setEditEnabled] = useState(false);
@@ -18,6 +18,7 @@ export default function useGamesManage() {
     const [ gameId, setGameId ] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [uri, setUri] = useState("");
+    const [gameImageUri, setGameImageUri] = useState("");
     const [modalPicVisible, setModalPicVisible] = useState(false);
 
     const { authState } = useAuth();
@@ -33,15 +34,17 @@ export default function useGamesManage() {
             gameId: gameId
         }
         const gameInfo = await listAllGameInfoByGameIDAdmin(params);
+
         return gameInfo;
     }
 
     const update = async (gameData: GameFullInfoAdminDTO, uri: string, navigate: () => void) => {
         try {
             setIsLoading(true);
+            //ALTERAR AQUI P MANDAR JUNTO
             await updateGame(gameData);
             if (uri !== "") {
-                await saveImageGame({uri, gameId: gameData.id});
+                await uploadImageGame({uri, gameId: gameData.id});
             }
             setIsLoading(false);
             Alert.alert('Game updated successfully!');
@@ -78,6 +81,7 @@ export default function useGamesManage() {
         setUri,
         modalPicVisible,
         setModalPicVisible,
-        handleUserPicture
+        handleUserPicture,
+        gameImageUri,
     }
 }
