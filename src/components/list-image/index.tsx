@@ -46,6 +46,23 @@ export default function ListImage(props: SectionListProps) {
         ));
     };
 
+    const imageRenderItemVertical = () => {
+        return (props.imageUris ?? []).map((item: any) => (
+            <Box alignItems="center">
+                <ImageTouchable 
+                    key={item.id}
+                    onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
+                    source={{ uri: item.uri }}
+                    alt={props.alt}
+                    br={10}
+                    w={250}
+                    h={250}
+                />
+                <Text style={styles.textImage}>{item.name}</Text>
+            </Box>
+        ));
+    };
+
     const onRefresh = useCallback(() => {
         setRefreshing(true); 
         if (props.onRefresh) {
@@ -85,7 +102,7 @@ export default function ListImage(props: SectionListProps) {
     const renderHeader = () => (
         <View style={styles.containerHeader}>
             <View style={{width:50}}></View>
-            <Heading w={245} fs={32} mb={20} mt={20}>{props.title}</Heading>
+            <Heading w={props.grid ? 245 : 180} fs={32} mb={20} mt={20}>{props.title}</Heading>
             <TouchableOpacity
                 onPress={() => props.setGrid && props.setGrid(!props.grid)}
             >{handleDisplay()}
@@ -155,7 +172,13 @@ export default function ListImage(props: SectionListProps) {
                     }    
                 >
                     {renderHeader()}
-                    {imageRenderItemGrid()}
+
+                    {props.grid ? (
+                        imageRenderItemGrid()
+                    ) : (
+                        imageRenderItemVertical()
+                    )}
+
                     <Box alignItems="center">
                         {renderFooter()}
                     </Box>
@@ -195,6 +218,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width: 300
+    },
+    textImage: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginTop: 10,
+        textAlign: 'center',
     },
     modalItemLabel: {
         fontSize: 18,

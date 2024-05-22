@@ -27,7 +27,7 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
         totalElements: 0,
         pageSize: 0
     });
-    const [grid, setGrid] = useState(false);
+    const [grid, setGrid] = useState(true);
     const [imageGames, setImageGames] = useState<any[]>([]);
 
     const handleParams = () => {

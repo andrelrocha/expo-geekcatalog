@@ -13,7 +13,7 @@ export default function ListAllGames() {
     return (
         <>
             <ListImage
-                title='All Games'
+                title='Games'
                 alt="Image Game"
                 totalPages={paginationInfo.totalPages}
                 currentPage={currentPageUser}
@@ -25,6 +25,8 @@ export default function ListAllGames() {
                 imageUris={imageGames}
                 isLoading={isLoading}
                 grid={grid}
+                setGrid={setGrid}
+                displayName={true}
             />
         </>
     );

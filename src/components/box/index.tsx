@@ -6,6 +6,7 @@ import { StyleSheet, ViewStyle } from "react-native";
 interface BoxProps {
   children: ReactNode;
   w?: number;
+  h?: number;
   mt?: number;
   mb?: number;
   mr?: number;
@@ -34,6 +35,7 @@ const boxStyles = StyleSheet.create({
     flexDirection: 'column',
     gap: 0,
     justifyContent: 'center',
+    height: 'auto',
   }
 });
 
@@ -58,6 +60,7 @@ const Box = (props: BoxProps) => {
     flexDirection: props.flexDirection || boxStyles.box.flexDirection,
     gap: props.gap || boxStyles.box.gap,
     justifyContent: props.justifyContent || boxStyles.box.justifyContent,
+    height: props.h || boxStyles.box.height,
   };
 
   return (
