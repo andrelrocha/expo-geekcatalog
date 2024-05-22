@@ -41,7 +41,6 @@ export default function useGamesManage() {
     const update = async (gameData: GameFullInfoAdminDTO, uri: string, navigate: () => void) => {
         try {
             setIsLoading(true);
-            //ALTERAR AQUI P MANDAR JUNTO
             await updateGame(gameData);
             if (uri !== "") {
                 await uploadImageGame({uri, gameId: gameData.id});
