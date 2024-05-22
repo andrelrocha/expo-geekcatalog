@@ -4,33 +4,27 @@ import { List, ListImage } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {isLoading, paginationInfo, grid, setGrid, imageGames, loadImageGames } = useGamesListAll({ page: currentPageUser});
+    const {isLoading, paginationInfo, grid, setGrid, imageGames, loadImageGames, loadGameInfoData } = useGamesListAll({ page: currentPageUser});
     
 
     useEffect(() => {
         loadImageGames();
-        console.log('currentPageUser', currentPageUser);
-        console.log('paginationInfo', paginationInfo);
-        console.log('imageGames: ', imageGames);
     }, [currentPageUser]);
     return (
         <>
-
-            {/*
             <ListImage
                 title='All Games'
                 alt="Image Game"
                 totalPages={paginationInfo.totalPages}
                 currentPage={currentPageUser}
                 onPageChange={setCurrentPageUser}
-                //onRefresh={reloadGamesList}
+                onRefresh={loadImageGames}
                 modalComponent={true}   
                 modalContentService={(gameId: string) => loadGameInfoData(gameId)}
                 modalItemTitle="Game Info"
-                imageUris={imageUris}
+                imageUris={imageGames}
                 isLoading={isLoading}
             />
-            */}
         </>
     );
 }

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import useAuth from "../use-auth.hook";
 import { listAllImageGames } from "../../../services/imageGame/getAllPageable";
@@ -54,8 +54,14 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
 
             const { imageGames, pageable, totalElements, totalPages } = await listAllImageGames(params);
 
-            console.log('imageGames on useGamesListAll', imageGames);
-            setImageGames(imageGames);
+            const imageGameListFormat = imageGames.map((imageGame: any) => {
+                return {
+                    id: imageGame.gameId,
+                    uri: imageGame.imageUrl,
+                    name: imageGame.gameName,
+                };
+            });
+            setImageGames(imageGameListFormat);
             setPaginationInfo({
                 currentPage: pageable.pageNumber,
                 pageSize: pageable.pageSize,
@@ -68,18 +74,26 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
         }
     }
 
-    /*
+    const loadGameInfoData = async (gameId: string) => {
+        try {
+            setIsLoading(true);
+            const gameInfo = await listAllGameInfoByGameIDUser({gameId, token: token as string});
+            setIsLoading(false);
+            return gameInfo;
+        } catch (error) {
+            console.error('Error fetching full game info:', error);
+        }
+    }    
+
     useEffect(() => {
-        const fetchGameIdsAndImages = async () => {
-            const imageUris = await loadAllImageGamesUri();
-            setImageUris(imageUris);
+        const fetchImageGames = async () => {
+            loadImageGames();
         };
 
-        fetchGameIdsAndImages();
+        fetchImageGames();
     }, []);
-    */
 
-    return { isLoading, paginationInfo, imageGames, loadImageGames, grid, setGrid };
+    return { isLoading, paginationInfo, imageGames, loadImageGames, grid, setGrid, loadGameInfoData };
 };
 
 export default useGamesListAll;

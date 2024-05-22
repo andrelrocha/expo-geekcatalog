@@ -1,6 +1,6 @@
 import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
-import ImageGame from '../../../types/imageGame/imageGameDTO'
+import ImageGame from '../../../types/imageGame/imageGameDTO';
 
 type HandleListAllImageGamesProps = {
     params: string;

@@ -1,13 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ImageTouchable from "../image/image-touchable";
 import Heading from "../heading";
 import PaginationButtons from "../pagination-buttons";
 import { colors } from "../../utils/colors";
 import Modal from "../modal/modal-popup";
+import ImageUriList from "../../types/image/ImageUriListDTO";
+import TextWarning from "../text/text-warning";
+import { GalleryVerticalIcon, GridIcon } from "../icons";
+import Box from "../box";
 
 type SectionListProps = {
-    imageUris: ImageUri[];
+    imageUris: ImageUriList[];
     title: string;
     onRefresh?: () => void;
     alt: string;
@@ -19,21 +23,19 @@ type SectionListProps = {
     currentPage?: number;
     onPageChange?: (page: number) => void;
     isLoading?: boolean;
+    grid?: boolean;
+    setGrid?: (grid: boolean) => void;
+    displayName?: boolean;
 };
-
-type ImageUri = {
-    id: string;
-    uri: string;
-}  
 
 export default function ListImage(props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [modalData, setModalData] = useState<any>(null);
 
-    const imageRenderItem = () => {
+    const imageRenderItemGrid = () => {
         return (props.imageUris ?? []).map((item: any) => (
-            console.log(item),
+            
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
@@ -41,8 +43,10 @@ export default function ListImage(props: SectionListProps) {
                 alt={props.alt}
                 br={10}
                 w={150}
-                h={200}
+                h={150}
             />
+  
+        
         ));
     };
 
@@ -73,6 +77,25 @@ export default function ListImage(props: SectionListProps) {
         setIsOpen(false);
         setModalData(null);
     };
+
+    const handleDisplay = () => {
+        if (props.grid) {
+            return <GalleryVerticalIcon color={colors.black} size={26}/>;
+        } else {
+            return <GridIcon color={colors.black} size={26}/>;
+        }
+    };
+
+    const renderHeader = () => (
+        <View style={styles.containerHeader}>
+            <View style={{width:50}}></View>
+            <Heading w={245} fs={32} mb={20} mt={20}>{props.title}</Heading>
+            <TouchableOpacity
+                onPress={() => props.setGrid && props.setGrid(!props.grid)}
+            >{handleDisplay()}
+            </TouchableOpacity>
+        </View>
+    );
 
     const renderFooter = () => {        
         return (
@@ -122,43 +145,60 @@ export default function ListImage(props: SectionListProps) {
     };
 
     return (
-        <View>
-            <ScrollView 
-                contentContainerStyle={styles.containerImage}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh} 
-                    />
-                }    
-            >
-                <Heading> {props.title} </Heading>
-                {imageRenderItem()}
-                {props.modalComponent && isOpen && !props.isLoading && (
-                    <Modal
-                        body={handleModalData(modalData)}
-                        isOpen={isOpen}
-                        onClose={closeModal}
-                        title={props.modalItemTitle}
-                    />
-                )}
-            </ScrollView>
+        <View style={styles.container}>
+            {props.isLoading ? (
+                <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
+            ) : (
+                <ScrollView 
+                    contentContainerStyle={styles.containerImage}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh} 
+                        />
+                    }    
+                >
+                    {renderHeader()}
+                    {imageRenderItemGrid()}
+                    <Box alignItems="center">
+                        {renderFooter()}
+                    </Box>
 
+                    {props.modalComponent && isOpen && !props.isLoading && (
+                        <Modal
+                            body={handleModalData(modalData)}
+                            isOpen={isOpen}
+                            onClose={closeModal}
+                            title={props.modalItemTitle}
+                        />
+                    )}
+                </ScrollView>
+            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        justifyContent: "center",
+        alignItems: 'center',
+        width: '100%',
+    },
     containerImage: {
         justifyContent: "center",
         alignItems: 'center',
-        height: '100%',
         display: 'flex',
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 20,
         paddingTop: 20,
         overflow: 'hidden',
+    },
+    containerHeader: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 300
     },
     modalItemLabel: {
         fontSize: 18,

@@ -17,6 +17,7 @@ interface BoxProps {
   flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
   gap?: number;
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+  style?: ViewStyle;
 }
 
 const boxStyles = StyleSheet.create({
@@ -60,7 +61,7 @@ const Box = (props: BoxProps) => {
   };
 
   return (
-    <StyledBox style={[dynamicStyles as ViewStyle]}>
+    <StyledBox style={{...dynamicStyles, ...props.style}}>
       {props.children}
     </StyledBox>
   );
