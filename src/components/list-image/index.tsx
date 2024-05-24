@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useCallback, useState } from "react";
+import { Dimensions, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ImageTouchable from "../image/image-touchable";
 import Heading from "../heading";
 import PaginationButtons from "../pagination-buttons";
@@ -100,18 +100,21 @@ export default function ListImage(props: SectionListProps) {
         }
     };
 
+    const screenWidth = Dimensions.get('window').width;
+    const headingWidth = (screenWidth / 2)*1.1;
+    const otherElementWidth = screenWidth / 6;
+
     const renderHeader = () => (
         <View style={styles.containerHeader}>
-            <View style={{width:20}}></View>
-            <Heading w={props.grid ? 275 : 210} fs={32} mb={20} mt={20}>{props.title}</Heading>
-            <TouchableOpacity
-                onPress={() => props.setGrid && props.setGrid(!props.grid)}
-            >{handleDisplay()}
+            <View style={{ width: otherElementWidth }} />
+            <Heading w={headingWidth} fs={32} mb={20} mt={20}>{props.title}</Heading>
+            <TouchableOpacity style={{width: otherElementWidth}} onPress={() => props.setGrid && props.setGrid(!props.grid)}>
+                {handleDisplay()}
             </TouchableOpacity>
         </View>
     );
 
-    const renderFooter = () => {        
+    const renderFooter = () => {           
         return (
             <PaginationButtons 
                 totalPages={props.totalPages as number} 
@@ -218,7 +221,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        width: 300
+        width: 300,
     },
     textImage: {
         fontSize: 16,

@@ -20,6 +20,7 @@ import Modal from './modal/modal-popup';
 import PasswordWarning from './password-warning';
 import List from './list';
 import ListImage from './list-image';
+import TabView from './tab-view';
 import Text from './text/text';
 import TextWarning from './text/text-warning';
 
@@ -48,6 +49,7 @@ export {
     PaginationButtons,
     PasswordWarning,
     PhotoSelectionModal,
+    TabView,
     Text,
     TextWarning
 };

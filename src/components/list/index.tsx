@@ -1,6 +1,6 @@
 import { FlatList as GLFlatList, SectionList as GLSectionList } from "@gluestack-ui/themed";
 import React, { ComponentProps, useCallback, useState } from "react";
-import { RefreshControl, Text, TouchableOpacity, View, ViewStyle } from "react-native";
+import { Dimensions, RefreshControl, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { styles } from "./styles";
 import Heading from "../heading";
 import PaginationButtons from "../pagination-buttons";
@@ -42,7 +42,7 @@ export default function List (props: SectionListProps) {
     const [modalData, setModalData] = useState<any>(null);
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true); 
+        setRefreshing(true);    
         if (props.onRefresh) {
             setTimeout(async () => {
                 setRefreshing(false); 
@@ -113,11 +113,14 @@ export default function List (props: SectionListProps) {
         );
     };
     
+    const screenWidth = Dimensions.get('window').width;
+    const headingWidth = (screenWidth / 2)*1.1;
+    const otherElementWidth = screenWidth / 6;
 
     const renderHeader = () => (
         <View style={styles.containerHeader}>
-            <View style={{width:50}}></View>
-            <Heading w={250} fs={32} mb={20} mt={20}>{props.title}</Heading>
+            <View style={{width:otherElementWidth}}></View>
+            <Heading w={headingWidth} fs={32} mb={20} mt={20}>{props.title}</Heading>
             <TouchableOpacity
                 onPress={() => props.setGrid && props.setGrid(!props.grid)}
             >{handleDisplay()}
