@@ -19,7 +19,7 @@ export default function AuthTab() {
         headerShown: false  
       }}
     >
-      
+      {/*
       <Tab.Screen
         name="Games"
         component={GamesStack}
@@ -36,6 +36,7 @@ export default function AuthTab() {
           tabBarActiveTintColor: colors.black,
         }}
       />
+      */}
 
         <Tab.Screen 
             name="ListsApp" 

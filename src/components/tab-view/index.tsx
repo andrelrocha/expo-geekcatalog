@@ -29,14 +29,13 @@ export default function TabView({ routes, scenes }: TabViewProps) {
   const renderScene = SceneMap(scenes);
 
   const renderTabBar = (props: any) => {
-    const inputRange = props.navigationState.routes.map((x: any, i: any) => i);
-
     return (
       <View style={styles.tabBar}>
         {props.navigationState.routes.map((route: any, i: any) => {
           const isFocused = props.navigationState.index === i;
           const backgroundColor = isFocused ? colors.sage : colors.sageOpacity;
           const opacity = isFocused ? 1 : 0.5;
+          const fontWeight = isFocused ? 'bold' : 'normal';
           
 
           return (
@@ -44,7 +43,7 @@ export default function TabView({ routes, scenes }: TabViewProps) {
               key={route.key}
               style={[styles.tabItem, { backgroundColor }]}
               onPress={() => setIndex(i)}>
-              <Animated.Text style={{ opacity }}>{route.title}</Animated.Text>
+              <Animated.Text style={{ opacity, fontWeight }}>{route.title}</Animated.Text>
             </TouchableOpacity>
           );
         })}

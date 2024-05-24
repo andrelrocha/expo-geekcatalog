@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { styles } from './styles';
 import { colors } from '../../utils/colors';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type PaginationButtonsProps = {
     totalPages: number;
@@ -34,9 +35,10 @@ const PaginationButtons = (props: PaginationButtonsProps) => {
     }
 
     return (
-        <View style={styles.paginationContainer}>
+        <ScrollView 
+            contentContainerStyle={styles.paginationContainer}>
             {renderPageButtons()}
-        </View>
+        </ScrollView>
     );
 };
 

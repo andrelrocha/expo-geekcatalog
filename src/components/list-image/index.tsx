@@ -186,7 +186,6 @@ export default function ListImage(props: SectionListProps) {
                     <Box alignItems="center">
                         {renderFooter()}
                     </Box>
-
                 </ScrollView>
             )}
             {props.modalComponent && isOpen && !props.isLoading && (
