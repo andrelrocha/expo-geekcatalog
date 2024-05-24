@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View } from 'react-native';
 import { TabView } from '../../../components';
+import useListsListAllByUserID from "../../../context/hooks/lists/useListsListAllByUserID";
 
 const renderListsView = () => {
     return (
@@ -9,9 +10,12 @@ const renderListsView = () => {
 }
 
 export default function ListAllListsApp() {
+    const [currentPage, setCurrentPage] = useState(0);
+    const {lists, isLoading, paginationInfo, loadData} = useListsListAllByUserID({page: currentPage});
+
     useEffect(() => {
         console.log('ListAllListsApp');
-
+        console.log('lists:', lists);
     }, []);
 
     const MyLists = () => (
