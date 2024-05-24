@@ -3,7 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AdminStack from '../stack/AdminStack';
 import GamesStack from '../stack/GameStack';
 import UserStack from '../stack/UserStack';
-import { UserIcon, GameControllerIcon, ShieldIcon } from '../../components/icons';
+import ListsAppStack from '../stack/ListsAppStack';
+import { UserIcon, GameControllerIcon, ShieldIcon, ListIcon } from '../../components/icons';
 import { colors } from '../../utils/colors';
 import { useAuth } from '../../context/hooks';
 
@@ -18,6 +19,7 @@ export default function AuthTab() {
         headerShown: false  
       }}
     >
+      {/*
       <Tab.Screen
         name="Games"
         component={GamesStack}
@@ -34,6 +36,25 @@ export default function AuthTab() {
           tabBarActiveTintColor: colors.black,
         }}
       />
+      */}
+
+        <Tab.Screen 
+            name="ListsApp" 
+            component={ListsAppStack} 
+            options={{
+              title: 'Lists',
+              tabBarIcon: ({focused, color, size}) => {
+                if (focused) {
+                  color = colors.black;
+                } else {
+                  color = colors.sage;
+                }
+
+                return <ListIcon color={color} size={26}/>;
+              },
+              tabBarActiveTintColor: colors.black,
+            }}
+        />
 
         {currentUser && currentUser.role === 'ADMIN' && (
           <Tab.Screen

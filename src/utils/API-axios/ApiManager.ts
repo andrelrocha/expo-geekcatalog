@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Alert } from "react-native";
 
-const url = "https://a62d-2804-14c-de86-851f-6047-8f2a-ef61-a5e4.ngrok-free.app";
+const url = "https://c78d-2804-14c-de86-851f-c8a5-600a-1df9-1e15.ngrok-free.app";
 
 export const ApiManager = axios.create({
     baseURL: url,
