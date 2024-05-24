@@ -25,6 +25,7 @@ type SectionListProps = {
     isLoading?: boolean;
     grid?: boolean;
     setGrid?: (grid: boolean) => void;
+    displayName?: boolean;
 };
 
 export default function ListImage(props: SectionListProps) {
@@ -48,7 +49,7 @@ export default function ListImage(props: SectionListProps) {
 
     const imageRenderItemVertical = () => {
         return (props.imageUris ?? []).map((item: any) => (
-            <Box alignItems="center">
+            <Box alignItems="center" key={item.id}>
                 <ImageTouchable 
                     key={item.id}
                     onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
@@ -58,7 +59,7 @@ export default function ListImage(props: SectionListProps) {
                     w={250}
                     h={250}
                 />
-                <Text style={styles.textImage}>{item.name}</Text>
+                {props.displayName && <Text style={styles.textImage}>{item.name}</Text>}
             </Box>
         ));
     };
@@ -101,8 +102,8 @@ export default function ListImage(props: SectionListProps) {
 
     const renderHeader = () => (
         <View style={styles.containerHeader}>
-            <View style={{width:50}}></View>
-            <Heading w={props.grid ? 245 : 180} fs={32} mb={20} mt={20}>{props.title}</Heading>
+            <View style={{width:20}}></View>
+            <Heading w={props.grid ? 275 : 210} fs={32} mb={20} mt={20}>{props.title}</Heading>
             <TouchableOpacity
                 onPress={() => props.setGrid && props.setGrid(!props.grid)}
             >{handleDisplay()}

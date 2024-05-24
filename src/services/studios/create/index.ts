@@ -28,8 +28,8 @@ export const createStudio = async (studioData: StudioCreate) => {
       })
       .catch((error) => {
         console.log(error.response?.data);
-        console.error('Error while creating a studio:', error.response?.data);
-        throw error;
+        console.error('Error while creating a studio:', error);
+        throw error.response?.data || error;
       });
 
       return response;

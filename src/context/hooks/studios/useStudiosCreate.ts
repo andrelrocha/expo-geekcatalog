@@ -10,9 +10,13 @@ export default function useStudiosCreate() {
 
     const createStudioContext = async (studioData: StudioCreate, navigate: () => void) => {
         setIsLoading(true);
-        await createStudio(studioData);
+        try {
+            await createStudio(studioData);
+            Alert.alert("Success", "Studio created successfully.");
+        } catch (error) {
+            Alert.alert("Error", "Error while creating a studio.");
+        }
         setIsLoading(false);
-        Alert.alert("Success", "Studio created successfully.");
         navigate();
     }
 

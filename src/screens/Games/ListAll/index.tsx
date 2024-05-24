@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import useGamesListAll from "../../../context/hooks/games/useGamesListAll";
-import { List, ListImage } from "../../../components";
+import { ListImage } from "../../../components";
 
 export default function ListAllGames() {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, imageGames, loadImageGames, loadGameInfoData } = useGamesListAll({ page: currentPageUser});
     
-
     useEffect(() => {
         loadImageGames();
     }, [currentPageUser]);
+
     return (
         <>
             <ListImage
