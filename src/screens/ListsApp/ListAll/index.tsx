@@ -15,7 +15,7 @@ export default function ListAllListsApp() {
 
     useEffect(() => {
         console.log('lists on useEffect screen:', lists);
-    }, []);
+    }, [lists]);
 
     const MyLists = () => (
         <View style={{ flex: 1, backgroundColor: '#ff4081' }} />

@@ -1,5 +1,5 @@
 import { getToken } from '../../../modules/auth.module';
-import { StudioDTO } from '../../../types/studios/studioDTO';
+import StudioReturn from '../../../types/studio/studioReturnDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export const listAllStudios = async () => {
@@ -23,7 +23,7 @@ export const listAllStudios = async () => {
 
         if (response.data) {
             const content = response.data.content;
-            const studios: StudioDTO[] = content.map((studio: any) => {
+            const studios: StudioReturn[] = content.map((studio: any) => {
                 return {
                     id: studio.id,
                     name: studio.name,

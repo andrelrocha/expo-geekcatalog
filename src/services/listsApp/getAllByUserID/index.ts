@@ -1,6 +1,6 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
-import ListGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
 import { Alert } from "react-native";
+import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
 
 type HandleListAllGamesProps = {
     params: string;
@@ -33,15 +33,27 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
 
         if (response.data) {
             const content = response.data.content;
-            const lists: ListGameReturn[] = content.map((list: any) => {
-                return {
-                    id: list.id,
-                    name: list.name,
-                    description: list.description,
-                    ownerId: list.ownerId,
-                    userName: list.userName,
-                };
+            const listsPromises = content.map(async (list: any) => {
+                let endpointCount = `/gamelist/count/${list.id}`;
+
+                try {
+                    const responseCount = await ApiManager.get(endpointCount, { headers });
+
+                    return {
+                        id: list.id,
+                        name: list.name,
+                        description: list.description,
+                        ownerId: list.ownerId,
+                        userName: list.userName,
+                        gameCount: responseCount.data.gameCount
+                    };
+                } catch (error) {
+                    console.error(`Error counting games lists for list with id ${list.id}:`, error);
+                    throw error;
+                }
             });
+
+            const lists: ListGameCountReturn[] = await Promise.all(listsPromises);
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
