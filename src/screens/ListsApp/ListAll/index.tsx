@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { View } from 'react-native';
-import { TabView } from '../../../components';
+import { StyleSheet, Text, View } from 'react-native';
+import { Box, TabView, TextWarning } from '../../../components';
 import useListsListAllByUserID from "../../../context/hooks/lists/useListsListAllByUserID";
+import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
+import { colors } from "../../../utils/colors";
+import { ScrollView } from "react-native-gesture-handler";
 
-const renderListsView = () => {
+const renderListsView = (lists: ListGameCountReturn[]) => {
     return (
-        <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+        <>
+            {lists.map((item) => (
+                <View key={item.id} style={styles.listItemContainer}>
+                    <View style={styles.listItemTopContainer}>
+                        <Text style={styles.listItemName}>{item.name}</Text>
+                        <Text style={styles.listItemCount}>{item.gameCount} games</Text>
+                    </View>
+                    <Text style={styles.listDescription}>{item.description}</Text>
+                </View>
+            ))}
+        </>
     );
 }
 
@@ -18,7 +31,15 @@ export default function ListAllListsApp() {
     }, [lists]);
 
     const MyLists = () => (
-        <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+        <ScrollView>
+            <Box style={styles.container}>
+                {isLoading ? (
+                    <TextWarning mt={20} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
+                ) : (
+                    renderListsView(lists)
+                )}
+            </Box>
+        </ScrollView>
     );
       
     const SharedLists = () => (
@@ -42,8 +63,41 @@ export default function ListAllListsApp() {
 
     return (
         <TabView
-            routes={routes}
-            scenes={scenes}
+                routes={routes}
+                scenes={scenes}
         />
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+    },
+    listItemContainer: {
+        flexDirection: 'column',
+        width: '100%',
+        paddingHorizontal: 10,
+        borderBottomWidth: 1, 
+        borderBottomColor: colors.grayOpacity, 
+    },
+    listItemTopContainer: {
+        marginTop: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    listItemCount: {
+        textAlign: 'right',
+        textAlignVertical: 'center',
+        alignSelf: 'center',
+    },
+    listItemName: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'left',
+    },
+    listDescription: {
+        marginVertical: 10
+    },
+});
