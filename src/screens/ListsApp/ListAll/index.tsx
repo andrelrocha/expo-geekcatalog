@@ -14,8 +14,7 @@ export default function ListAllListsApp() {
     const {lists, isLoading, paginationInfo, loadData} = useListsListAllByUserID({page: currentPage});
 
     useEffect(() => {
-        console.log('ListAllListsApp');
-        console.log('lists:', lists);
+        console.log('lists on useEffect screen:', lists);
     }, []);
 
     const MyLists = () => (

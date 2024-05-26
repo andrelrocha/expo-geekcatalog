@@ -1,5 +1,5 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
-import ListsGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
+import ListGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
 import { Alert } from "react-native";
 
 type HandleListAllGamesProps = {
@@ -14,7 +14,7 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = `/list/getall/gamesid/${props.userId}`;
+        let endpoint = `/list/getall/${props.userId}`;
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';
@@ -33,14 +33,13 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
 
         if (response.data) {
             const content = response.data.content;
-            const lists: ListsGameReturn[] = content.map((list: any) => {
+            const lists: ListGameReturn[] = content.map((list: any) => {
                 return {
                     id: list.id,
                     name: list.name,
                     description: list.description,
                     ownerId: list.ownerId,
                     userName: list.userName,
-                    latestGamesOnListID: list.latestGamesOnListID,
                 };
             });
 

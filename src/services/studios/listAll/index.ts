@@ -4,7 +4,7 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export const listAllStudios = async () => {
     try {
-        const endpoint = "/studios/getall";
+        const endpoint = "/studios/all";
 
         const token = await getToken();
 

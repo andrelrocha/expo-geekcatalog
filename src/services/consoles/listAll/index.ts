@@ -4,7 +4,7 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export const listAllConsoles = async () => {
     try {
-        const endpoint = "/consoles/getall";
+        const endpoint = "/consoles/all";
 
         const token = await getToken();
 

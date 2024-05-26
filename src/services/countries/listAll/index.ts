@@ -3,7 +3,7 @@ import CountryReturn from '../../../types/countries/countryReturnDTO';
 
 export const listAllCountries = async () => {
     try {
-        const endpoint = "/countries/getall";
+        const endpoint = "/countries/all";
         const response = await ApiManager.get(endpoint)
             .then((response) => {
                 return response;

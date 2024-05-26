@@ -13,7 +13,7 @@ export const listAllImageGames = async (props: HandleListAllImageGamesProps) => 
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = "/imagegame/getall";
+        let endpoint = "/imagegame/all";
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';

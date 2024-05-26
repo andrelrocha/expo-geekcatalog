@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
 import ListsGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
+import { UserReturn } from "../../../types/user/userReturnDTO";
 
 type UseListsListAllByUserIDProps = {
     size?: number;
@@ -50,36 +51,36 @@ export default function useListsListAllByUserID(props: UseListsListAllByUserIDPr
     }
 
     const loadData = async () => {
-        try {
-            setIsLoading(true);
-            
-            const paramsToApi = handleParams();
+        if (currentUser && token) {
+            try {
+                setIsLoading(true);
+                
+                const paramsToApi = handleParams();
 
-            const params ={
-                token: token as string,
-                params: paramsToApi,
-                userId: currentUser?.id as string
+                const params ={
+                    token: token as string,
+                    params: paramsToApi,
+                    userId: currentUser.id as string
+                }
+
+                const {lists, pageable, totalElements, totalPages} = await listAllListsAppByUserID(params);
+                setLists(lists);
+                console.log('lists after set:', lists);
+                setPaginationInfo({
+                    currentPage: pageable.pageNumber,
+                    pageSize: pageable.pageSize,
+                    totalPages: totalPages,
+                    totalElements: totalElements,
+                });
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Error fetching games:', error);
             }
-
-            const {lists, pageable, totalElements, totalPages} = await listAllListsAppByUserID(params);
-            console.log('lists:', lists);
-            setLists(lists);
-            setPaginationInfo({
-                currentPage: pageable.pageNumber,
-                pageSize: pageable.pageSize,
-                totalPages: totalPages,
-                totalElements: totalElements,
-            });
-            setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching games:', error);
         }
     };
 
     useEffect(() => {
-        if (currentUser) {
-            loadData();
-        }
+        loadData();
     }, [props.page]);
 
     return {lists, isLoading, paginationInfo, loadData};

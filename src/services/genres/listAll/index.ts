@@ -4,7 +4,7 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export const listAllGenres = async () => {
     try {
-        const endpoint = "/genres/getall";
+        const endpoint = "/genres/all";
 
         const token = await getToken();
 

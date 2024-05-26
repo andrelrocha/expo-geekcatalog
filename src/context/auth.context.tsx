@@ -43,7 +43,6 @@ const AuthContext = createContext<AuthContextData>({
 });
 
 export const AuthProvider = (props: AuthProviderProps) => {
-
     const [isLoading, setIsLoading] = useState(false);
     const [currentUser, setCurrentUser] = useState<UserReturn | undefined>(undefined);
     const [authState, setAuthState] = useState<{
