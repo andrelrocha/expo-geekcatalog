@@ -20,6 +20,7 @@ type CustomListProps = {
     modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
     navigate?: (gameId: string) => void;
+    addButton?: boolean;
 };
 
 export default function CustomListImage(props: CustomListProps) {
@@ -74,6 +75,7 @@ export default function CustomListImage(props: CustomListProps) {
             contentInsetAdjustmentBehavior="automatic"
             automaticallyAdjustKeyboardInsets={true}
             keyboardShouldPersistTaps="handled" 
+            horizontal={false}
             refreshControl={props.onRefresh ? (
             <RefreshControl
                 refreshing={refreshing}

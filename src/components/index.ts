@@ -1,6 +1,7 @@
 import Button from './button/button-loading';
 import Box from './box';
 import CustomList from './custom-list';
+import CustomListImage from './custom-list-images';
 import DropdownSelection from './dropdown';
 import Header from './header';
 import Heading from './heading';
@@ -32,6 +33,7 @@ export {
     ButtonAddImage, 
     Box, 
     CustomList,
+    CustomListImage,
     DropdownSelection,
     Header, 
     Heading, 

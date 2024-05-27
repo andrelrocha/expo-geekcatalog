@@ -136,6 +136,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
         }
     };
 
+    //AJEITAR QUESTÃO DELE FAZER O LOAD DE TODOS DE UMA VEZ, SÓ DEVE FAZER POR TELA ABERTA
     useEffect(() => {
         if (!currentUser) return;
         loadDataPublicLists();

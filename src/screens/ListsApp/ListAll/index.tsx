@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { CustomList, TabView } from '../../../components';
-import CustomListImage from "../../../components/custom-list-images";
+import { ButtonTouchable, CustomListImage, TabView } from '../../../components';
 import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
+import { StyleSheet, View } from "react-native";
+import { colors } from "../../../utils/colors";
 
-export default function ListAllListsApp() {
+export default function ListAllListsApp({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [currentPage, setCurrentPage] = useState(0);
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
@@ -25,7 +28,20 @@ export default function ListAllListsApp() {
 
 
     const MyLists = () => (
-        renderLists(userLists, loadDataUserLists)
+        <>
+            {renderLists(userLists, loadDataUserLists)}
+            <View style={styles.container}>
+                
+                <ButtonTouchable
+                    mt={30}
+                    w={400}
+                    backgroundColor={colors.sage}
+                    textColor={colors.black}
+                    onPress={() => navigation.navigate('CreateListGame')}
+                    >Create a List
+                </ButtonTouchable>
+                </View>
+        </>
     );
       
     const SharedLists = () => (
@@ -55,3 +71,11 @@ export default function ListAllListsApp() {
         />
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
+    },
+});
