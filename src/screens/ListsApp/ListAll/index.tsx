@@ -33,7 +33,6 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
             <View style={styles.container}>
                 
                 <ButtonTouchable
-                    mt={30}
                     w={400}
                     backgroundColor={colors.sage}
                     textColor={colors.black}
@@ -76,6 +75,6 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 20,
+        paddingBottom: 20,
     },
 });

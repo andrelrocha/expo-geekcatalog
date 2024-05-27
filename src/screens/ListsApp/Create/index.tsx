@@ -43,13 +43,14 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { isLoading, createList, gamesData } = useListCreate();
+  const { isLoading, createListMethod, gamesData } = useListCreate();
   const { currentUser } = useAuth();
   const [isPublic, setIsPublic] = useState(false);
 
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
       const description = control._formValues.description;
+      const games = control._formValues.games;
       let visibility = control._formValues.visibility;
 
       if (isPublic) {
@@ -65,7 +66,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
         visibility,
       };
 
-      createList(listData, () => navigation.goBack());
+      createListMethod(listData, () => navigation.goBack(), games);
       reset();
   }
 
