@@ -3,11 +3,14 @@ import { useState } from "react";
 import { createListGame } from "../../../services/listsApp/createList";
 import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
 import useAuth from "../use-auth.hook";
+import useGamesDropdown from "../games/useGamesDropdown";
 
 
 export default function useListCreate() {
     const { currentUser } = useAuth();
     const [isLoading, setIsLoading] = useState(false);
+
+    const { dropdownData: gamesData } = useGamesDropdown();
     
     const createList = async (data: ListCreateDTO, navigate: () => void) => {
         if (currentUser) {
@@ -25,5 +28,5 @@ export default function useListCreate() {
         }
     }
 
-    return { createList, isLoading };
+    return { createList, isLoading, gamesData };
 }

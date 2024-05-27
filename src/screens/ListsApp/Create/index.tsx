@@ -9,17 +9,20 @@ import { Box, Heading,
   Button, 
   InputText,
   InputCheckbox,
+  MultiSelect,
 } from "../../../components";
 import InputWithLabel from "../../../components/input/input-label";
 import useListCreate from "../../../context/hooks/lists/useListCreate";
 import { useAuth } from "../../../context/hooks";
 import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
+import { InfoIcon } from "lucide-react-native";
 
 
 const DEFAULT_FORM_VALUES = {
   name: "",
   description: "",
   visibility: true,
+  games: [],
 };
 
 type FormData = {
@@ -27,6 +30,7 @@ type FormData = {
   name: string,
   description: string,
   visibility: boolean,
+  games: string[],
 }
 
 const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
@@ -39,7 +43,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { isLoading, createList } = useListCreate();
+  const { isLoading, createList, gamesData } = useListCreate();
   const { currentUser } = useAuth();
   const [isPublic, setIsPublic] = useState(false);
 
@@ -81,6 +85,18 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
             <InputText control={control} name="description" placeholder="Description" />
           </InputWithLabel>
 
+          <InputWithLabel label="Games">
+            <MultiSelect
+              control={control}
+              name="games"
+              placeholder="Games"
+              icon={<InfoIcon/>}
+              label="name"
+              value="id"
+              data={gamesData}
+            />
+          </InputWithLabel>
+          
           <InputCheckbox
               aria-label="List visibility"
               control={control}
