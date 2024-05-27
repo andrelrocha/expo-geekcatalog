@@ -1,32 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Control, useForm } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
-import { EarthIcon } from "lucide-react-native"
-
+import { Text } from "react-native";
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
 import { Box, Heading,
   Button, 
   InputText,
-  DropdownSelection,
+  InputCheckbox,
 } from "../../../components";
 import InputWithLabel from "../../../components/input/input-label";
-import StudioCreate from "../../../types/studio/studioCreateDTO";
-import { createStudio } from "../../../services/studios/create";
-import useStudiosCreate from "../../../context/hooks/studios/useStudiosCreate";
+import useListCreate from "../../../context/hooks/lists/useListCreate";
+import { useAuth } from "../../../context/hooks";
+import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
+
 
 const DEFAULT_FORM_VALUES = {
   name: "",
-  country: "",
+  description: "",
+  visibility: true,
 };
 
 type FormData = {
+  userId: string,
   name: string,
-  country: string,
+  description: string,
+  visibility: boolean,
 }
 
-const CreateStudio = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
+const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   const {
     control,
     formState: { isValid },
@@ -36,19 +39,29 @@ const CreateStudio = ({ navigation }: NativeStackScreenProps<ParamListBase>) => 
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { isLoading, countryData, createStudioContext } = useStudiosCreate();
-  
+  const { isLoading, createList } = useListCreate();
+  const { currentUser } = useAuth();
+  const [isPublic, setIsPublic] = useState(false);
+
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
-      const country = control._formValues.country;
+      const description = control._formValues.description;
+      let visibility = control._formValues.visibility;
+
+      if (isPublic) {
+        visibility = true;
+      } else {
+        visibility = false;
+      }
     
-      const studioData: StudioCreate = {
+      const listData: ListCreateDTO = {
+        userId: currentUser?.id as string,
         name,
-        countryId: country,
+        description,
+        visibility,
       };
 
-      createStudioContext(studioData, () => navigation.goBack());
-
+      createList(listData, () => navigation.goBack());
       reset();
   }
 
@@ -56,25 +69,30 @@ const CreateStudio = ({ navigation }: NativeStackScreenProps<ParamListBase>) => 
     <>
       <PageDefault>
         <Heading mb={20} mt={10}>
-          Create a Studio
+          Create a List
         </Heading>
 
         <Box>
-          <InputWithLabel label="Studio Name">
+          <InputWithLabel label="List Name">
             <InputText control={control} name="name" placeholder="Name" rules={{ required: true }} />
           </InputWithLabel>
 
-          <InputWithLabel label="Country">
-            <DropdownSelection
+          <InputWithLabel label="Description">
+            <InputText control={control} name="description" placeholder="Description" />
+          </InputWithLabel>
+
+          <InputCheckbox
+              aria-label="List visibility"
               control={control}
-              name="country"
-              placeholder="Country"
-              icon={<EarthIcon size={22} />}
-              label="name"
-              value="id"
-              data={countryData}
-            />       
-          </InputWithLabel>  
+              label={
+                <>
+                  <Text>Public</Text>
+                </>
+              }
+              name="visibility"
+              onPress={() => setIsPublic(!isPublic ? true : false)}
+              value={isPublic ? "public" : ""}
+          />
         </Box>
 
         <Button
@@ -94,4 +112,4 @@ const CreateStudio = ({ navigation }: NativeStackScreenProps<ParamListBase>) => 
   );
 }
 
-export default CreateStudio;
+export default CreateListGame;
