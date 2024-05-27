@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CustomList, TabView } from '../../../components';
-import CustomListImage from "../../../components/custom-list-images";
-import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
+import useListsListAllByUserID from "../../../context/hooks/lists/useListsListAllWithImage";
 
 export default function ListAllListsApp() {
     const [currentPage, setCurrentPage] = useState(0);
-    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
+    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllByUserID({page: currentPage});
 
-    /*
     const renderLists = (lists: any, loadData: () => void) => {
         return (
             <CustomList
@@ -21,25 +19,7 @@ export default function ListAllListsApp() {
                 onPageChange={(page) => setCurrentPage(page)}
             />
         )
-    } 
-        */
-
-    const renderLists = (lists: any, loadData: () => void) => {
-
-        return (
-            <CustomListImage
-                title="games"
-                data={lists}
-                keyExtractor={(item) => item.id.toString()}
-                isLoading={isLoading}
-                onRefresh={() => loadData()}
-                currentPage={currentPage}
-                totalPages={paginationInfo?.totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-            />
-        )
     }
-
 
     const MyLists = () => (
         renderLists(userLists, loadDataUserLists)

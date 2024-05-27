@@ -1,6 +1,6 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { Alert } from "react-native";
-import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
+import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
 
 type HandleListAllGamesProps = {
     params: string;
@@ -8,13 +8,13 @@ type HandleListAllGamesProps = {
     userId: string;
 };
 
-export const listAllPublicListsByUserID = async (props: HandleListAllGamesProps) => {
+export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) => {
     try {
         const headers = {
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = `/list/public/${props.userId}`;
+        let endpoint = `/list/getall/${props.userId}`;
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';
@@ -27,7 +27,7 @@ export const listAllPublicListsByUserID = async (props: HandleListAllGamesProps)
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing public games lists:', error);
+                console.error('Error listing games lists:', error);
                 throw error;
             });
 
@@ -45,7 +45,7 @@ export const listAllPublicListsByUserID = async (props: HandleListAllGamesProps)
                         description: list.description,
                         ownerId: list.ownerId,
                         userName: list.userName,
-                        count: responseCount.data.gameCount
+                        gameCount: responseCount.data.gameCount
                     };
                 } catch (error) {
                     console.error(`Error counting games lists for list with id ${list.id}:`, error);
@@ -53,15 +53,15 @@ export const listAllPublicListsByUserID = async (props: HandleListAllGamesProps)
                 }
             });
 
-            const lists: ListCountReturn[] = await Promise.all(listsPromises);
+            const lists: ListGameCountReturn[] = await Promise.all(listsPromises);
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
-            throw new Error('Error listing public games lists: ' + response.status);
+            throw new Error('Error listing games lists: ' + response.status);
         }
     } catch (error) {
-        console.error('Error listing public games lists:', error);
-        Alert.alert('Error listing public games lists:' + (error as Error).message);
+        console.error('Error listing games lists:', error);
+        Alert.alert('Error listing games lists:' + (error as Error).message);
         throw error;
     }
 }

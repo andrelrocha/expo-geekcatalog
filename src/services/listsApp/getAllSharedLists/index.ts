@@ -1,7 +1,7 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { Alert } from "react-native";
 import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
-import ListCountReturn from "../../../types/listsApp/ListCountReturnDTO";
+import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 
 type HandleListAllGamesProps = {
     params: string;

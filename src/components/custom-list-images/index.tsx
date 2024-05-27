@@ -4,6 +4,7 @@ import TextWarning from "../text/text-warning";
 import ListCountReturn from "../../types/listsApp/ListReturnDTO";
 import { colors } from "../../utils/colors";
 import { useCallback, useState } from "react";
+import ImageTouchable from "../image/image-touchable";
 
 type CustomListProps = {
     title: string;
@@ -21,7 +22,7 @@ type CustomListProps = {
     navigate?: (gameId: string) => void;
 };
 
-export default function CustomList(props: CustomListProps) {
+export default function CustomListImage(props: CustomListProps) {
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -47,6 +48,19 @@ export default function CustomList(props: CustomListProps) {
                             <Text style={styles.listItemName}>{item.name}</Text>
                             <Text style={styles.listItemCount}>{item.count} {props.title}</Text>
                         </View>
+                        {item.latestUris && item.latestUris.length > 0 && (
+                            <View style={styles.listItemImagesContainer}>
+                                {item.latestUris.map((uri, index) => (
+                                    <ImageTouchable 
+                                        key={index} 
+                                        w={100} h={100} br={10} bw={1}
+                                        source={{uri}} 
+                                        alt={`${props.title} image`}
+                                    />
+                                ))}
+                            </View>
+                        )}
+                        
                         <Text style={styles.listDescription}>{item.description}</Text>
                     </View>
                 ))}
@@ -98,6 +112,12 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    listItemImagesContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginVertical: 10,
     },
     listItemCount: {
         textAlign: 'right',

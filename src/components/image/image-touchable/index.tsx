@@ -11,6 +11,7 @@ type ButtonProps = TouchableOpacityProps & {
     h?: number
     br?: number
     alt?: string
+    bw?: number
     dynamicPropStyle?: StyleProp<ViewStyle>
     onPress?: () => void
     source: any
@@ -25,6 +26,7 @@ const ImageTouchable = (props: ButtonProps) => {
         marginLeft: props.ml || styles.imageContainer.marginLeft,
         marginRight: props.mr || styles.imageContainer.marginRight,
         borderRadius: props.br || styles.imageContainer.borderRadius,
+        borderWidth: props.bw || styles.imageContainer.borderWidth,
     };
 
     return (

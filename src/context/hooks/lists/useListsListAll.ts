@@ -3,7 +3,7 @@ import useAuth from "../use-auth.hook";
 import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
 import { listAllPublicListsByUserID } from "../../../services/listsApp/getAllPublic";
 import { listAllSharedLists } from "../../../services/listsApp/getAllSharedLists";
-import ListCountReturn from "../../../types/listsApp/ListCountReturnDTO";
+import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 
 type UseListsListAllByUserIDProps = {
     size?: number;
