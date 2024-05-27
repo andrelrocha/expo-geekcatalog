@@ -1,6 +1,7 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { Alert } from "react-native";
 import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
+import ListCountReturn from "../../../types/listsApp/ListCountReturnDTO";
 
 type HandleListAllGamesProps = {
     params: string;
@@ -45,7 +46,7 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
                         description: list.description,
                         ownerId: list.ownerId,
                         userName: list.userName,
-                        gameCount: responseCount.data.gameCount
+                        count: responseCount.data.gameCount
                     };
                 } catch (error) {
                     console.error(`Error counting games lists for list with id ${list.id}:`, error);
@@ -53,7 +54,7 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
                 }
             });
 
-            const lists: ListGameCountReturn[] = await Promise.all(listsPromises);
+            const lists: ListCountReturn[] = await Promise.all(listsPromises);
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
-import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
+import ListCountReturn from "../../../types/listsApp/ListCountReturnDTO";
 
 type UseListsListAllByUserIDProps = {
     size?: number;
@@ -17,7 +17,7 @@ type PaginationInfo = {
 }
 
 export default function useListsListAllByUserID(props: UseListsListAllByUserIDProps){
-    const [lists, setLists] = useState<ListGameCountReturn[]>([]);
+    const [userLists, setUserLists] = useState<ListCountReturn[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
         totalPages: 0,
@@ -63,7 +63,7 @@ export default function useListsListAllByUserID(props: UseListsListAllByUserIDPr
                 }
 
                 const {lists, pageable, totalElements, totalPages} = await listAllListsAppByUserID(params);
-                setLists(lists);
+                setUserLists(lists);
                 setPaginationInfo({
                     currentPage: pageable.pageNumber,
                     pageSize: pageable.pageSize,
@@ -81,5 +81,5 @@ export default function useListsListAllByUserID(props: UseListsListAllByUserIDPr
         loadData();
     }, [props.page]);
 
-    return {lists, isLoading, paginationInfo, loadData};
+    return {userLists, isLoading, paginationInfo, loadData};
 }
