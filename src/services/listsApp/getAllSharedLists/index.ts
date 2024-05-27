@@ -1,7 +1,7 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { Alert } from "react-native";
-import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
-import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
+import { getByGameID } from "../../imageGame/getByGameID";
+import ListReturn from "../../../types/listsApp/ListReturnDTO";
 
 type HandleListAllGamesProps = {
     params: string;
@@ -15,7 +15,7 @@ export const listAllSharedLists = async (props: HandleListAllGamesProps) => {
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = `/list/readpermission/${props.userId}`;
+        let endpoint = `/list/readpermission/${props.userId}`;   
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';
@@ -36,25 +36,57 @@ export const listAllSharedLists = async (props: HandleListAllGamesProps) => {
             const content = response.data.content;
             const listsPromises = content.map(async (list: any) => {
                 let endpointCount = `/gamelist/count/${list.id}`;
+                let endpointLatestGames = `/gamelist/latest/${list.id}`;
+                let latestGamesUris: string[] = []; 
 
                 try {
-                    const responseCount = await ApiManager.get(endpointCount, { headers });
-
-                    return {
-                        id: list.id,
-                        name: list.name,
-                        description: list.description,
-                        ownerId: list.ownerId,
-                        userName: list.userName,
-                        count: responseCount.data.gameCount
-                    };
-                } catch (error) {
-                    console.error(`Error counting games lists for list with id ${list.id}:`, error);
-                    throw error;
-                }
+                    const responseCount = await ApiManager.get(endpointCount, { headers })
+                            .then((response) => {
+                                return response;
+                            })
+                            .catch((error) => {
+                                console.error(`Error counting games lists for list with id ${list.id}:`, error);
+                                throw error;
+                            });
+    
+                        const latestGamesAdded = await ApiManager.get(endpointLatestGames, { headers })
+                            .then((response) => {
+                                return response;
+                            })
+                            .catch((error) => {
+                                console.error('Error listing latest games added:', error);
+                                throw error;
+                            });
+    
+                        if (latestGamesAdded.data.content.length > 0) {
+                            const latestGamesUrisPromises = latestGamesAdded.data.content.map(async (game: any) => {
+                                try {
+                                    const responseImageGame = await getByGameID({ token: props.token, gameId: game.gameId });
+                                    return responseImageGame.imageUrl;
+                                } catch (error) {
+                                    console.error(`Error fetching image game of game with ID ${game.gameId}:`, error);
+                                    return null;
+                                }
+                            });
+    
+                            latestGamesUris = await Promise.all(latestGamesUrisPromises);
+                        }
+                        return {
+                            id: list.id,
+                            name: list.name,
+                            description: list.description,
+                            ownerId: list.ownerId,
+                            userName: list.userName,
+                            count: responseCount.data.gameCount,
+                            latestUris: latestGamesUris
+                        };
+                    } catch (error) {
+                        console.error('Error listing  shared games lists:', error);
+                        throw error;
+                    }
             });
 
-            const lists: ListCountReturn[] = await Promise.all(listsPromises);
+            const lists: ListReturn[] = await Promise.all(listsPromises);
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {

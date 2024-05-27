@@ -7,23 +7,6 @@ export default function ListAllListsApp() {
     const [currentPage, setCurrentPage] = useState(0);
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
-    /*
-    const renderLists = (lists: any, loadData: () => void) => {
-        return (
-            <CustomList
-                title="games"
-                data={lists}
-                keyExtractor={(item) => item.id.toString()}
-                isLoading={isLoading}
-                onRefresh={() => loadData()}
-                currentPage={currentPage}
-                totalPages={paginationInfo?.totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-            />
-        )
-    } 
-        */
-
     const renderLists = (lists: any, loadData: () => void) => {
 
         return (
