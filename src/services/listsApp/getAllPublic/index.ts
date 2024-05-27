@@ -8,13 +8,13 @@ type HandleListAllGamesProps = {
     userId: string;
 };
 
-export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) => {
+export const listAllPublicListsByUserID = async (props: HandleListAllGamesProps) => {
     try {
         const headers = {
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = `/list/all/${props.userId}`;
+        let endpoint = `/list/public/${props.userId}`;
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';
@@ -27,7 +27,7 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing games lists:', error);
+                console.error('Error listing public games lists:', error);
                 throw error;
             });
 
@@ -57,11 +57,11 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
-            throw new Error('Error listing games lists: ' + response.status);
+            throw new Error('Error listing public games lists: ' + response.status);
         }
     } catch (error) {
-        console.error('Error listing games lists:', error);
-        Alert.alert('Error listing games lists:' + (error as Error).message);
+        console.error('Error listing public games lists:', error);
+        Alert.alert('Error listing public games lists:' + (error as Error).message);
         throw error;
     }
 }

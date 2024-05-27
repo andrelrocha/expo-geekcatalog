@@ -1,5 +1,6 @@
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import { Alert } from "react-native";
+import ListGameCountReturn from "../../../types/listsApp/ListsAppCountReturnDTO";
 import ListCountReturn from "../../../types/listsApp/ListCountReturnDTO";
 
 type HandleListAllGamesProps = {
@@ -14,7 +15,7 @@ export const listAllListsAppByUserID = async (props: HandleListAllGamesProps) =>
             'Authorization': `Bearer ${props.token}`
         }
 
-        let endpoint = `/list/all/${props.userId}`;
+        let endpoint = `/list/getall/${props.userId}`;
 
         if (props.params === '' || props.params === undefined) {
             endpoint += '/';

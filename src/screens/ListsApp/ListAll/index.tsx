@@ -5,7 +5,7 @@ import useListsListAllByUserID from "../../../context/hooks/lists/useListsListAl
 
 export default function ListAllListsApp() {
     const [currentPage, setCurrentPage] = useState(0);
-    const {userLists, isLoading, paginationInfo, loadData} = useListsListAllByUserID({page: currentPage});
+    const {userLists, publicLists, isLoading, paginationInfo, loadDataUserLists} = useListsListAllByUserID({page: currentPage});
 
     useEffect(() => {
         console.log('user lists on useEffect screen:', userLists);
@@ -18,7 +18,7 @@ export default function ListAllListsApp() {
                 data={lists}
                 keyExtractor={(item) => item.id.toString()}
                 isLoading={isLoading}
-                onRefresh={() => loadData()}
+                onRefresh={() => {console.log('falta ajeitar o refreshing para ser específico')}}
                 currentPage={currentPage}
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
@@ -35,7 +35,7 @@ export default function ListAllListsApp() {
     );
     
     const PublicLists = () => (
-        <View style={{ flex: 1, backgroundColor: '#000000' }} />
+        renderLists(publicLists)
     );
 
     const scenes = {
