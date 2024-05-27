@@ -70,7 +70,11 @@ export default function CustomList(props: CustomListProps) {
                 {props.isLoading ? (
                     <TextWarning mt={20} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
                 ) : (
-                    renderListsView(props.data)
+                    props.data.length > 0 ? (
+                        renderListsView(props.data)
+                    ) : (
+                        <TextWarning mt={20} w={300} fs={18} h={35}>No list found, create a new one!</TextWarning>
+                    )
                 )}
             </Box>
         </ScrollView>

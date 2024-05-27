@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View } from 'react-native';
 import { CustomList, TabView } from '../../../components';
 import useListsListAllByUserID from "../../../context/hooks/lists/useListsListAllByUserID";
 
 export default function ListAllListsApp() {
     const [currentPage, setCurrentPage] = useState(0);
-    const {userLists, publicLists, isLoading, paginationInfo, loadDataUserLists} = useListsListAllByUserID({page: currentPage});
+    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllByUserID({page: currentPage});
 
-    useEffect(() => {
-        console.log('user lists on useEffect screen:', userLists);
-    }, [userLists]);
-
-    const renderLists = (lists: any) => {
+    const renderLists = (lists: any, loadData: () => void) => {
         return (
             <CustomList
                 title="games"
                 data={lists}
                 keyExtractor={(item) => item.id.toString()}
                 isLoading={isLoading}
-                onRefresh={() => {console.log('falta ajeitar o refreshing para ser específico')}}
+                onRefresh={() => loadData()}
                 currentPage={currentPage}
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
@@ -27,15 +22,15 @@ export default function ListAllListsApp() {
     }
 
     const MyLists = () => (
-        renderLists(userLists)
+        renderLists(userLists, loadDataUserLists)
     );
       
     const SharedLists = () => (
-        <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+        renderLists(sharedLists, loadDataSharedLists)
     );
     
     const PublicLists = () => (
-        renderLists(publicLists)
+        renderLists(publicLists, loadDataPublicLists)
     );
 
     const scenes = {
@@ -43,6 +38,7 @@ export default function ListAllListsApp() {
         second: SharedLists,
         third: PublicLists,
     };
+
     const [routes] = useState([
         { key: 'first', title: 'My Lists' },
         { key: 'second', title: 'Shared Lists' },
