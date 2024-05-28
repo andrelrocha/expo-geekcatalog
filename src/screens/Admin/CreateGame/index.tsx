@@ -13,7 +13,7 @@ import { Box, Heading,
   ButtonAddImage,
   TextWarning,
   ImageTouchable,
-  PhotoSelectionModal,
+  ImageSelectionModal,
 } from "../../../components";
 import GameCreate from "../../../types/games/gameCreateDTO";
 import useGamesCreate from "../../../context/hooks/games/useGamesCreate";
@@ -176,7 +176,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       </PageDefault>
 
       { modalPicVisible && (
-        <PhotoSelectionModal 
+        <ImageSelectionModal 
           visible={modalPicVisible} 
           onRequestClose={() => setModalPicVisible(false)} 
           onCameraPress={() => handleUserPicture('camera')}

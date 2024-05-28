@@ -23,8 +23,9 @@ type CustomListProps = {
     modalItemTitle?: string;
     navigate?: (gameId: string) => void;
     addButton?: boolean;
+    rightOptions?: boolean;
     onDelete?: (listId: any) => void;
-    onUpdate?: () => void;
+    onUpdate?: (listId: any) => void;
 };
 
 export default function CustomListImage(props: CustomListProps) {
@@ -57,9 +58,10 @@ export default function CustomListImage(props: CustomListProps) {
             extrapolate: 'clamp',
         });
     
+        //FALTA AADICIONAR OPÇÃO DE O USUÁRIO ARRASTAR TUDO PARA O LADO E DELETAR
         return (
             <Animated.View style={[styles.rightActionsContainer, { transform: [{ translateX }], opacity }]}>
-                <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate()}>
+                <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item)}>
                     <SquarePenIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item)}>
@@ -75,7 +77,7 @@ export default function CustomListImage(props: CustomListProps) {
                 {lists.map((item) => (
                     <Swipeable
                         key={item.id}
-                        renderRightActions={(progress, dragX) => renderRightActions(progress, dragX, item)}
+                        {...(props.rightOptions ? { renderRightActions: (progress, dragX) => renderRightActions(progress, dragX, item) } : {})}
                         overshootRight={false}
                         friction={1}
                         containerStyle={styles.listItemContainer}

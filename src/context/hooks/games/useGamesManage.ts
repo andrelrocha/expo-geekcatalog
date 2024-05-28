@@ -7,7 +7,7 @@ import useAuth from "../use-auth.hook";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
 import { updateGame } from "../../../services/games/update";
 import { Alert } from "react-native";
-import { handleImageSelection } from "../../../services/image/getImageFromUserExpoPicker";
+import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator";
 import { uploadImageGame } from "../../../services/imageGame/upload";
 
 export default function useGamesManage() {

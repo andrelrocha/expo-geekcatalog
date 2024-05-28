@@ -10,7 +10,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
     const [currentPage, setCurrentPage] = useState(0);
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
-    const renderLists = (lists: any, loadData: () => void) => {
+    const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
         return (
             <CustomListImage
                 title="games"
@@ -22,6 +22,8 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
                 onDelete={(listId) => console.log(listId)}
+                onUpdate={(listId) => console.log('update')}
+                rightOptions={rightOptions}
             />
         )
     }
@@ -29,7 +31,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
 
     const MyLists = () => (
         <>
-            {renderLists(userLists, loadDataUserLists)}
+            {renderLists(userLists, loadDataUserLists, true)}
             <View style={styles.container}>
                 
                 <ButtonTouchable

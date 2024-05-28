@@ -8,7 +8,7 @@ import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
 import { createGameGenre } from "../../../services/gameGenre/create";
 import { createGameStudio } from "../../../services/gameStudio/create";
-import { handleImageSelection } from "../../../services/image/getImageFromUserExpoPicker";
+import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator";
 import { uploadImageGame } from "../../../services/imageGame/upload";
  
 export default function useGamesCreate() {

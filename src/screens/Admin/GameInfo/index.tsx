@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 import { InfoIcon } from "lucide-react-native";
 import { View } from "react-native";
-import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText, ButtonAddImage, TextWarning, ImageTouchable, PhotoSelectionModal } from "../../../components";
+import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText, ButtonAddImage, TextWarning, ImageTouchable, ImageSelectionModal } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
 import { Control, useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ import { styles } from "../styles";
 const DEFAULT_FORM_VALUES = {
     name: "",
     metacritic: "",
-    yearOfRelease: "",
+    yearOfRelease: "",   
     studios: [""],
     genres: [""],
     consoles: [""],
@@ -251,7 +251,7 @@ export default function GameInfo({ navigation, route }: Props) {
             </PageDefault>
 
             { modalPicVisible && (
-                <PhotoSelectionModal 
+                <ImageSelectionModal 
                 visible={modalPicVisible} 
                 onRequestClose={() => setModalPicVisible(false)} 
                 onCameraPress={() => handleUserPicture('camera')}
