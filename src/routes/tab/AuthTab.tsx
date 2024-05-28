@@ -36,6 +36,7 @@ export default function AuthTab() {
           tabBarActiveTintColor: colors.black,
         }}
       />
+      */}
 
         <Tab.Screen 
             name="ListsApp" 
@@ -54,7 +55,6 @@ export default function AuthTab() {
               tabBarActiveTintColor: colors.black,
             }}
         />
-      */}
 
         {currentUser && currentUser.role === 'ADMIN' && (
           <Tab.Screen

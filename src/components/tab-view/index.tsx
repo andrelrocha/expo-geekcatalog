@@ -20,11 +20,14 @@ interface Route {
 interface TabViewProps {
   routes: Route[];
   scenes: { [key: string]: ComponentType<unknown> };
+  swipeEnabled?: boolean;
 }
 
 
-export default function TabView({ routes, scenes }: TabViewProps) {
+export default function TabView(props: TabViewProps) {
   const [index, setIndex] = useState(0);
+
+  const { routes, scenes, swipeEnabled = true } = props;
 
   const renderScene = SceneMap(scenes);
 
@@ -58,6 +61,7 @@ export default function TabView({ routes, scenes }: TabViewProps) {
       renderTabBar={renderTabBar}
       onIndexChange={setIndex}
       initialLayout={initialLayout}
+      swipeEnabled={swipeEnabled}
     />
   );
 };

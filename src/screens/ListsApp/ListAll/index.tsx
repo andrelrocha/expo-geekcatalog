@@ -67,6 +67,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
         <TabView
                 routes={routes}
                 scenes={scenes}
+                swipeEnabled={false}
         />
     );
 }
