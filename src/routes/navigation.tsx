@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import NotAuthStack from './stack/NotAuthStack';
 
-import AuthTabs from './tab/AuthTab';
+import AuthTab from './tab/AuthTab';
 
 import useAuth from '../context/hooks/use-auth.hook';
 
@@ -21,7 +21,7 @@ export default function Navigation() {
   return (  
     <NavigationContainer>
       {authenticated ? (
-        <AuthTabs />
+        <AuthTab />
       ) : (
         <Stack.Navigator 
           screenOptions={{ 
@@ -31,7 +31,7 @@ export default function Navigation() {
         >
           <Stack.Screen name="NotAuthStack" component={NotAuthStack}/>
           
-          <Stack.Screen name="AuthTabs" component={AuthTabs}/>
+          <Stack.Screen name="AuthTabs" component={AuthTab}/>
         </Stack.Navigator>
       )}
     </NavigationContainer>

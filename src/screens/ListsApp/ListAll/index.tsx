@@ -11,7 +11,6 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
     const renderLists = (lists: any, loadData: () => void) => {
-
         return (
             <CustomListImage
                 title="games"
@@ -22,6 +21,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                 currentPage={currentPage}
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
+                onDelete={(listId) => console.log(listId)}
             />
         )
     }

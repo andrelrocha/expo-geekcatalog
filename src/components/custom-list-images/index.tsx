@@ -1,10 +1,12 @@
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Animated, RefreshControl, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Swipeable } from 'react-native-gesture-handler';
 import Box from "../box";
 import TextWarning from "../text/text-warning";
 import ListCountReturn from "../../types/listsApp/ListReturnDTO";
 import { colors } from "../../utils/colors";
 import { useCallback, useState } from "react";
 import ImageTouchable from "../image/image-touchable";
+import { SquarePenIcon, TrashIcon } from "../icons";
 
 type CustomListProps = {
     title: string;
@@ -21,6 +23,8 @@ type CustomListProps = {
     modalItemTitle?: string;
     navigate?: (gameId: string) => void;
     addButton?: boolean;
+    onDelete?: (listId: any) => void;
+    onUpdate?: () => void;
 };
 
 export default function CustomListImage(props: CustomListProps) {
@@ -40,30 +44,61 @@ export default function CustomListImage(props: CustomListProps) {
         }, 2000);
     }, []);
 
+    const renderRightActions = (progress: any, dragX: Animated.Value, item: any) => {
+        const translateX = dragX.interpolate({
+            inputRange: [-140, 0],
+            outputRange: [0, 140],
+            extrapolate: 'clamp',
+        });
+    
+        const opacity = dragX.interpolate({
+            inputRange: [-100, -20, 0],
+            outputRange: [1, 0.5, 0],
+            extrapolate: 'clamp',
+        });
+    
+        return (
+            <Animated.View style={[styles.rightActionsContainer, { transform: [{ translateX }], opacity }]}>
+                <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate()}>
+                    <SquarePenIcon />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item)}>
+                    <TrashIcon />
+                </TouchableOpacity>
+            </Animated.View>
+        );
+    };
+
     const renderListsView = (lists: ListCountReturn[]) => {
         return (
             <>
                 {lists.map((item) => (
-                    <View key={item.id} style={styles.listItemContainer}>
-                        <View style={styles.listItemTopContainer}>
-                            <Text style={styles.listItemName}>{item.name}</Text>
-                            <Text style={styles.listItemCount}>{item.count} {props.title}</Text>
-                        </View>
-                        {item.latestUris && item.latestUris.length > 0 && (
-                            <View style={styles.listItemImagesContainer}>
-                                {item.latestUris.map((uri, index) => (
-                                    <ImageTouchable 
-                                        key={index} 
-                                        w={100} h={100} br={10} bw={1}
-                                        source={{uri}} 
-                                        alt={`${props.title} image`}
-                                    />
-                                ))}
+                    <Swipeable
+                        key={item.id}
+                        renderRightActions={(progress, dragX) => renderRightActions(progress, dragX, item)}
+                        overshootRight={false}
+                        friction={1}
+                        containerStyle={styles.listItemContainer}
+                    >
+                            <View style={styles.listItemTopContainer}>
+                                <Text style={styles.listItemName}>{item.name}</Text>
+                                <Text style={styles.listItemCount}>{item.count} {props.title}</Text>
                             </View>
-                        )}
-                        
-                        <Text style={styles.listDescription}>{item.description}</Text>
-                    </View>
+                            {item.latestUris && item.latestUris.length > 0 && (
+                                <View style={styles.listItemImagesContainer}>
+                                    {item.latestUris.map((uri, index) => (
+                                        <ImageTouchable 
+                                            key={index} 
+                                            w={100} h={100} br={10} bw={1}
+                                            source={{uri}} 
+                                            alt={`${props.title} image`}
+                                        />
+                                    ))}
+                                </View>
+                            )}
+                            
+                            <Text style={styles.listDescription}>{item.description}</Text>
+                    </Swipeable>
                 ))}
             </>
         );
@@ -133,5 +168,29 @@ const styles = StyleSheet.create({
     },
     listDescription: {
         marginVertical: 10
+    },
+    rightActionsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: '100%',
+    },
+    deleteAction: {
+        backgroundColor: colors.redStrong,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 70,
+        height: '100%',
+    },
+    updateAction: {
+        backgroundColor: colors.buttonBlue,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 70,
+        height: '100%',
+    },
+    actionText: {
+        color: 'white',
+        fontWeight: 'bold',
+        padding: 10,
     },
 });
