@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { handleImageSelection } from "../../../services/image/getImageFromUser";
+import { useState } from "react";
+import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator";
 
 export default function useUserCreation() {
 

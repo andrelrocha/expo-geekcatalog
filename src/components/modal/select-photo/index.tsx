@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Keyboard, StyleSheet, View } from "react-native";
+import { TapGestureHandler, State, PanGestureHandler } from "react-native-gesture-handler";
 import * as Animatable from "react-native-animatable";
 import ButtonTouchable from "../../button/button-touchable";
 import { colors } from "../../../utils/colors";
-import { TapGestureHandler, State, PanGestureHandler } from "react-native-gesture-handler";
 
 type ImageSelectionModalProps = {
     visible: boolean;

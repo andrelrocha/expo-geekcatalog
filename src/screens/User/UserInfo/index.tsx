@@ -5,7 +5,7 @@ import { View } from "react-native";
 import { styles } from "../styles";
 import { useAuth } from "../../../context/hooks";
 import useUserInfo from "../../../context/hooks/user/useUserInfo";
-import { Box, Button, ButtonAddImage, ButtonTouchable, DropdownSelection, Heading, ImageTouchable, InputCPF, InputDate, InputEmail, InputPhone, InputText, PhotoSelectionModal, TextWarning } from "../../../components";
+import { Box, Button, ButtonAddImage, ButtonTouchable, DropdownSelection, Heading, ImageTouchable, InputCPF, InputDate, InputEmail, InputPhone, InputText, ImageSelectionModal, TextWarning } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
 import { Control, useForm } from "react-hook-form";
@@ -173,7 +173,7 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
             </PageDefault>
 
             { modalPicVisible && (
-                <PhotoSelectionModal 
+                <ImageSelectionModal 
                 visible={modalPicVisible} 
                 onRequestClose={() => setModalPicVisible(false)} 
                 onCameraPress={() => handleProfilePicture('camera')}

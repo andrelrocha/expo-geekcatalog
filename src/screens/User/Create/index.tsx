@@ -14,11 +14,12 @@ import { useAuth } from "../../../context/hooks";
 import { Box, Heading, InputEmail, InputPassword, 
   InputText, InputCPF, InputPhone, InputPasswordValidation, 
   ButtonAddImage, TextWarning,
-  InputDate, PhotoSelectionModal,
+  InputDate,
   ImageTouchable, DropdownSelection,
   Button, ButtonTouchable,
   PasswordWarning,
-  InputCheckbox, Modal
+  InputCheckbox, Modal,
+  ImageSelectionModal
 } from "../../../components";
 import useUserCreation from "../../../context/hooks/user/useUserCreation";
 import { UserCreate } from "../../../types/user/userCreateDTO";
@@ -203,7 +204,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
       </PageDefault>
 
       { modalPicVisible && (
-        <PhotoSelectionModal 
+        <ImageSelectionModal 
           visible={modalPicVisible} 
           onRequestClose={() => setModalPicVisible(false)} 
           onCameraPress={() => handleProfilePicture('camera')}

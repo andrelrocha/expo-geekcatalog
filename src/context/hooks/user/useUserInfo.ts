@@ -1,6 +1,6 @@
 import { useState } from "react";
 import useCountriesDropdown from "../countries/useCountriesDropdown";
-import { handleImageSelection } from "../../../services/image/getImageFromUser";
+import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator"
 
 export default function useUserInfo() {
     const { dropdownData } = useCountriesDropdown();    

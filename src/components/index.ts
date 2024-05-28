@@ -17,7 +17,7 @@ import ImageTouchable from './image/image-touchable';
 import { ButtonTouchable, ButtonAddImage } from './button';
 import MultiSelectDropdown from './multi-select';
 import PaginationButtons from './pagination-buttons';
-import PhotoSelectionModal from './modal/select-photo';
+import ImageSelectionModal from './modal/select-photo';
 import Modal from './modal/modal-popup';
 import PasswordWarning from './password-warning';
 import List from './list';
@@ -45,6 +45,7 @@ export {
     InputPhone, 
     InputDate,
     InputPasswordValidation, 
+    ImageSelectionModal,
     ImageTouchable,
     List,
     ListImage,
@@ -52,7 +53,6 @@ export {
     MultiSelectDropdown as MultiSelect,
     PaginationButtons,
     PasswordWarning,
-    PhotoSelectionModal,
     TabView,
     Text,
     TextWarning
