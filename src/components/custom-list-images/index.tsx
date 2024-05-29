@@ -25,7 +25,7 @@ type CustomListProps = {
     addButton?: boolean;
     rightOptions?: boolean;
     onDelete?: (id: any) => void;
-    onUpdate?: (list: any) => void;
+    onUpdate?: (id: any) => void;
 };
 
 const BUTTON_RIGHT_WIDTH = 70;
@@ -63,7 +63,7 @@ export default function CustomListImage(props: CustomListProps) {
         //FALTA AADICIONAR OPÇÃO DE O USUÁRIO ARRASTAR TUDO PARA O LADO E DELETAR
         return (
             <Animated.View style={[styles.rightActionsContainer, { transform: [{ translateX }], opacity }]}>
-                <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item)}>
+                <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item.id)}>
                     <SquarePenIcon />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item.id)}>

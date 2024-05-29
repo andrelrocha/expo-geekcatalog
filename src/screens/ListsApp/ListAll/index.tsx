@@ -23,7 +23,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
                 onDelete={(list) => deleteList(list)}
-                onUpdate={(list) => console.log(list)}
+                onUpdate={(list) => navigation.navigate('UpdateListGame', {listId: list})}
                 rightOptions={rightOptions}
             />
         )
