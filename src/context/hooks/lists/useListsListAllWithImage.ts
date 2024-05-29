@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import useAuth from "../use-auth.hook";
-import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
+//import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
+import { allListsAppByUserID } from "../../../services/listsApp/getAllFullInfoByUserID";
 import { listAllPublicListsByUserID } from "../../../services/listsApp/getAllPublic";
 import { listAllSharedLists } from "../../../services/listsApp/getAllSharedLists";
 import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
@@ -64,7 +65,8 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     userId: currentUser.id as string
                 }
 
-                const {lists, pageable, totalElements, totalPages} = await listAllListsAppByUserID(params);
+                const {lists, pageable, totalElements, totalPages} = await allListsAppByUserID(params);
+                console.log('Lists on context:', lists);
                 setUserLists(lists);
                 
                 setPaginationInfo({

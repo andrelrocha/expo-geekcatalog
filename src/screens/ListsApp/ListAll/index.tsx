@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ButtonTouchable, CustomListImage, TabView } from '../../../components';
 import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -11,6 +11,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
     const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
+        console.log('Lists before rendering component:', lists);
         return (
             <CustomListImage
                 title="games"
