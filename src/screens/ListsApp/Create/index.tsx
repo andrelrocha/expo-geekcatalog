@@ -14,7 +14,7 @@ import { Box, Heading,
 import InputWithLabel from "../../../components/input/input-label";
 import useListCreate from "../../../context/hooks/lists/useListCreate";
 import { useAuth } from "../../../context/hooks";
-import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
+import ListAppDTO from "../../../types/listsApp/ListAppDTO";
 import { InfoIcon } from "lucide-react-native";
 
 
@@ -59,7 +59,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
         visibility = false;
       }
     
-      const listData: ListCreateDTO = {
+      const listData: ListAppDTO = {
         userId: currentUser?.id as string,
         name,
         description,

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Control, useForm } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
@@ -9,13 +9,12 @@ import { Box, Heading,
   Button, 
   InputText,
   InputCheckbox,
-  MultiSelect,
 } from "../../../components";
 import InputWithLabel from "../../../components/input/input-label";
-import useListCreate from "../../../context/hooks/lists/useListCreate";
 import { useAuth } from "../../../context/hooks";
-import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
-import { InfoIcon } from "lucide-react-native";
+import ListAppDTO from "../../../types/listsApp/ListAppDTO";
+import useListUpdate from "../../../context/hooks/lists/useListUpdate";
+import ListGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
 
 
 const DEFAULT_FORM_VALUES = {
@@ -45,13 +44,23 @@ export default function UpdateListGame({ navigation, route }: Props) {
     formState: { isValid },
     handleSubmit,
     reset,
+    setValue,
   } = useForm({
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  //const { isLoading, createListMethod } = useListCreate();
+  const { isLoading, loadListData } = useListUpdate();
   const { currentUser } = useAuth();
-  const [isPublic, setIsPublic] = useState(false);
+  const [isPublic, setIsPublic] = useState(false);	
+
+  const setFields = (data: ListGameReturn) => {
+    if (listId) {
+        setValue("name", data.name);
+        setValue("description", data.description);
+        setValue("visibility", data.visibility);
+        setIsPublic(data.visibility);
+    }
+  }
 
   const handleCreate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
@@ -64,19 +73,30 @@ export default function UpdateListGame({ navigation, route }: Props) {
         visibility = false;
       }
     
-      const listData: ListCreateDTO = {
+      const listData: ListAppDTO = {
         userId: currentUser?.id as string,
         name,
         description,
         visibility,
       };
 
-      console.log("list data: "+ listData);
+      console.log("list data: "+ listData.name + " " + listData.description + " " + listData.visibility + " " + listData.userId);
       console.log("listId: "+ listId)
 
       //createListMethod(listData, () => navigation.goBack(), games);
       //reset();
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const listData = await loadListData(listId);
+        console.log("listData name: "+ listData?.name);
+        console.log("listData description: "+ listData?.description);
+        console.log("listData visibility: "+ listData?.visibility);
+        setFields(listData as ListGameReturn);
+    }
+    fetchData();
+  }, [listId]);
 
   return (
     <>
@@ -105,12 +125,13 @@ export default function UpdateListGame({ navigation, route }: Props) {
               name="visibility"
               onPress={() => setIsPublic(!isPublic ? true : false)}
               value={isPublic ? "public" : ""}
+              isChecked={isPublic}
           />
         </Box>
 
         <Button
           isDisabled={!isValid}
-          //isLoading={isLoading}
+          isLoading={isLoading}
           mt={5}
           marginBottom={40}
           backgroundColor={colors.greenStrong}

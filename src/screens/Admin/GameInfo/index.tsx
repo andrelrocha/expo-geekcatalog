@@ -29,7 +29,7 @@ type FormData = {
     genres: string[], 
     consoles: string[],
 }
-
+    
 type GameInfoParams = {
     gameId: string;
 };

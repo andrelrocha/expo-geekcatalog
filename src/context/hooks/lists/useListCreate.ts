@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { useState } from "react";
 import { createListGame } from "../../../services/listsApp/createList";
 import { addBulkGameList } from "../../../services/gameList/addBulk";
-import ListCreateDTO from "../../../types/listsApp/listCreateDTO";
+import ListCreateDTO from "../../../types/listsApp/ListAppDTO";
 import useAuth from "../use-auth.hook";
 import useGamesDropdown from "../games/useGamesDropdown";
 

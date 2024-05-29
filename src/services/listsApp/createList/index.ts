@@ -1,5 +1,5 @@
 import { getToken } from '../../../modules/auth.module';
-import ListCreateDTO from '../../../types/listsApp/listCreateDTO';
+import ListCreateDTO from '../../../types/listsApp/ListAppDTO';
 import ListGameReturn from '../../../types/listsApp/ListsAppReturnDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
