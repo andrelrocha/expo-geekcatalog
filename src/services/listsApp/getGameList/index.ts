@@ -39,8 +39,8 @@ export const getAllGameListByListID = async (props: HandleGetAllGameListByListID
                     gameId: gameList.gameId,
                     gameName: gameList.gameName,
                     consoleId: gameList.consoleId,
-                    consoleName: gameList.consolePlayed,
-                    imageUrl: gameList.uri,
+                    consolePlayed: gameList.consolePlayed,
+                    uri: gameList.uri,
                 };
             });
 

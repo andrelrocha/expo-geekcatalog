@@ -3,7 +3,6 @@ import useListGame from "../../../context/hooks/lists/useListGame";
 import { ListImage } from "../../../components";
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 type ListGameParams = {
     listId: string;
@@ -18,6 +17,7 @@ export default function ListGamesList({ navigation, route }: Props) {
     
     useEffect(() => {
         loadGamesList();
+        
     }, [currentPageUser]);
 
     return (
@@ -37,7 +37,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                 grid={grid}
                 setGrid={setGrid}
                 displayName={true}
-                navigate={(listId) => navigation.navigate('ListGamesList', { listId: listId })}
+                //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
             />
         </>
     );
