@@ -28,6 +28,8 @@ type CustomListProps = {
     onUpdate?: (listId: any) => void;
 };
 
+const BUTTON_RIGHT_WIDTH = 70;
+
 export default function CustomListImage(props: CustomListProps) {
     const [refreshing, setRefreshing] = useState(false);
 
@@ -45,10 +47,10 @@ export default function CustomListImage(props: CustomListProps) {
         }, 2000);
     }, []);
 
-    const renderRightActions = (progress: any, dragX: Animated.Value, item: any) => {
+    const renderRightActions = (progress: any, dragX: Animated.AnimatedInterpolation<number>, item: any) => {
         const translateX = dragX.interpolate({
-            inputRange: [-140, 0],
-            outputRange: [0, 140],
+            inputRange: [-(BUTTON_RIGHT_WIDTH*2), 0],
+            outputRange: [0, BUTTON_RIGHT_WIDTH*2],
             extrapolate: 'clamp',
         });
     
@@ -180,14 +182,14 @@ const styles = StyleSheet.create({
         backgroundColor: colors.redStrong,
         justifyContent: 'center',
         alignItems: 'center',
-        width: 70,
+        width: BUTTON_RIGHT_WIDTH,
         height: '100%',
     },
     updateAction: {
         backgroundColor: colors.buttonBlue,
         justifyContent: 'center',
         alignItems: 'center',
-        width: 70,
+        width: BUTTON_RIGHT_WIDTH,
         height: '100%',
     },
     actionText: {
