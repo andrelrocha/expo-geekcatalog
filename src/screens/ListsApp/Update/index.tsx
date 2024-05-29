@@ -49,7 +49,7 @@ export default function UpdateListGame({ navigation, route }: Props) {
     defaultValues: DEFAULT_FORM_VALUES,
     mode: "onChange"});
 
-  const { isLoading, loadListData } = useListUpdate();
+  const { isLoading, loadListData, updateListMethod } = useListUpdate();
   const { currentUser } = useAuth();
   const [isPublic, setIsPublic] = useState(false);	
 
@@ -80,11 +80,8 @@ export default function UpdateListGame({ navigation, route }: Props) {
         visibility,
       };
 
-      console.log("list data: "+ listData.name + " " + listData.description + " " + listData.visibility + " " + listData.userId);
-      console.log("listId: "+ listId)
-
-      //createListMethod(listData, () => navigation.goBack(), games);
-      //reset();
+      updateListMethod(listData, () => navigation.goBack(), listId);
+      reset();
   }
 
   useEffect(() => {
