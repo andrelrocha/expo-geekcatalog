@@ -21,7 +21,7 @@ type CustomListProps = {
     modalComponent?: boolean;
     modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
-    navigate?: (gameId: string) => void;
+    navigate?: (id: string) => void;
     addButton?: boolean;
     rightOptions?: boolean;
     onDelete?: (id: any) => void;
@@ -78,7 +78,6 @@ export default function CustomListImage(props: CustomListProps) {
             extrapolate: 'clamp',
         });
     
-        //FALTA AADICIONAR OPÇÃO DE O USUÁRIO ARRASTAR TUDO PARA O LADO E DELETAR
         return (
             <Animated.View style={[styles.rightActionsContainer, { transform: [{ translateX }], opacity }]}>
                 <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item.id)}>
@@ -95,32 +94,37 @@ export default function CustomListImage(props: CustomListProps) {
         return (
             <>
                 {lists.map((item) => (
-                    <Swipeable
+                    <TouchableOpacity
                         key={item.id}
-                        {...(props.rightOptions ? { renderRightActions: (progress, dragX) => renderRightActions(progress, dragX, item) } : {})}
-                        overshootRight={false}
-                        friction={1}
-                        containerStyle={styles.listItemContainer}
+                        style={styles.listItemContainer}
+                        onPress={() => props.navigate && props.navigate(item.id)}
+                        //onPress={() => console.log('navigate to list', item.id)}
                     >
-                            <View style={styles.listItemTopContainer}>
-                                <Text style={styles.listItemName}>{item.name}</Text>
-                                <Text style={styles.listItemCount}>{item.count} {props.title}</Text>
-                            </View>
-                            {item.latestUris && item.latestUris.length > 0 && (
-                                <View style={styles.listItemImagesContainer}>
-                                    {item.latestUris.map((uri, index) => (
-                                        <ImageTouchable 
-                                            key={index} 
-                                            w={100} h={100} br={10} bw={1}
-                                            source={{uri}} 
-                                            alt={`${props.title} image`}
-                                        />
-                                    ))}
+                        <Swipeable
+                            {...(props.rightOptions ? { renderRightActions: (progress, dragX) => renderRightActions(progress, dragX, item) } : {})}
+                            overshootRight={false}
+                            friction={1}
+                        >
+                                <View style={styles.listItemTopContainer}>
+                                    <Text style={styles.listItemName}>{item.name}</Text>
+                                    <Text style={styles.listItemCount}>{item.count} {props.title}</Text>
                                 </View>
-                            )}
-                            
-                            <Text style={styles.listDescription}>{item.description}</Text>
-                    </Swipeable>
+                                {item.latestUris && item.latestUris.length > 0 && (
+                                    <View style={styles.listItemImagesContainer}>
+                                        {item.latestUris.map((uri, index) => (
+                                            <ImageTouchable 
+                                                key={index} 
+                                                w={90} h={90} br={10} bw={1}
+                                                source={{uri}} 
+                                                alt={`${props.title} image`}
+                                            />
+                                        ))}
+                                    </View>
+                                )}
+                                
+                                <Text style={styles.listDescription}>{item.description}</Text>
+                        </Swipeable>
+                    </TouchableOpacity>
                 ))}
             </>
         );
@@ -177,11 +181,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         marginVertical: 10,
+        gap: 10,
     },
     listItemCount: {
         textAlign: 'right',
         textAlignVertical: 'center',
         alignSelf: 'center',
+        paddingRight: 5,
     },
     listItemName: {
         fontSize: 18,

@@ -40,7 +40,6 @@ export default function TabView(props: TabViewProps) {
           const opacity = isFocused ? 1 : 0.5;
           const fontWeight = isFocused ? 'bold' : 'normal';
           
-
           return (
             <TouchableOpacity
               key={route.key}

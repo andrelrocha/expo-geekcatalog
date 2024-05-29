@@ -25,6 +25,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                 onDelete={(list) => deleteList(list)}
                 onUpdate={(list) => navigation.navigate('UpdateListGame', {listId: list})}
                 rightOptions={rightOptions}
+                navigate={(list) => navigation.navigate('ListGamesList', {listId: list})}
             />
         )
     }
