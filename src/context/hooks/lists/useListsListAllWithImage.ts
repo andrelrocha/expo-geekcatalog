@@ -6,8 +6,10 @@ import useAuth from "../use-auth.hook";
 import { allListsAppByUserID } from "../../../services/listsApp/getAllFullInfoByUserID";
 import { publicListsAppByUserID } from "../../../services/listsApp/getPublicFullInfo";
 import { sharedListsAppByUserID } from "../../../services/listsApp/getSharedFullInfo";
+import { deleteListGame } from "../../../services/listsApp/delete";
 import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 import ListReturn from "../../../types/listsApp/ListReturnDTO";
+import { Alert } from "react-native";
 
 type UseListsListAllWithImageIDProps = {
     size?: number;
@@ -139,5 +141,11 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
         }
     };
 
-    return {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists};
+    const deleteList = async (id: any) => {
+        await deleteListGame(id);
+        Alert.alert('List deleted successfully');
+        await loadDataUserLists();
+    }
+
+    return {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList};
 }

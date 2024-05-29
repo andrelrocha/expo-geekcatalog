@@ -24,8 +24,8 @@ type CustomListProps = {
     navigate?: (gameId: string) => void;
     addButton?: boolean;
     rightOptions?: boolean;
-    onDelete?: (listId: any) => void;
-    onUpdate?: (listId: any) => void;
+    onDelete?: (id: any) => void;
+    onUpdate?: (list: any) => void;
 };
 
 const BUTTON_RIGHT_WIDTH = 70;
@@ -66,7 +66,7 @@ export default function CustomListImage(props: CustomListProps) {
                 <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item)}>
                     <SquarePenIcon />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item)}>
+                <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item.id)}>
                     <TrashIcon />
                 </TouchableOpacity>
             </Animated.View>
@@ -191,10 +191,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: BUTTON_RIGHT_WIDTH,
         height: '100%',
-    },
-    actionText: {
-        color: 'white',
-        fontWeight: 'bold',
-        padding: 10,
     },
 });

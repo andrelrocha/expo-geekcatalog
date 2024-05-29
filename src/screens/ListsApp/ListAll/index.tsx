@@ -8,7 +8,8 @@ import { colors } from "../../../utils/colors";
 
 export default function ListAllListsApp({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const [currentPage, setCurrentPage] = useState(0);
-    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
+    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, 
+        loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList} = useListsListAllWithImage({page: currentPage});
 
     const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
         return (
@@ -21,8 +22,8 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                 currentPage={currentPage}
                 totalPages={paginationInfo?.totalPages}
                 onPageChange={(page) => setCurrentPage(page)}
-                onDelete={(listId) => console.log(listId)}
-                onUpdate={(listId) => console.log('update')}
+                onDelete={(list) => deleteList(list)}
+                onUpdate={(list) => console.log(list)}
                 rightOptions={rightOptions}
             />
         )
