@@ -11,7 +11,6 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists} = useListsListAllWithImage({page: currentPage});
 
     const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
-        console.log('Lists before rendering component:', lists);
         return (
             <CustomListImage
                 title="games"

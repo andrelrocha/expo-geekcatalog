@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
-import { listAllPublicListsByUserID } from "../../../services/listsApp/getAllPublic";
-import { listAllSharedLists } from "../../../services/listsApp/getAllSharedLists";
+import { listAllPublicListsByUserID } from "../../../services/listsApp/getPublic";
+import { listAllSharedLists } from "../../../services/listsApp/getSharedLists";
 import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 
 type UseListsListAllByUserIDProps = {

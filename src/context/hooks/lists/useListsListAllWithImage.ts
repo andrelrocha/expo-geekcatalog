@@ -1,9 +1,11 @@
 import {  useState } from "react";
 import useAuth from "../use-auth.hook";
-//import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID";
+//import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID"; -- multiple calls to the API on a promise nesting
+//import { listAllPublicListsByUserID } from "../../../services/listsApp/getPublic"; -- multiple calls to the API on a promise nesting
+//import { listAllSharedLists } from "../../../services/listsApp/getSharedLists"; -- multiple calls to the API on a promise nesting
 import { allListsAppByUserID } from "../../../services/listsApp/getAllFullInfoByUserID";
-import { listAllPublicListsByUserID } from "../../../services/listsApp/getAllPublic";
-import { listAllSharedLists } from "../../../services/listsApp/getAllSharedLists";
+import { publicListsAppByUserID } from "../../../services/listsApp/getPublicFullInfo";
+import { sharedListsAppByUserID } from "../../../services/listsApp/getSharedFullInfo";
 import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 import ListReturn from "../../../types/listsApp/ListReturnDTO";
 
@@ -66,7 +68,6 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                 }
 
                 const {lists, pageable, totalElements, totalPages} = await allListsAppByUserID(params);
-                console.log('Lists on context:', lists);
                 setUserLists(lists);
                 
                 setPaginationInfo({
@@ -95,7 +96,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     userId: currentUser.id as string
                 }
 
-                const {lists, pageable, totalElements, totalPages} = await listAllPublicListsByUserID(params);
+                const {lists, pageable, totalElements, totalPages} = await publicListsAppByUserID(params);
                 setPublicLists(lists);
                 setPaginationInfo({
                     currentPage: pageable.pageNumber,
@@ -123,7 +124,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     userId: currentUser.id as string
                 }
 
-                const {lists, pageable, totalElements, totalPages} = await listAllSharedLists(params);
+                const {lists, pageable, totalElements, totalPages} = await sharedListsAppByUserID(params);
                 setSharedLists(lists);
                 setPaginationInfo({
                     currentPage: pageable.pageNumber,
