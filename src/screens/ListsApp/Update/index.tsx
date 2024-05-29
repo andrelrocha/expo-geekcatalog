@@ -62,7 +62,7 @@ export default function UpdateListGame({ navigation, route }: Props) {
     }
   }
 
-  const handleCreate = async (control: Control<FormData>) => {
+  const handleUpdate = async (control: Control<FormData>) => {
       const name = control._formValues.name;
       const description = control._formValues.description;
       let visibility = control._formValues.visibility;
@@ -90,9 +90,6 @@ export default function UpdateListGame({ navigation, route }: Props) {
   useEffect(() => {
     const fetchData = async () => {
         const listData = await loadListData(listId);
-        console.log("listData name: "+ listData?.name);
-        console.log("listData description: "+ listData?.description);
-        console.log("listData visibility: "+ listData?.visibility);
         setFields(listData as ListGameReturn);
     }
     fetchData();
@@ -137,7 +134,7 @@ export default function UpdateListGame({ navigation, route }: Props) {
           backgroundColor={colors.greenStrong}
           w={250}
           onPress={handleSubmit(async () =>
-            handleCreate(control as unknown as Control<FormData>)
+            handleUpdate(control as unknown as Control<FormData>)
             )}
         >Save
         </Button>

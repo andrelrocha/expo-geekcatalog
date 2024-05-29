@@ -1,4 +1,4 @@
-import { Animated, RefreshControl, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
+import { Alert, Animated, RefreshControl, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
 import { Swipeable } from 'react-native-gesture-handler';
 import Box from "../box";
 import TextWarning from "../text/text-warning";
@@ -47,6 +47,24 @@ export default function CustomListImage(props: CustomListProps) {
         }, 2000);
     }, []);
 
+    const handleDeletePress = (itemId: string) => {
+        Alert.alert(
+          'Confirmation',
+          'Are you sure you want to delete this item? This action cannot be undone.',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'OK',
+              onPress: () => props.onDelete && props.onDelete(itemId),
+            },
+          ],
+          { cancelable: false }
+        );
+      };
+
     const renderRightActions = (progress: any, dragX: Animated.AnimatedInterpolation<number>, item: any) => {
         const translateX = dragX.interpolate({
             inputRange: [-(BUTTON_RIGHT_WIDTH*2), 0],
@@ -66,7 +84,7 @@ export default function CustomListImage(props: CustomListProps) {
                 <TouchableOpacity style={styles.updateAction} onPress={() => props.onUpdate && props.onUpdate(item.id)}>
                     <SquarePenIcon />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.deleteAction} onPress={() => props.onDelete && props.onDelete(item.id)}>
+                <TouchableOpacity style={styles.deleteAction} onPress={() => handleDeletePress(item.id)}>
                     <TrashIcon />
                 </TouchableOpacity>
             </Animated.View>
