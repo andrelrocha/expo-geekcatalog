@@ -7,7 +7,7 @@ import { colors } from "../../utils/colors";
 import Modal from "../modal/modal-popup";
 import ImageUriList from "../../types/image/ImageUriListDTO";
 import TextWarning from "../text/text-warning";
-import { GalleryVerticalIcon, GridIcon } from "../icons";
+import { GalleryVerticalIcon, GridIcon, EllipsisIcon } from "../icons";
 import Box from "../box";
 
 type SectionListProps = {
@@ -28,12 +28,16 @@ type SectionListProps = {
     grid?: boolean;
     setGrid?: (grid: boolean) => void;
     displayName?: boolean;
+    headingTop?: number;
+    ellipsis?: boolean;
+    ellispsisModalContent?: React.ReactNode;
 };
 
 export default function ListImage(props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [modalData, setModalData] = useState<any>(null);
+    const [ellipsisModalOpen, setEllipsisModalOpen] = useState(false);
 
     const imageRenderItemGrid = () => {
         return (props.imageUris ?? []).map((item: any) => (
@@ -105,11 +109,20 @@ export default function ListImage(props: SectionListProps) {
     const screenWidth = Dimensions.get('window').width;
     const headingWidth = (screenWidth / 2)*1.1;
     const otherElementWidth = screenWidth / 6;
+    
+    const headingTop = props.headingTop !== undefined ? props.headingTop : 30;
 
     const renderHeader = () => (
-        <View style={styles.containerHeader}>
-            <View style={{ width: otherElementWidth }} />
-            <Heading w={headingWidth} fs={32} mb={20} mt={20}>{props.title}</Heading>
+        <View style={[styles.containerHeader, { marginTop: headingTop }]} >
+            {props.ellipsis ? (
+                <TouchableOpacity style={{width: otherElementWidth, alignItems: 'flex-end'}} 
+                    onPress={() => setEllipsisModalOpen(!ellipsisModalOpen)}>
+                    <EllipsisIcon color={colors.black} size={26}/>
+                </TouchableOpacity>
+            ): (
+                <View style={{ width: otherElementWidth }} />
+            )}
+            <Heading w={headingWidth} fs={32}>{props.title}</Heading>
             <TouchableOpacity style={{width: otherElementWidth}} onPress={() => props.setGrid && props.setGrid(!props.grid)}>
                 {handleDisplay()}
             </TouchableOpacity>
@@ -201,6 +214,14 @@ export default function ListImage(props: SectionListProps) {
                     title={props.modalItemTitle}
                 />
             )}
+            {props.ellipsis && ellipsisModalOpen && !props.isLoading && (
+                <Modal
+                    body={props.ellispsisModalContent}
+                    isOpen={ellipsisModalOpen}
+                    onClose={() => setEllipsisModalOpen(false)}
+                    h={400}
+                />    
+            )}
         </View>
     );
 }
@@ -248,5 +269,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.black,
         marginBottom: 5,
+    }, 
+    modalEllipsis: {
+        position: 'absolute',
+        zIndex: 10,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: colors.gray,
     },
 });

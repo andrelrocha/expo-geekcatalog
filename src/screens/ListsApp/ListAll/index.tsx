@@ -43,7 +43,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                     onPress={() => navigation.navigate('CreateListGame')}
                     >Create a List
                 </ButtonTouchable>
-                </View>
+            </View>
         </>
     );
       
@@ -78,8 +78,8 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: 20,
+        position: 'absolute',
+        bottom: 20,
+        alignSelf: 'center',
     },
 });

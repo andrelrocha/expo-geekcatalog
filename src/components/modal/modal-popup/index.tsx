@@ -8,8 +8,8 @@ import Heading from "../../heading";
 import { CloseIcon } from "../../icons";
 
 const { width, height } = Dimensions.get('window');
-const modalWidth = 0.8 * width;
-const modalHeight = 0.7 * height;
+const defaultModalWidth = 0.8 * width;
+const defaultModalHeight = 0.7 * height;
 
 type CustomModalProps = {
     isOpen: boolean;
@@ -20,6 +20,7 @@ type CustomModalProps = {
     secondaryBtnText?: string;
     title?: string;
     body?: string | ReactNode;
+    h?: number;
 };
 
 const Modal = (props: CustomModalProps) => {
@@ -29,6 +30,8 @@ const Modal = (props: CustomModalProps) => {
         }
     };
 
+    const modalHeight = props.h || defaultModalHeight;
+
     return (
         <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.ACTIVE) {
@@ -36,7 +39,7 @@ const Modal = (props: CustomModalProps) => {
                 const modalBottom = height / 2 + modalHeight / 2;
 
                 const isInsideModal = (
-                    nativeEvent.absoluteX >= width / 2 - modalWidth / 2 && nativeEvent.absoluteX <= width / 2 + modalWidth / 2 &&
+                    nativeEvent.absoluteX >= width / 2 - defaultModalWidth / 2 && nativeEvent.absoluteX <= width / 2 + defaultModalWidth / 2 &&
                     nativeEvent.absoluteY >= modalTop && nativeEvent.absoluteY <= modalBottom
                 );
     
@@ -45,11 +48,11 @@ const Modal = (props: CustomModalProps) => {
                 }
             }
         }}>
-            <View style={[styles.modalContainer, { display: props.isOpen ? "flex" : "none" }]}>
+            <View style={[styles.modalContainer, { display: props.isOpen ? "flex" : "none",  }]}>
                 <Animatable.View 
                     animation="slideInUp" 
                     duration={500} 
-                    style={[styles.modalContent, { width: modalWidth, height: modalHeight }]}
+                    style={[styles.modalContent, { width: defaultModalWidth, height: props.h || modalHeight }]}
                 >
                     <ButtonTouchable
                       onPress={closeHandler}
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
     },
     headingContainer: {
-        maxHeight: modalHeight * 0.2,
+        maxHeight: defaultModalHeight * 0.2,
         width: '100%',
         justifyContent: 'center',
         marginTop: 30,
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 20,
-        maxWidth: modalWidth,
+        maxWidth: defaultModalWidth,
         gap: 10,
     },
 });
