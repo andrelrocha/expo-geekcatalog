@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { ButtonTouchable, ListImage, Modal } from "../../../components";
+import { ButtonTouchable, ListImage, Modal, MultiSelect } from "../../../components";
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../../utils/colors";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import InputWithLabel from "../../../components/input/input-label";
+import { useForm } from "react-hook-form";
+import { InfoIcon } from "lucide-react-native";
 
 type ListGameParams = {
     listId: string;
@@ -13,11 +16,29 @@ type ListGameParams = {
 
 type Props = NativeStackScreenProps<ParamListBase, 'ListGamesList'>;
 
+const DEFAULT_FORM_VALUES = {
+    games: [],
+};
+  
+type FormData = {
+    userId: string,
+    listId: string,
+    games: string[],
+}
+
 export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris } = useListGame({ page: currentPageUser, listId });
+    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, gameDropwdownData } = useListGame({ page: currentPageUser, listId });
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+      } = useForm({
+        defaultValues: DEFAULT_FORM_VALUES,
+        mode: "onChange"});
 
     const openModal = () => {
         console.log('Open Modal');
@@ -29,6 +50,24 @@ export default function ListGamesList({ navigation, route }: Props) {
         setModalIsOpen(false);
         //setModalData(null);
     };
+
+    const modalAddGame = () => {
+        return (
+            <View>
+                <InputWithLabel label="Games to add">
+                    <MultiSelect
+                    control={control}
+                    name="games"
+                    placeholder="Games"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    data={gameDropwdownData}
+                    />
+                </InputWithLabel>
+            </View>
+        );
+    }
     
     useEffect(() => {
         loadGamesList();
@@ -65,10 +104,10 @@ export default function ListGamesList({ navigation, route }: Props) {
 
             {modalIsOpen && !isLoading && (
                 <Modal
-                    body={"Teste"}
+                    body={modalAddGame()}
                     isOpen={modalIsOpen}
                     onClose={closeModal}
-                    title={"Add a game"}
+                    title={"Add Games"}
                 />
             )}
         </View>

@@ -17,6 +17,7 @@ type SectionListProps = {
     onRefresh?: () => void;
     alt: string;
     modalComponent?: boolean;
+    modalContentComponent?: React.ReactNode;
     modalContentService?: (key: string) => Promise<any>;
     modalItemTitle?: string;
     navigate?: (gameId: string) => void;
@@ -196,7 +197,7 @@ export default function ListImage(props: SectionListProps) {
             ))}
             {props.modalComponent && isOpen && !props.isLoading && (
                 <Modal
-                    body={handleModalData(modalData)}
+                    body={handleModalData(modalData) || props.modalContentComponent}
                     isOpen={isOpen}
                     onClose={closeModal}
                     title={props.modalItemTitle}
