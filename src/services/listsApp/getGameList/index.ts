@@ -27,7 +27,7 @@ export const getAllGameListByListID = async (props: HandleGetAllGameListByListID
                 return response;
             })
             .catch((error) => {
-                console.error('Errorlisting games in a list:', error);
+                console.error('Error listing games in a list:', error);
                 throw error;
             });
 

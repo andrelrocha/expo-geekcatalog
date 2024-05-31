@@ -13,6 +13,7 @@ import Box from "../box";
 type SectionListProps = {
     imageUris: ImageUriList[];
     title: string;
+    elementsName?: string;
     onRefresh?: () => void;
     alt: string;
     modalComponent?: boolean;
@@ -163,31 +164,36 @@ export default function ListImage(props: SectionListProps) {
 
     return (
         <View style={styles.container}>
-            {props.isLoading ? (
+            {props.isLoading && props.imageUris.length != 0 ? (
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
-                <ScrollView 
-                    contentContainerStyle={styles.containerImage}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={onRefresh} 
-                        />
-                    }    
-                >
-                    {renderHeader()}
+                props.imageUris.length === 0 ? (
+                    <>
+                        <TextWarning backgroundColor={colors.whiteSmoke} mt={50} w={300} fs={20} h={40} fw="bold">Empty list. Add new {props.elementsName as string  || "entities"}!</TextWarning>
+                    </>
+                ) : (
+                    <ScrollView 
+                        contentContainerStyle={styles.containerImage}
+                        refreshControl={
+                            <RefreshControl
+                                refreshing={refreshing}
+                                onRefresh={onRefresh} 
+                            />
+                        }    
+                    >
+                        {renderHeader()}
 
-                    {props.grid ? (
-                        imageRenderItemGrid()
-                    ) : (
-                        imageRenderItemVertical()
-                    )}
+                        {props.grid ? (
+                            imageRenderItemGrid()
+                        ) : (
+                            imageRenderItemVertical()
+                        )}
 
-                    <Box alignItems="center">
-                        {renderFooter()}
-                    </Box>
-                </ScrollView>
-            )}
+                        <Box alignItems="center">
+                            {renderFooter()}
+                        </Box>
+                    </ScrollView>
+            ))}
             {props.modalComponent && isOpen && !props.isLoading && (
                 <Modal
                     body={handleModalData(modalData)}
