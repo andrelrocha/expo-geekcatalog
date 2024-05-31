@@ -4,7 +4,7 @@ import { View } from "@gluestack-ui/themed";
 import { ViewStyle } from "react-native";
 
 interface TextWarningProps {
-  children: string
+  children: string | string[]
   backgroundColor?: string
   textColor?: string
   fs?: number

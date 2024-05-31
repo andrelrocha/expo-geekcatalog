@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import useListGame from "../../../context/hooks/lists/useListGame";
-import { ButtonTouchable, ListImage, Modal, MultiSelect } from "../../../components";
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useForm } from "react-hook-form";
+import { InfoIcon } from "lucide-react-native";
 import { colors } from "../../../utils/colors";
 import { StyleSheet, Text, View } from "react-native";
 import InputWithLabel from "../../../components/input/input-label";
-import { useForm } from "react-hook-form";
-import { InfoIcon } from "lucide-react-native";
+import useListGame from "../../../context/hooks/lists/useListGame";
+import { ButtonTouchable, DropdownSelection, ListImage, Modal, MultiSelect, TabView } from "../../../components";
 
 type ListGameParams = {
     listId: string;
@@ -50,9 +50,61 @@ export default function ListGamesList({ navigation, route }: Props) {
         setModalIsOpen(false);
         //setModalData(null);
     };
+    
+    const addBulkGames = () => {
+        return (
+            <InputWithLabel label="Games to add">
+                <MultiSelect
+                    control={control}
+                    name="games"
+                    placeholder="Games"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    data={gameDropwdownData}
+                />
+            </InputWithLabel>
+        );
+    }
+
+    const addGameWithInfo = () => {
+        return (
+            /*
+            <InputWithLabel label="Game to add">
+                <DropdownSelection
+                    control={control}
+                    name="games"
+                    placeholder="Games"
+                    icon={<InfoIcon/>}
+                    label="name"
+                    value="id"
+                    data={gameDropwdownData}
+                />
+            </InputWithLabel>
+            */
+           <Text>Teste</Text>
+        );
+    }
+
+    const scenes = {
+        first: addBulkGames,
+        second: addGameWithInfo,
+    };
+    
+    const [routes] = useState([
+        { key: 'first', title: 'Add Games' },
+        { key: 'second', title: 'Game with Info' },
+    ]);
+    
 
     const modalAddGame = () => {
         return (
+            <TabView
+                routes={routes}
+                scenes={scenes}
+                swipeEnabled={true}
+            />
+            /*
             <View>
                 <InputWithLabel label="Games to add">
                     <MultiSelect
@@ -66,6 +118,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     />
                 </InputWithLabel>
             </View>
+            */
         );
     }
     
@@ -107,7 +160,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     body={modalAddGame()}
                     isOpen={modalIsOpen}
                     onClose={closeModal}
-                    title={"Add Games"}
+                    title={""}
                 />
             )}
         </View>

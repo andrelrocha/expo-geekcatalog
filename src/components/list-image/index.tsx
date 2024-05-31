@@ -169,9 +169,7 @@ export default function ListImage(props: SectionListProps) {
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
                 props.imageUris.length === 0 ? (
-                    <>
-                        <TextWarning backgroundColor={colors.whiteSmoke} mt={50} w={300} fs={20} h={40} fw="bold">Empty list. Add new {props.elementsName as string  || "entities"}!</TextWarning>
-                    </>
+                    <TextWarning backgroundColor={colors.whiteSmoke} mt={50} w={300} fs={20} h={40} fw="bold">Empty list. Add new {props.elementsName as string  || "entities"}!</TextWarning>
                 ) : (
                     <ScrollView 
                         contentContainerStyle={styles.containerImage}

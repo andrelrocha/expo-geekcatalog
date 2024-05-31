@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   tabBar: {
     flexDirection: 'row',
     paddingTop: StatusBar.currentHeight,
+    justifyContent: 'center',
   },
   tabItem: {
     flex: 1,

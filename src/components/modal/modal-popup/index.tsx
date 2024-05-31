@@ -32,12 +32,14 @@ const Modal = (props: CustomModalProps) => {
     return (
         <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.ACTIVE) {
+                const modalTop = height / 2 - modalHeight / 2;
+                const modalBottom = height / 2 + modalHeight / 2;
+
                 const isInsideModal = (
-                    nativeEvent.x >= width / 2 - modalWidth / 2 && nativeEvent.x <= width / 2 + modalWidth / 2 &&
-                    nativeEvent.y >= height / 2 - modalHeight / 2 && nativeEvent.y <= height / 2 + modalHeight / 2
+                    nativeEvent.absoluteX >= width / 2 - modalWidth / 2 && nativeEvent.absoluteX <= width / 2 + modalWidth / 2 &&
+                    nativeEvent.absoluteY >= modalTop && nativeEvent.absoluteY <= modalBottom
                 );
     
-                // Se o toque ocorreu fora da modal, feche-a
                 if (!isInsideModal) {
                     closeHandler();
                 }
