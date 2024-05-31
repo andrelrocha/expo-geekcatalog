@@ -32,7 +32,15 @@ const Modal = (props: CustomModalProps) => {
     return (
         <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {
             if (nativeEvent.state === State.ACTIVE) {
-                closeHandler();
+                const isInsideModal = (
+                    nativeEvent.x >= width / 2 - modalWidth / 2 && nativeEvent.x <= width / 2 + modalWidth / 2 &&
+                    nativeEvent.y >= height / 2 - modalHeight / 2 && nativeEvent.y <= height / 2 + modalHeight / 2
+                );
+    
+                // Se o toque ocorreu fora da modal, feche-a
+                if (!isInsideModal) {
+                    closeHandler();
+                }
             }
         }}>
             <View style={[styles.modalContainer, { display: props.isOpen ? "flex" : "none" }]}>
@@ -45,7 +53,7 @@ const Modal = (props: CustomModalProps) => {
                       onPress={closeHandler}
                       style={styles.closeIconContainer}
                      >
-                        <CloseIcon size={40} />
+                        <CloseIcon size={35} />
                     </ButtonTouchable>
 
                     <View style={styles.headingContainer}>
