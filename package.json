@@ -27,6 +27,7 @@
     "expo-constants": "^16.0.1",
     "expo-dev-client": "~4.0.14",
     "expo-file-system": "^17.0.1",
+    "expo-image-manipulator": "~12.0.5",
     "expo-image-picker": "^15.0.4",
     "expo-local-authentication": "^14.0.1",
     "expo-secure-store": "^13.0.1",
@@ -56,8 +57,7 @@
     "styled-components": "^6.1.8",
     "typescript": "^5.3.3",
     "validator": "^13.11.0",
-    "with-rn-image-crop-picker": "^0.2.0",
-    "expo-image-manipulator": "~12.0.5"
+    "with-rn-image-crop-picker": "^0.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: colors.whiteSmoke,
         borderRadius: 12,
-        padding: 20,
+        padding: 10,
+        paddingTop: 15,
         position: 'relative',
     },
     closeIconContainer: {

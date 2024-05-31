@@ -37,6 +37,7 @@ const useListGame = (props: UseListGameProps) => {
     const [gamesList, setGamesList] = useState<GameListDTO[]>([]);
     const [imageUris, setImageUris] = useState<ImageUriList[]>([]);
     const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
+    const [newGameAdded, setNewGameAdded] = useState(false);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
 
@@ -92,9 +93,10 @@ const useListGame = (props: UseListGameProps) => {
     const createGameList = async (data: GameListAddDTO) => {
         try {
             setIsLoading(true);
-            await addGameList(data);
+            const gameList = await addGameList(data);
             setIsLoading(false);
             Alert.alert('Game added successfully');
+            setNewGameAdded(true);
             setModalAddIsOpen(false);
         } catch (error: any) {
             console.error('Error creating game list:', error);
@@ -108,7 +110,7 @@ const useListGame = (props: UseListGameProps) => {
         };
 
         fetchGamesList();
-    }, [modalAddIsOpen]);
+    }, [newGameAdded]);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
         consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen};

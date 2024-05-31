@@ -2,6 +2,7 @@ import CheckIcon from "./check";
 import CloseIcon from "./close";
 import CameraIcon from "./camera";
 import EarthIcon from "./earth";
+import EllipsisIcon from "./ellipsis";
 import EyeIcon from "./eye";
 import GameControllerIcon from "./game-controller";
 import GalleryVerticalIcon from "./galery-vertical";
@@ -15,5 +16,5 @@ import UserIcon from "./user";
 import TrashIcon from "./trash";
 import VerticalIcon from "./vertical";
 
-export { CameraIcon, CheckIcon, CloseIcon, EarthIcon, EyeIcon, HorizontalIcon, GameControllerIcon, 
+export { CameraIcon, CheckIcon, CloseIcon, EarthIcon, EllipsisIcon, EyeIcon, HorizontalIcon, GameControllerIcon, 
     GalleryVerticalIcon, GridIcon, ListIcon, MinusLineIcon, ShieldIcon, SquarePenIcon, TrashIcon, UserIcon, VerticalIcon};
