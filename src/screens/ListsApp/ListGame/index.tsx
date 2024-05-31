@@ -63,7 +63,8 @@ export default function ListGamesList({ navigation, route }: Props) {
                     />
                 </InputWithLabel>
 
-                {/*FALTA AJEITAR AQUI O DROPDOWN CARREGAR DINAMICAMENTE COM BASE NO JOGO ESCOLHIDO*/}
+                {/*FALTA AJEITAR AQUI O DROPDOWN CARREGAR DINAMICAMENTE COM BASE NO JOGO ESCOLHIDO //estudar questão do context só executar quando eu mandar
+                e não com um useEffect próprio*/}
 
                 <InputWithLabel label="Console Played">
                     <DropdownSelection
