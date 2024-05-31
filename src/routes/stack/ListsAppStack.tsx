@@ -11,10 +11,10 @@ const Stack = createStackNavigator();
 export default function ListsAppStack() {
   return (
     <MyStackNavigator>
-      <Stack.Screen name="ListAllListsApp" component={ListAllListsApp} options={{ headerTitle: 'Game Lists'}}/>
-      <Stack.Screen name="CreateListGame" component={CreateListGame} options={{ headerTitle: 'Create a List'}}/>
-      <Stack.Screen name="UpdateListGame" component={UpdateListGame} options={{ headerTitle: 'Update a List'}}/>
-      <Stack.Screen name="ListGamesList" component={ListGamesList} options={{ headerTitle: 'List Games'}}/>
+      <Stack.Screen name="ListAllListsApp" component={ListAllListsApp} options={{ headerTitle: ''}}/>
+      <Stack.Screen name="CreateListGame" component={CreateListGame} options={{ headerTitle: ''}}/>
+      <Stack.Screen name="UpdateListGame" component={UpdateListGame} options={{ headerTitle: ''}}/>
+      <Stack.Screen name="ListGamesList" component={ListGamesList} options={{ headerTitle: ''}}/>
     </MyStackNavigator>
   );
 }
