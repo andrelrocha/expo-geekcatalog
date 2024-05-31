@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
+import { addGameList } from "../../../services/gameList/addGameList";
 import useGamesDropdown from "../games/useGamesDropdown";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
+import GameListAddDTO from "../../../types/gameList/GameListAddDTO";
+import { Alert } from "react-native";
 
 type UseListGameProps = {
     size?: number;
@@ -33,6 +36,7 @@ const useListGame = (props: UseListGameProps) => {
     const [grid, setGrid] = useState(true);
     const [gamesList, setGamesList] = useState<GameListDTO[]>([]);
     const [imageUris, setImageUris] = useState<ImageUriList[]>([]);
+    const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
 
@@ -85,15 +89,29 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    const createGameList = async (data: GameListAddDTO) => {
+        try {
+            setIsLoading(true);
+            await addGameList(data);
+            setIsLoading(false);
+            Alert.alert('Game added successfully');
+            setModalAddIsOpen(false);
+        } catch (error: any) {
+            console.error('Error creating game list:', error);
+            Alert.alert('Error creating game list: ', error.response?.data);
+        }
+    }
+
     useEffect(() => {
         const fetchGamesList = async () => {
             loadGamesList();
         };
 
         fetchGamesList();
-    }, []);
+    }, [modalAddIsOpen]);
 
-    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, consoleDropdownData};
+    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
+        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen};
 };
 
 export default useListGame;

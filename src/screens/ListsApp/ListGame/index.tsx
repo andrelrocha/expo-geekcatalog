@@ -36,9 +36,8 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [addGame, setAddGame] = useState(false);
-    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, gameDropwdownData, consoleDropdownData } = useListGame({ page: currentPageUser, listId });
+    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, 
+        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen } = useListGame({ page: currentPageUser, listId });
 
     const {
         control,
@@ -48,17 +47,6 @@ export default function ListGamesList({ navigation, route }: Props) {
       } = useForm({
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"});
-
-    const openModal = () => {
-        console.log('Open Modal');
-        setAddGame(true);
-        setModalIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-        //setModalData(null);
-    };
 
     const modalAddGame = () => {
         return (
@@ -75,8 +63,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     />
                 </InputWithLabel>
 
-
-                {/*FALTA AJEITAR AQUI TANTO O CAMPO TEXTO SER MAIOR, QUANTO O DROPDOWN CARREGAR DINAMICAMENTE */}
+                {/*FALTA AJEITAR AQUI O DROPDOWN CARREGAR DINAMICAMENTE COM BASE NO JOGO ESCOLHIDO*/}
 
                 <InputWithLabel label="Console Played">
                     <DropdownSelection
@@ -92,8 +79,7 @@ export default function ListGamesList({ navigation, route }: Props) {
 
                 <InputWithLabel label="Note">
                     <InputText control={control} name="note" numberOfLines={4}
-                                placeholder="Your notes about the game" icon={0}
-                                />
+                                placeholder="Your notes about the game" icon={0}/>
                 </InputWithLabel>
 
                 <Button
@@ -119,15 +105,14 @@ export default function ListGamesList({ navigation, route }: Props) {
         const userId = currentUser?.id as string;
 
         const listData: FormData = {
-            userId: userId,
             listId: _listId,
-            consoleId: consoleId,
+            userId: userId,
             gameId: gameId,
+            consoleId: consoleId,
             note: note,
         };
 
-        console.log('ListData', listData);
-        //createListMethod(listData, () => navigation.goBack(), games);
+        createGameList(listData);
         reset();
     }
     
@@ -160,15 +145,15 @@ export default function ListGamesList({ navigation, route }: Props) {
                     w={350}
                     backgroundColor={colors.sage}
                     textColor={colors.black}
-                    onPress={() => openModal()}
+                    onPress={() => setModalAddIsOpen(true)}
                     >Add a game
             </ButtonTouchable>
 
-            {modalIsOpen && !isLoading && (
+            {modalAddIsOpen && !isLoading && (
                 <Modal
                     body={modalAddGame()}
-                    isOpen={modalIsOpen}
-                    onClose={closeModal}
+                    isOpen={modalAddIsOpen}
+                    onClose={() => setModalAddIsOpen(false)}
                     title={"Add Game to List"}
                 />
             )}
