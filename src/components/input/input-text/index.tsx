@@ -26,6 +26,7 @@ type InputTextProps<T extends FieldValues> = {
     visibleValidation?: boolean; // Indica se a validação deve ser exibida visualmente.
     bColorFocus?: string;
     editable?: boolean;
+    numberOfLines?: number;
   } & ComponentProps<typeof Input>; // Junta as props do componente Input com as props específicas do InputText.
   
 
@@ -41,6 +42,7 @@ const InputText = <T extends FieldValues>({
   rules,
   visibleValidation,
   editable,
+  numberOfLines = 1,
   ...props
 }: InputTextProps<T>) => {
   // Definindo funções de formatação padrão, caso não sejam fornecidas.
@@ -88,14 +90,18 @@ const InputText = <T extends FieldValues>({
         const isInvalid = externalValue.length > 0 && invalid;
         const isValid = externalValue.length > 0 && !invalid;
 
+        const inputFieldHeight = numberOfLines > 1 ? numberOfLines * 50 : 50;
+
         return (
-          <Input isInvalid={isInvalid} {...props} >
+          <Input isInvalid={isInvalid} {...props} style={{ height: inputFieldHeight}}>
               <InputField
                 placeholder={placeholder}
                 value={externalValue}
                 {...inputProps}
                 onChangeText={(value) => onChange(_formatInternalValue(value))}
                 editable={editable}
+                multiline={numberOfLines > 1}
+                style={{ paddingTop: numberOfLines > 1 ? 10 : 0 }}
                 />
 
             <Text>{props.children}</Text> 

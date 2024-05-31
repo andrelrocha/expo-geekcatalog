@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import useGamesDropdown from "../games/useGamesDropdown";
+import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
 
@@ -34,6 +35,8 @@ const useListGame = (props: UseListGameProps) => {
     const [imageUris, setImageUris] = useState<ImageUriList[]>([]);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
+
+    const { dropdownData: consoleDropdownData } = useConsolesDropdown();
 
     const handleParams = () => {
         let paramsToApi = '';
@@ -90,7 +93,7 @@ const useListGame = (props: UseListGameProps) => {
         fetchGamesList();
     }, []);
 
-    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData};
+    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, consoleDropdownData};
 };
 
 export default useListGame;
