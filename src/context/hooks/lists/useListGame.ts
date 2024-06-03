@@ -1,14 +1,14 @@
+import { Alert } from "react-native";
 import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
+import { addGameListPermission } from "../../../services/listsPermission/addGameListPermission";
 import useGamesDropdown from "../games/useGamesDropdown";
-import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import usePermissionsDropdown from "../permissions/usePermissionsDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
 import GameListAddDTO from "../../../types/gameList/GameListAddDTO";
-import { Alert } from "react-native";
 
 type UseListGameProps = {
     size?: number;
@@ -106,13 +106,12 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
-    //FALTA IMPLEMENTAR COM O SERVICE
     const addPermissionList = async (data: any) => {
         try {
             setIsLoading(true);
-            console.log(data);
+            const response = await addGameListPermission(data);
             setIsLoading(false);
-            //Alert.alert('Permission added successfully');
+            Alert.alert(`Permission for user ${response?.participantName ?? 'invited'} added successfully`);
         } catch (error: any) {
             console.error('Error adding permission list:', error);
             Alert.alert('Error adding permission list: ', error.response?.data);

@@ -186,6 +186,7 @@ export default function ListGamesList({ navigation, route }: Props) {
         
         addPermissionList(permissionData);
         setHideCreateButton(false);
+        reset();
     }
 
     
