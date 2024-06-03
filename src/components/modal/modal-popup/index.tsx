@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { View, StyleSheet, ScrollView, Dimensions, Text } from "react-native";
 import { TapGestureHandler, State } from "react-native-gesture-handler";
 import * as Animatable from "react-native-animatable";
@@ -14,6 +14,7 @@ const defaultModalHeight = 0.7 * height;
 type CustomModalProps = {
     isOpen: boolean;
     onClose: () => void;
+    onOpen?: () => void;
     onPrimaryBtnPress?: () => void;
     onSecondaryBtnPress?: () => void;
     primaryBtnText?: string;
@@ -31,6 +32,12 @@ const Modal = (props: CustomModalProps) => {
     };
 
     const modalHeight = props.h || defaultModalHeight;
+
+    useEffect(() => {
+        if (props.isOpen) {
+            props.onOpen && props.onOpen();
+        }
+    }, [props.isOpen]);
 
     return (
         <TapGestureHandler onHandlerStateChange={({ nativeEvent }) => {
@@ -125,11 +132,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.whiteSmoke,
         shadowOpacity: 0,
         position: 'absolute',
-        top: 10,
+        top: 5,
         left: 0,
         zIndex: 0,
-        width: 30,
-        height: 30,
+        width: 45,
+        height: 40,
         marginTop: 10,
         marginLeft: 10,
     },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Box, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal } from "../../../components";
+import { Box, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { colors } from "../../../utils/colors";
@@ -39,7 +39,8 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, 
-        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData } = useListGame({ page: currentPageUser, listId });
+        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList } = useListGame({ page: currentPageUser, listId });
+    const [hideCreateButton, setHideCreateButton] = useState(false);
 
     const {
         control,
@@ -55,7 +56,7 @@ export default function ListGamesList({ navigation, route }: Props) {
             <View style={styles.modalContent}>
                 <Heading fs={20} mb={10}>Invite someone to join your list!</Heading>
                 <InputWithLabel label="Email">
-                    <InputEmail control={control} name="emailParticipant" placeholder="Email" icon={0}/>
+                    <InputEmail control={control} name="emailParticipant" placeholder="Email"/>
                 </InputWithLabel>
 
                 <InputWithLabel label="User Permission">
@@ -78,7 +79,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     backgroundColor={colors.greenStrong}
                     w={250}
                     onPress={handleSubmit(async () =>
-                        handleCreate(control as unknown as Control<FormData>)
+                        handlePermission(control as unknown as Control<FormData>)
                         )}
                     >Invite!</Button>
             </View>
@@ -152,6 +153,22 @@ export default function ListGamesList({ navigation, route }: Props) {
         createGameList(listData);
         reset();
     }
+
+    const handlePermission = async (control: Control<FormData>) => {
+        const emailParticipant = control._formValues.emailParticipant;
+        const permission = control._formValues.permission;
+
+        const permissionData = {
+            ownerId: currentUser?.id as string,
+            participantLogin: emailParticipant,
+            listId,
+            permissionId: permission,
+        }
+        
+        addPermissionList(permissionData);
+        setHideCreateButton(false);
+    }
+
     
     useEffect(() => {
         loadGamesList();
@@ -175,19 +192,23 @@ export default function ListGamesList({ navigation, route }: Props) {
                 displayName={true}
                 ellipsis={true}
                 ellispsisModalContent={modalAddPermission()}
+                ellipsisLoadStates={() => setHideCreateButton(!hideCreateButton)}
                 //headingTop={0}
                 //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
                 //modalItemTitle="Game Info"
                 //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
             />
-            <ButtonTouchable
-                    style={[styles.addButton, gamesList.length === 0 && styles.addButtonEmptyList]}
-                    w={350}
-                    backgroundColor={colors.sage}
-                    textColor={colors.black}
-                    onPress={() => setModalAddIsOpen(true)}
-                    >Add a game
-            </ButtonTouchable>
+            {!hideCreateButton && (
+                <ButtonTouchable
+                        style={[styles.addButton, gamesList.length === 0 && styles.addButtonEmptyList]}
+                        w={350}
+                        backgroundColor={colors.sage}
+                        textColor={colors.black}
+                        onPress={() => setModalAddIsOpen(true)}
+                        >Add a game
+                </ButtonTouchable>
+            )}
+
 
             {modalAddIsOpen && !isLoading && (
                 <Modal
@@ -217,5 +238,5 @@ const styles = StyleSheet.create({
     modalContent: {
         alignItems: 'center',
         justifyContent: 'center',
-    },
+    }
 });

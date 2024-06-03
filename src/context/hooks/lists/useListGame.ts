@@ -105,6 +105,18 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    const addPermissionList = async (data: any) => {
+        try {
+            setIsLoading(true);
+            console.log(data);
+            setIsLoading(false);
+            //Alert.alert('Permission added successfully');
+        } catch (error: any) {
+            console.error('Error adding permission list:', error);
+            Alert.alert('Error adding permission list: ', error.response?.data);
+        }
+    }
+
     useEffect(() => {
         const fetchGamesList = async () => {
             loadGamesList();
@@ -114,7 +126,7 @@ const useListGame = (props: UseListGameProps) => {
     }, [newGameAdded]);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
-        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData};
+        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, addPermissionList};
 };
 
 export default useListGame;

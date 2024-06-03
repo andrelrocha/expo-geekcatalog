@@ -31,6 +31,7 @@ type SectionListProps = {
     headingTop?: number;
     ellipsis?: boolean;
     ellispsisModalContent?: React.ReactNode;
+    ellipsisLoadStates?: () => void;
 };
 
 export default function ListImage(props: SectionListProps) {
@@ -218,7 +219,11 @@ export default function ListImage(props: SectionListProps) {
                 <Modal
                     body={props.ellispsisModalContent}
                     isOpen={ellipsisModalOpen}
-                    onClose={() => setEllipsisModalOpen(false)}
+                    onOpen={() => props.ellipsisLoadStates && props.ellipsisLoadStates()}
+                    onClose={() => {
+                        setEllipsisModalOpen(false)
+                        props.ellipsisLoadStates && props.ellipsisLoadStates()
+                    }}
                     h={400}
                 />    
             )}
