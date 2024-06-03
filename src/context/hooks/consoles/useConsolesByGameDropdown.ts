@@ -7,6 +7,7 @@ export default function useConsolesByGameIdDropdown(gameId: string) {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!gameId) return; 
       try {
         const data = await listAllConsolesByGameId(gameId);
         setDropdownData(data);

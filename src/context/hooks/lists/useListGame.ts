@@ -39,9 +39,10 @@ const useListGame = (props: UseListGameProps) => {
     const [imageUris, setImageUris] = useState<ImageUriList[]>([]);
     const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
     const [newGameAdded, setNewGameAdded] = useState(false);
+    const [hideCreateButton, setHideCreateButton] = useState(false);
+    const [consolesAvailableData, setConsolesAvailableData] = useState<any[]>([]);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
-    const { dropdownData: consoleDropdownData } = useConsolesDropdown();
     const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
 
     const handleParams = () => {
@@ -105,6 +106,7 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    //FALTA IMPLEMENTAR COM O SERVICE
     const addPermissionList = async (data: any) => {
         try {
             setIsLoading(true);
@@ -126,7 +128,8 @@ const useListGame = (props: UseListGameProps) => {
     }, [newGameAdded]);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
-        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, addPermissionList};
+        createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, 
+        addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData};
 };
 
 export default useListGame;

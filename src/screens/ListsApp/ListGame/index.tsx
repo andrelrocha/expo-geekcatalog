@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import useListGame from "../../../context/hooks/lists/useListGame";
-import { Box, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
 import { ParamListBase } from "@react-navigation/native";
+import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { colors } from "../../../utils/colors";
-import { StyleSheet, Text, View } from "react-native";
-import InputWithLabel from "../../../components/input/input-label";
-import { Control, useForm } from "react-hook-form";
 import { InfoIcon } from "lucide-react-native";
+import useListGame from "../../../context/hooks/lists/useListGame";
+import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
+import { colors } from "../../../utils/colors";
+import { StyleSheet, View } from "react-native";
+import InputWithLabel from "../../../components/input/input-label";
 import { useAuth } from "../../../context/hooks";
-import { ModalContent } from "@gluestack-ui/themed";
+import useConsolesByGameIdDropdown from "../../../context/hooks/consoles/useConsolesByGameDropdown";
+import { listAllConsolesByGameId } from "../../../services/consoles/listByGameId";
 
 type ListGameParams = {
     listId: string;
@@ -38,9 +39,8 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, 
-        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList } = useListGame({ page: currentPageUser, listId });
-    const [hideCreateButton, setHideCreateButton] = useState(false);
+    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, hideCreateButton, setHideCreateButton,
+        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, consolesAvailableData } = useListGame({ page: currentPageUser, listId });
 
     const {
         control,
@@ -50,6 +50,26 @@ export default function ListGamesList({ navigation, route }: Props) {
     } = useForm({
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"});
+
+    const selectedGameId = useWatch({
+        control,
+        name: "game",
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (selectedGameId) {
+                try {
+                    const data = await listAllConsolesByGameId(selectedGameId);
+                    setConsolesAvailableData(data);
+                } catch (error) {
+                    console.error("Error fetching consoles data:", error);
+                }
+            }
+        };
+    
+        fetchData();
+    }, [selectedGameId]);
 
     const modalAddPermission = () => {
         return (
@@ -101,20 +121,19 @@ export default function ListGamesList({ navigation, route }: Props) {
                     />
                 </InputWithLabel>
 
-                {/*FALTA AJEITAR AQUI O DROPDOWN CARREGAR DINAMICAMENTE COM BASE NO JOGO ESCOLHIDO //estudar questão do context só executar quando eu mandar
-                e não com um useEffect próprio*/}
-
-                <InputWithLabel label="Console Played">
-                    <DropdownSelection
-                    control={control}
-                    name="console"
-                    placeholder="Console"
-                    icon={<InfoIcon/>}
-                    label="name"
-                    value="id"
-                    data={consoleDropdownData}
-                    />
-                </InputWithLabel>
+                {selectedGameId && (
+                    <InputWithLabel label="Console Played">
+                        <DropdownSelection
+                            control={control}
+                            name="console"
+                            placeholder="Console"
+                            icon={<InfoIcon/>}
+                            label="name"
+                            value="id"
+                            data={consolesAvailableData}
+                        />
+                    </InputWithLabel>
+                )}
 
                 <InputWithLabel label="Note">
                     <InputText control={control} name="note" numberOfLines={4}
@@ -243,7 +262,7 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         backgroundColor: colors.whiteSmoke,
-        paddingTop: 5
+        paddingTop: 5,
     },
     addButton: {
         alignItems: 'center',
