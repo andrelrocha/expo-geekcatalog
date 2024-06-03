@@ -39,9 +39,9 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton,
-        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, consolesAvailableData } = useListGame({ page: currentPageUser, listId });
-    const [permissionModalOpen, setPermissionModalOpen] = useState(false);
+    const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen,
+        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, 
+        consolesAvailableData } = useListGame({ page: currentPageUser, listId });
 
     const {
         control,

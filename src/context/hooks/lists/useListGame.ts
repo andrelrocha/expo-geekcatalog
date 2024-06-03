@@ -41,6 +41,7 @@ const useListGame = (props: UseListGameProps) => {
     const [newGameAdded, setNewGameAdded] = useState(false);
     const [hideCreateButton, setHideCreateButton] = useState(false);
     const [consolesAvailableData, setConsolesAvailableData] = useState<any[]>([]);
+    const [permissionModalOpen, setPermissionModalOpen] = useState(false);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
     const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
@@ -96,25 +97,29 @@ const useListGame = (props: UseListGameProps) => {
         try {
             setIsLoading(true);
             await addGameList(data);
-            setIsLoading(false);
             Alert.alert('Game added successfully');
             setNewGameAdded(true);
             setModalAddIsOpen(false);
         } catch (error: any) {
             console.error('Error creating game list:', error);
             Alert.alert('Error creating game list: ', error.response?.data);
+        } finally {
+            setIsLoading(false);
         }
     }
+    
 
     const addPermissionList = async (data: any) => {
         try {
             setIsLoading(true);
             const response = await addGameListPermission(data);
-            setIsLoading(false);
             Alert.alert(`Permission for user ${response?.participantName ?? 'invited'} added successfully`);
         } catch (error: any) {
             console.error('Error adding permission list:', error);
             Alert.alert('Error adding permission list: ', error.response?.data);
+        } finally{
+            setIsLoading(false);
+            setPermissionModalOpen(false);
         }
     }
 
@@ -127,7 +132,7 @@ const useListGame = (props: UseListGameProps) => {
     }, [newGameAdded]);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
-        createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, 
+        createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen,
         addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData};
 };
 
