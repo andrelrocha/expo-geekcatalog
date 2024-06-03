@@ -193,7 +193,6 @@ export default function ListGamesList({ navigation, route }: Props) {
                 ellipsis={true}
                 ellispsisModalContent={modalAddPermission()}
                 ellipsisLoadStates={() => setHideCreateButton(!hideCreateButton)}
-                //headingTop={0}
                 //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
                 //modalItemTitle="Game Info"
                 //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}

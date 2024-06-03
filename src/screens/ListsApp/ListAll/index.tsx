@@ -30,7 +30,6 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
         )
     }
 
-
     const MyLists = () => (
         <>
             {renderLists(userLists, loadDataUserLists, true)}
