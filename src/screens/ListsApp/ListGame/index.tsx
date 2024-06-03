@@ -176,36 +176,42 @@ export default function ListGamesList({ navigation, route }: Props) {
 
     return (
         <View style={styles.container}>
-            <ListImage
-                title={listName}
-                alt="Image Game"
-                elementsName="games"
-                totalPages={paginationInfo.totalPages}
-                currentPage={currentPageUser}
-                onPageChange={setCurrentPageUser}
-                onRefresh={loadGamesList}
-                modalComponent={false}   
-                imageUris={imageUris}
-                isLoading={isLoading}
-                grid={grid}
-                setGrid={setGrid}
-                displayName={true}
-                ellipsis={true}
-                ellispsisModalContent={modalAddPermission()}
-                ellipsisLoadStates={() => setHideCreateButton(!hideCreateButton)}
-                //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
-                //modalItemTitle="Game Info"
-                //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
-            />
+            <View style={styles.listContainer}>
+                <ListImage
+                    title={listName}
+                    alt="Image Game"
+                    elementsName="games"
+                    totalPages={paginationInfo.totalPages}
+                    currentPage={currentPageUser}
+                    onPageChange={setCurrentPageUser}
+                    onRefresh={loadGamesList}
+                    modalComponent={false}   
+                    imageUris={imageUris}
+                    isLoading={isLoading}
+                    grid={grid}
+                    setGrid={setGrid}
+                    displayName={true}
+                    ellipsis={true}
+                    ellispsisModalContent={modalAddPermission()}
+                    ellipsisLoadStates={() => setHideCreateButton(!hideCreateButton)}
+                    //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
+                    //modalItemTitle="Game Info"
+                    //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
+                />
+            </View>
+
             {!hideCreateButton && (
-                <ButtonTouchable
-                        style={[styles.addButton, gamesList.length === 0 && styles.addButtonEmptyList]}
+                 <View style={styles.buttonWrapper}>
+                    <ButtonTouchable
+                        style={styles.addButton}
                         w={350}
                         backgroundColor={colors.sage}
                         textColor={colors.black}
                         onPress={() => setModalAddIsOpen(true)}
-                        >Add a game
-                </ButtonTouchable>
+                    >
+                        Add a game
+                    </ButtonTouchable>
+                </View>
             )}
 
 
@@ -226,13 +232,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
     },
-    addButton: {
-        position: 'absolute',
-        bottom: 15,
-        alignItems: 'center',
+    listContainer: {
+        flex: 1,
+        width: '100%',
+        paddingBottom: 60,
     },
-    addButtonEmptyList: {
-        width: 300,
+    buttonWrapper: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        alignItems: 'center',
+        backgroundColor: colors.whiteSmoke,
+        paddingTop: 5
+    },
+    addButton: {
+        alignItems: 'center',
     },
     modalContent: {
         alignItems: 'center',

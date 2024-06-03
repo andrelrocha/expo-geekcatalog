@@ -13,34 +13,37 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
 
     const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
         return (
-            <CustomListImage
-                title="games"
-                data={lists}
-                keyExtractor={(item) => item.id.toString()}
-                isLoading={isLoading}
-                onRefresh={() => loadData()}
-                currentPage={currentPage}
-                totalPages={paginationInfo?.totalPages}
-                onPageChange={(page) => setCurrentPage(page)}
-                onDelete={(list) => deleteList(list)}
-                onUpdate={(list) => navigation.navigate('UpdateListGame', {listId: list})}
-                rightOptions={rightOptions}
-                navigate={(id, name) => navigation.navigate('ListGamesList', {listId: id, listName: name})}
-            />
-        )
-    }
+            <View style={styles.listContainer}>
+                <CustomListImage
+                    title="games"
+                    data={lists}
+                    keyExtractor={(item) => item.id.toString()}
+                    isLoading={isLoading}
+                    onRefresh={() => loadData()}
+                    currentPage={currentPage}
+                    totalPages={paginationInfo?.totalPages}
+                    onPageChange={(page) => setCurrentPage(page)}
+                    onDelete={(list) => deleteList(list)}
+                    onUpdate={(list) => navigation.navigate('UpdateListGame', {listId: list})}
+                    rightOptions={rightOptions}
+                    navigate={(id, name) => navigation.navigate('ListGamesList', {listId: id, listName: name})}
+                />
+            </View>
+        );
+    };
 
     const MyLists = () => (
         <>
             {renderLists(userLists, loadDataUserLists, true)}
-            <View style={styles.container}>
-                
+            <View style={styles.buttonWrapper}>    
                 <ButtonTouchable
-                    w={400}
+                    w={350}
                     backgroundColor={colors.sage}
                     textColor={colors.black}
                     onPress={() => navigation.navigate('CreateListGame')}
-                    >Create a List
+                    style={styles.addButton}
+                >
+                    Create a List
                 </ButtonTouchable>
             </View>
         </>
@@ -68,17 +71,28 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
 
     return (
         <TabView
-                routes={routes}
-                scenes={scenes}
-                swipeEnabled={false}
+            routes={routes}
+            scenes={scenes}
+            swipeEnabled={false}
         />
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    listContainer: {
+        flex: 1,
+        width: '100%',
+        paddingBottom: 60,
+    },
+    buttonWrapper: {
         position: 'absolute',
-        bottom: 20,
-        alignSelf: 'center',
+        bottom: 0,
+        width: '100%',
+        alignItems: 'center',
+        backgroundColor: colors.whiteSmoke,
+        paddingTop: 5,
+    },
+    addButton: {
+        alignItems: 'center',
     },
 });
