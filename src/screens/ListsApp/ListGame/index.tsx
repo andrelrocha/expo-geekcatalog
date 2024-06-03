@@ -39,8 +39,9 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, hideCreateButton, setHideCreateButton,
+    const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton,
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, consolesAvailableData } = useListGame({ page: currentPageUser, listId });
+    const [permissionModalOpen, setPermissionModalOpen] = useState(false);
 
     const {
         control,
@@ -212,8 +213,10 @@ export default function ListGamesList({ navigation, route }: Props) {
                     setGrid={setGrid}
                     displayName={true}
                     ellipsis={true}
-                    ellispsisModalContent={modalAddPermission()}
-                    ellipsisLoadStates={() => setHideCreateButton(!hideCreateButton)}
+                    ellipsisLoadStates={() => {
+                        setHideCreateButton(!hideCreateButton)
+                        setPermissionModalOpen(!permissionModalOpen)
+                    }}
                     //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
                     //modalItemTitle="Game Info"
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
@@ -243,6 +246,17 @@ export default function ListGamesList({ navigation, route }: Props) {
                     title={"Add Game to List"}
                 />
             )}
+
+            {permissionModalOpen && !isLoading && (
+                <Modal
+                    body={modalAddPermission()}
+                    isOpen={permissionModalOpen}
+                    onClose={() => setPermissionModalOpen(false)}
+                    title={""}
+                    h={400}
+                />
+            )}
+            
         </View>
     );
 }
@@ -255,10 +269,8 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         width: '100%',
-        paddingBottom: 60,
     },
     buttonWrapper: {
-        position: 'absolute',
         bottom: 0,
         width: '100%',
         alignItems: 'center',

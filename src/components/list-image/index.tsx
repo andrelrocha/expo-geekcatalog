@@ -30,7 +30,6 @@ type SectionListProps = {
     displayName?: boolean;
     headingTop?: number;
     ellipsis?: boolean;
-    ellispsisModalContent?: React.ReactNode;
     ellipsisLoadStates?: () => void;
 };
 
@@ -117,7 +116,7 @@ export default function ListImage(props: SectionListProps) {
         <View style={[styles.containerHeader, { marginTop: headingTop }]} >
             {props.ellipsis ? (
                 <TouchableOpacity style={{width: otherElementWidth, alignItems: 'flex-end'}} 
-                    onPress={() => setEllipsisModalOpen(!ellipsisModalOpen)}>
+                    onPress={() => props.ellipsisLoadStates && props.ellipsisLoadStates()}>
                     <EllipsisIcon color={colors.black} size={26}/>
                 </TouchableOpacity>
             ): (
@@ -215,18 +214,7 @@ export default function ListImage(props: SectionListProps) {
                     title={props.modalItemTitle}
                 />
             )}
-            {props.ellipsis && ellipsisModalOpen && !props.isLoading && (
-                <Modal
-                    body={props.ellispsisModalContent}
-                    isOpen={ellipsisModalOpen}
-                    onOpen={() => props.ellipsisLoadStates && props.ellipsisLoadStates()}
-                    onClose={() => {
-                        setEllipsisModalOpen(false)
-                        props.ellipsisLoadStates && props.ellipsisLoadStates()
-                    }}
-                    h={400}
-                />    
-            )}
+            
         </View>
     );
 }
