@@ -23,6 +23,7 @@ const DEFAULT_FORM_VALUES = {
     note: '',
     console: '',
     emailParticipant: '',
+    permission: '',
 };
   
 type FormData = {
@@ -38,14 +39,14 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, gamesList, loadGamesList, imageUris, 
-        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen } = useListGame({ page: currentPageUser, listId });
+        gameDropwdownData, consoleDropdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData } = useListGame({ page: currentPageUser, listId });
 
     const {
         control,
         formState: { isValid },
         handleSubmit,
         reset,
-      } = useForm({
+    } = useForm({
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"});
 
@@ -55,6 +56,18 @@ export default function ListGamesList({ navigation, route }: Props) {
                 <Heading fs={20} mb={10}>Invite someone to join your list!</Heading>
                 <InputWithLabel label="Email">
                     <InputEmail control={control} name="emailParticipant" placeholder="Email" icon={0}/>
+                </InputWithLabel>
+
+                <InputWithLabel label="User Permission">
+                    <DropdownSelection
+                        control={control}
+                        name="permission"
+                        placeholder="Permissions"
+                        icon={<InfoIcon/>}
+                        label="permission"
+                        value="id"
+                        data={permissionDropdownData}
+                    />
                 </InputWithLabel>
                 
                 <Button
@@ -146,9 +159,6 @@ export default function ListGamesList({ navigation, route }: Props) {
 
     return (
         <View style={styles.container}>
-            {/*}
-            <ButtonTouchable style={styles.inviteButton} textColor={colors.black}>
-            Invite</ButtonTouchable> */}
             <ListImage
                 title={listName}
                 alt="Image Game"

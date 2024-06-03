@@ -166,7 +166,6 @@
         listItemContainer: {
             flexDirection: 'column',
             width: '100%',
-            paddingHorizontal: 10,
             borderBottomWidth: 1, 
             borderBottomColor: colors.grayOpacity, 
         },
@@ -174,6 +173,7 @@
             marginTop: 10,
             flexDirection: 'row',
             justifyContent: 'space-between',
+            paddingHorizontal: 10,
         },
         listItemImagesContainer: {
             flexDirection: 'row',
@@ -181,6 +181,7 @@
             justifyContent: 'flex-start',
             marginVertical: 10,
             gap: 10,
+            paddingHorizontal: 10,
         },
         listItemCount: {
             textAlign: 'right',
@@ -194,7 +195,8 @@
             textAlign: 'left',
         },
         listDescription: {
-            marginVertical: 10
+            marginVertical: 10,
+            paddingHorizontal: 10,
         },
         rightActionsContainer: {
             flexDirection: 'row',

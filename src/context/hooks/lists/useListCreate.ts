@@ -13,7 +13,7 @@ export default function useListCreate() {
 
     const { dropdownData: gamesData } = useGamesDropdown();
     
-    const createListMethod = async (data: ListCreateDTO, navigate: (mustRefresh: boolean) => void, games: string[]) => {
+    const createListMethod = async (data: ListCreateDTO, navigate: () => void, games: string[]) => {
         if (currentUser) {
             setIsLoading(true);
             try {
@@ -29,7 +29,7 @@ export default function useListCreate() {
 
                 setIsLoading(false);
                 Alert.alert(`List ${listResponse?.name} created successfully!`);
-                navigate(true);
+                navigate();
             } catch (error: any) {
                 console.error('Error fetching games:', error);
                 setIsLoading(false);

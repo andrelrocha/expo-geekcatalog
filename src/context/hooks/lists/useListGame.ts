@@ -4,6 +4,7 @@ import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
 import useGamesDropdown from "../games/useGamesDropdown";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
+import usePermissionsDropdown from "../permissions/usePermissionsDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
 import GameListAddDTO from "../../../types/gameList/GameListAddDTO";
@@ -40,8 +41,8 @@ const useListGame = (props: UseListGameProps) => {
     const [newGameAdded, setNewGameAdded] = useState(false);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
-
     const { dropdownData: consoleDropdownData } = useConsolesDropdown();
+    const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
 
     const handleParams = () => {
         let paramsToApi = '';
@@ -93,7 +94,7 @@ const useListGame = (props: UseListGameProps) => {
     const createGameList = async (data: GameListAddDTO) => {
         try {
             setIsLoading(true);
-            const gameList = await addGameList(data);
+            await addGameList(data);
             setIsLoading(false);
             Alert.alert('Game added successfully');
             setNewGameAdded(true);
@@ -113,7 +114,7 @@ const useListGame = (props: UseListGameProps) => {
     }, [newGameAdded]);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
-        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen};
+        consoleDropdownData, createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData};
 };
 
 export default useListGame;
