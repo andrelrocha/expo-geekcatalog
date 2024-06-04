@@ -27,6 +27,7 @@ type InputTextProps<T extends FieldValues> = {
     bColorFocus?: string;
     editable?: boolean;
     numberOfLines?: number;
+    maxLength?: number;
   } & ComponentProps<typeof Input>; // Junta as props do componente Input com as props específicas do InputText.
   
 
@@ -43,6 +44,7 @@ const InputText = <T extends FieldValues>({
   visibleValidation,
   editable,
   numberOfLines = 1,
+  maxLength,
   ...props
 }: InputTextProps<T>) => {
   // Definindo funções de formatação padrão, caso não sejam fornecidas.
@@ -102,6 +104,7 @@ const InputText = <T extends FieldValues>({
                 editable={editable}
                 multiline={numberOfLines > 1}
                 style={{ paddingTop: numberOfLines > 1 ? 10 : 0 }}
+                maxLength={maxLength}
                 />
 
             <Text>{props.children}</Text> 
