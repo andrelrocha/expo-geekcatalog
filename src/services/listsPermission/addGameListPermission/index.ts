@@ -13,13 +13,14 @@ export async function addGameListPermission(data: AddGameListPermission) {
     const endpoint = "/listspermission/add";
     try {
         const response = await ApiManager.post(endpoint, data, { headers })
-            .then((response) => {
+            .then((response) => {  
                 if (response.data) {
                     const gameListReturn: GameListPermissionReturn = {
                         id: response.data.id,
                         ownerId: response.data.ownerId,
                         listId: response.data.listId,
                         permissionId: response.data.permissionId,
+                        permissionName: response.data.permissionName,
                         participantId: response.data.participantId,
                         participantName: response.data.participantName
                     };

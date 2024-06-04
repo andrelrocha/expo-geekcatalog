@@ -5,6 +5,7 @@ import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
 import { addGameListPermission } from "../../../services/listsPermission/addGameListPermission";
 import { deleteGameList } from "../../../services/gameList/delete";
+import { getListPermissionsByUser } from "../../../services/listsPermission/getListPermissionsByUser";
 import useGamesDropdown from "../games/useGamesDropdown";
 import usePermissionsDropdown from "../permissions/usePermissionsDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
@@ -45,6 +46,7 @@ const useListGame = (props: UseListGameProps) => {
     const [permissionModalOpen, setPermissionModalOpen] = useState(false);
     const [isAlertVisible, setAlertVisible] = useState(false);
     const [selectedGameList, setSelectedGameList] = useState('');
+    const [userPermissions, setUserPermissions] = useState<string[]>([]);
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
     const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
@@ -110,7 +112,6 @@ const useListGame = (props: UseListGameProps) => {
             setIsLoading(false);
         }
     }
-    
 
     const addPermissionList = async (data: any) => {
         try {
@@ -140,6 +141,20 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    const getUserPermissions = async () => {
+        try {
+            setIsLoading(true);
+            const permissionsList = await getListPermissionsByUser(props.listId);
+            if (permissionsList) setUserPermissions(permissionsList.map((permission) => permission.permissionName));
+            return permissionsList;
+        } catch (error: any) {
+            console.error('Error getting user permissions for list:', error);
+            Alert.alert('Error getting user permissions for list: ', error.response?.data);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
         const fetchGamesList = async () => {
             loadGamesList();
@@ -149,7 +164,11 @@ const useListGame = (props: UseListGameProps) => {
         setgameListDataChange(false);
     }, [gameListDataChange]);
 
-    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible,
+    useEffect(() => {
+        getUserPermissions();
+    }, []);
+
+    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions,
         createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen,
         addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
 };

@@ -4,7 +4,6 @@ import ImageTouchable from "../image/image-touchable";
 import Heading from "../heading";
 import PaginationButtons from "../pagination-buttons";
 import { colors } from "../../utils/colors";
-import Modal from "../modal/modal-popup";
 import ImageUriList from "../../types/image/ImageUriListDTO";
 import TextWarning from "../text/text-warning";
 import { GalleryVerticalIcon, GridIcon, EllipsisIcon } from "../icons";

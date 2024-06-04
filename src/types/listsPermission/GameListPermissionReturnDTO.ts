@@ -3,6 +3,7 @@ export default interface GameListPermissionReturn {
     ownerId: string;
     listId: string;
     permissionId: string;
+    permissionName: string;
     participantId: string;
     participantName: string;
 }

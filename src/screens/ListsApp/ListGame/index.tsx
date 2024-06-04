@@ -42,7 +42,7 @@ export default function ListGamesList({ navigation, route }: Props) {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen,
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, deleteGameListMethod,
-        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList } = useListGame({ page: currentPageUser, listId });
+        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions } = useListGame({ page: currentPageUser, listId });
 
     const alertOption = [{
         label: 'Update',
@@ -219,7 +219,7 @@ export default function ListGamesList({ navigation, route }: Props) {
               text: 'Delete',
               onPress: () => deleteGameListMethod(gameListId),
             },
-          ],
+          ],    
           { cancelable: true }
         );
     };
@@ -261,7 +261,7 @@ export default function ListGamesList({ navigation, route }: Props) {
 
             <Alert isVisible={isAlertVisible} setIsVisible={setAlertVisible} alertOptions={alertOption}/>
 
-            {!hideCreateButton && (
+            {!hideCreateButton && userPermissions.includes("ADD_GAME") && (
                  <View style={styles.buttonWrapper}>
                     <ButtonTouchable
                         style={styles.addButton}
