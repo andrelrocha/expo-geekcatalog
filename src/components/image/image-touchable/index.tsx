@@ -20,45 +20,46 @@ type ButtonProps = TouchableOpacityProps & {
 const ImageTouchable = (props: ButtonProps) => {
     const tiltAnim = new Animated.Value(0);
 
-  const handleLongPress = () => {
-    const trembleIntensity = 5; 
-    const trembleDuration = 500; 
+    const handleLongPress = async () => {
+        const trembleIntensity = 5; 
+        const trembleDuration = 400; 
 
-    Animated.sequence([
-        Animated.timing(tiltAnim, {
-            toValue: trembleIntensity,
-            duration: trembleDuration / 4,
-            easing: Easing.in(Easing.ease),
-            useNativeDriver: true,
-        }),
-        Animated.timing(tiltAnim, {
-            toValue: -trembleIntensity,
-            duration: trembleDuration / 4,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: true,
-        }),
-        Animated.timing(tiltAnim, {
-            toValue: trembleIntensity / 2,
-            duration: trembleDuration / 4,
-            easing: Easing.in(Easing.ease),
-            useNativeDriver: true,
-        }),
-        Animated.timing(tiltAnim, {
-            toValue: -trembleIntensity / 2,
-            duration: trembleDuration / 4,
-            easing: Easing.out(Easing.ease),
-            useNativeDriver: true,
-        }),
-
-        Animated.timing(tiltAnim, {
-            toValue: 0,
-            duration: trembleDuration / 4,
-            easing: Easing.in(Easing.ease),
-            useNativeDriver: true,
-        }),
-    ]).start();
-
-    props.onLongPress?.();
+        await new Promise(resolve => {
+            Animated.sequence([
+                Animated.timing(tiltAnim, {
+                    toValue: trembleIntensity,
+                    duration: trembleDuration / 4,
+                    easing: Easing.in(Easing.ease),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(tiltAnim, {
+                    toValue: -trembleIntensity,
+                    duration: trembleDuration / 4,
+                    easing: Easing.out(Easing.ease),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(tiltAnim, {
+                    toValue: trembleIntensity / 2,
+                    duration: trembleDuration / 4,
+                    easing: Easing.in(Easing.ease),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(tiltAnim, {
+                    toValue: -trembleIntensity / 2,
+                    duration: trembleDuration / 4,
+                    easing: Easing.out(Easing.ease),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(tiltAnim, {
+                    toValue: 0,
+                    duration: trembleDuration / 4,
+                    easing: Easing.in(Easing.ease),
+                    useNativeDriver: true,
+                }),
+            ]).start(resolve);
+        });
+    
+        props.onLongPress?.();
     };
 
     const dynamicProfilePicStyles = {

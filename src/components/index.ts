@@ -1,5 +1,6 @@
 import Button from './button/button-loading';
 import Box from './box';
+import CustomAlert from './alert';
 import CustomList from './custom-list';
 import CustomListImage from './custom-list-images';
 import DropdownSelection from './dropdown';
@@ -20,6 +21,7 @@ import PaginationButtons from './pagination-buttons';
 import ImageSelectionModal from './modal/select-photo';
 import Modal from './modal/modal-popup';
 import PasswordWarning from './password-warning';
+import PopupMenu from './popup-menu';
 import List from './list';
 import ListImage from './list-image';
 import TabView from './tab-view';
@@ -32,6 +34,7 @@ export {
     ButtonTouchable, 
     ButtonAddImage, 
     Box, 
+    CustomAlert,
     CustomList,
     CustomListImage,
     DropdownSelection,
@@ -53,6 +56,7 @@ export {
     MultiSelectDropdown as MultiSelect,
     PaginationButtons,
     PasswordWarning,
+    PopupMenu,
     TabView,
     Text,
     TextWarning

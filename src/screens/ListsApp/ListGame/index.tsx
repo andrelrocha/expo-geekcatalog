@@ -4,13 +4,14 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { InfoIcon } from "lucide-react-native";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
+import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect, PopupMenu } from "../../../components";
 import { colors } from "../../../utils/colors";
-import { StyleSheet, View } from "react-native";
+import { Alert as RNAlert, StyleSheet, View } from "react-native";
 import InputWithLabel from "../../../components/input/input-label";
 import { useAuth } from "../../../context/hooks";
-import useConsolesByGameIdDropdown from "../../../context/hooks/consoles/useConsolesByGameDropdown";
 import { listAllConsolesByGameId } from "../../../services/consoles/listByGameId";
+import { SquarePenIcon, TrashIcon } from "../../../components/icons";
+import Alert from "../../../components/alert";
 
 type ListGameParams = {
     listId: string;
@@ -43,6 +44,17 @@ export default function ListGamesList({ navigation, route }: Props) {
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, 
         consolesAvailableData } = useListGame({ page: currentPageUser, listId });
 
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const alertOption = [{
+        label: 'Update',
+        icon: <SquarePenIcon color={colors.buttonBlue}/>,
+        onPress: () => console.log('update')
+    }, {
+        label: 'Delete',
+        icon: <TrashIcon color={colors.redStrong}/>,
+        onPress: () => console.log('delete')
+    }];
+
     const {
         control,
         formState: { isValid },
@@ -71,6 +83,10 @@ export default function ListGamesList({ navigation, route }: Props) {
     
         fetchData();
     }, [selectedGameId]);
+
+    useEffect(() => {
+        loadGamesList();
+    }, [currentPageUser]);
 
     const modalAddPermission = () => {
         return (
@@ -170,7 +186,8 @@ export default function ListGamesList({ navigation, route }: Props) {
             note: note,
         };
 
-        createGameList(listData);
+        await createGameList(listData);
+        await loadGamesList();
         reset();
     }
 
@@ -190,10 +207,66 @@ export default function ListGamesList({ navigation, route }: Props) {
         reset();
     }
 
-    
-    useEffect(() => {
-        loadGamesList();
-    }, [currentPageUser]);
+    /*
+    const handleDeletePress = () => {
+        //const { itemId } = props; 
+        Alert.alert(
+          'Confirmation',
+          'Are you sure you want to delete this item? This action cannot be undone.',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+              text: 'Delete',
+              onPress: () => {
+                //props.deleteGameList(itemId); // Call deleteGameList with itemId
+                console.log('deleted'); // Optional for logging
+              },
+            },
+          ],
+          { cancelable: true }
+        );
+    };
+    */
+    const handleLongPress = () => {
+        //const { itemId } = props; 
+        
+        setAlertVisible(true);
+        /*
+        Alert.alert(
+          '',
+          '',
+          [
+            {
+              text: 'Cancel',
+              style: 'cancel',
+            },
+            {
+                text: 'Update',
+                onPress: () => {
+                    //props.updateGameList(itemId); // Call updateGameList with itemId
+                    console.log('updated'); // Optional for logging
+                },
+            },
+            {
+              text: 'Delete',
+              onPress: () => {
+                //props.deleteGameList(itemId); // Call deleteGameList with itemId
+                console.log('deleted'); // Optional for logging
+              },
+            },
+          ],
+          { 
+            cancelable: true,
+            onDismiss: () =>
+                Alert.alert(
+                  'This alert was dismissed by tapping outside of the alert dialog.',
+                ),
+        });
+        */
+    };
 
     return (
         <View style={styles.container}>
@@ -216,10 +289,12 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
-                    onLongPress={() => console.log("Long Press")}
+                    onLongPress={() => {setAlertVisible(true)}}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>
+
+            <Alert isVisible={isAlertVisible} setIsVisible={setAlertVisible} alertOptions={alertOption}/>
 
             {!hideCreateButton && (
                  <View style={styles.buttonWrapper}>
