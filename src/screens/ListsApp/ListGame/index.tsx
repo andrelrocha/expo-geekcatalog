@@ -4,7 +4,7 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { InfoIcon } from "lucide-react-native";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect, PopupMenu } from "../../../components";
+import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
 import { colors } from "../../../utils/colors";
 import { Alert as RNAlert, StyleSheet, View } from "react-native";
 import InputWithLabel from "../../../components/input/input-label";
@@ -41,18 +41,17 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen,
-        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, 
-        consolesAvailableData } = useListGame({ page: currentPageUser, listId });
+        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, deleteGameListMethod,
+        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList } = useListGame({ page: currentPageUser, listId });
 
-    const [isAlertVisible, setAlertVisible] = useState(false);
     const alertOption = [{
         label: 'Update',
         icon: <SquarePenIcon color={colors.buttonBlue}/>,
-        onPress: () => console.log('update')
+        onPress: () => console.log('update: ', selectedGameList)
     }, {
         label: 'Delete',
         icon: <TrashIcon color={colors.redStrong}/>,
-        onPress: () => console.log('delete')
+        onPress: () => handleDeletePress(selectedGameList)
     }];
 
     const {
@@ -207,10 +206,8 @@ export default function ListGamesList({ navigation, route }: Props) {
         reset();
     }
 
-    /*
-    const handleDeletePress = () => {
-        //const { itemId } = props; 
-        Alert.alert(
+    const handleDeletePress = (gameListId: string) => {
+        RNAlert.alert(
           'Confirmation',
           'Are you sure you want to delete this item? This action cannot be undone.',
           [
@@ -220,53 +217,18 @@ export default function ListGamesList({ navigation, route }: Props) {
             },
             {
               text: 'Delete',
-              onPress: () => {
-                //props.deleteGameList(itemId); // Call deleteGameList with itemId
-                console.log('deleted'); // Optional for logging
-              },
+              onPress: () => deleteGameListMethod(gameListId),
             },
           ],
           { cancelable: true }
         );
     };
-    */
-    const handleLongPress = () => {
-        //const { itemId } = props; 
-        
-        setAlertVisible(true);
-        /*
-        Alert.alert(
-          '',
-          '',
-          [
-            {
-              text: 'Cancel',
-              style: 'cancel',
-            },
-            {
-                text: 'Update',
-                onPress: () => {
-                    //props.updateGameList(itemId); // Call updateGameList with itemId
-                    console.log('updated'); // Optional for logging
-                },
-            },
-            {
-              text: 'Delete',
-              onPress: () => {
-                //props.deleteGameList(itemId); // Call deleteGameList with itemId
-                console.log('deleted'); // Optional for logging
-              },
-            },
-          ],
-          { 
-            cancelable: true,
-            onDismiss: () =>
-                Alert.alert(
-                  'This alert was dismissed by tapping outside of the alert dialog.',
-                ),
-        });
-        */
-    };
+
+    const handleAlertPress = (gameListId: string) => {
+        setAlertVisible(!isAlertVisible);
+        console.log(gameListId);
+        //FALTA AJEITAR NO COMPONENTE DE ALERT, O OPTIONS DEVE LEVAR O GAMEID
+    }
 
     return (
         <View style={styles.container}>
@@ -289,7 +251,10 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
-                    onLongPress={() => {setAlertVisible(true)}}
+                    onLongPress={(gameListId) => {
+                        handleAlertPress(gameListId)
+                        setSelectedGameList(gameListId)
+                    }}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>

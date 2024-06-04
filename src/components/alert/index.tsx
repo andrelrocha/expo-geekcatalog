@@ -44,7 +44,6 @@ const CustomAlert = (props: AlertProps) => {
                 <Text style={styles.buttonText}>{option.label}</Text>
                 {option.icon}
               </TouchableOpacity>
-              {index < props.alertOptions.length - 1 && <View style={styles.separator} />}
             </View>
           ))}
         </View>
@@ -55,10 +54,9 @@ const CustomAlert = (props: AlertProps) => {
 
 const styles = StyleSheet.create({
   modalContent: {
-    width: '60%',
+    width: '50%',
     backgroundColor: colors.whiteSmoke,
     padding: 8,
-    justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     borderRadius: 4,
@@ -73,15 +71,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     gap: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.grayOpacity,
   },
   buttonText: {
     marginLeft: 10,
     fontSize: 18,
-  },
-  separator: {
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gray,
-    width: '70%',
   },
 });
 

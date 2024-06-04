@@ -4,6 +4,7 @@ import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
 import { addGameListPermission } from "../../../services/listsPermission/addGameListPermission";
+import { deleteGameList } from "../../../services/gameList/delete";
 import useGamesDropdown from "../games/useGamesDropdown";
 import usePermissionsDropdown from "../permissions/usePermissionsDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
@@ -38,10 +39,12 @@ const useListGame = (props: UseListGameProps) => {
     const [gamesList, setGamesList] = useState<GameListDTO[]>([]);
     const [imageUris, setImageUris] = useState<ImageUriList[]>([]);
     const [modalAddIsOpen, setModalAddIsOpen] = useState(false);
-    const [newGameAdded, setNewGameAdded] = useState(false);
+    const [gameListDataChange, setgameListDataChange] = useState(false);
     const [hideCreateButton, setHideCreateButton] = useState(false);
     const [consolesAvailableData, setConsolesAvailableData] = useState<any[]>([]);
     const [permissionModalOpen, setPermissionModalOpen] = useState(false);
+    const [isAlertVisible, setAlertVisible] = useState(false);
+    const [selectedGameList, setSelectedGameList] = useState('');
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
     const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
@@ -98,7 +101,7 @@ const useListGame = (props: UseListGameProps) => {
             setIsLoading(true);
             await addGameList(data);
             Alert.alert('Game added successfully');
-            setNewGameAdded(true);
+            setgameListDataChange(true);
             setModalAddIsOpen(false);
         } catch (error: any) {
             console.error('Error creating game list:', error);
@@ -123,17 +126,32 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    const deleteGameListMethod = async (id: string) => {
+        try {
+            setIsLoading(true);
+            await deleteGameList(id);
+            Alert.alert('Game deleted successfully');
+            setgameListDataChange(true);
+        } catch (error: any) {
+            console.error('Error deleting game list:', error);
+            Alert.alert('Error deleting game list: ', error.response?.data);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     useEffect(() => {
         const fetchGamesList = async () => {
             loadGamesList();
         };
 
         fetchGamesList();
-    }, [newGameAdded]);
+        setgameListDataChange(false);
+    }, [gameListDataChange]);
 
-    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, 
-        createGameList, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen,
-        addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData};
+    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible,
+        createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen,
+        addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
 };
 
 export default useListGame;

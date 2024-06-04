@@ -14,7 +14,7 @@ export default function useStudiosCreate() {
             await createStudio(studioData);
             Alert.alert("Success", "Studio created successfully.");
         } catch (error) {
-            Alert.alert("Error", "Error while creating a studio.");
+            Alert.alert("Error", "Error while creating a studio: "+error);
         }
         setIsLoading(false);
         navigate();

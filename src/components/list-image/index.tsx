@@ -16,14 +16,14 @@ type SectionListProps = {
     elementsName?: string;
     onRefresh?: () => void;
     alt: string;
-    navigate?: (gameId: string) => void;
+    navigate?: (id: string) => void;
     totalPages?: number;
     currentPage?: number;
     onPageChange?: (page: number) => void;
     isLoading?: boolean;
     grid?: boolean;
     setGrid?: (grid: boolean) => void;
-    onLongPress?: () => void;
+    onLongPress?: (id: string) => void;
     displayName?: boolean;
     headingTop?: number;
     ellipsis?: boolean;
@@ -38,7 +38,7 @@ export default function ListImage(props: SectionListProps) {
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.navigate && props.navigate(item.id)}
-                onLongPress={() => props.onLongPress && props.onLongPress()}
+                onLongPress={() => props.onLongPress && props.onLongPress(item.id)}
                 source={{ uri: item.uri }}
                 alt={props.alt}
                 br={10}
@@ -54,7 +54,7 @@ export default function ListImage(props: SectionListProps) {
                 <ImageTouchable 
                     key={item.id}
                     onPress={() => props.navigate && props.navigate(item.id)}
-                    onLongPress={() => props.onLongPress && props.onLongPress()}
+                    onLongPress={() => props.onLongPress && props.onLongPress(item.id)}
                     source={{ uri: item.uri }}
                     alt={props.alt}
                     br={10}
