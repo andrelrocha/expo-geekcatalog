@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Alert as RNAlert, StyleSheet, Text, View } from "react-native";
 import { ParamListBase } from "@react-navigation/native";
 import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { InfoIcon } from "lucide-react-native";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, MultiSelect } from "../../../components";
+import { Alert, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, InputWithLabel, SwipeToggle, MultiSelect } from "../../../components";
+import { SquarePenIcon, TrashIcon } from "../../../components/icons";
 import { colors } from "../../../utils/colors";
-import { Alert as RNAlert, StyleSheet, View } from "react-native";
-import InputWithLabel from "../../../components/input/input-label";
 import { useAuth } from "../../../context/hooks";
 import { listAllConsolesByGameId } from "../../../services/consoles/listByGameId";
-import { SquarePenIcon, TrashIcon } from "../../../components/icons";
-import Alert from "../../../components/alert";
 
 type ListGameParams = {
     listId: string;
@@ -40,15 +38,16 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { listId, listName } = route.params as ListGameParams;
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
-    const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen,
-        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, deleteGameListMethod,
+    const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen, alertOption,
+        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, deletePermissionList, setConsolesAvailableData, deleteGameListMethod,
         consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions } = useListGame({ page: currentPageUser, listId });
 
     const canUpdate = userPermissions.includes("UPDATE_GAME");
     const canDelete = userPermissions.includes("DELETE_GAME");
     const canInvite = userPermissions.includes("INVITE");
 
-    const alertOption = [];
+    const [deleteInvite, setDeleteInvite] = useState(false);
+
     if (canUpdate) {
         alertOption.push({
             label: 'Update',
@@ -100,34 +99,58 @@ export default function ListGamesList({ navigation, route }: Props) {
     const modalAddPermission = () => {
         return (
             <View style={styles.modalContent}>
-                <Heading fs={20} mb={10}>Invite someone to join your list!</Heading>
+                {!deleteInvite ? (
+                    <Heading fs={20} mb={10}>Add a friend to your list!</Heading>
+                ) : (
+                    <Heading fs={20} mb={10}>Remove a friend</Heading>
+                )}
                 <InputWithLabel label="Email">
                     <InputEmail control={control} name="emailParticipant" placeholder="Email"/>
                 </InputWithLabel>
 
-                <InputWithLabel label="User Permission">
-                    <DropdownSelection
-                        control={control}
-                        name="permission"
-                        placeholder="Permissions"
-                        icon={<InfoIcon/>}
-                        label="permission"
-                        value="id"
-                        data={permissionDropdownData}
-                    />
-                </InputWithLabel>
+                {!deleteInvite && (
+                    <InputWithLabel label="User Permission">
+                        <DropdownSelection
+                            control={control}
+                            name="permission"
+                            placeholder="Permissions"
+                            icon={<InfoIcon/>}
+                            label="permission"
+                            value="id"
+                            data={permissionDropdownData}
+                        />
+                    </InputWithLabel>
+                )}
+
+                <View style={{ flexDirection: 'row', marginBottom: 5}}>
+                    <SwipeToggle isEnabled={deleteInvite} setIsEnabled={setDeleteInvite} label="Delete friend?" activeColor={colors.redStrong}/>
+                </View>
                 
-                <Button
+                {!deleteInvite ? (
+                    <Button
+                        isDisabled={!isValid}
+                        isLoading={isLoading}
+                        mt={5}
+                        marginBottom={40}
+                        backgroundColor={colors.greenStrong}
+                        w={250}
+                        onPress={handleSubmit(async () =>
+                            handlePermission(control as unknown as Control<FormData>)
+                            )}
+                    >Invite!</Button>
+                ): (
+                    <Button
                     isDisabled={!isValid}
                     isLoading={isLoading}
-                    mt={5}
-                    marginBottom={40}
-                    backgroundColor={colors.greenStrong}
+                    mt={15}
+                    backgroundColor={colors.redStrong}
                     w={250}
                     onPress={handleSubmit(async () =>
-                        handlePermission(control as unknown as Control<FormData>)
+                        handleDeletePermission(control as unknown as Control<FormData>)
                         )}
-                    >Invite!</Button>
+                    >Delete</Button>
+                )}
+                    
             </View>
         );
     }
@@ -211,7 +234,14 @@ export default function ListGamesList({ navigation, route }: Props) {
             permissionId: permission,
         }
         
-        addPermissionList(permissionData);
+        await addPermissionList(permissionData);
+        setHideCreateButton(false);
+        reset();
+    }
+
+    const handleDeletePermission = async (control: Control<FormData>) => {
+        const emailParticipant = control._formValues.emailParticipant;
+        await deletePermissionList(emailParticipant);
         setHideCreateButton(false);
         reset();
     }
@@ -224,20 +254,12 @@ export default function ListGamesList({ navigation, route }: Props) {
             {
               text: 'Cancel',
               style: 'cancel',
-            },
-            {
+            }, {
               text: 'Delete',
+              style: 'destructive',
               onPress: () => deleteGameListMethod(gameListId),
             },
-          ],    
-        );
-    };
-
-    const handleAlertPress = (gameListId: string) => {
-        setAlertVisible(!isAlertVisible);
-        console.log(gameListId);
-        //FALTA AJEITAR NO COMPONENTE DE ALERT, O OPTIONS DEVE LEVAR O GAMEID
-    }
+          ])};
 
     return (
         <View style={styles.container}>
@@ -261,7 +283,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
                     onLongPress={canUpdate || canDelete ? (gameListId) => {
-                        handleAlertPress(gameListId)
+                        setAlertVisible(!isAlertVisible)
                         setSelectedGameList(gameListId)
                     } : undefined}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}

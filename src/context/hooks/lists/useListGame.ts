@@ -4,6 +4,7 @@ import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
 import { addGameListPermission } from "../../../services/listsPermission/addGameListPermission";
+import { deleteAllListPermission } from "../../../services/listsPermission/deleteAllListPermission";
 import { deleteGameList } from "../../../services/gameList/delete";
 import { getListPermissionsByUser } from "../../../services/listsPermission/getListPermissionsByUser";
 import useGamesDropdown from "../games/useGamesDropdown";
@@ -26,6 +27,12 @@ type PaginationInfo = {
     pageSize: number;
 }
 
+type AlertOptions = {
+    label: string;
+    icon?: React.ReactNode;
+    onPress: () => void;
+};
+
 const useListGame = (props: UseListGameProps) => {
     const [isLoading, setIsLoading] = useState(true);
     const {authState} = useAuth();
@@ -47,6 +54,7 @@ const useListGame = (props: UseListGameProps) => {
     const [isAlertVisible, setAlertVisible] = useState(false);
     const [selectedGameList, setSelectedGameList] = useState('');
     const [userPermissions, setUserPermissions] = useState<string[]>([]);
+    const alertOption: AlertOptions[] = [];
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
     const { dropdownData: permissionDropdownData } = usePermissionsDropdown();
@@ -113,20 +121,6 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
-    const addPermissionList = async (data: any) => {
-        try {
-            setIsLoading(true);
-            const response = await addGameListPermission(data);
-            Alert.alert(`Permission for user ${response?.participantName ?? 'invited'} added successfully`);
-        } catch (error: any) {
-            console.error('Error adding permission list:', error);
-            Alert.alert('Error adding permission list: ', error.response?.data);
-        } finally{
-            setIsLoading(false);
-            setPermissionModalOpen(false);
-        }
-    }
-
     const deleteGameListMethod = async (id: string) => {
         try {
             setIsLoading(true);
@@ -155,6 +149,34 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
+    const addPermissionList = async (data: any) => {
+        try {
+            setIsLoading(true);
+            const response = await addGameListPermission(data);
+            Alert.alert(`Permission for user ${response?.participantName ?? 'invited'} added successfully`);
+        } catch (error: any) {
+            console.error('Error adding permission list:', error);
+            Alert.alert('Error adding permission list: ', error.response?.data);
+        } finally{
+            setIsLoading(false);
+            setPermissionModalOpen(false);
+        }
+    }
+
+    const deletePermissionList = async (participantEmail: string) => {
+        try {
+            setIsLoading(true);
+            await deleteAllListPermission({participantEmail, listId: props.listId});
+            Alert.alert('Permission deleted successfully');
+        } catch (error: any) {
+            console.error('Error deleting permission list:', error);
+            Alert.alert('Error deleting permission list: ', error.response?.data);
+        } finally{
+            setIsLoading(false);
+            setPermissionModalOpen(false);
+        }
+    }
+
     useEffect(() => {
         const fetchGamesList = async () => {
             loadGamesList();
@@ -172,8 +194,8 @@ const useListGame = (props: UseListGameProps) => {
     }, []);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions,
-        createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen,
-        addPermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
+        createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen, alertOption,
+        addPermissionList, deletePermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
 };
 
 export default useListGame;

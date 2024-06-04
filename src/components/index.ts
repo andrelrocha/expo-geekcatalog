@@ -1,3 +1,4 @@
+import Alert from './alert';
 import Button from './button/button-loading';
 import Box from './box';
 import CustomAlert from './alert';
@@ -14,6 +15,7 @@ import InputPhone from './input/input-phone';
 import InputCheckbox from './input/input-checkbox';
 import InputDate from './input/input-date';
 import InputPasswordValidation from './input/input-password-validation';
+import InputWithLabel from './input/input-label';
 import ImageTouchable from './image/image-touchable';
 import { ButtonTouchable, ButtonAddImage } from './button';
 import MultiSelectDropdown from './multi-select';
@@ -24,12 +26,14 @@ import PasswordWarning from './password-warning';
 import PopupMenu from './popup-menu';
 import List from './list';
 import ListImage from './list-image';
+import SwipeToggle from './swipe-toggle';
 import TabView from './tab-view';
 import Text from './text/text';
 import TextWarning from './text/text-warning';
 
 
 export { 
+    Alert,
     Button, 
     ButtonTouchable, 
     ButtonAddImage, 
@@ -48,6 +52,7 @@ export {
     InputPhone, 
     InputDate,
     InputPasswordValidation, 
+    InputWithLabel,
     ImageSelectionModal,
     ImageTouchable,
     List,
@@ -57,6 +62,7 @@ export {
     PaginationButtons,
     PasswordWarning,
     PopupMenu,
+    SwipeToggle,
     TabView,
     Text,
     TextWarning
