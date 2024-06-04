@@ -57,7 +57,6 @@ export default function ListImage(props: SectionListProps) {
                     onLongPress={() => props.onLongPress && props.onLongPress()}
                     source={{ uri: item.uri }}
                     alt={props.alt}
-                    br={10}
                     w={250}
                     h={250}
                 />

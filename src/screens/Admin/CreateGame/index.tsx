@@ -155,7 +155,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
                 <TextWarning ml={10} w={200} o={0.7} fs={12} h={42}>Click on the camera icon to add a Game Image</TextWarning>
               </>
             ) : (
-              <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
+              <ImageTouchable br={5} onPress={() => setModalPicVisible(!modalPicVisible)} source={{uri}} alt='Game Image' bw={1}/>
             )}
           </View>
           

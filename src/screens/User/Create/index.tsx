@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Alert, Text  } from "react-native";
 import { Control, useForm } from "react-hook-form";
 import { View } from "@gluestack-ui/themed";
@@ -69,7 +69,6 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
   } = useUserCreation();
 
   const { dropdownData } = useCountriesDropdown();
-
   
   const handleSignUp = async (control: Control<FormData>) => {
     if (isAccepted === '') return Alert.alert('You must accept the Terms and Conditions of Use');
@@ -175,7 +174,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
                 <TextWarning ml={10} w={200} fs={12} h={42} o={0.7}>Click on the camera icon to add a profile picture</TextWarning>
               </>
             ) : (
-              <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Profile Picture' />
+              <ImageTouchable onPress={() => setModalPicVisible(!modalPicVisible)} source={{uri}} alt='Profile Picture' bw={5}/>
             )}
           </View>
         </Box>

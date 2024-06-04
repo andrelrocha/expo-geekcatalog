@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        height: '30%',
+        height: '25%',
         backgroundColor: colors.gray,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
