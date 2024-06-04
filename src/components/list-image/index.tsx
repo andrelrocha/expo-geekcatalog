@@ -37,6 +37,7 @@ export default function ListImage(props: SectionListProps) {
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.navigate && props.navigate(item.id)}
+                onLongPress={() => console.log("Long press")}
                 source={{ uri: item.uri }}
                 alt={props.alt}
                 br={10}
@@ -52,6 +53,7 @@ export default function ListImage(props: SectionListProps) {
                 <ImageTouchable 
                     key={item.id}
                     onPress={() => props.navigate && props.navigate(item.id)}
+                    onLongPress={() => console.log("Long press")}
                     source={{ uri: item.uri }}
                     alt={props.alt}
                     br={10}

@@ -1,4 +1,4 @@
-import {StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import {Animated, Easing, StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
 import { styles } from "../styles";
 import { Image } from "@gluestack-ui/themed";
 
@@ -14,10 +14,55 @@ type ButtonProps = TouchableOpacityProps & {
     bw?: number
     dynamicPropStyle?: StyleProp<ViewStyle>
     onPress?: () => void
+    onLongPress?: () => void
     source: any
 } 
 
 const ImageTouchable = (props: ButtonProps) => {
+    const tiltAnim = new Animated.Value(0);
+
+  const handleLongPress = () => {
+    const trembleIntensity = 5; 
+    const trembleDuration = 500; 
+
+    Animated.sequence([
+      // First set of shakes
+      Animated.timing(tiltAnim, {
+        toValue: trembleIntensity,
+        duration: trembleDuration / 4,
+        easing: Easing.in(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(tiltAnim, {
+        toValue: -trembleIntensity,
+        duration: trembleDuration / 4,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(tiltAnim, {
+        toValue: trembleIntensity / 2,
+        duration: trembleDuration / 4,
+        easing: Easing.in(Easing.ease),
+        useNativeDriver: true,
+      }),
+      Animated.timing(tiltAnim, {
+        toValue: -trembleIntensity / 2,
+        duration: trembleDuration / 4,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }),
+
+        Animated.timing(tiltAnim, {
+            toValue: 0,
+            duration: trembleDuration / 4,
+            easing: Easing.in(Easing.ease),
+            useNativeDriver: true,
+        }),
+        ]).start();
+
+        props.onLongPress?.();
+    };
+
     const dynamicProfilePicStyles = {
         width: props.w || styles.imageContainer.width,
         height: props.h || styles.imageContainer.height,
@@ -29,11 +74,24 @@ const ImageTouchable = (props: ButtonProps) => {
         borderWidth: props.bw || styles.imageContainer.borderWidth,
     };
 
+    const interpolatedTilt = tiltAnim.interpolate({
+        inputRange: [0, 10],
+        outputRange: ['0deg', '10deg'], 
+      });
+
     return (
-        <TouchableOpacity onPress={props.onPress} style={[styles.imageContainer, dynamicProfilePicStyles, props.style]}>
-            <Image source={props.source} style={styles.image} alt={props.alt} />
+        <TouchableOpacity
+            onPress={props.onPress}
+            style={[styles.imageContainer, dynamicProfilePicStyles, props.style]}
+            onLongPress={handleLongPress}
+        >
+            <Animated.Image
+                source={props.source}
+                style={[styles.image, { transform: [{ rotateZ: interpolatedTilt }] }]}
+                alt={props.alt}
+            />
         </TouchableOpacity>
-    );
+        );
 }
 
 export default ImageTouchable;
