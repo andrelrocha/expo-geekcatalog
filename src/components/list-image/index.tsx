@@ -23,6 +23,7 @@ type SectionListProps = {
     isLoading?: boolean;
     grid?: boolean;
     setGrid?: (grid: boolean) => void;
+    onLongPress?: () => void;
     displayName?: boolean;
     headingTop?: number;
     ellipsis?: boolean;
@@ -37,7 +38,7 @@ export default function ListImage(props: SectionListProps) {
             <ImageTouchable 
                 key={item.id}
                 onPress={() => props.navigate && props.navigate(item.id)}
-                onLongPress={() => console.log("Long press")}
+                onLongPress={() => props.onLongPress && props.onLongPress()}
                 source={{ uri: item.uri }}
                 alt={props.alt}
                 br={10}
@@ -53,7 +54,7 @@ export default function ListImage(props: SectionListProps) {
                 <ImageTouchable 
                     key={item.id}
                     onPress={() => props.navigate && props.navigate(item.id)}
-                    onLongPress={() => console.log("Long press")}
+                    onLongPress={() => props.onLongPress && props.onLongPress()}
                     source={{ uri: item.uri }}
                     alt={props.alt}
                     br={10}

@@ -216,6 +216,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
+                    onLongPress={() => console.log("Long Press")}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>

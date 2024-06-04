@@ -1,6 +1,5 @@
-import {Animated, Easing, StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
+import {Animated, Easing, Image, StyleProp, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native";
 import { styles } from "../styles";
-import { Image } from "@gluestack-ui/themed";
 
 type ButtonProps = TouchableOpacityProps & {
     mt?: number 
@@ -26,31 +25,30 @@ const ImageTouchable = (props: ButtonProps) => {
     const trembleDuration = 500; 
 
     Animated.sequence([
-      // First set of shakes
-      Animated.timing(tiltAnim, {
-        toValue: trembleIntensity,
-        duration: trembleDuration / 4,
-        easing: Easing.in(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(tiltAnim, {
-        toValue: -trembleIntensity,
-        duration: trembleDuration / 4,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(tiltAnim, {
-        toValue: trembleIntensity / 2,
-        duration: trembleDuration / 4,
-        easing: Easing.in(Easing.ease),
-        useNativeDriver: true,
-      }),
-      Animated.timing(tiltAnim, {
-        toValue: -trembleIntensity / 2,
-        duration: trembleDuration / 4,
-        easing: Easing.out(Easing.ease),
-        useNativeDriver: true,
-      }),
+        Animated.timing(tiltAnim, {
+            toValue: trembleIntensity,
+            duration: trembleDuration / 4,
+            easing: Easing.in(Easing.ease),
+            useNativeDriver: true,
+        }),
+        Animated.timing(tiltAnim, {
+            toValue: -trembleIntensity,
+            duration: trembleDuration / 4,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+        }),
+        Animated.timing(tiltAnim, {
+            toValue: trembleIntensity / 2,
+            duration: trembleDuration / 4,
+            easing: Easing.in(Easing.ease),
+            useNativeDriver: true,
+        }),
+        Animated.timing(tiltAnim, {
+            toValue: -trembleIntensity / 2,
+            duration: trembleDuration / 4,
+            easing: Easing.out(Easing.ease),
+            useNativeDriver: true,
+        }),
 
         Animated.timing(tiltAnim, {
             toValue: 0,
@@ -58,9 +56,9 @@ const ImageTouchable = (props: ButtonProps) => {
             easing: Easing.in(Easing.ease),
             useNativeDriver: true,
         }),
-        ]).start();
+    ]).start();
 
-        props.onLongPress?.();
+    props.onLongPress?.();
     };
 
     const dynamicProfilePicStyles = {
@@ -85,11 +83,15 @@ const ImageTouchable = (props: ButtonProps) => {
             style={[styles.imageContainer, dynamicProfilePicStyles, props.style]}
             onLongPress={handleLongPress}
         >
-            <Animated.Image
-                source={props.source}
-                style={[styles.image, { transform: [{ rotateZ: interpolatedTilt }] }]}
-                alt={props.alt}
-            />
+            {props.onLongPress ? (
+                <Animated.Image
+                    source={props.source}
+                    style={[styles.image, { transform: [{ rotateZ: interpolatedTilt }] }]}
+                    alt={props.alt}
+                />
+            ) : (
+                <Image source={props.source} style={styles.image} alt={props.alt} />
+            )}
         </TouchableOpacity>
         );
 }
