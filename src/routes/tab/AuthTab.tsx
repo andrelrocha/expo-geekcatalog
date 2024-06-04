@@ -19,24 +19,22 @@ export default function AuthTab() {
         headerShown: false  
       }}
     >
-      {/*
-      <Tab.Screen
-        name="Games"
-        component={GamesStack}
-        options={{
-          tabBarIcon: ({focused, color, size}) => {
-            if (focused) {
-              color = colors.black;
-            } else {
-              color = colors.sage;
-            }
+        <Tab.Screen
+          name="Games"
+          component={GamesStack}
+          options={{
+            tabBarIcon: ({focused, color, size}) => {
+              if (focused) {
+                color = colors.black;
+              } else {
+                color = colors.sage;
+              }
 
-            return <GameControllerIcon color={color} size={26}/>;
-          },
-          tabBarActiveTintColor: colors.black,
-        }}
-      />
-      */}
+              return <GameControllerIcon color={color} size={26}/>;
+            },
+            tabBarActiveTintColor: colors.black,
+          }}
+        />
 
         <Tab.Screen 
             name="ListsApp" 
@@ -75,23 +73,23 @@ export default function AuthTab() {
           />  
         )}
 
-      <Tab.Screen 
-        name="InfoUser" 
-        component={UserStack} 
-        options={{
-          title: 'User Info',
-          tabBarIcon: ({focused, color, size}) => {
-            if (focused) {
-              color = colors.black;
-            } else {
-              color = colors.sage;
-            }
+        <Tab.Screen 
+          name="InfoUser" 
+          component={UserStack} 
+          options={{
+            title: 'User Info',
+            tabBarIcon: ({focused, color, size}) => {
+              if (focused) {
+                color = colors.black;
+              } else {
+                color = colors.sage;
+              }
 
-            return <UserIcon color={color} size={26}/>;
-          },
-          tabBarActiveTintColor: colors.black,
-        }}
-        />
+              return <UserIcon color={color} size={26}/>;
+            },
+            tabBarActiveTintColor: colors.black,
+          }}
+          />
     </Tab.Navigator>
   );
 }
