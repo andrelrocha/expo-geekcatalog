@@ -165,7 +165,10 @@ const useListGame = (props: UseListGameProps) => {
     }, [gameListDataChange]);
 
     useEffect(() => {
-        getUserPermissions();
+        const fetchUserPermissions = async () => {
+            getUserPermissions();
+        }
+        fetchUserPermissions();
     }, []);
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions,

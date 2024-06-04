@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import { getToken } from '../../../modules/auth.module';
 
-type PermissionKey = "ADD_GAME" | "DELETE_GAME" | "READ";
+type PermissionKey = "ADD_GAME" | "DELETE_GAME" | "READ" | "UPDATE_GAME";
 
 export default async function listAllGamePermissions() {
     try {
@@ -26,9 +26,10 @@ export default async function listAllGamePermissions() {
         if (response.data) {
             const content = response.data.content;
             const desiredPermissions: Record<PermissionKey, string> = {
+                "READ": "View games",
                 "ADD_GAME": "Add games",
                 "DELETE_GAME": "Delete games",
-                "READ": "View games"
+                "UPDATE_GAME": "Update games",
             };
             const permissions = content
                 .filter((permission: any) => Object.keys(desiredPermissions).includes(permission.permission))

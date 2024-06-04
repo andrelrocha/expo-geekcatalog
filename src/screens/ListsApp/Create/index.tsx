@@ -79,7 +79,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
 
         <Box>
           <InputWithLabel label="List Name">
-            <InputText control={control} name="name" placeholder="Name" rules={{ required: true }} maxLength={200}/>
+            <InputText control={control} name="name" placeholder="Name" rules={{ required: true }} maxLength={30}/>
           </InputWithLabel>
 
           <InputWithLabel label="Description">

@@ -44,15 +44,24 @@ export default function ListGamesList({ navigation, route }: Props) {
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, setConsolesAvailableData, deleteGameListMethod,
         consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions } = useListGame({ page: currentPageUser, listId });
 
-    const alertOption = [{
-        label: 'Update',
-        icon: <SquarePenIcon color={colors.buttonBlue}/>,
-        onPress: () => console.log('update: ', selectedGameList)
-    }, {
-        label: 'Delete',
-        icon: <TrashIcon color={colors.redStrong}/>,
-        onPress: () => handleDeletePress(selectedGameList)
-    }];
+    const canUpdate = userPermissions.includes("UPDATE_GAME");
+    const canDelete = userPermissions.includes("DELETE_GAME");
+
+    const alertOption = [];
+    if (canUpdate) {
+        alertOption.push({
+            label: 'Update',
+            icon: <SquarePenIcon color={colors.buttonBlue}/>,
+            onPress: () => console.log('update: ', selectedGameList)
+        });
+    }
+    if (canDelete) {
+        alertOption.push({
+            label: 'Delete',
+            icon: <TrashIcon color={colors.redStrong}/>,
+            onPress: () => handleDeletePress(selectedGameList)
+        });
+    }
 
     const {
         control,
@@ -251,10 +260,10 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
-                    onLongPress={(gameListId) => {
+                    onLongPress={canUpdate || canDelete ? (gameListId) => {
                         handleAlertPress(gameListId)
                         setSelectedGameList(gameListId)
-                    }}
+                    } : undefined}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>
