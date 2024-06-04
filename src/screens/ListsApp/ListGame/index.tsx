@@ -46,6 +46,7 @@ export default function ListGamesList({ navigation, route }: Props) {
 
     const canUpdate = userPermissions.includes("UPDATE_GAME");
     const canDelete = userPermissions.includes("DELETE_GAME");
+    const canInvite = userPermissions.includes("INVITE");
 
     const alertOption = [];
     if (canUpdate) {
@@ -229,7 +230,6 @@ export default function ListGamesList({ navigation, route }: Props) {
               onPress: () => deleteGameListMethod(gameListId),
             },
           ],    
-          { cancelable: true }
         );
     };
 
@@ -255,7 +255,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     grid={grid}
                     setGrid={setGrid}
                     displayName={true}
-                    ellipsis={true}
+                    ellipsis={canInvite ? true : false}
                     ellipsisLoadStates={() => {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
