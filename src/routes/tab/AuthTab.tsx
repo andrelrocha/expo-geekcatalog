@@ -19,8 +19,9 @@ export default function AuthTab() {
         headerShown: false  
       }}
     >
+      {/*
         <Tab.Screen
-          name="Games"
+        name="Games"
           component={GamesStack}
           options={{
             tabBarIcon: ({focused, color, size}) => {
@@ -29,12 +30,13 @@ export default function AuthTab() {
               } else {
                 color = colors.sage;
               }
-
+              
               return <GameControllerIcon color={color} size={26}/>;
             },
             tabBarActiveTintColor: colors.black,
           }}
-        />
+          />
+        */}
 
         <Tab.Screen 
             name="ListsApp" 

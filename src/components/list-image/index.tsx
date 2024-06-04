@@ -16,10 +16,6 @@ type SectionListProps = {
     elementsName?: string;
     onRefresh?: () => void;
     alt: string;
-    modalComponent?: boolean;
-    modalContentComponent?: React.ReactNode;
-    modalContentService?: (key: string) => Promise<any>;
-    modalItemTitle?: string;
     navigate?: (gameId: string) => void;
     totalPages?: number;
     currentPage?: number;
@@ -35,15 +31,12 @@ type SectionListProps = {
 
 export default function ListImage(props: SectionListProps) {
     const [refreshing, setRefreshing] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
-    const [modalData, setModalData] = useState<any>(null);
-    const [ellipsisModalOpen, setEllipsisModalOpen] = useState(false);
 
     const imageRenderItemGrid = () => {
         return (props.imageUris ?? []).map((item: any) => (
             <ImageTouchable 
                 key={item.id}
-                onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
+                onPress={() => props.navigate && props.navigate(item.id)}
                 source={{ uri: item.uri }}
                 alt={props.alt}
                 br={10}
@@ -58,7 +51,7 @@ export default function ListImage(props: SectionListProps) {
             <Box alignItems="center" key={item.id}>
                 <ImageTouchable 
                     key={item.id}
-                    onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}
+                    onPress={() => props.navigate && props.navigate(item.id)}
                     source={{ uri: item.uri }}
                     alt={props.alt}
                     br={10}
@@ -83,20 +76,6 @@ export default function ListImage(props: SectionListProps) {
             setRefreshing(false); 
         }, 2000);
     }, []);
-
-    const openModal = async (item: any) => {
-        const itemId = item.id;
-
-        const response = props.modalContentService && await props.modalContentService(itemId); 
-
-        setModalData(response);
-        setIsOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsOpen(false);
-        setModalData(null);
-    };
 
     const handleDisplay = () => {
         if (props.grid) {
@@ -205,16 +184,7 @@ export default function ListImage(props: SectionListProps) {
                             {renderFooter()}
                         </Box>
                     </ScrollView>
-            ))}
-            {props.modalComponent && isOpen && !props.isLoading && (
-                <Modal
-                    body={handleModalData(modalData) || props.modalContentComponent}
-                    isOpen={isOpen}
-                    onClose={closeModal}
-                    title={props.modalItemTitle}
-                />
-            )}
-            
+            ))}        
         </View>
     );
 }

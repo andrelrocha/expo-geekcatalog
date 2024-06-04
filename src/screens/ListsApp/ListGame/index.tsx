@@ -206,7 +206,6 @@ export default function ListGamesList({ navigation, route }: Props) {
                     currentPage={currentPageUser}
                     onPageChange={setCurrentPageUser}
                     onRefresh={loadGamesList}
-                    modalComponent={false}   
                     imageUris={imageUris}
                     isLoading={isLoading}
                     grid={grid}
@@ -217,8 +216,6 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setHideCreateButton(!hideCreateButton)
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
-                    //modalContentService={(gameId: string) => loadGameInfoData(gameId)} --aqui vai carregar todas as infos de gameList, incluindo console, além de fazer a query para a rate e note
-                    //modalItemTitle="Game Info"
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>
