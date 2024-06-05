@@ -39,14 +39,12 @@ export default function ListGamesList({ navigation, route }: Props) {
     const { currentUser } = useAuth();
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen, alertOption,
-        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionList, deletePermissionList, setConsolesAvailableData, deleteGameListMethod,
-        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions } = useListGame({ page: currentPageUser, listId });
+        gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionsList, deletePermissionList, setConsolesAvailableData, deleteGameListMethod,
+        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions, deleteInvite, setDeleteInvite } = useListGame({ page: currentPageUser, listId });
 
     const canUpdate = userPermissions.includes("UPDATE_GAME");
     const canDelete = userPermissions.includes("DELETE_GAME");
     const canInvite = userPermissions.includes("INVITE");
-
-    const [deleteInvite, setDeleteInvite] = useState(false);
 
     if (canUpdate) {
         alertOption.push({
@@ -110,7 +108,7 @@ export default function ListGamesList({ navigation, route }: Props) {
 
                 {!deleteInvite && (
                     <InputWithLabel label="User Permission">
-                        <DropdownSelection
+                        <MultiSelect
                             control={control}
                             name="permission"
                             placeholder="Permissions"
@@ -123,7 +121,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                 )}
 
                 <View style={{ flexDirection: 'row', marginBottom: 5}}>
-                    <SwipeToggle isEnabled={deleteInvite} setIsEnabled={setDeleteInvite} label="Delete friend?" activeColor={colors.redStrong}/>
+                    <SwipeToggle isEnabled={deleteInvite} setIsEnabled={setDeleteInvite} label="Remove friend?" activeColor={colors.redStrong}/>
                 </View>
                 
                 {!deleteInvite ? (
@@ -148,7 +146,7 @@ export default function ListGamesList({ navigation, route }: Props) {
                     onPress={handleSubmit(async () =>
                         handleDeletePermission(control as unknown as Control<FormData>)
                         )}
-                    >Delete</Button>
+                    >Remove</Button>
                 )}
                     
             </View>
@@ -225,16 +223,16 @@ export default function ListGamesList({ navigation, route }: Props) {
 
     const handlePermission = async (control: Control<FormData>) => {
         const emailParticipant = control._formValues.emailParticipant;
-        const permission = control._formValues.permission;
+        const permissions = control._formValues.permission;
 
         const permissionData = {
             ownerId: currentUser?.id as string,
             participantLogin: emailParticipant,
             listId,
-            permissionId: permission,
+            permissionsId: permissions,
         }
         
-        await addPermissionList(permissionData);
+        await addPermissionsList(permissionData);
         setHideCreateButton(false);
         reset();
     }

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { getAllGameListByListID } from "../../../services/listsApp/getGameList";
 import { addGameList } from "../../../services/gameList/addGameList";
-import { addGameListPermission } from "../../../services/listsPermission/addGameListPermission";
+import { addBulkGameListPermission } from "../../../services/listsPermission/addBulkGameListPermission";
 import { deleteAllListPermission } from "../../../services/listsPermission/deleteAllListPermission";
 import { deleteGameList } from "../../../services/gameList/delete";
 import { getListPermissionsByUser } from "../../../services/listsPermission/getListPermissionsByUser";
@@ -54,6 +54,7 @@ const useListGame = (props: UseListGameProps) => {
     const [isAlertVisible, setAlertVisible] = useState(false);
     const [selectedGameList, setSelectedGameList] = useState('');
     const [userPermissions, setUserPermissions] = useState<string[]>([]);
+    const [deleteInvite, setDeleteInvite] = useState(false);
     const alertOption: AlertOptions[] = [];
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
@@ -149,11 +150,14 @@ const useListGame = (props: UseListGameProps) => {
         }
     }
 
-    const addPermissionList = async (data: any) => {
+    const addPermissionsList = async (data: any) => {
         try {
             setIsLoading(true);
-            const response = await addGameListPermission(data);
-            Alert.alert(`Permission for user ${response?.participantName ?? 'invited'} added successfully`);
+            const response = await addBulkGameListPermission(data);
+            if (response && response.length > 0) {
+                const participantName = response[0].participantName;
+                Alert.alert(`Permission for user ${participantName} added successfully`);
+            }
         } catch (error: any) {
             console.error('Error adding permission list:', error);
             Alert.alert('Error adding permission list: ', error.response?.data);
@@ -167,7 +171,7 @@ const useListGame = (props: UseListGameProps) => {
         try {
             setIsLoading(true);
             await deleteAllListPermission({participantEmail, listId: props.listId});
-            Alert.alert('Permission deleted successfully');
+            Alert.alert('Permissions deleted successfully');
         } catch (error: any) {
             console.error('Error deleting permission list:', error);
             Alert.alert('Error deleting permission list: ', error.response?.data);
@@ -193,9 +197,9 @@ const useListGame = (props: UseListGameProps) => {
         fetchUserPermissions();
     }, []);
 
-    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions,
+    return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions, deleteInvite, setDeleteInvite,
         createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen, alertOption,
-        addPermissionList, deletePermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
+        addPermissionsList, deletePermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
 };
 
 export default useListGame;

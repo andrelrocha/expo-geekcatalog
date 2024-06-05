@@ -3,29 +3,31 @@ import AddGameListPermission from "../../../types/listsPermission/AddGameListPer
 import GameListPermissionReturn from "../../../types/listsPermission/GameListPermissionReturnDTO";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 
-export async function addGameListPermission(data: AddGameListPermission) {
+export async function addBulkGameListPermission(data: AddGameListPermission) {
     const token = await getToken();
     const headers = {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
     };
 
-    const endpoint = "/listspermission/add";
+    const endpoint = "/listspermission/add/bulk";
     try {
         const response = await ApiManager.post(endpoint, data, { headers })
             .then((response) => {  
                 if (response.data) {
-                    const gameListReturn: GameListPermissionReturn = {
-                        id: response.data.id,
-                        ownerId: response.data.ownerId,
-                        listId: response.data.listId,
-                        permissionId: response.data.permissionId,
-                        permissionName: response.data.permissionName,
-                        participantId: response.data.participantId,
-                        participantName: response.data.participantName
-                    };
+                    const permissionsList: GameListPermissionReturn[] = response.data.map((permission: any) => {
+                        return {
+                            id: permission.id,
+                            listId: permission.listId,
+                            permissionId: permission.permissionId,
+                            permissionName: permission.permissionName,
+                            participantId: permission.participantId,
+                            participantName: permission.participantName,
+                            ownerId: permission.ownerId
+                        };
+                    });
 
-                    return gameListReturn;
+                    return permissionsList;
                 }
             })
             .catch((error) => {
