@@ -165,6 +165,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
               name="term"
               onPress={() => setIsAccepted(!isAccepted ? 'accepted' : '')}
               value={isAccepted ? "accepted" : ""}
+              isChecked={isAccepted === '' ? false : true}
           />
 
           <View style={styles.containerAddImage}>

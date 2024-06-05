@@ -51,7 +51,7 @@ export default function ListGamesList({ navigation, route }: Props) {
         alertOption.push({
             label: 'Update',
             icon: <SquarePenIcon color={colors.buttonBlue}/>,
-            onPress: () => console.log('update: ', selectedGameList)
+            onPress: () => navigation.navigate('UpdateGameList', { gameListId: selectedGameList })
         });
     }
     if (canDelete) {
@@ -294,8 +294,8 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setPermissionModalOpen(!permissionModalOpen)
                     }}
                     onLongPress={canUpdate || canDelete ? (gameListId) => {
-                        setAlertVisible(!isAlertVisible)
                         setSelectedGameList(gameListId)
+                        setAlertVisible(!isAlertVisible)
                     } : undefined}
                     onPressLoadStates={async (gameListId) => {
                         await loadGameListInfo(gameListId)

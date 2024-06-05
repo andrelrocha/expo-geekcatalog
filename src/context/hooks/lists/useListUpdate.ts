@@ -5,6 +5,7 @@ import { updateList } from "../../../services/listsApp/update";
 
 export default function useListUpdate() {
     const [isLoading, setIsLoading] = useState(false);
+    const [isPublic, setIsPublic] = useState(false);
 
     const loadListData = async (listId: string) => {
         setIsLoading(true);
@@ -34,5 +35,5 @@ export default function useListUpdate() {
         }
     }
 
-    return { isLoading, loadListData, updateListMethod };
+    return { isLoading, loadListData, updateListMethod, isPublic, setIsPublic};
 }
