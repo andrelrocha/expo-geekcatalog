@@ -18,6 +18,7 @@ interface BoxProps {
   flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
   gap?: number;
   justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+  wrap?: 'wrap' | 'nowrap' | 'wrap-reverse';
   style?: ViewStyle;
 }
 
@@ -36,6 +37,7 @@ const boxStyles = StyleSheet.create({
     gap: 0,
     justifyContent: 'center',
     height: 'auto',
+    flexWrap: "nowrap"
   }
 });
 
@@ -61,6 +63,7 @@ const Box = (props: BoxProps) => {
     gap: props.gap || boxStyles.box.gap,
     justifyContent: props.justifyContent || boxStyles.box.justifyContent,
     height: props.h || boxStyles.box.height,
+    flexWrap: props.wrap || boxStyles.box.flexWrap,
   };
 
   return (
