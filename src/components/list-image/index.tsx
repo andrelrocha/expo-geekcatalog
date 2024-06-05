@@ -15,6 +15,7 @@ type SectionListProps = {
     elementsName?: string;
     onRefresh?: () => void;
     alt: string;
+    onPressLoadStates?: (id: string) => void;
     navigate?: (id: string) => void;
     totalPages?: number;
     currentPage?: number;
@@ -36,7 +37,7 @@ export default function ListImage(props: SectionListProps) {
         return (props.imageUris ?? []).map((item: any) => (
             <ImageTouchable 
                 key={item.id}
-                onPress={() => props.navigate && props.navigate(item.id)}
+                onPress={() => props.onPressLoadStates && props.onPressLoadStates(item.id) || props.navigate && props.navigate(item.id)}
                 onLongPress={() => props.onLongPress && props.onLongPress(item.id)}
                 source={{ uri: item.uri }}
                 alt={props.alt}
@@ -52,7 +53,7 @@ export default function ListImage(props: SectionListProps) {
             <Box alignItems="center" key={item.id}>
                 <ImageTouchable 
                     key={item.id}
-                    onPress={() => props.navigate && props.navigate(item.id)}
+                    onPress={() => props.onPressLoadStates && props.onPressLoadStates(item.id) || props.navigate && props.navigate(item.id)}
                     onLongPress={() => props.onLongPress && props.onLongPress(item.id)}
                     source={{ uri: item.uri }}
                     alt={props.alt}

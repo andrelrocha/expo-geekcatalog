@@ -7,11 +7,13 @@ import { addBulkGameListPermission } from "../../../services/listsPermission/add
 import { deleteAllListPermission } from "../../../services/listsPermission/deleteAllListPermission";
 import { deleteGameList } from "../../../services/gameList/delete";
 import { getListPermissionsByUser } from "../../../services/listsPermission/getListPermissionsByUser";
+import { getGameListById } from "../../../services/gameList/getById";
 import useGamesDropdown from "../games/useGamesDropdown";
 import usePermissionsDropdown from "../permissions/usePermissionsDropdown";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
 import GameListAddDTO from "../../../types/gameList/GameListAddDTO";
+import GameListReturnDTO from "../../../types/gameList/GameListReturnDTO";
 
 type UseListGameProps = {
     size?: number;
@@ -55,6 +57,8 @@ const useListGame = (props: UseListGameProps) => {
     const [selectedGameList, setSelectedGameList] = useState('');
     const [userPermissions, setUserPermissions] = useState<string[]>([]);
     const [deleteInvite, setDeleteInvite] = useState(false);
+    const [modalInfoVisibible, setModalInfoVisible] = useState(false);
+    const [gameListInfo, setGameListInfo] = useState<GameListReturnDTO | null>(null);
     const alertOption: AlertOptions[] = [];
 
     const { dropdownData: gameDropwdownData } = useGamesDropdown();
@@ -104,6 +108,20 @@ const useListGame = (props: UseListGameProps) => {
             setIsLoading(false);
         } catch (error) {
             console.error('Error fetching image games:', error);
+        }
+    }
+
+    const loadGameListInfo = async (id: string) => {
+        try {
+            setIsLoading(true);
+            const gameList = await getGameListById(id);
+            setGameListInfo(gameList);
+            return gameList;
+        } catch (error: any) {
+            console.error('Error fetching game list info:', error);
+            Alert.alert('Error fetching game list info: ', error.response?.data);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -199,7 +217,8 @@ const useListGame = (props: UseListGameProps) => {
 
     return { isLoading, paginationInfo, loadGamesList, gamesList, imageUris, grid, setGrid, gameDropwdownData, isAlertVisible, setAlertVisible, userPermissions, deleteInvite, setDeleteInvite,
         createGameList, deleteGameListMethod, modalAddIsOpen, setModalAddIsOpen, permissionDropdownData, permissionModalOpen, setPermissionModalOpen, alertOption,
-        addPermissionsList, deletePermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList};
+        addPermissionsList, deletePermissionList, hideCreateButton, setHideCreateButton, setConsolesAvailableData, consolesAvailableData, selectedGameList, setSelectedGameList,
+        modalInfoVisibible, setModalInfoVisible, gameListInfo, setGameListInfo, loadGameListInfo};
 };
 
 export default useListGame;

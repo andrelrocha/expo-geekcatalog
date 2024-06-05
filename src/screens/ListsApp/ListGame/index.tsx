@@ -40,7 +40,8 @@ export default function ListGamesList({ navigation, route }: Props) {
     const [currentPageUser, setCurrentPageUser] = useState(0);
     const {isLoading, paginationInfo, grid, setGrid, loadGamesList, imageUris, hideCreateButton, setHideCreateButton, permissionModalOpen, setPermissionModalOpen, alertOption,
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionsList, deletePermissionList, setConsolesAvailableData, deleteGameListMethod,
-        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions, deleteInvite, setDeleteInvite } = useListGame({ page: currentPageUser, listId });
+        consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions, deleteInvite, setDeleteInvite,
+        modalInfoVisibible, setModalInfoVisible, gameListInfo, setGameListInfo, loadGameListInfo } = useListGame({ page: currentPageUser, listId });
 
     const canUpdate = userPermissions.includes("UPDATE_GAME");
     const canDelete = userPermissions.includes("DELETE_GAME");
@@ -202,6 +203,18 @@ export default function ListGamesList({ navigation, route }: Props) {
         );
     }
 
+    const modalInfoGameList = () => {
+        return (
+            <View style={styles.modalInfoGameList}>
+                <Heading fs={24} mb={10}>{gameListInfo?.gameName}</Heading>
+                <Text style={styles.titleTextModalInfo}>Console Played:</Text>
+                <Text style={styles.textModalInfo}>{gameListInfo?.consoleName}</Text>
+                <Text style={styles.titleTextModalInfo}>Note:</Text>
+                <Text style={styles.textModalInfo}>{gameListInfo?.note}</Text>
+            </View>
+        )
+    }
+
     const handleCreate = async (control: Control<FormData>) => {
         const gameId = control._formValues.game;
         const note = control._formValues.note;
@@ -284,6 +297,10 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setAlertVisible(!isAlertVisible)
                         setSelectedGameList(gameListId)
                     } : undefined}
+                    onPressLoadStates={async (gameListId) => {
+                        setModalInfoVisible(true)
+                        await loadGameListInfo(gameListId)
+                    }}
                     //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>
@@ -323,6 +340,15 @@ export default function ListGamesList({ navigation, route }: Props) {
                     h={400}
                 />
             )}
+
+            {modalInfoVisibible && (
+                <Modal
+                    body={modalInfoGameList()}
+                    isOpen={modalInfoVisibible}
+                    onClose={() => setModalInfoVisible(false)}
+                    title={""}
+                />    
+            )}
             
         </View>
     );
@@ -350,5 +376,20 @@ const styles = StyleSheet.create({
     modalContent: {
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    modalInfoGameList: {
+        alignItems: 'flex-start', 
+        justifyContent: 'center',
+        padding: 10, 
+    },
+    textModalInfo: {
+        textAlign: 'justify', 
+        width: '100%', 
+        fontSize: 16,
+        marginBottom: 10,
+    },
+    titleTextModalInfo: {
+        fontWeight: 'bold',
+        fontSize: 18,
     }
 });
