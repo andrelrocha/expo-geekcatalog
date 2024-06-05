@@ -1,5 +1,5 @@
 export default interface GameListUpdateDTO {
     userId: string;
-    console: string;
+    consoleId: string;
     note: string;
 }

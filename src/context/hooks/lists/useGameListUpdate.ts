@@ -2,6 +2,7 @@ import { Alert } from "react-native";
 import { useEffect, useState } from "react";
 import { getGameListById } from "../../../services/gameList/getById";
 import { getGameInfoByGameListID } from "../../../services/gameList/getGameInfo";
+import { updateGameList } from "../../../services/gameList/update";
 import GameListReturnDTO from "../../../types/gameList/GameListReturnDTO";
 import GameListGameInfoDTO from "../../../types/gameList/GameListGameInfo";
 
@@ -17,9 +18,9 @@ export default function useGameListUpdate(props: GameListUpdate) {
     const updateGameListMethod = async (gameListData: any, navigate: () => void) => {
         setIsLoading(true);
         try {
-            console.log('Update game list, full data: ', gameListData);
-            //Alert.alert('Game list updated successfully!');
-            //navigate();
+            const response = await updateGameList({ gameListId: props.gameListId, data: gameListData });
+            Alert.alert(`Game ${response.gameName} updated successfully!`);
+            navigate();
         } catch (error: any) {
             console.error('Error updating game list:', error);
             Alert.alert('Error updating game list!', error.response?.data || 'An error occurred while updating the game list.');

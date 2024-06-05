@@ -50,7 +50,7 @@ export default function UpdateGameList({ navigation, route }: Props) {
 
     const setFields = (data: GameListReturnDTO) => {
         if (data) {
-            //setValue("consoleId", data.consoleId, { shouldValidate: true });
+            setValue("console", data.consoleId, { shouldValidate: true });
             setValue("note", data.note, { shouldValidate: true });
         }
     }
@@ -61,7 +61,7 @@ export default function UpdateGameList({ navigation, route }: Props) {
 
         const gameListData: GameListUpdateDTO = {
             userId: currentUser?.id as string,
-            console,
+            consoleId: console,
             note,
         }
         
@@ -69,8 +69,9 @@ export default function UpdateGameList({ navigation, route }: Props) {
     }
 
     useEffect(() => {
-        //console.log('Game Info: ', gameInfo)
-        //setFields(gameList as GameListReturnDTO);
+        if (gameList && gameInfo) {
+            setFields(gameList as GameListReturnDTO);
+        }
     }, [gameList, gameInfo]);
 
     return (
@@ -98,6 +99,8 @@ export default function UpdateGameList({ navigation, route }: Props) {
                         control={control}
                         name="note"
                         placeholder="Note"
+                        numberOfLines={6}
+                        icon={0}
                     />
                 </InputWithLabel>
 
