@@ -67,7 +67,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
         visibility,
       };
 
-      createListMethod(listData, () => navigation.goBack(), games);
+      await createListMethod(listData, () => navigation.goBack(), games);
       reset();
   }
 

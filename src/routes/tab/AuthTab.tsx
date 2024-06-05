@@ -19,25 +19,23 @@ export default function AuthTab() {
         headerShown: false  
       }}
     >
-      {/*
-        <Tab.Screen
-        name="Games"
-          component={GamesStack}
-          options={{
-            tabBarIcon: ({focused, color, size}) => {
-              if (focused) {
-                color = colors.black;
-              } else {
-                color = colors.sage;
-              }
-              
-              return <GameControllerIcon color={color} size={26}/>;
-            },
-            tabBarActiveTintColor: colors.black,
-          }}
-          />
-        */}
-
+      <Tab.Screen
+      name="Games"
+        component={GamesStack}
+        options={{
+          tabBarIcon: ({focused, color, size}) => {
+            if (focused) {
+              color = colors.black;
+            } else {
+              color = colors.sage;
+            }
+            
+            return <GameControllerIcon color={color} size={26}/>;
+          },
+          tabBarActiveTintColor: colors.black,
+        }}
+        />
+        
         <Tab.Screen 
             name="ListsApp" 
             component={ListsAppStack} 

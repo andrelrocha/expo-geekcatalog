@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import useAuth from "../use-auth.hook";
 import { listAllImageGames } from "../../../services/imageGame/getAllPageable";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
@@ -77,17 +76,6 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
         }
     }
 
-    const loadGameInfoData = async (gameId: string) => {
-        try {
-            setIsLoading(true);
-            const gameInfo = await listAllGameInfoByGameIDUser({gameId, token: token as string});
-            setIsLoading(false);
-            return gameInfo;
-        } catch (error) {
-            console.error('Error fetching full game info:', error);
-        }
-    }    
-
     useEffect(() => {
         const fetchImageGames = async () => {
             loadImageGames();
@@ -96,7 +84,7 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
         fetchImageGames();
     }, []);
 
-    return { isLoading, paginationInfo, imageGames, loadImageGames, grid, setGrid, loadGameInfoData };
+    return { isLoading, paginationInfo, imageGames, loadImageGames, grid, setGrid };
 };
 
 export default useGamesListAll;

@@ -66,6 +66,7 @@ export default function UpdateGameList({ navigation, route }: Props) {
         }
         
         await updateGameListMethod(gameListData, () => navigation.goBack());
+        reset();
     }
 
     useEffect(() => {

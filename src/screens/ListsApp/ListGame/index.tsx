@@ -379,16 +379,21 @@ const styles = StyleSheet.create({
     modalInfoGameList: {
         alignItems: 'flex-start', 
         justifyContent: 'center',
-        padding: 10, 
+        paddingHorizontal: 10, 
+    },
+    titleTextModalInfo: {
+        fontWeight: 'bold',
+        fontSize: 18,
     },
     textModalInfo: {
         textAlign: 'justify', 
         width: '100%', 
         fontSize: 16,
         marginBottom: 10,
+        marginTop: 5,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: colors.grayOpacity,
+        padding: 5,
     },
-    titleTextModalInfo: {
-        fontWeight: 'bold',
-        fontSize: 18,
-    }
 });
