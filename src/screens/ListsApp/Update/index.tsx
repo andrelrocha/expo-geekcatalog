@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Control, useForm } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
-import { Text } from "react-native";
 import { colors } from "../../../utils/colors";
 import PageDefault from "../../Default";
 import { Box, Heading,
   Button, 
   InputText,
-  InputCheckbox,
+  SwipeToggle,
 } from "../../../components";
 import InputWithLabel from "../../../components/input/input-label";
 import { useAuth } from "../../../context/hooks";
@@ -55,9 +54,9 @@ export default function UpdateListGame({ navigation, route }: Props) {
 
   const setFields = (data: ListGameReturn) => {
     if (listId) {
-        setValue("name", data.name);
-        setValue("description", data.description);
-        setValue("visibility", data.visibility);
+        setValue("name", data.name, { shouldValidate: true });
+        setValue("description", data.description, { shouldValidate: true });
+        setValue("visibility", data.visibility, { shouldValidate: true });
         setIsPublic(data.visibility);
     }
   }
@@ -108,19 +107,7 @@ export default function UpdateListGame({ navigation, route }: Props) {
             <InputText control={control} name="description" placeholder="Description" />
           </InputWithLabel>
 
-          <InputCheckbox
-              aria-label="List visibility"
-              control={control}
-              label={
-                <>
-                  <Text>Public</Text>
-                </>
-              }
-              name="visibility"
-              onPress={() => setIsPublic(!isPublic ? true : false)}
-              value={isPublic ? "public" : ""}
-              isChecked={isPublic}
-          />
+          <SwipeToggle isEnabled={isPublic} setIsEnabled={setIsPublic} label="Public list?" activeColor={colors.buttonBlue}/>
         </Box>
 
         <Button

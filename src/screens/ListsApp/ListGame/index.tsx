@@ -298,10 +298,9 @@ export default function ListGamesList({ navigation, route }: Props) {
                         setSelectedGameList(gameListId)
                     } : undefined}
                     onPressLoadStates={async (gameListId) => {
-                        setModalInfoVisible(true)
                         await loadGameListInfo(gameListId)
+                        setModalInfoVisible(true)
                     }}
-                    //navigate={(id: string) => navigation.navigate('ListGamesList', { listId: id })}
                 />
             </View>
 

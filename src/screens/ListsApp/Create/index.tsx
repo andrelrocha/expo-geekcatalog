@@ -10,6 +10,7 @@ import { Box, Heading,
   InputText,
   InputCheckbox,
   MultiSelect,
+  SwipeToggle,
 } from "../../../components";
 import InputWithLabel from "../../../components/input/input-label";
 import useListCreate from "../../../context/hooks/lists/useListCreate";
@@ -97,19 +98,8 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
               data={gamesData}
             />
           </InputWithLabel>
-          
-          <InputCheckbox
-              aria-label="List visibility"
-              control={control}
-              label={
-                <>
-                  <Text>Public</Text>
-                </>
-              }
-              name="visibility"
-              onPress={() => setIsPublic(!isPublic ? true : false)}
-              value={isPublic ? "public" : ""}
-          />
+
+          <SwipeToggle isEnabled={isPublic} setIsEnabled={setIsPublic} label="Public list?" activeColor={colors.buttonBlue}/>
         </Box>
 
         <Button
