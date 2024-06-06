@@ -3,6 +3,5 @@ export default interface GameListAddDTO {
     userId: string;
     gameId: string;
     consoleId: string;
-    rating: number;
     note: string;
 }

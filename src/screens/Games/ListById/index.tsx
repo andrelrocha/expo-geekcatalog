@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import PageDefault from "../../Default";
+import React, { useEffect } from "react";
 import { ParamListBase } from "@react-navigation/native";
+import { StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { useAuth } from "../../../context/hooks";
+import PageDefault from "../../Default";
 import { useGamesFullInfoUser } from "../../../context/hooks/games/useGamesFullInfoUser";
-import { Box, Heading, ImageTouchable, TextWarning } from "../../../components";
-import { StyleSheet, Text } from "react-native";
-import { View } from "lucide-react-native";
+import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, InputWithLabel, Modal, TextWarning } from "../../../components";
+import { colors } from "../../../utils/colors";
+import { useAuth } from "../../../context/hooks";
 
 type GameByIdParams = {
     gameId: string;
@@ -16,14 +16,50 @@ type Props = NativeStackScreenProps<ParamListBase, 'ListGameById'>;
 
 export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
+    const { currentUser } = useAuth();
 
-    const { isLoading, gameInfo, loadGameInfoData } = useGamesFullInfoUser();
+    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
     }, []);
 
+    const modalAddRating = () => {
+        return (
+            <View style={styles.modalContainer}> 
+                <Heading textAlign="left" mb={10} fs={20}>{(gameInfo?.name || 'Game') + ":"}</Heading>
+                <AppStarRating
+                    initialRating={0}
+                    maxStars={5}
+                    starSize={40}
+                    color={colors.buttonBlue}
+                    emptyColor={colors.grayOpacity}
+                    interactive={true}
+                    rating={gameRating}
+                    onChange={setGameRating}
+                    style={{alignSelf: 'center'}}
+                />
+
+                <ButtonTouchable onPress={handleRatingSubmit} style={styles.submitRatingButton}>
+                    Submit
+                </ButtonTouchable>
+            </View>
+        )
+    }
+
+    const handleRatingSubmit = async () => {
+        const apiRating = gameRating * 2;
+        const data = {
+            gameId: gameId,
+            rating: apiRating,
+            userId: currentUser?.id as string,
+        }
+        await addGameRatingMethod(data);
+        setModalRatingVisible(false);
+    }
+
     return (
+        <>
         <PageDefault>
             {isLoading ? (
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
@@ -61,9 +97,24 @@ export default function ListGameById({ navigation, route }: Props) {
                         </Box>
 
                     </Box>
+
+                    <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
+                        Add Rating
+                    </ButtonTouchable>
                 </>
             )}
         </PageDefault>
+
+        {modalRatingVisible && (
+            <Modal
+                body={modalAddRating()}
+                title=""
+                isOpen={modalRatingVisible}
+                onClose={() => setModalRatingVisible(false)}
+                h={220}
+            />
+        )}
+        </>
     )
 }
 
@@ -82,4 +133,21 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 5,
     },
+    addRatingButton: {
+        marginTop: 5,
+        width: 140,
+        height: 40,
+        borderRadius: 14,
+    },
+    submitRatingButton: {
+        marginTop: 10,
+        width: 140,
+        height: 40,
+        borderRadius: 14,
+        alignSelf: 'center',
+    },
+    modalContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
