@@ -10,6 +10,7 @@ export const useGamesFullInfoUser = () => {
     const [gameInfo, setGameInfo] = useState<GameFullInfoUser | null>(null);
     const [modalRatingVisible, setModalRatingVisible] = useState(false);
     const [gameRating, setGameRating] = useState(0);
+    const [userRatingAdded, setUserRatingAdded] = useState(false);
 
     const loadGameInfoData = async (gameId: string) => {
         try {
@@ -29,13 +30,15 @@ export const useGamesFullInfoUser = () => {
             setIsLoading(true);
             const gameRating = await addGameRating(data);
             Alert.alert('Rating added successfully');
+            setUserRatingAdded(true);
             return gameRating;
         } catch (error) {
             console.error('Error adding game rating:', error);
         } finally {
             setIsLoading(false);
+            setUserRatingAdded(false);
         }
     }
 
-    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod };
+    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded };
 }

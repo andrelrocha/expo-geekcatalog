@@ -18,11 +18,12 @@ export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
 
-    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod } = useGamesFullInfoUser();
+    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
-    }, []);
+        console.log('Game info:', gameInfo);
+    }, [userRatingAdded]);
 
     const modalAddRating = () => {
         return (
@@ -65,9 +66,23 @@ export default function ListGameById({ navigation, route }: Props) {
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
                 <>
-                    <Heading w={280} mt={5} mb={15} fs={28}>{gameInfo?.name || 'Game'}</Heading>
+                    <Heading w={280} mt={5} mb={5} fs={28}>{gameInfo?.name || 'Game'}</Heading>
                     <ImageTouchable w={280} h={280} key={gameInfo?.id} source={{uri: gameInfo?.imageUrl}} alt="Image Game" br={10}/>
-                    <Box w={280} mt={15} mb={15} alignItems="flex-start">
+                    <Box w={280} mt={10} mb={15} alignItems="flex-start">
+                        <AppStarRating
+                            initialRating={gameInfo?.averageRating || 0}
+                            rating={gameInfo?.averageRating || 0}
+                            onChange={setGameRating}
+                            maxStars={10}
+                            starSize={20}
+                            color={colors.buttonBlue}
+                            emptyColor={colors.grayOpacity}
+                            interactive={false}
+                            style={styles.starsRatingStatic}
+                        />
+                        <Text style={styles.titleTextModalInfo}>
+                            Avg. Rating: <Text style={styles.textModalInfo}>{gameInfo?.averageRating}</Text> 
+                        </Text>
                         <Text style={styles.titleTextModalInfo}>
                             Metacritic: <Text style={styles.textModalInfo}>{gameInfo?.metacritic}</Text>
                         </Text>
@@ -111,7 +126,7 @@ export default function ListGameById({ navigation, route }: Props) {
                 title=""
                 isOpen={modalRatingVisible}
                 onClose={() => setModalRatingVisible(false)}
-                h={220}
+                h={240}
             />
         )}
         </>
@@ -133,6 +148,10 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         padding: 5,
     },
+    starsRatingStatic: {
+        alignSelf: 'center',
+        marginBottom: 5,
+    },
     addRatingButton: {
         marginTop: 5,
         width: 140,
@@ -140,7 +159,7 @@ const styles = StyleSheet.create({
         borderRadius: 14,
     },
     submitRatingButton: {
-        marginTop: 10,
+        marginTop: 15,
         width: 140,
         height: 40,
         borderRadius: 14,

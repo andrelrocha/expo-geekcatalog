@@ -18,7 +18,7 @@ interface AppStarRatingProps {
     StarIconComponent?: (props: { size: number; color: string; type: 'full' | 'half' | 'empty' }) => JSX.Element;
     interactive?: boolean;
     rating: number;
-    onChange: (rating: number) => void;
+    onChange?: (rating: number) => void;
 }
 
 const AppStarRating: React.FC<AppStarRatingProps> = ({
@@ -35,11 +35,13 @@ const AppStarRating: React.FC<AppStarRatingProps> = ({
     onRatingEnd,
     animationConfig,
     StarIconComponent,
-    interactive = true,
+    interactive,
     rating,
-    onChange,
+    onChange = () => {},
   }) => {
-  
+
+    const normalizedInitialRating = (initialRating / 10) * maxStars;
+
     return (
       <View style={style}>
         {interactive ? (
@@ -60,7 +62,7 @@ const AppStarRating: React.FC<AppStarRatingProps> = ({
           />
         ) : (
           <StarRatingDisplay
-            rating={rating}
+            rating={normalizedInitialRating}
             maxStars={maxStars}
             starSize={starSize}
             color={color}

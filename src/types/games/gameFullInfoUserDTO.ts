@@ -7,4 +7,6 @@ export default interface GameFullInfoUser {
     genres: string[];
     consoles: string[];
     imageUrl: string;
+    totalReviews: number;
+    averageRating: number;
 }

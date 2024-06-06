@@ -2,6 +2,7 @@ import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameFullInfo from '../../../types/games/gameFullInfoUserDTO';
 import { getToken } from '../../../modules/auth.module';
+import GameFullInfoUser from '../../../types/games/gameFullInfoUserDTO';
 
 type HandleListAllInfoGamesProps = {
     gameId: string;
@@ -28,8 +29,7 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
         if (response.data) {
             const data = response.data;
 
-
-            const game: GameFullInfo = {
+            const game: GameFullInfoUser = {
                 id: data.id,
                 name: data.name,
                 metacritic: data.metacritic,
@@ -38,6 +38,8 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
                 studios: data.studios.map((studio: any) => studio),
                 consoles: data.consoles.map((console: any) => console),
                 imageUrl: data.imageUrl,
+                totalReviews: data.totalReviews,
+                averageRating: data.averageRating
             };
         
             return game;
