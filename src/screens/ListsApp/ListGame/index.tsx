@@ -5,7 +5,7 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { InfoIcon } from "lucide-react-native";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Alert, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, InputWithLabel, SwipeToggle, MultiSelect } from "../../../components";
+import { AppStarRating, Alert, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, InputWithLabel, SwipeToggle, MultiSelect } from "../../../components";
 import { SquarePenIcon, TrashIcon } from "../../../components/icons";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
@@ -22,6 +22,7 @@ const DEFAULT_FORM_VALUES = {
     game: '',
     note: '',
     console: '',
+    rating: 0,
     emailParticipant: '',
     permission: '',
 };
@@ -30,7 +31,8 @@ type FormData = {
     userId: string,
     listId: string,
     consoleId: string,
-    gameId: string 
+    gameId: string,
+    rating: number,
     note: string,
 }
 
@@ -42,6 +44,8 @@ export default function ListGamesList({ navigation, route }: Props) {
         gameDropwdownData, createGameList, setModalAddIsOpen, modalAddIsOpen, permissionDropdownData, addPermissionsList, deletePermissionList, setConsolesAvailableData, deleteGameListMethod,
         consolesAvailableData, isAlertVisible, setAlertVisible, selectedGameList, setSelectedGameList, userPermissions, deleteInvite, setDeleteInvite,
         modalInfoVisibible, setModalInfoVisible, gameListInfo, setGameListInfo, loadGameListInfo } = useListGame({ page: currentPageUser, listId });
+
+    const [gameRating, setGameRating] = useState(0);
 
     const canUpdate = userPermissions.includes("UPDATE_GAME");
     const canDelete = userPermissions.includes("DELETE_GAME");
@@ -183,6 +187,22 @@ export default function ListGamesList({ navigation, route }: Props) {
                     </InputWithLabel>
                 )}
 
+                <InputWithLabel label="Rating">
+                    <AppStarRating
+                        control={control}
+                        name="rating"
+                        initialRating={0}
+                        maxStars={5}
+                        starSize={40}
+                        color={colors.buttonBlue}
+                        emptyColor={colors.grayOpacity}
+                        //style={styles.rating}
+                        interactive={true}
+                        value={gameRating}
+                        onChange={setGameRating}
+                    />
+                </InputWithLabel>
+
                 <InputWithLabel label="Note">
                     <InputText control={control} name="note" numberOfLines={4}
                                 placeholder="Your notes about the game" icon={0}/>
@@ -219,18 +239,22 @@ export default function ListGamesList({ navigation, route }: Props) {
         const gameId = control._formValues.game;
         const note = control._formValues.note;
         const consoleId = control._formValues.console;
+        const rating = control._formValues.rating;
         const userId = currentUser?.id as string;
 
         const listData: FormData = {
             listId,
             userId: userId,
             gameId: gameId,
+            rating: (rating*2),
             consoleId: consoleId,
             note: note,
         };
 
-        await createGameList(listData);
-        await loadGamesList();
+        console.log(listData);
+
+        //await createGameList(listData);
+        //await loadGamesList();
         reset();
     }
 

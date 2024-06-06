@@ -16,7 +16,6 @@ type Props = NativeStackScreenProps<ParamListBase, 'ListGameById'>;
 
 export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
-    const { currentUser } = useAuth();
 
     const { isLoading, gameInfo, loadGameInfoData } = useGamesFullInfoUser();
 

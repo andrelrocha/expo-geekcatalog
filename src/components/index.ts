@@ -1,4 +1,5 @@
 import Alert from './alert';
+import AppStarRating from './star-rating';
 import Button from './button/button-loading';
 import Box from './box';
 import CustomAlert from './alert';
@@ -34,6 +35,7 @@ import TextWarning from './text/text-warning';
 
 export { 
     Alert,
+    AppStarRating,
     Button, 
     ButtonTouchable, 
     ButtonAddImage, 
