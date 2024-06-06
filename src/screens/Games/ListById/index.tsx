@@ -22,7 +22,6 @@ export default function ListGameById({ navigation, route }: Props) {
 
     useEffect(() => {
         loadGameInfoData(gameId);
-        console.log('Game info:', gameInfo);
     }, [userRatingAdded]);
 
     const modalAddRating = () => {
@@ -66,23 +65,27 @@ export default function ListGameById({ navigation, route }: Props) {
                 <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">Loading...</TextWarning>
             ) : (
                 <>
-                    <Heading w={280} mt={5} mb={5} fs={28}>{gameInfo?.name || 'Game'}</Heading>
+                    <Heading w={280} mt={5} mb={10} fs={28}>{gameInfo?.name || 'Game'}</Heading>
                     <ImageTouchable w={280} h={280} key={gameInfo?.id} source={{uri: gameInfo?.imageUrl}} alt="Image Game" br={10}/>
                     <Box w={280} mt={10} mb={15} alignItems="flex-start">
-                        <AppStarRating
-                            initialRating={gameInfo?.averageRating || 0}
-                            rating={gameInfo?.averageRating || 0}
-                            onChange={setGameRating}
-                            maxStars={10}
-                            starSize={20}
-                            color={colors.buttonBlue}
-                            emptyColor={colors.grayOpacity}
-                            interactive={false}
-                            style={styles.starsRatingStatic}
-                        />
-                        <Text style={styles.titleTextModalInfo}>
-                            Avg. Rating: <Text style={styles.textModalInfo}>{gameInfo?.averageRating}</Text> 
-                        </Text>
+                    {gameInfo && gameInfo.totalReviews > 0 && (
+                        <>
+                            <AppStarRating
+                                initialRating={gameInfo?.averageRating || 0}
+                                rating={gameInfo?.averageRating || 0}
+                                onChange={setGameRating}
+                                maxStars={10}
+                                starSize={20}
+                                color={colors.buttonBlue}
+                                emptyColor={colors.grayOpacity}
+                                interactive={false}
+                                style={styles.starsRatingStatic}
+                            />
+                            <Text style={styles.titleTextModalInfo}>
+                                Avg. Rating: <Text style={styles.textModalInfo}>{gameInfo?.averageRating}</Text> 
+                            </Text>
+                        </>
+                    )}
                         <Text style={styles.titleTextModalInfo}>
                             Metacritic: <Text style={styles.textModalInfo}>{gameInfo?.metacritic}</Text>
                         </Text>
