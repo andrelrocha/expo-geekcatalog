@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
-import { addGameRating } from "../../../services/gameRating";
+import { addGameRating } from "../../../services/gameRating/add";
+import { getUserRatingByGame } from "../../../services/gameRating/getByUserAndGame";
 import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
 import { Alert } from "react-native";
@@ -11,6 +12,7 @@ export const useGamesFullInfoUser = () => {
     const [modalRatingVisible, setModalRatingVisible] = useState(false);
     const [gameRating, setGameRating] = useState(0);
     const [userRatingAdded, setUserRatingAdded] = useState(false);
+    const [userRating, setUserRating] = useState(0);
 
     const loadGameInfoData = async (gameId: string) => {
         try {
@@ -40,5 +42,31 @@ export const useGamesFullInfoUser = () => {
         }
     }
 
-    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded };
+    const getUserRating = async (gameId: string) => {
+        try {
+            setIsLoading(true);
+            const userRating = await getUserRatingByGame({gameId});
+            setUserRating(userRating.rating);
+            return userRating;
+        } catch (error) {
+            console.error('Error fetching user rating:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        const fetchUserRating = async () => {
+            if (modalRatingVisible) {
+                const rating = await getUserRating(gameInfo?.id as string);
+                if (rating) {
+                    setGameRating(rating.rating / 2);
+                }
+            }
+        }
+        fetchUserRating();
+    }, [modalRatingVisible, gameInfo]);
+
+
+    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating };
 }

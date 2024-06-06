@@ -18,7 +18,7 @@ export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
 
-    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded } = useGamesFullInfoUser();
+    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
@@ -29,7 +29,7 @@ export default function ListGameById({ navigation, route }: Props) {
             <View style={styles.modalContainer}> 
                 <Heading textAlign="left" mb={10} fs={20}>{(gameInfo?.name || 'Game') + ":"}</Heading>
                 <AppStarRating
-                    initialRating={0}
+                    initialRating={userRating}
                     maxStars={5}
                     starSize={40}
                     color={colors.buttonBlue}

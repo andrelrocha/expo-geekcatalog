@@ -1,7 +1,7 @@
-import { ApiManager } from "../../utils/API-axios/ApiManager";
-import AddGameRatingDTO from "../../types/gameRating/AddGameRating";
-import GameRatingReturnDTO from "../../types/gameRating/GameRatingReturn";
-import { getToken } from "../../modules/auth.module";
+import { ApiManager } from "../../../utils/API-axios/ApiManager";
+import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
+import GameRatingReturnDTO from "../../../types/gameRating/GameRatingReturn";
+import { getToken } from "../../../modules/auth.module";
 
 export const addGameRating = async (data: AddGameRatingDTO) => {
     const token = await getToken();
