@@ -1,8 +1,9 @@
 import { getToken } from "../../../modules/auth.module";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
+import UpdateGameFullInfoAdminDTO from "../../../types/games/updateGameFullInfoAdminDTO";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 
-export const updateGame = async (gameData: GameFullInfoAdminDTO) => {
+export const updateGame = async (gameData: UpdateGameFullInfoAdminDTO) => {
     const endpoint = `/fullgame/admin/update/${gameData.id}`;
 
     const token = await getToken();
@@ -22,6 +23,7 @@ export const updateGame = async (gameData: GameFullInfoAdminDTO) => {
     
             if (response.data) {
                 const data = response.data;
+                console.log('Game updated successfully:', data);
                 
                 const game: GameFullInfoAdminDTO = {
                     id: data.id,

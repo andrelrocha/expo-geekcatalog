@@ -11,6 +11,7 @@ import InputWithLabel from "../../../components/input/input-label";
 import useGamesManage from "../../../context/hooks/games/useGamesManage";
 import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
 import { styles } from "../styles";
+import UpdateGameFullInfoAdminDTO from "../../../types/games/updateGameFullInfoAdminDTO";
 
 const DEFAULT_FORM_VALUES = {
     name: "",
@@ -71,23 +72,18 @@ export default function GameInfo({ navigation, route }: Props) {
         const name = control._formValues.name;
         const metacritic = control._formValues.metacritic;
         const yearOfRelease = control._formValues.yearOfRelease;
-
         const newStudios = (control._formValues.studios || []).filter((studio: string) => studio !== "");
         const newGenres = (control._formValues.genres || []).filter((genre: string) => genre !== "");
         const newConsoles = (control._formValues.consoles || []).filter((console: string) => console !== "");
-        
-        const studios = [...valueSelectedStudio, ...newStudios];
-        const genres = [...valueSelectedGenre, ...newGenres];
-        const consoles = [...valueSelectedConsole, ...newConsoles];
 
-        const gameData: GameFullInfoAdminDTO = {
+        const gameData: UpdateGameFullInfoAdminDTO = {
             id: gameId,
             name,
             metacritic,
             yearOfRelease,
-            studios,
-            genres,
-            consoles,
+            studios: newStudios,
+            genres: newGenres,
+            consoles: newConsoles,
         }
         
         await update(gameData, uri, navigation.goBack);
@@ -221,7 +217,7 @@ export default function GameInfo({ navigation, route }: Props) {
                         <TextWarning ml={10} w={200} o={0.7} fs={12} h={42}>Click on the camera icon to update the Game Image</TextWarning>
                     </>
                     ) : (
-                    <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={uri} alt='Game Image' />
+                    <ImageTouchable br={10} onPress={() => setModalPicVisible(!modalPicVisible)} source={{uri}} alt='Game Image' />
                     )}
                 </View>
             </>

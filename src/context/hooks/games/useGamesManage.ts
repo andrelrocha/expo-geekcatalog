@@ -9,6 +9,7 @@ import { updateGame } from "../../../services/games/update";
 import { Alert } from "react-native";
 import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator";
 import { uploadImageGame } from "../../../services/imageGame/upload";
+import UpdateGameFullInfoAdminDTO from "../../../types/games/updateGameFullInfoAdminDTO";
 
 export default function useGamesManage() {
     const [editEnabled, setEditEnabled] = useState(false);
@@ -38,10 +39,25 @@ export default function useGamesManage() {
         return gameInfo;
     }
 
-    const update = async (gameData: GameFullInfoAdminDTO, uri: string, navigate: () => void) => {
-        try {
+    const update = async (gameData: UpdateGameFullInfoAdminDTO, uri: string, navigate: () => void) => {
+        try {  
+            const updatedStudios = [...new Set([...valueSelectedStudio, ...gameData.studios])];
+            const updatedGenres = [...new Set([...valueSelectedGenre, ...gameData.genres])];
+            const updatedConsoles = [...new Set([...valueSelectedConsole, ...gameData.consoles])];
+
+            const studios = gameData.studios.length > 0 ? updatedStudios.filter((studio: string) => gameData.studios.includes(studio)) : valueSelectedStudio;
+            const genres = gameData.genres.length > 0 ? updatedGenres.filter((genre: string) => gameData.genres.includes(genre)) : valueSelectedGenre;
+            const consoles = gameData.consoles.length > 0 ? updatedConsoles.filter((console: string) => gameData.consoles.includes(console)) : valueSelectedConsole;
+
+            const updatedGameData = {
+                ...gameData,
+                studios,
+                genres,
+                consoles
+            }
+
             setIsLoading(true);
-            await updateGame(gameData);
+            await updateGame(updatedGameData);
             if (uri !== "") {
                 await uploadImageGame({uri, gameId: gameData.id});
             }
