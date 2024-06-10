@@ -5,20 +5,50 @@
   "build": {
     "dev": {
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "ios": {
+        "simulator": true
       }
     },
     "preview": {
       "android": {
-        "gradleCommand": ":app:assembleRelease"
+        "gradleCommand": ":app:assembleRelease",
+        "image": "latest"
+      },
+      "ios": {
+        "simulator": true
       }
     },
-    "preview3": {
-      "developmentClient": true
+    "developmentClient": {
+      "distribution": "internal",
+      "developmentClient": true,
+      "android": {
+        "buildType": "apk",
+        "image": "latest"
+      },
+      "ios": {
+        "simulator": true
+      }
     },
     "preview4": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "simulator": true
+      }
     },
-    "production": {}
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "image": "latest"
+      },
+      "ios": {
+        "simulator": false
+      }
+    }
   }
 }
