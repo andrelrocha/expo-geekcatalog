@@ -2,12 +2,12 @@
   "expo": {
     "name": "geekcatalog",
     "slug": "geekcatalog",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "version": "1.0.1",
+    "orientation": "default",
+    "icon": "./assets/controller-xbox.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/controller-xbox.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
