@@ -24,7 +24,8 @@ export const addGameList = async (data: GameListAddDTO) => {
             listId: content.listId,
             consoleId: content.consoleId,
             consoleName: content.consoleName,
-            note: content.note
+            note: content.note,
+            rating: content.rating
           }
 
           return gameListReturn;

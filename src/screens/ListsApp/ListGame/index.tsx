@@ -5,7 +5,7 @@ import { Control, useForm, useWatch } from "react-hook-form";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { InfoIcon } from "lucide-react-native";
 import useListGame from "../../../context/hooks/lists/useListGame";
-import { Alert, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, InputWithLabel, SwipeToggle, MultiSelect } from "../../../components";
+import { Alert, Button, ButtonTouchable, DropdownSelection, Heading, InputEmail, InputText, ListImage, Modal, InputWithLabel, SwipeToggle, MultiSelect, AppStarRating } from "../../../components";
 import { SquarePenIcon, TrashIcon } from "../../../components/icons";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
@@ -207,6 +207,22 @@ export default function ListGamesList({ navigation, route }: Props) {
         return (
             <View style={styles.modalInfoGameList}>
                 <Heading fs={24} mb={10}>{gameListInfo?.gameName}</Heading>
+                {gameListInfo && gameListInfo?.rating > 0 && (
+                    <View style={styles.ratingContainer}>
+                        <Text style={styles.titleTextModalInfo}>User rate:</Text>
+                        <AppStarRating
+                                initialRating={gameListInfo?.rating || 0}
+                                rating={gameListInfo?.rating || 0}
+                                onChange={() => {}}
+                                maxStars={5}
+                                starSize={20}
+                                color={colors.buttonBlue}
+                                emptyColor={colors.grayOpacity}
+                                interactive={false}
+                                style={styles.starsRatingStatic}
+                        />
+                    </View>
+                )}
                 <Text style={styles.titleTextModalInfo}>Console Played:</Text>
                 <Text style={styles.textModalInfo}>{gameListInfo?.consoleName}</Text>
                 <Text style={styles.titleTextModalInfo}>Note:</Text>
@@ -395,5 +411,14 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: colors.grayOpacity,
         padding: 5,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    starsRatingStatic: {
+        alignSelf: 'center',
     },
 });

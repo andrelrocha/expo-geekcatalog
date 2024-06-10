@@ -7,4 +7,5 @@ export default interface GameListReturnDTO {
     consoleId: string;
     consoleName: string;
     note: string;
+    rating: number;
 }

@@ -24,6 +24,7 @@ export const getGameListById = async (id: string) => {
                         consoleId: response.data.consoleId,
                         consoleName: response.data.consoleName,
                         note: response.data.note,
+                        rating: response.data.rating
                     };
 
                     return gameList;
