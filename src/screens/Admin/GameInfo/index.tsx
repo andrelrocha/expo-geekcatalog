@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
 import { InfoIcon } from "lucide-react-native";
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Box, Button, ButtonTouchable, Heading,  MultiSelect, InputText, ButtonAddImage, TextWarning, ImageTouchable, ImageSelectionModal } from "../../../components";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
@@ -91,9 +91,28 @@ export default function GameInfo({ navigation, route }: Props) {
     }
 
     const handleDelete = async () => {
+
         await deleteGameMethod(gameId);
         navigation.goBack();
     }
+
+    const handleDeletePress = () => {
+        Alert.alert(
+        'Confirmation',
+        'Are you sure you want to delete this item? This action cannot be undone.',
+        [
+            {
+            text: 'Cancel',
+            style: 'cancel',
+            },
+            {
+            text: 'OK',
+            onPress: () => handleDelete(),
+            },
+        ],
+        { cancelable: false }
+        );
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -247,7 +266,7 @@ export default function GameInfo({ navigation, route }: Props) {
                     >Save</Button>
                     
                     <Button isLoading={isLoading} mt={10} backgroundColor={colors.redMid} textColor={colors.black}
-                        onPress={handleDelete}
+                        onPress={handleDeletePress}
                     >Delete</Button>
                     </>
                 )}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { styles } from "../styles";
 import { useAuth } from "../../../context/hooks";
 import useUserInfo from "../../../context/hooks/user/useUserInfo";
@@ -33,7 +33,7 @@ type FormData = {
 }
 
 export default function UserInfo({ navigation }: NativeStackScreenProps<ParamListBase>) {
-    const { currentUser, update, isLoading } = useAuth();
+    const { currentUser, update, deleteUserAccount, isLoading } = useAuth();
     const {
         control,
         formState: { isValid },
@@ -75,6 +75,24 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
         await update(userData);
         setEditEnabled(false);
     }
+
+    const handleDeletePress = () => {
+        Alert.alert(
+        'Confirmation',
+        'Are you sure you want to delete your account? This action cannot be undone and you will lose all your data',
+        [
+            {
+            text: 'Cancel',
+            style: 'cancel',
+            },
+            {
+            text: 'OK',
+            onPress: () => deleteUserAccount(),
+            },
+        ],
+        { cancelable: false }
+        );
+    };
 
     useEffect(() => {
         if (currentUser) {
@@ -156,15 +174,22 @@ export default function UserInfo({ navigation }: NativeStackScreenProps<ParamLis
                 </Box>
 
                 {editEnabled && (
+                    <>
                     <Button isLoading={isLoading} mt={20} backgroundColor={colors.buttonBlue} textColor={colors.black}
                         onPress={handleSubmit(async () => {
                             handleEdit(control as unknown as Control<FormData>)
-                        })}
-                        disabled={!isValid}
-                    >Save</Button>
+                            })}
+                            disabled={!isValid}
+                            >Save</Button>
+                    
+                    <Button isLoading={isLoading} mt={10} backgroundColor={colors.redMid} textColor={colors.black}
+                        onPress={handleDeletePress}
+                    >Delete</Button>
+                    </>
+
                 )}
 
-                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
+                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={colors.sage} textColor={colors.black} 
                     onPress={() => {
                         setEditEnabled(!editEnabled)
                         setFields()

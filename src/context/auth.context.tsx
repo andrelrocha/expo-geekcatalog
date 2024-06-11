@@ -11,6 +11,7 @@ import { UserCreate } from "../types/user/userCreateDTO";
 import { saveProfilePic } from "../services/user/saveProfilePic";
 import { UserUpdate } from "../types/user/userUpdateDTO";
 import { updateUserInfo } from "../services/user/update";
+import { deleteUser } from "../services/user/delete";
 
 type AuthContextData = {
     authState: {
@@ -23,6 +24,7 @@ type AuthContextData = {
     signUp: (credentials: UserCreate, navigate: () => void) => any;
     logout: () => any;
     update: (user: UserUpdate) => any;
+    deleteUserAccount: () => any;
 };
 
 type AuthProviderProps = {
@@ -40,6 +42,7 @@ const AuthContext = createContext<AuthContextData>({
     signUp: async () => {},
     logout: async () => {},
     update: async () => {},
+    deleteUserAccount: async () => {},
 });
 
 export const AuthProvider = (props: AuthProviderProps) => {
@@ -188,6 +191,24 @@ export const AuthProvider = (props: AuthProviderProps) => {
         }
       }
     };
+
+    const deleteUserAccount = async () => {
+      setIsLoading(true);
+      try {
+        await deleteUser({ userId: currentUser?.id as string });
+        await logout();
+        Alert.alert('Success', 'User deleted successfully!');
+      } catch (error: any) {
+        console.error("Error deleting user:", error);
+        if (error.response?.data) {
+          Alert.alert('Error', 'An error occurred while deleting your account: ' + error.response?.data || 'Unknown error');
+        } else {
+          Alert.alert('Error', 'An error occurred while deleting your account: ' + error || 'Unknown error');
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
   
     const logout = async () => {
         setAuthState({
@@ -207,6 +228,7 @@ export const AuthProvider = (props: AuthProviderProps) => {
         signUp,
         logout,
         update,
+        deleteUserAccount,
     };
 
     return (

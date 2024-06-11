@@ -105,7 +105,7 @@ const CreateListGame = ({ navigation }: NativeStackScreenProps<ParamListBase>) =
         <Button
           isDisabled={!isValid}
           isLoading={isLoading}
-          mt={5}
+          mt={10}
           marginBottom={40}
           backgroundColor={colors.greenStrong}
           w={250}
