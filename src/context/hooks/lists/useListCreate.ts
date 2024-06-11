@@ -15,8 +15,8 @@ export default function useListCreate() {
     
     const createListMethod = async (data: ListCreateDTO, navigate: () => void, games: string[]) => {
         if (currentUser) {
-            setIsLoading(true);
             try {
+                setIsLoading(true);
                 const listResponse = await createListGame(data);
 
                 if (listResponse?.id && games.length > 0) {
@@ -27,13 +27,13 @@ export default function useListCreate() {
                     });
                 }
 
-                setIsLoading(false);
                 Alert.alert(`List ${listResponse?.name} created successfully!`);
                 navigate();
             } catch (error: any) {
                 console.error('Error fetching games:', error);
-                setIsLoading(false);
                 Alert.alert('Error creating list!', error.response?.data || 'An error occurred while creating the list.');
+            } finally{
+                setIsLoading(false);
             }
         }
     }

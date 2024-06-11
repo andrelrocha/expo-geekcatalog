@@ -52,31 +52,34 @@ export default function useGamesCreate() {
     }
 
     const createGameMethod: (gameData: GameCreate, navigate: () => void) => Promise<void> = async (gameData, navigate) => {
-        setIsLoading(true);
-        
-        const game = await createGame(gameData);
-
-        if (game?.id) {
-            if (gameData.consoles) {
-                await handleGameConsoleCreate(game.id, gameData.consoles);
-            }
-            if (gameData.genres) {
-                await handleGameGenreCreate(game.id, gameData.genres);
-            }
-            if (gameData.studios) {
-                await handleGameStudioCreate(game.id, gameData.studios);
-            }
-            if (gameData.uri) {
-                await uploadImageGame({ uri: gameData.uri, gameId: game.id });
-            }
+        try {
+            setIsLoading(true);
             
+            const game = await createGame(gameData);
+    
+            if (game?.id) {
+                if (gameData.consoles) {
+                    await handleGameConsoleCreate(game.id, gameData.consoles);
+                }
+                if (gameData.genres) {
+                    await handleGameGenreCreate(game.id, gameData.genres);
+                }
+                if (gameData.studios) {
+                    await handleGameStudioCreate(game.id, gameData.studios);
+                }
+                if (gameData.uri) {
+                    await uploadImageGame({ uri: gameData.uri, gameId: game.id });
+                }
+                
+                Alert.alert('Game created successfully!');
+                navigate();
+            }
+        } catch (error: any) {
+            Alert.alert('Failed to create game: ', error.response?.data || 'An error occurred while creating the game. Please try again.');
+            throw error;
+        } finally {
             setIsLoading(false);
-            Alert.alert('Game created successfully!');
-            navigate();
-        } else {
-            setIsLoading(false);
-            Alert.alert('Failed to create game!');
-        };
+        }
     }
 
     const { dropdownData: consolesData } = useConsolesDropdown();

@@ -29,7 +29,7 @@ export default function ListGameById({ navigation, route }: Props) {
             <View style={styles.modalContainer}> 
                 <Heading textAlign="left" mb={10} fs={20}>{(gameInfo?.name || 'Game') + ":"}</Heading>
                 <AppStarRating
-                    initialRating={userRating}
+                    initialRating={userRating || 0}
                     maxStars={5}
                     starSize={40}
                     color={colors.buttonBlue}
