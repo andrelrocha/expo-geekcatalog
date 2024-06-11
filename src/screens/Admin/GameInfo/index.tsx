@@ -51,7 +51,7 @@ export default function GameInfo({ navigation, route }: Props) {
     
     const { consolesData, genresData, studiosData, editEnabled, setEditEnabled, loadGameInfoData, setValueSelectedConsole, valueSelectedConsole,
         setValueSelectedGenre, valueSelectedGenre, setValueSelectedStudio, valueSelectedStudio, update, isLoading, uri, setUri, modalPicVisible,
-        setModalPicVisible, handleUserPicture } = useGamesManage();
+        setModalPicVisible, handleUserPicture, deleteGameMethod } = useGamesManage();
 
     const setFields = (data: GameFullInfoAdminDTO) => {
         if (gameId) {
@@ -88,6 +88,11 @@ export default function GameInfo({ navigation, route }: Props) {
         
         await update(gameData, uri, navigation.goBack);
         setEditEnabled(false);
+    }
+
+    const handleDelete = async () => {
+        await deleteGameMethod(gameId);
+        navigation.goBack();
     }
 
     useEffect(() => {
@@ -233,15 +238,21 @@ export default function GameInfo({ navigation, route }: Props) {
                 </Box>
 
                 {editEnabled && (
+                    <>
                     <Button isLoading={isLoading} mt={20} backgroundColor={colors.buttonBlue} textColor={colors.black}
                         onPress={handleSubmit(async () => {
                             handleEdit(control as unknown as Control<FormData>)
-                        })}
+                            })}
                         disabled={!isValid}
                     >Save</Button>
+                    
+                    <Button isLoading={isLoading} mt={10} backgroundColor={colors.redMid} textColor={colors.black}
+                        onPress={handleDelete}
+                    >Delete</Button>
+                    </>
                 )}
 
-                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={editEnabled ? colors.redMid : colors.sage} textColor={colors.black} 
+                <ButtonTouchable w={200} mt={editEnabled ? 10 : 20} backgroundColor={colors.sage} textColor={colors.black} 
                     onPress={() => setEditEnabled(!editEnabled)}
                 >{editEnabled ? "Cancel" : "Edit game info"}</ButtonTouchable>       
             </PageDefault>

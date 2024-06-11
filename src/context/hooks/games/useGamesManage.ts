@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Alert } from "react-native";
 import useConsolesDropdown from "../consoles/useConsolesDropdown";
 import useGenresDropdown from "../genres/useGenresDropdown";
 import useStudiosDropdown from "../studios/useStudiosDropdown";
 import { listAllGameInfoByGameIDAdmin } from "../../../services/games/listAllInfoAdminById";
 import useAuth from "../use-auth.hook";
-import GameFullInfoAdminDTO from "../../../types/games/gameFullInfoAdminDTO";
 import { updateGame } from "../../../services/games/update";
-import { Alert } from "react-native";
+import { deleteGame } from "../../../services/games/delete";
 import { handleImageSelection } from "../../../services/image/getImageUserExpoManipulator";
 import { uploadImageGame } from "../../../services/imageGame/upload";
 import UpdateGameFullInfoAdminDTO from "../../../types/games/updateGameFullInfoAdminDTO";
@@ -70,6 +70,18 @@ export default function useGamesManage() {
         }
     }
 
+    const deleteGameMethod = async (gameId: string) => {
+        try {
+            setIsLoading(true);
+            await deleteGame({gameId});
+            Alert.alert('Game deleted successfully!');
+        } catch (error: any) {
+            Alert.alert('Failed to delete game: ', error.response?.data || 'An error occurred while deleting the game. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const handleUserPicture = async (mode: "gallery" | "camera" | undefined) => {
         const uri = await handleImageSelection({ mode: mode });
         setUri(uri as string);
@@ -91,6 +103,7 @@ export default function useGamesManage() {
         gameId,
         setGameId,
         update,
+        deleteGameMethod,
         isLoading,
         uri,
         setUri,
