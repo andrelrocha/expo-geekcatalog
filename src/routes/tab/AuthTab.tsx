@@ -4,9 +4,10 @@ import AdminStack from '../stack/AdminStack';
 import GamesStack from '../stack/GameStack';
 import UserStack from '../stack/UserStack';
 import ListsAppStack from '../stack/ListsAppStack';
-import { UserIcon, GameControllerIcon, ShieldIcon, ListIcon } from '../../components/icons';
+import { UserIcon, GameControllerIcon, ShieldIcon, ListIcon, SearchIcon } from '../../components/icons';
 import { colors } from '../../utils/colors';
 import { useAuth } from '../../context/hooks';
+import SearchStack from '../stack/SearchStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +35,23 @@ export default function AuthTab() {
           },
           tabBarActiveTintColor: colors.black,
         }}
+        />
+
+        <Tab.Screen
+          name="Search"
+          component={SearchStack}
+          options={{
+            tabBarIcon: ({focused, color, size}) => {
+              if (focused) {
+                color = colors.black;
+              } else {
+                color = colors.sage;
+              }
+              
+              return <SearchIcon color={color} size={26}/>;
+            },
+            tabBarActiveTintColor: colors.black,
+          }}
         />
         
         <Tab.Screen 

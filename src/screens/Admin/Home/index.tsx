@@ -12,7 +12,7 @@ export default function HomeAdmin({ navigation }: NativeStackScreenProps<ParamLi
             >Create a game</ButtonTouchable>
 
             <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
-                onPress={() => navigation.navigate('ListGamesAdmin')}
+                onPress={() => navigation.navigate('ListAllGamesAdmin')}
             >Manage games</ButtonTouchable>
 
             <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
