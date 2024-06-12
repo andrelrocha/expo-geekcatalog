@@ -23,7 +23,6 @@ export const updateGame = async (gameData: UpdateGameFullInfoAdminDTO) => {
     
             if (response.data) {
                 const data = response.data;
-                console.log('Game updated successfully:', data);
                 
                 const game: GameFullInfoAdminDTO = {
                     id: data.id,
