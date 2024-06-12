@@ -86,14 +86,13 @@ export default function GameInfo({ navigation, route }: Props) {
             consoles: newConsoles,
         }
         
-        await update(gameData, uri, navigation.goBack);
+        await update(gameData, uri, () => navigation.navigate('ListAllGamesAdmin', { shouldReload: true }));
         setEditEnabled(false);
     }
 
     const handleDelete = async () => {
-
         await deleteGameMethod(gameId);
-        navigation.goBack();
+        navigation.navigate('ListAllGamesAdmin', { shouldReload: true });
     }
 
     const handleDeletePress = () => {
@@ -251,7 +250,7 @@ export default function GameInfo({ navigation, route }: Props) {
     return (
         <>
             <PageDefault>
-                <Heading mb={10} mt={10}>Game Info</Heading>
+                <Heading mb={10} mt={10}>Game Info</Heading>   
                 <Box mt={20} >
                     {editEnabled ? renderInputsEditing() : renderInputsNotEditing()}
                 </Box>

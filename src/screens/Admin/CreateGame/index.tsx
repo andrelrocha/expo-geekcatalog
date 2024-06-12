@@ -74,7 +74,7 @@ const Create = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         uri: uri as string,
       };
 
-      await createGameMethod(gameData, () => navigation.goBack());
+      await createGameMethod(gameData, () => navigation.navigate('ListAllGamesAdmin'));
       reset();
   }
 

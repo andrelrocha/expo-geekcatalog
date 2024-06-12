@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import {  useState } from "react";
 import useAuth from "../use-auth.hook";
 //import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID"; -- multiple calls to the API on a promise nesting
 //import { listAllPublicListsByUserID } from "../../../services/listsApp/getPublic"; -- multiple calls to the API on a promise nesting

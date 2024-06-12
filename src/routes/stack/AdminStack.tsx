@@ -5,7 +5,7 @@ import HomeAdmin from '../../screens/Admin/Home';
 import CreateGame from '../../screens/Admin/CreateGame';
 import CreateStudio from '../../screens/Admin/CreateStudio';
 import GameInfo from '../../screens/Admin/GameInfo';
-import ListAllGamesAdmin from '../../screens/Admin/ListGamesAdmin';
+import ListAllGamesAdmin from '../../screens/Admin/ListAllGamesAdmin';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ export default function AdminStack() {
         <Stack.Screen name="Home" component={HomeAdmin} options={{ headerTitle: 'Home - Admin'}}/>
         <Stack.Screen name="CreateGame" component={CreateGame} options={{ headerTitle: 'Create Game'}}/>
         <Stack.Screen name="CreateStudio" component={CreateStudio} options={{ headerTitle: 'Create Studio'}}/>
-        <Stack.Screen name="ListGamesAdmin" component={ListAllGamesAdmin} options={{ headerTitle: 'Games - Admin'}}/>
+        <Stack.Screen name="ListAllGamesAdmin" component={ListAllGamesAdmin} options={{ headerTitle: 'Games - Admin'}}/>
         <Stack.Screen name="GameInfo" component={GameInfo} options={{ headerTitle: 'Game Info'}}/>
     </MyStackNavigator>
   );
