@@ -147,13 +147,5 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
         await loadDataUserLists();
     }
 
-    useEffect(() => {
-        if (currentUser) {
-            loadDataUserLists();
-            loadDataPublicLists();
-            loadDataSharedLists();
-        }
-    }, [currentUser]);
-
     return {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList};
 }

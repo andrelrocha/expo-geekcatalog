@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ButtonTouchable, CustomListImage, TabView } from '../../../components';
 import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { colors } from "../../../utils/colors";
+import { useAuth } from "../../../context/hooks";
 
-export default function ListAllListsApp({ navigation }: NativeStackScreenProps<ParamListBase>) {
+type ListAllListsAppParams = {
+    shouldReload?: boolean;
+};
+
+type Props = NativeStackScreenProps<ParamListBase, 'ListAllListsApp'>;
+
+export default function ListAllListsApp({ navigation, route }: Props) {
+    const { shouldReload = false } = (route.params || {}) as ListAllListsAppParams;
+    const { currentUser } = useAuth();
     const [currentPage, setCurrentPage] = useState(0);
     const {userLists, publicLists, sharedLists, isLoading, paginationInfo, 
         loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList} = useListsListAllWithImage({page: currentPage});
+
+    useEffect(() => {
+        if (currentUser) {
+            loadDataUserLists();
+            loadDataPublicLists();
+            loadDataSharedLists();
+        }
+    }, [currentUser]);
+
+    useEffect(() => {
+        if (shouldReload) {
+            loadDataUserLists();
+            loadDataPublicLists();
+            navigation.setParams({ shouldReload: false });
+        }
+    }, [shouldReload]);
 
     const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
         return (
@@ -29,7 +54,7 @@ export default function ListAllListsApp({ navigation }: NativeStackScreenProps<P
                     navigate={(id, name) => navigation.navigate('ListGamesList', {listId: id, listName: name})}
                 />
             </View>
-        );
+        );  
     };
 
     const MyLists = () => (

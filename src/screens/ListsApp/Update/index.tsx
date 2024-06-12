@@ -79,7 +79,7 @@ export default function UpdateListGame({ navigation, route }: Props) {
         visibility,
       };
 
-      await updateListMethod(listData, () => navigation.goBack(), listId);
+      await updateListMethod(listData, () => navigation.navigate('ListAllListsApp', { shouldReload: true }), listId);
       reset();
   }
 
