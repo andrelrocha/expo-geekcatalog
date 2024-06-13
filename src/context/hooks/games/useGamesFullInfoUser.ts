@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import { addGameRating } from "../../../services/gameRating/add";
 import { getUserRatingByGame } from "../../../services/gameRating/getByUserAndGame";
 import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
-import { Alert } from "react-native";
 
 export const useGamesFullInfoUser = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -68,5 +68,6 @@ export const useGamesFullInfoUser = () => {
     }, [modalRatingVisible, gameInfo]);
 
 
-    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating };
+    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible,
+        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating };
 }

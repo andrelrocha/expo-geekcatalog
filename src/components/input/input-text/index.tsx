@@ -24,6 +24,7 @@ type InputTextProps<T extends FieldValues> = {
     placeholder?: string; 
     rules?: ComponentProps<typeof Controller<T>>["rules"]; // Regras de validação para o campo de entrada.
     visibleValidation?: boolean; // Indica se a validação deve ser exibida visualmente.
+    staticIcon?: boolean;
     bColorFocus?: string;
     editable?: boolean;
     numberOfLines?: number;
@@ -42,6 +43,7 @@ const InputText = <T extends FieldValues>({
   placeholder,
   rules,
   visibleValidation,
+  staticIcon,
   editable,
   numberOfLines = 1,
   maxLength,
@@ -57,7 +59,7 @@ const InputText = <T extends FieldValues>({
   const handleInputIcon = (isValid: boolean, isInvalid: boolean) => {
     if (icon === 0) return null;
     
-    if (icon && !isValid && !isInvalid) {
+    if (icon && !isValid && !isInvalid || icon && staticIcon) {
       return (
         <InputSlot>
           <InputIcon as={icon} />

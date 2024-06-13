@@ -43,6 +43,7 @@ export default function ListAllGamesAdmin({ navigation, route }: Props) {
                 isLoading={isLoading}
                 title={'List of Games'}
                 itemTitle="name"
+                headerShown={true}
                 decelerationRate="fast"
                 totalPages={paginationInfo.totalPages}
                 currentPage={currentPageUser}

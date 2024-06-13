@@ -23,12 +23,14 @@ type SectionListProps = {
     totalPages?: number;
     currentPage?: number;
     onPageChange?: (page: number) => void;
+    headerShown?: boolean;
     mt?: number;
     mb?: number;
     fs?: number;
     color?: string;
     textAlign?: string;
     w?: number;
+    itemStyle?: ViewStyle;
     onRefresh?: () => void;
     modalComponent?: boolean;
     modalContentService?: (key: string) => Promise<any>;
@@ -80,7 +82,7 @@ export default function List (props: SectionListProps) {
     const defaultRenderItem = ({ item }: { item: any }) => {
         return (
             <TouchableOpacity 
-                style={styles.itemContainer}
+                style={[styles.itemContainer, props.itemStyle]}
                 onPress={() => props.modalComponent && openModal(item) || props.navigate && props.navigate(item.id)}     
             >
                 <Text style={styles.itemTitle}>{item[props.itemTitle]}</Text>
@@ -187,7 +189,7 @@ export default function List (props: SectionListProps) {
                         renderItem={defaultRenderItem}
                         keyExtractor={(item: any) => item.id.toString()}
                         renderSectionHeader={() => null}
-                        ListHeaderComponent={renderHeader}
+                        ListHeaderComponent={props.headerShown ? renderHeader : null}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={props.decelerationRate}
@@ -205,7 +207,7 @@ export default function List (props: SectionListProps) {
                         renderItem={gridRenderItem}
                         keyExtractor={(item: any) => item.id.toString()}
                         numColumns={2}
-                        ListHeaderComponent={renderHeader}
+                        ListHeaderComponent={props.headerShown ? renderHeader : null}
                         showsVerticalScrollIndicator={false}
                         showsHorizontalScrollIndicator={false}
                         decelerationRate={props.decelerationRate}

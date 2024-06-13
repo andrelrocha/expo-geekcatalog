@@ -3,7 +3,6 @@ import { ViewStyle } from "react-native";
 import { ButtonSpinner, ButtonText, Button as ThemedButton } from "@gluestack-ui/themed"
 import { buttonStyles, textStyles } from "../styles";
 import StyledButton from "../button-styled";
-import TextWarning from "../../text/text-warning";
 
 type ButtonProps = {
   children: ReactNode

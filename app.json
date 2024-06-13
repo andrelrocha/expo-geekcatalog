@@ -2,7 +2,7 @@
   "expo": {
     "name": "geekcatalog",
     "slug": "geekcatalog",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "default",
     "icon": "./assets/controller-xbox.png",
     "userInterfaceStyle": "light",
