@@ -1,4 +1,5 @@
 import {  useState } from "react";
+import { Alert } from "react-native";
 import useAuth from "../use-auth.hook";
 //import { listAllListsAppByUserID } from "../../../services/listsApp/getAllByUserID"; -- multiple calls to the API on a promise nesting
 //import { listAllPublicListsByUserID } from "../../../services/listsApp/getPublic"; -- multiple calls to the API on a promise nesting
@@ -9,7 +10,7 @@ import { sharedListsAppByUserID } from "../../../services/listsApp/getSharedFull
 import { deleteListGame } from "../../../services/listsApp/delete";
 import ListCountReturn from "../../../types/listsApp/ListReturnDTO";
 import ListReturn from "../../../types/listsApp/ListReturnDTO";
-import { Alert } from "react-native";
+import PaginationInfo from "../../../types/utils/paginationInfo";
 
 type UseListsListAllWithImageIDProps = {
     size?: number;
@@ -17,19 +18,24 @@ type UseListsListAllWithImageIDProps = {
     sort?: string;  
 }
 
-type PaginationInfo = {
-    totalPages: number;
-    currentPage: number;
-    totalElements: number;
-    pageSize: number;
-}
-
 export default function useListsListAllWithImage(props: UseListsListAllWithImageIDProps){
     const [userLists, setUserLists] = useState<ListReturn[]>([]);
     const [publicLists, setPublicLists] = useState<ListCountReturn[]>([]);
     const [sharedLists, setSharedLists] = useState<ListCountReturn[]>([]); 
     const [isLoading, setIsLoading] = useState(false);
-    const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>({
+    const [paginationUserListInfo, setPaginationUserListInfo] = useState<PaginationInfo>({
+        totalPages: 0,
+        currentPage: 0,
+        totalElements: 0,
+        pageSize: 0
+    });
+    const [paginationPublicListInfo, setPaginationPublicListInfo] = useState<PaginationInfo>({
+        totalPages: 0,
+        currentPage: 0,
+        totalElements: 0,
+        pageSize: 0
+    });
+    const [paginationSharedListInfo, setPaginationSharedListInfo] = useState<PaginationInfo>({
         totalPages: 0,
         currentPage: 0,
         totalElements: 0,
@@ -72,7 +78,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                 const {lists, pageable, totalElements, totalPages} = await allListsAppByUserID(params);
                 setUserLists(lists);
                 
-                setPaginationInfo({
+                setPaginationUserListInfo({
                     currentPage: pageable.pageNumber,
                     pageSize: pageable.pageSize,
                     totalPages: totalPages,
@@ -100,7 +106,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
 
                 const {lists, pageable, totalElements, totalPages} = await publicListsAppByUserID(params);
                 setPublicLists(lists);
-                setPaginationInfo({
+                setPaginationPublicListInfo({
                     currentPage: pageable.pageNumber,
                     pageSize: pageable.pageSize,
                     totalPages: totalPages,
@@ -128,7 +134,7 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
 
                 const {lists, pageable, totalElements, totalPages} = await sharedListsAppByUserID(params);
                 setSharedLists(lists);
-                setPaginationInfo({
+                setPaginationSharedListInfo({
                     currentPage: pageable.pageNumber,
                     pageSize: pageable.pageSize,
                     totalPages: totalPages,
@@ -147,5 +153,5 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
         await loadDataUserLists();
     }
 
-    return {userLists, publicLists, sharedLists, isLoading, paginationInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList};
+    return {userLists, publicLists, sharedLists, isLoading, paginationPublicListInfo, paginationSharedListInfo, paginationUserListInfo, loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList};
 }

@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { ButtonTouchable, CustomListImage, TabView } from '../../../components';
-import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ParamListBase } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
+import PaginationInfo from "../../../types/utils/paginationInfo";
+import { ButtonTouchable, CustomListImage, TabView } from '../../../components';
+import useListsListAllWithImage from "../../../context/hooks/lists/useListsListAllWithImage";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
 
 type ListAllListsAppParams = {
     shouldReload?: boolean;
+};
+
+type RenderListProps = {
+    lists: any;
+    loadData: () => void;
+    rightOptions?: boolean;
+    paginationInfo: PaginationInfo;
+    buttonBottom: boolean;
 };
 
 type Props = NativeStackScreenProps<ParamListBase, 'ListAllListsApp'>;
@@ -17,7 +26,7 @@ export default function ListAllListsApp({ navigation, route }: Props) {
     const { shouldReload = false } = (route.params || {}) as ListAllListsAppParams;
     const { currentUser } = useAuth();
     const [currentPage, setCurrentPage] = useState(0);
-    const {userLists, publicLists, sharedLists, isLoading, paginationInfo, 
+    const {userLists, publicLists, sharedLists, isLoading, paginationPublicListInfo, paginationSharedListInfo, paginationUserListInfo, 
         loadDataUserLists, loadDataPublicLists, loadDataSharedLists, deleteList} = useListsListAllWithImage({page: currentPage});
 
     useEffect(() => {
@@ -36,9 +45,11 @@ export default function ListAllListsApp({ navigation, route }: Props) {
         }
     }, [shouldReload]);
 
-    const renderLists = (lists: any, loadData: () => void, rightOptions: boolean = false) => {
+    const renderLists = ({lists, loadData, rightOptions, paginationInfo, buttonBottom}: RenderListProps) => {
+
+
         return (
-            <View style={styles.listContainer}>
+            <View style={[styles.listContainer, buttonBottom && {paddingBottom: 60}]}>
                 <CustomListImage
                     title="games"
                     data={lists}
@@ -47,6 +58,8 @@ export default function ListAllListsApp({ navigation, route }: Props) {
                     onRefresh={() => loadData()}
                     currentPage={currentPage}
                     totalPages={paginationInfo?.totalPages}
+                    renderFooter={true}
+                    decelerationRate="fast"
                     onPageChange={(page) => setCurrentPage(page)}
                     onDelete={(list) => deleteList(list)}
                     onUpdate={(list) => navigation.navigate('UpdateListGame', {listId: list})}
@@ -57,9 +70,17 @@ export default function ListAllListsApp({ navigation, route }: Props) {
         );  
     };
 
-    const MyLists = () => (
+    const MyLists = () => {
+        const props = {
+            lists: userLists,
+            loadData: loadDataUserLists,
+            rightOptions: true,
+            paginationInfo: paginationUserListInfo,
+            buttonBottom: true
+        }
+        return (
         <>
-            {renderLists(userLists, loadDataUserLists, true)}
+            {renderLists(props)}
             <View style={styles.buttonWrapper}>    
                 <ButtonTouchable
                     w={350}
@@ -72,15 +93,31 @@ export default function ListAllListsApp({ navigation, route }: Props) {
                 </ButtonTouchable>
             </View>
         </>
-    );
+    );}
       
-    const SharedLists = () => (
-        renderLists(sharedLists, loadDataSharedLists)
-    );
+    const SharedLists = () => {
+        const props = {
+            lists: sharedLists,
+            loadData: loadDataSharedLists,
+            rightOptions: false,
+            paginationInfo: paginationSharedListInfo,
+            buttonBottom: false
+        }
+        return (
+        renderLists(props)
+    )};
     
-    const PublicLists = () => (
-        renderLists(publicLists, loadDataPublicLists)
-    );
+    const PublicLists = () => {
+        const props = {
+            lists: publicLists,
+            loadData: loadDataPublicLists,
+            rightOptions: false,
+            paginationInfo: paginationPublicListInfo,
+            buttonBottom: false
+        }
+        return (
+        renderLists(props)
+    )};
 
     const scenes = {
         first: MyLists,
@@ -107,7 +144,7 @@ const styles = StyleSheet.create({
     listContainer: {
         flex: 1,
         width: '100%',
-        paddingBottom: 60,
+        paddingBottom: 0,
     },
     buttonWrapper: {
         position: 'absolute',

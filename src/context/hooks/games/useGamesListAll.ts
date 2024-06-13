@@ -2,18 +2,12 @@ import { useEffect, useState } from "react";
 import useAuth from "../use-auth.hook";
 import { listAllImageGames } from "../../../services/imageGame/getAllPageable";
 import ImageUriList from "../../../types/image/ImageUriListDTO";
+import PaginationInfo from "../../../types/utils/paginationInfo";
 
 type UseGamesListAllProps = {
     size?: number;
     page?: number;
     sort?: string;  
-}
-
-type PaginationInfo = {
-    totalPages: number;
-    currentPage: number;
-    totalElements: number;
-    pageSize: number;
 }
 
 const useGamesListAll = (props: UseGamesListAllProps) => {

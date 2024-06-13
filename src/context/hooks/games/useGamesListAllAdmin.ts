@@ -3,18 +3,12 @@ import { listAllGames } from "../../../services/games/listAll";
 import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
+import PaginationInfo from "../../../types/utils/paginationInfo";
 
 type UseGamesListAllProps = {
     size?: number;
     page?: number;
     sort?: string;  
-}
-
-type PaginationInfo = {
-    totalPages: number;
-    currentPage: number;
-    totalElements: number;
-    pageSize: number;
 }
 
 export default function useGamesListAll(props: UseGamesListAllProps){

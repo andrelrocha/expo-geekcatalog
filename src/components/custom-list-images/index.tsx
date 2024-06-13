@@ -7,6 +7,7 @@
     import { useCallback, useState } from "react";
     import ImageTouchable from "../image/image-touchable";
     import { SquarePenIcon, TrashIcon } from "../icons";
+import PaginationButtons from "../pagination-buttons";
 
     type CustomListProps = {
         title: string;
@@ -14,6 +15,7 @@
         keyExtractor: (item: any) => string;
         isLoading: boolean;
         decelerationRate?: string;
+        renderFooter?: boolean;
         totalPages?: number;
         currentPage?: number;
         onPageChange?: (page: number) => void;
@@ -90,6 +92,16 @@
             );
         };
 
+        const renderFooter = () => {           
+            return (
+                <PaginationButtons 
+                    totalPages={props.totalPages as number} 
+                    currentPage={props.currentPage as number} 
+                    onPageChange={props.onPageChange as (page: number) => void}
+                />
+            );
+        };
+
         const renderListsView = (lists: ListCountReturn[]) => {
             return (
                 <>
@@ -129,7 +141,6 @@
             );
         }
         
-        
         return (
             <ScrollView 
                 contentInsetAdjustmentBehavior="automatic"
@@ -153,6 +164,13 @@
                         )
                     )}
                 </Box>
+
+                {props.renderFooter && (
+                    <Box alignItems="center">
+                        {renderFooter()}
+                    </Box>
+                )}
+
             </ScrollView>
         )
     }

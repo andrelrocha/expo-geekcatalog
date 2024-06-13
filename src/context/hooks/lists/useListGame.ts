@@ -14,19 +14,13 @@ import ImageUriList from "../../../types/image/ImageUriListDTO";
 import GameListDTO from "../../../types/gameList/GameListDTO";
 import GameListAddDTO from "../../../types/gameList/GameListAddDTO";
 import GameListReturnDTO from "../../../types/gameList/GameListReturnDTO";
+import PaginationInfo from "../../../types/utils/paginationInfo";
 
 type UseListGameProps = {
     size?: number;
     page?: number;
     sort?: string;  
     listId: string;
-}
-
-type PaginationInfo = {
-    totalPages: number;
-    currentPage: number;
-    totalElements: number;
-    pageSize: number;
 }
 
 type AlertOptions = {
