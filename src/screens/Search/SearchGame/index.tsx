@@ -1,9 +1,9 @@
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useForm } from "react-hook-form";
-import { StyleSheet, View, Keyboard } from "react-native";
+import { StyleSheet, View, Keyboard, Text } from "react-native";
 import { useEffect } from "react";
-import { InputText, Box, Heading, List } from "../../../components";
+import { InputText, Box, Heading, List, TextWarning } from "../../../components";
 import { SearchIcon } from "../../../components/icons";
 import useSearchGames from "../../../context/hooks/search/useSearchGames";
 import { colors } from "../../../utils/colors";
@@ -29,6 +29,7 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
 
     const handleSearch = async () => {
         await searchGames(debouncedValue);
+        Keyboard.dismiss();
     }
 
     const searchIcon = () => {
@@ -45,14 +46,34 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
         <View style={styles.container}>
             <Box>
                     <Heading textAlign="left" fs={28} mb={10}>Search</Heading>
-                    <InputText control={control} name="search" placeholder="Discover new games" icon={searchIcon} 
+                    <InputText control={control} name="search" placeholder="Discover new games" icon={searchIcon}
                         visibleValidation={false} staticIcon={true}/>
             </Box>
 
-            {games.length > 0 && (
-                <List title="Games" data={games} fields={["yearOfRelease"]} fieldsLabels={["Year of Release"]} itemTitle="name" 
-                    keyExtractor={(item) => item.id} isLoading={isLoading} headerShown={false} decelerationRate="fast" itemStyle={styles.itemList}
-                    navigate={(gameId: string) => navigation.navigate('ListGameById', { gameId })}/>
+            {debouncedValue ? (
+                games.length > 0 ? (
+                    <List
+                        title="Games"
+                        data={games}
+                        fields={["yearOfRelease"]}
+                        fieldsLabels={["Year of Release"]}
+                        itemTitle="name"
+                        keyExtractor={(item) => item.id}
+                        isLoading={isLoading}
+                        headerShown={false}
+                        decelerationRate="fast"
+                        itemStyle={styles.itemList}
+                        navigate={(gameId: string) => navigation.navigate('ListGameById', { gameId })}
+                    />
+                ) : (
+                    <TextWarning>
+                        Game not found, please try again or contact us.
+                    </TextWarning>
+                )
+            ) : (
+                <Text style={styles.emptySearchText}>
+                    Please enter a search term to discover new games.
+                </Text>
             )}
 
         </View>
@@ -77,5 +98,11 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         alignSelf: 'center',
-    }
+    },
+    emptySearchText: {
+        marginTop: 20,
+        fontSize: 16,
+        color: colors.gray,
+        textAlign: 'center',
+    },
 });
