@@ -1,35 +1,34 @@
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Control, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { StyleSheet, View, Keyboard } from "react-native";
 import { useEffect } from "react";
-import { InputText, Box, Button, Heading, List } from "../../../components";
+import { InputText, Box, Heading, List } from "../../../components";
 import { SearchIcon } from "../../../components/icons";
 import useSearchGames from "../../../context/hooks/search/useSearchGames";
 import { colors } from "../../../utils/colors";
+import useDebounce from "../../../context/hooks/debounce/useDebounce";
 
 const DEFAULT_FORM_VALUES = {
     search: '',
 };
 
- type FormData = {
-    search: string
-}
-
 export default function SearchGame({ navigation }: NativeStackScreenProps<ParamListBase>) {
-    const { searchGames, isLoading, games } = useSearchGames();
     
     const {
         control,
-        formState: { isValid },
+        watch,
     } = useForm({
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"});
+            
+    const searchValue = watch("search");
+    const [ debouncedValue ] = useDebounce(searchValue, 500);
+    
+    const { searchGames, isLoading, games } = useSearchGames();
 
-    const handleSearch = async (control: Control<FormData>) => {
-        const { search } = control._formValues;
-        Keyboard.dismiss();
-        await searchGames(search);
+    const handleSearch = async () => {
+        await searchGames(debouncedValue);
     }
 
     const searchIcon = () => {
@@ -37,26 +36,18 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
     }
 
     useEffect(() => {
-        console.log(games)
-    }, [games])
+        if (debouncedValue) {
+            handleSearch();
+        }
+    }, [debouncedValue]);
 
     return (
         <View style={styles.container}>
             <Box>
                     <Heading textAlign="left" fs={28} mb={10}>Search</Heading>
                     <InputText control={control} name="search" placeholder="Discover new games" icon={searchIcon} 
-                        rules={{ required: true }} visibleValidation={false} staticIcon={true}/>
+                        visibleValidation={false} staticIcon={true}/>
             </Box>
-
-            <Button 
-                    isDisabled={!isValid}
-                    isLoading={isLoading}
-                    mt={10}
-                    onPress={() => {
-                        handleSearch(control as Control<FormData>)
-                    }}
-                >Search
-            </Button>
 
             {games.length > 0 && (
                 <List title="Games" data={games} fields={["yearOfRelease"]} fieldsLabels={["Year of Release"]} itemTitle="name" 
