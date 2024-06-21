@@ -46,9 +46,8 @@ export default function useGamesListAll(props: UseGamesListAllProps){
     }
 
     const loadData = async () => {
+        setIsLoading(true);
         try {
-            setIsLoading(true);
-            
             const paramsToApi = handleParams();
 
             const params ={
@@ -73,7 +72,7 @@ export default function useGamesListAll(props: UseGamesListAllProps){
     const loadGameInfoData = async (gameId: string) => {
         try {
             setIsLoading(true);
-            const gameInfo = await listAllGameInfoByGameIDUser({gameId, token: token as string});
+            const gameInfo = await listAllGameInfoByGameIDUser({gameId});
             setIsLoading(false);
             return gameInfo;
         } catch (error) {

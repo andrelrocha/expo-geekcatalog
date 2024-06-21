@@ -60,7 +60,8 @@
     "styled-components": "^6.1.8",
     "typescript": "^5.3.3",
     "validator": "^13.11.0",
-    "with-rn-image-crop-picker": "^0.2.0"
+    "with-rn-image-crop-picker": "^0.2.0",
+    "@expo/metro-runtime": "~3.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     emptySearchText: {
-        marginTop: 20,
+        marginTop: 5,
         fontSize: 16,
         color: colors.gray,
         textAlign: 'center',

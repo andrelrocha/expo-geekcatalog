@@ -41,7 +41,6 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         <Heading mb={20} mt={10}>Sign In</Heading>
 
         <Box> 
-
           <InputEmail
             control={control}
             name="email"
@@ -68,7 +67,7 @@ const Login = ({ navigation }: NativeStackScreenProps<ParamListBase>) => {
         >Login
         </Button>
 
-        <Box alignItems="center" flexDirection='row' gap={20} >
+        <Box alignItems="center" flexDirection='row' gap={20}>
           <ButtonTouchable
             onPress={() => navigation.navigate('NotAuthStack', { screen: 'SignUp' })}
             mt={4}

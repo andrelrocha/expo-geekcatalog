@@ -6,6 +6,7 @@ import { Box, ButtonTouchable, Heading, ImageTouchable, Text } from "../../../co
 import { getProfilePic } from "../../../services/user/getProfilePic";
 import PageDefault from "../../Default";
 import { colors } from "../../../utils/colors";
+import { getGameListGenresAndCount } from "../../../services/gameList/getGamesListGenres";
 
 export default function UserHome({ navigation }: NativeStackScreenProps<ParamListBase>) {
     const { currentUser, logout } = useAuth();
@@ -39,7 +40,11 @@ export default function UserHome({ navigation }: NativeStackScreenProps<ParamLis
                 <Text mt={0} fs={18} color={colors.buttonBlue}>{currentUser?.countryName}</Text>
             </Box>
 
-            <ButtonTouchable mt={30} backgroundColor={colors.sage} textColor={colors.black} 
+            <ButtonTouchable mt={30} backgroundColor={colors.buttonBlue} textColor={colors.black} 
+                onPress={() => navigation.navigate('UserAppData')}
+            >Access your app data</ButtonTouchable>
+
+            <ButtonTouchable mt={10} backgroundColor={colors.sage} textColor={colors.black} 
                 onPress={() => navigation.navigate('UserInfo')}
             >Access your info</ButtonTouchable>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import MyStackNavigator from './navigator';
+import UserAppData from '../../screens/User/AppData';
 import UserHome from '../../screens/User/UserHome';
 import UserInfo from '../../screens/User/UserInfo';
 
@@ -13,6 +14,9 @@ export default function UserStack() {
         headerTitle: 'User Info',
         headerLeft: () => null,
         gestureEnabled: false,
+      }}/>
+      <Stack.Screen name="UserAppData" component={UserAppData} options={{
+        headerTitle: 'User App Data',
       }}/>
       <Stack.Screen name="UserInfo" component={UserInfo} options={{ 
         headerTitle: 'User Info',
