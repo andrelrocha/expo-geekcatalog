@@ -19,14 +19,13 @@ export const searchByNameCompare = async ({ nameComparable }: Props) => {
         const response = await ApiManager.get(endpoint, { headers })
             .then(response => response)
             .catch(error => {
-                console.error(error.response.data);
                 throw error;
             });
 
         return response.data;
     } catch (error) {
-        console.error(error);
-        throw new Error('Error searching game by name');
+        console.error('Error searching game by name:', error);
+        throw error;
     }
 }
 

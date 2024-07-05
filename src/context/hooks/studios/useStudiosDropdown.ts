@@ -10,13 +10,13 @@ export default function useStudiosDropdown() {
       try {
         const data = await listAllStudios();
         setDropdownData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Error fetching game studios");
+      } catch (error: any) {
+        const errorMessage = error.response?.data || error.message || "Failed to create studio.";
+        Alert.alert('Error', 'An error occurred while creating a studio: ' + errorMessage);
       }
     };
     fetchData();
-  }, []);
+  }, []);   
 
     return { dropdownData, setDropdownData };
 }

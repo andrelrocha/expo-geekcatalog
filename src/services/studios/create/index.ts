@@ -14,7 +14,7 @@ export const createStudio = async (studioData: StudioCreate) => {
   try {
     const response = await ApiManager.post(endpoint, studioData, { headers })
       .then((response) => {
-        if (response.data) {
+        if (response.data) {   
 
           const studioReturn: StudioReturn = {
             id: response.data.id,
@@ -27,14 +27,11 @@ export const createStudio = async (studioData: StudioCreate) => {
         }
       })
       .catch((error) => {
-        console.log(error.response?.data);
-        console.error('Error while creating a studio:', error);
-        throw error.response?.data || error;
+        throw error;
       });
 
       return response;
   } catch (error: any) {
-    console.log(error);
     console.error('Error while creating a studio:', error);
     throw error;
   }

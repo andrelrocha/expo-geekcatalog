@@ -17,7 +17,6 @@ export const listAllStudios = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing game studios: ', error);
                 throw error;
             });
 
@@ -33,7 +32,7 @@ export const listAllStudios = async () => {
             });
             return studios;
         } else {
-            throw new Error('Error listing game studios: ' + response.status);
+            throw new Error('Error listing game studios: ' + response);
         }
     } catch (error) {
         console.error('Error listing studios:', error);

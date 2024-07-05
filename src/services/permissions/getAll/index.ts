@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import { getToken } from '../../../modules/auth.module';
 
@@ -19,7 +18,6 @@ export default async function listAllGamePermissions() {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing all permissions:', error);
                 throw error;
             });
 
@@ -43,6 +41,6 @@ export default async function listAllGamePermissions() {
         }
     } catch (error) {
         console.error('Error listing all permissions:', error);
-        Alert.alert('Error listing all permissions:' + (error as Error).message);
+        throw error;
     }
 }

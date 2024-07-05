@@ -13,10 +13,12 @@ export default function useStudiosCreate() {
         try {
             await createStudio(studioData);
             Alert.alert("Success", "Studio created successfully.");
-        } catch (error) {
-            Alert.alert("Error", "Error while creating a studio: "+error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to create studio.";
+            Alert.alert('Error', 'An error occurred while creating a studio: ' + errorMessage);
+        }  finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
         navigate();
     }
 
