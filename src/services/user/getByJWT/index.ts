@@ -13,9 +13,7 @@ export async function getUserByJWT(tokenJWT: string) {
                 return response.data;
             })
             .catch((error) => {
-                console.log(error)
-                console.error('Error fetching user:', error.response.data);
-                throw new Error('Error fetching user: ' + error.response.data);
+                throw error;
             });
 
             const phone = response.phone.replace(/\D/g, '');
@@ -35,7 +33,7 @@ export async function getUserByJWT(tokenJWT: string) {
 
         return user;
     } catch (error) {
-        console.error(error);
-        throw new Error('Error fetching user: ' + error);
+        console.error('Error while getting a user by its JWT:', error);
+        throw error;
     }
 }

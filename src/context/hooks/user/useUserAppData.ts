@@ -56,9 +56,9 @@ export default function useUserAppData(props: UseUserAppDataProps) {
                 totalPages: totalPages,
                 totalElements: totalElements
             });
-        } catch (error) {
-            console.error('Error fetching app data:', error);
-            Alert.alert('Error', 'Error fetching app usage data');
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to get genres count";
+            Alert.alert('Error', 'An error occurred while getting genres count: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

@@ -19,8 +19,7 @@ export async function updateUserInfo(userData: UserUpdate) {
                 return response.data;
             })
             .catch((error) => {
-                console.error('Error updating user:', error.response.data);
-                throw new Error('Error updating user: ' + error.response.data);
+                throw error;
             });
 
         const phone = response.phone.replace(/\D/g, '');
@@ -40,7 +39,7 @@ export async function updateUserInfo(userData: UserUpdate) {
 
         return user;
     } catch (error) {
-        console.error("Caught error:", error);
-        throw new Error('Error updating user: ' + error);
+        console.error("Caught error while updating a user:", error);
+        throw error;
     }
 }

@@ -32,7 +32,6 @@ export const getGameListGenresAndCount = async (props: HandleListAllGamesProps) 
                     count: genre.count,
                 };
             });
-            console.log('Genres:', genres);
             return { genres, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
             throw new Error('Error getting game list genres and count: ' + response.status);

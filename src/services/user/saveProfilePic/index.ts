@@ -28,22 +28,16 @@ export const saveProfilePic = async (props: HandleSaveProfilePicProps) => {
             .then((response) => {
                 if (response.data.id === props.userId) {
                     console.log('Image saved successfully');
-                } else {
-                    throw new Error('Error saving profile image');
-                }
+                } 
             })
             .catch((error) => {
-                if (error.response) {
-                    console.log('Error saving profile image: ', error.response.data);
-                } else {
-                    console.log('Error saving profile image: ', error);
-                }
+                throw error;
             });
 
         return response;
     }
     catch (error) {
         console.log('Error in the process of saving the profile image: ', error);
-        return;
+        throw error;
     }
 };

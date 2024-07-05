@@ -6,7 +6,7 @@ export default function useUserCreation() {
   const [uri, setUri] = useState("");
   const [modalPicVisible, setModalPicVisible] = useState(false);
   const [isPasswordClicked, setIsPasswordClicked] = useState(false);
-  const [showTerms, setShowTerms] = useState(false)
+  const [showTerms, setShowTerms] = useState(false)  
   const [isAccepted, setIsAccepted] = useState('')
 
   const handleProfilePicture = async (mode: "gallery" | "camera" | undefined) => {

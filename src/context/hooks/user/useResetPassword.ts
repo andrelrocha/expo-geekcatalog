@@ -19,9 +19,9 @@ export default function useResetPassword() {
             setIsSuccess(true);
             Alert.alert('Success', 'Password reset successfully');
             navigate();
-        } catch (error) {
-            console.error(error);
-            Alert.alert('Error', 'Error resetting password');
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to reset password";
+            Alert.alert('Error', 'An error occurred while resetting password: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

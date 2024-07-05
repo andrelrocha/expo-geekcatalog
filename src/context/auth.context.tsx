@@ -6,7 +6,7 @@ import { UserLogin } from '../types/user/userLoginDTO';
 import { getUserByJWT } from "../services/user/getByJWT";
 import { verifyJWT } from "../services/user/verifyJWT";
 import { UserReturn } from "../types/user/userReturnDTO";
-import { getToken, removeToken, setToken } from "../modules/auth.module";
+import { getToken, removeToken, setToken } from "../modules/auth.module";  
 import { UserCreate } from "../types/user/userCreateDTO";
 import { saveProfilePic } from "../services/user/saveProfilePic";
 import { UserUpdate } from "../types/user/userUpdateDTO";
@@ -72,8 +72,14 @@ export const AuthProvider = (props: AuthProviderProps) => {
                 }); 
 
                 if (currentUser == undefined) {
-                  const user = await getUserByJWT(token);
-                  setCurrentUser(user);
+                  try {
+                    const user = await getUserByJWT(token);
+                    setCurrentUser(user);
+                  } catch (error: any) {
+                    const errorMessage = error.response?.data || error.message || "Failed to get user by JWT";
+                    Alert.alert('Error', 'An error occurred while getting user by JWT: ' + errorMessage);
+                    await removeToken();
+                  }
                 }
             } else {
                 logout();
@@ -102,12 +108,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
 
           navigate();
         } catch (error: any) {
-          console.error("Error while logging in:", error);
-          if (error.response?.data) {
-            Alert.alert('Error', 'An error occurred while logging into your account: ' + error.response?.data || 'Unknown error');
-          } else {
-            Alert.alert('Error', 'An error occurred while logging into your account: ' + error || 'Unknown error');
-          }
+          const errorMessage = error.response?.data || error.message || "Failed to sign in user";
+          Alert.alert('Error', 'An error occurred while logging into your account: ' + errorMessage);
           await removeToken();
         } finally {
           setIsLoading(false);
@@ -142,7 +144,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
         await setToken(tokenJWT);
 
         if (credentials.uri) {
-          await saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
+          try {
+            await saveProfilePic({ uri: credentials.uri, userId: newUser?.id as string});
+          } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to save profile picture";
+            Alert.alert('Error', 'An error occurred while saving your profile picture: ' + errorMessage);
+          }
         }
         
         await loadStorageData();
@@ -151,12 +158,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         
         navigate();
       } catch (error: any) {
-        console.error("Error creating a new user:", error);
-        if (error.response?.data) {
-          Alert.alert('Error', 'An error occurred while creating your account: ' + error.response?.data || 'Unknown error');
-        } else {
-          Alert.alert('Error', 'An error occurred while creating your account: ' + error || 'Unknown error');
-        }
+        const errorMessage = error.response?.data || error.message || "Failed to sign up user";
+        Alert.alert('Error', 'An error occurred while creating your account: ' + errorMessage);
         await removeToken();
       } finally {
         setIsLoading(false);
@@ -174,7 +177,12 @@ export const AuthProvider = (props: AuthProviderProps) => {
         setCurrentUser(updatedUser);
 
         if (user.uri) {
-          await saveProfilePic({ uri: user.uri as string, userId: updatedUser?.id as string});
+          try {
+            await saveProfilePic({ uri: user.uri, userId: updatedUser?.id as string});
+          } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to save profile picture";
+            Alert.alert('Error', 'An error occurred while saving your profile picture: ' + errorMessage);
+          }
         }
 
         await loadStorageData();
@@ -183,12 +191,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         
         setIsLoading(false);
       } catch (error: any) {
-        console.error("Error updating user:", error);
-        if (error.response?.data) {
-          Alert.alert('Error', 'An error occurred while updating your account: ' + error.response?.data || 'Unknown error');
-        } else {
-          Alert.alert('Error', 'An error occurred while updating your account: ' + error || 'Unknown error');
-        }
+        const errorMessage = error.response?.data || error.message || "Failed to update user";
+        Alert.alert('Error', 'An error occurred while updating your account: ' + errorMessage);
       }
     };
 
@@ -199,12 +203,8 @@ export const AuthProvider = (props: AuthProviderProps) => {
         await logout();
         Alert.alert('Success', 'User deleted successfully!');
       } catch (error: any) {
-        console.error("Error deleting user:", error);
-        if (error.response?.data) {
-          Alert.alert('Error', 'An error occurred while deleting your account: ' + error.response?.data || 'Unknown error');
-        } else {
-          Alert.alert('Error', 'An error occurred while deleting your account: ' + error || 'Unknown error');
-        }
+        const errorMessage = error.response?.data || error.message || "Failed to delete user";
+        Alert.alert('Error', 'An error occurred while deleting your account: ' + errorMessage);
       } finally {
         setIsLoading(false);
       }

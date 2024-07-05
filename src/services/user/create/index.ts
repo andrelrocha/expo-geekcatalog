@@ -3,7 +3,7 @@ import { UserReturn } from '../../../types/user/userReturnDTO';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 
 export const createUser = async (userData: UserCreate) => {
-  const endpoint = '/user/create';
+  const endpoint = '/user/create';  
 
   try {
     const response = await ApiManager.post(endpoint, userData)
@@ -28,14 +28,11 @@ export const createUser = async (userData: UserCreate) => {
         }
       })
       .catch((error) => {
-        console.log(error.response?.data);
-        console.error('Error while creating a user:', error.response?.data);
         throw error;
       });
 
     return response;
   } catch (error: any) {
-    console.log(error);
     console.error('Error while creating a user:', error);
     throw error;
   }
