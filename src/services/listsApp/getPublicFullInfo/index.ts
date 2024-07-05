@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import ListFullInfoReturn from "../../../types/listsApp/ListFullInfoReturnDTO";
 
@@ -27,7 +26,6 @@ export const publicListsAppByUserID = async (props: HandleListPublicGamesProps) 
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing public info games lists:', error);
                 throw error;
             });
 
@@ -53,11 +51,10 @@ export const publicListsAppByUserID = async (props: HandleListPublicGamesProps) 
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
-            throw new Error('Error listing public info games lists: ' + response.status);
+            throw new Error('Error mapping public info games lists: ' + response);
         }
     } catch (error) {
         console.error('Error listing public info games lists:', error);
-        Alert.alert('Error listing public info games lists:' + (error as Error).message);
         throw error;
     }
 }

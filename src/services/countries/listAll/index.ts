@@ -9,7 +9,6 @@ export const listAllCountries = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing countries:', error);
                 throw error;
             });
 
@@ -24,7 +23,7 @@ export const listAllCountries = async () => {
             });
             return countries;
         } else {
-            throw new Error('Error listing countries: ' + response.status);
+            throw new Error('Error mapping countries to DTO.');
         }
     } catch (error) {
         console.error('Error listing countries:', error);

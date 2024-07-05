@@ -33,7 +33,7 @@ export const getGameListById = async (id: string) => {
                 }
             })
             .catch((error) => {
-                console.error('Error fetching game list by id:', error);
+                console.error('Error mapping game list by id:', error);
                 throw error;
             });
 

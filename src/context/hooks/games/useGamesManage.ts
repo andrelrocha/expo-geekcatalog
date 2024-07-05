@@ -59,14 +59,20 @@ export default function useGamesManage() {
             setIsLoading(true);
             await updateGame(updatedGameData);
             if (uri !== "") {
-                await uploadImageGame({uri, gameId: gameData.id});
+                try {
+                    await uploadImageGame({uri, gameId: gameData.id});
+                } catch (error: any) {
+                    const errorMessage = error.response?.data || error.message || "Failed to update game image.";
+                    Alert.alert('Error', 'An error occurred while updating game image: ' + errorMessage);
+                }
             }
             setIsLoading(false);
             Alert.alert('Game updated successfully!');
             navigate();
-        } catch (error) {
+        } catch (error: any) {
             setIsLoading(false);
-            Alert.alert('Failed to update game!');
+            const errorMessage = error.response?.data || error.message || "Failed to update game.";
+            Alert.alert('Error', 'An error occurred while updating game: ' + errorMessage);
         }
     }
 
@@ -76,7 +82,8 @@ export default function useGamesManage() {
             await deleteGame({gameId});
             Alert.alert('Game deleted successfully!');
         } catch (error: any) {
-            Alert.alert('Failed to delete game: ', error.response?.data || 'An error occurred while deleting the game. Please try again.');
+            const errorMessage = error.response?.data || error.message || "Failed to delete game.";
+            Alert.alert('Error', 'An error occurred while deleting game: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

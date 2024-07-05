@@ -21,7 +21,6 @@ export const listAllGamesMultiSelect = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing games: ', error);
                 throw error;
             });
 
@@ -35,7 +34,7 @@ export const listAllGamesMultiSelect = async () => {
             });
             return games;
         } else {
-            throw new Error('Error listing games for multi select: ' + response.status);
+            throw new Error('Error mapping games for multi select to DTO');
         }
     } catch (error) {
         console.error('Error listing games for multi select:', error);

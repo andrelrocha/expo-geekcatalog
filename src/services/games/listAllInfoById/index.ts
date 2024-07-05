@@ -1,6 +1,4 @@
-import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
-import GameFullInfo from '../../../types/games/gameFullInfoUserDTO';
 import { getToken } from '../../../modules/auth.module';
 import GameFullInfoUser from '../../../types/games/gameFullInfoUserDTO';
 
@@ -22,7 +20,6 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing full game info:', error);
                 throw error;
             });
 
@@ -44,11 +41,10 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
         
             return game;
         } else {
-            throw new Error('Error listing full game info: ' + response);
+            throw new Error('Error mapping full game info to dto: ' + response);
         }
     } catch (error) {
         console.error('Error listing full game info: ', error);
-        Alert.alert('Error listing full game info: ' + (error as Error).message);
         throw error;
     }
     }

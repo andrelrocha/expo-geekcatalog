@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import ImageGame from '../../../types/imageGame/imageGameDTO';
 
@@ -26,7 +25,6 @@ export const listAllImageGames = async (props: HandleListAllImageGamesProps) => 
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing image games:', error);
                 throw error;
             });
 
@@ -42,11 +40,10 @@ export const listAllImageGames = async (props: HandleListAllImageGamesProps) => 
 
             return {imageGames, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages};
         } else {
-            throw new Error('Error listing image games: ' + response.status);
+            throw new Error('Error mapping image games to dto: ' + response.status);
         }
     } catch (error) {
         console.error('Error listing image games:', error);
-        Alert.alert('Error listing image games:' + (error as Error).message);
         throw error;
     }
 }

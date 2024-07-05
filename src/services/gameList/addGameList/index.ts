@@ -32,7 +32,7 @@ export const addGameList = async (data: GameListAddDTO) => {
         }
       })
       .catch((error) => {
-        console.error('Error while adding game list:', error.response?.data);
+        console.error('Error while mapping game list:', error.response?.data);
         throw error;
       });
 

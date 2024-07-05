@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameListDTO from '../../../types/gameList/GameListDTO';
 
@@ -27,7 +26,6 @@ export const getAllGameListByListID = async (props: HandleGetAllGameListByListID
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing games in a list:', error);
                 throw error;
             });
 
@@ -46,11 +44,10 @@ export const getAllGameListByListID = async (props: HandleGetAllGameListByListID
 
             return {gameLists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages};
         } else {
-            throw new Error('Error listing games in a list: ' + response);
+            throw new Error('Error mapping games in a list: ' + response);
         }
     } catch (error) {
         console.error('Error listing games in a list:', error);
-        Alert.alert('Error listing games in a list:' + (error as Error).message);
         throw error;
     }
 }

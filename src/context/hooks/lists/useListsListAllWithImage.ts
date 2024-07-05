@@ -85,8 +85,9 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     totalElements: totalElements,
                 });
                 setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching games:', error);
+            } catch (error: any) {
+                const errorMessage = error.response?.data || error.message || "Failed to load user lists.";
+                Alert.alert('Error', 'An error occurred while loading user lists: ' + errorMessage);
             }
         }
     };
@@ -113,8 +114,9 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     totalElements: totalElements,
                 });
                 setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching games:', error);
+            } catch (error: any) {
+                const errorMessage = error.response?.data || error.message || "Failed to load public lists.";
+                Alert.alert('Error', 'An error occurred while loading public lists: ' + errorMessage);
             }
         }
     };
@@ -141,8 +143,9 @@ export default function useListsListAllWithImage(props: UseListsListAllWithImage
                     totalElements: totalElements,
                 });
                 setIsLoading(false);
-            } catch (error) {
-                console.error('Error fetching games:', error);
+            } catch (error: any) {
+                const errorMessage = error.response?.data || error.message || "Failed to load shared lists.";
+                Alert.alert('Error', 'An error occurred while loading shared lists: ' + errorMessage);
             }
         }
     };

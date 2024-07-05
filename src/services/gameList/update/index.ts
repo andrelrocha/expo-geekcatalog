@@ -37,6 +37,7 @@ export const updateGameList = async (props: UpdateGameListProps) => {
                 consoleId: content.consoleId,
                 consoleName: content.consoleName,
                 note: content.note,
+                rating: content.rating
             }
 
             return gameListUpdated;

@@ -10,9 +10,9 @@ export default function useConsolesDropdown() {
       try {
         const data = await listAllConsoles();
         setDropdownData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Error fetching consoles");
+      } catch (error: any) {
+        const errorMessage = error.response?.data || error.message || "Failed to load consoles.";
+        Alert.alert('Error', 'An error occurred while loading consoles: ' + errorMessage);
       }
     };
     fetchData();

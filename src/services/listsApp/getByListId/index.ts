@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import ListGameReturn from "../../../types/listsApp/ListsAppReturnDTO";
 import { getToken } from "../../../modules/auth.module";
@@ -21,7 +20,6 @@ export const listAppByListId = async (props: HandleListUpdateProps) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing game list info:', error);
                 throw error;
             });
 
@@ -40,7 +38,6 @@ export const listAppByListId = async (props: HandleListUpdateProps) => {
         }
     } catch (error) {
         console.error('Error listing game list info:', error);
-        Alert.alert('Error listing games list info:' + (error as Error).message);
         throw error;
     }
 }

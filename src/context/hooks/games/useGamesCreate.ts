@@ -75,8 +75,8 @@ export default function useGamesCreate() {
                 navigate();
             }
         } catch (error: any) {
-            Alert.alert('Failed to create game: ', error.response?.data || 'An error occurred while creating the game. Please try again.');
-            throw error;
+            const errorMessage = error.response?.data || error.message || "Failed to create game.";
+            Alert.alert('Error', 'An error occurred while creating game: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

@@ -1,4 +1,3 @@
-import { Alert } from 'react-native';
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import GameReturn from '../../../types/games/gameReturnDTO'
 
@@ -26,7 +25,6 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing games:', error);
                 throw error;
             });
     
@@ -43,11 +41,10 @@ export const listAllGames = async (props: HandleListAllGamesProps) => {
             
             return {games, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages};
         } else {
-            throw new Error('Error listing games: ' + response.status);
+            throw new Error('Error mapping games to dto: ' + response.status);
         }
     } catch (error) {
         console.error('Error listing games:', error);
-        Alert.alert('Error listing games:' + (error as Error).message);
         throw error;
     }
     }

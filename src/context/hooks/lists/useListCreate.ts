@@ -30,8 +30,8 @@ export default function useListCreate() {
                 Alert.alert(`List ${listResponse?.name} created successfully!`);
                 navigate();
             } catch (error: any) {
-                console.error('Error fetching games:', error);
-                Alert.alert('Error creating list!', error.response?.data || 'An error occurred while creating the list.');
+                const errorMessage = error.response?.data || error.message || "Failed to create list.";
+                Alert.alert('Error', 'An error occurred while creating list: ' + errorMessage);
             } finally{
                 setIsLoading(false);
             }

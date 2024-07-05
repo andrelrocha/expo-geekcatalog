@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import ListFullInfoReturn from "../../../types/listsApp/ListFullInfoReturnDTO";
 
@@ -27,7 +26,6 @@ export const allListsAppByUserID = async (props: HandleListAllGamesProps) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing full info games lists:', error);
                 throw error;
             });
 
@@ -57,7 +55,6 @@ export const allListsAppByUserID = async (props: HandleListAllGamesProps) => {
         }
     } catch (error) {
         console.error('Error listing full info games lists:', error);
-        Alert.alert('Error listing full info games lists:' + (error as Error).message);
         throw error;
     }
 }

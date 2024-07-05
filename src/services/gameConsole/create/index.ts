@@ -26,14 +26,11 @@ export const createGameConsole = async (gameConsoleData: GameConsoleCreate) => {
         }
       })
       .catch((error) => {
-        console.log(error.response?.data);
-        console.error('Error while creating a game console entity:', error.response?.data);
         throw error;
       });
 
     return response;
   } catch (error: any) {
-    console.log(error);
     console.error('Error while creating a game console entity:', error);
     throw error;
   }

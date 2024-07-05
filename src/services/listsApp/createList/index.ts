@@ -28,7 +28,6 @@ export const createListGame = async (listData: ListCreateDTO) => {
                 }
             })
             .catch((error) => {
-                console.error('Error while creating a list:', error.response?.data);
                 throw error;
             });
 

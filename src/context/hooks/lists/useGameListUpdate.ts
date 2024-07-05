@@ -22,8 +22,8 @@ export default function useGameListUpdate(props: GameListUpdate) {
             Alert.alert(`Game ${response.gameName} updated successfully!`);
             navigate();
         } catch (error: any) {
-            console.error('Error updating game list:', error);
-            Alert.alert('Error updating game list!', error.response?.data || 'An error occurred while updating the game list.');
+            const errorMessage = error.response?.data || error.message || "Failed to update game list.";
+            Alert.alert('Error', 'An error occurred while updating game list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -37,8 +37,8 @@ export default function useGameListUpdate(props: GameListUpdate) {
             const gameInfo = await getGameInfoByGameListID(gameListId);
             setGameInfo(gameInfo);
         } catch (error: any) {
-            console.error('Error loading game list info:', error);
-            Alert.alert('Error loading game list info!', error.response?.data || 'An error occurred while loading the game list info.');
+            const errorMessage = error.response?.data || error.message || "Failed to load game list.";
+            Alert.alert('Error', 'An error occurred while loading game list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

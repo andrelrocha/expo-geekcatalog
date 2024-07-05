@@ -11,10 +11,10 @@ export default function useListUpdate() {
         setIsLoading(true);
         try {
             const listResponse = await listAppByListId({ listId });
-            return listResponse;
+            return listResponse;  
         } catch (error: any) {
-            console.error('Error fetching games:', error);
-            Alert.alert('Error fetching list!', error.response?.data || 'An error occurred while fetching the list.');
+            const errorMessage = error.response?.data || error.message || "Failed to load list data.";
+            Alert.alert('Error', 'An error occurred while loading the list data: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -28,8 +28,8 @@ export default function useListUpdate() {
             navigate();
             return updatedList;
         } catch (error: any) {
-            console.error('Error updating list:', error);
-            Alert.alert('Error updating list!', error.response?.data || 'An error occurred while updating the list.');
+            const errorMessage = error.response?.data || error.message || "Failed to update list.";
+            Alert.alert('Error', 'An error occurred while updating the list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

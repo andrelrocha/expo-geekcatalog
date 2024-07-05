@@ -20,8 +20,9 @@ export const useGamesFullInfoUser = () => {
             const gameInfo = await listAllGameInfoByGameIDUser({gameId});
             setGameInfo(gameInfo);
             return gameInfo;
-        } catch (error) {
-            console.error('Error fetching full game info:', error);
+        } catch (error: any) {
+            const erorrMessage = error.response?.data || error.message || "Failed to load game info.";
+            Alert.alert('Error', 'An error occurred while loading game info: ' + erorrMessage);
         } finally {
             setIsLoading(false);
         }
@@ -34,8 +35,9 @@ export const useGamesFullInfoUser = () => {
             Alert.alert('Rating added successfully');
             setUserRatingAdded(true);
             return gameRating;
-        } catch (error) {
-            console.error('Error adding game rating:', error);
+        } catch (error: any) {
+            const erorrMessage = error.response?.data || error.message || "Failed to add rating.";
+            Alert.alert('Error', 'An error occurred while adding rating: ' + erorrMessage);
         } finally {
             setIsLoading(false);
             setUserRatingAdded(false);
@@ -48,8 +50,9 @@ export const useGamesFullInfoUser = () => {
             const userRating = await getUserRatingByGame({gameId});
             setUserRating(userRating.rating);
             return userRating;
-        } catch (error) {
-            console.error('Error fetching user rating:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to get user rating.";
+            Alert.alert('Error', 'An error occurred while getting user rating: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }

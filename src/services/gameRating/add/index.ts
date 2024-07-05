@@ -16,7 +16,7 @@ export const addGameRating = async (data: AddGameRatingDTO) => {
             const gameRating: GameRatingReturnDTO = response.data;
             return gameRating;
         } else {
-            throw new Error('Error adding game rating');
+            throw new Error('Error mapping game rating to dto.');
         }
     } catch (error) {
         console.error('Error adding game rating:', error);

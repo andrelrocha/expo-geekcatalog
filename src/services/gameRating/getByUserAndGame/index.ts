@@ -28,7 +28,7 @@ export const getUserRatingByGame = async (props: HandleGetUserRatingByGameProps)
 
             return userRating;
         } else { 
-            throw new Error('Error getting user rating by game: ' + response);
+            throw new Error('Error mapping user rating by game to dto');
         }
     } catch (error) {
         console.error('Error getting user rating by game:', error);

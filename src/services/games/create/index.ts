@@ -27,13 +27,11 @@ export const createGame = async (gameData: GameCreate) => {
         }
       })
       .catch((error) => {
-        console.error('Error while creating a game:', error.response?.data);
         throw error;
       });
 
     return response;
   } catch (error: any) {
-    console.log(error);
     console.error('Error while creating a game:', error);
     throw error;
   }

@@ -10,9 +10,9 @@ export default function useGenresDropdown() {
       try {
         const data = await listAllGenres();
         setDropdownData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Error fetching genres");
+      } catch (error: any) {
+        const errorMessage = error.response?.data || error.message || "Failed to load genres.";
+        Alert.alert('Error', 'An error occurred while loading genres: ' + errorMessage);
       }
     };
     fetchData();

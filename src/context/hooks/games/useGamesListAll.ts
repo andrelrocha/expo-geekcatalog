@@ -65,8 +65,9 @@ const useGamesListAll = (props: UseGamesListAllProps) => {
                 totalElements: totalElements,
             });
             setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching image games:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to load image games.";
+            console.error('Error loading image games:', errorMessage);
         }
     }
 

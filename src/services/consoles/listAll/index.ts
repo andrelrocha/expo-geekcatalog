@@ -17,7 +17,6 @@ export const listAllConsoles = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing consoles: ', error);
                 throw error;
             });
 
@@ -31,7 +30,7 @@ export const listAllConsoles = async () => {
             });
             return consoles;
         } else {
-            throw new Error('Error listing consoles: ' + response.status);
+            throw new Error('Error mapping consoles to dto.');
         }
     } catch (error) {
         console.error('Error listing consoles:', error);

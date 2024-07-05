@@ -11,7 +11,7 @@ export async function updateList(listData: ListAppDTO, listId: string) {
 
         const headers = {
             'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json'  
         };
 
         const response = await ApiManager.put(endpoint, listData, { headers })
@@ -19,8 +19,7 @@ export async function updateList(listData: ListAppDTO, listId: string) {
                 return response.data;
             })
             .catch((error) => {
-                console.error('Error updating list:', error.response.data);
-                throw new Error('Error updating list: ' + error.response.data);
+                throw error;
             });
 
         const listReturn: ListGameReturn = {
@@ -34,7 +33,7 @@ export async function updateList(listData: ListAppDTO, listId: string) {
 
         return listReturn;
     } catch (error) {
-        console.error("Caught error:", error);
-        throw new Error('Error updating list: ' + error);
+        console.error('Error updating list: ', error);
+        throw error;
     }
 }

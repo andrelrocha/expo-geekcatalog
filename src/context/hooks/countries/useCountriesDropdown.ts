@@ -10,9 +10,9 @@ export default function useCountriesDropdown() {
       try {
         const data = await listAllCountries();
         setDropdownData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Error fetching countries");
+      } catch (error: any) {
+        const errorMessage = error.response?.data || error.message || "Failed to load countries.";
+        Alert.alert('Error', 'An error occurred while loading countries: ' + errorMessage);
       }
     };
     fetchData();

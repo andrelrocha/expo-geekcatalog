@@ -4,6 +4,7 @@ import GameReturn from "../../../types/games/gameReturnDTO";
 import useAuth from "../use-auth.hook";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import PaginationInfo from "../../../types/utils/paginationInfo";
+import { Alert } from "react-native";
 
 type UseGamesListAllProps = {
     size?: number;
@@ -64,8 +65,9 @@ export default function useGamesListAll(props: UseGamesListAllProps){
                 totalElements: totalElements,
             });
             setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching games:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to load games.";
+            Alert.alert('Error', 'An error occurred while loading games: ' + errorMessage);
         }
     };
 
@@ -75,8 +77,9 @@ export default function useGamesListAll(props: UseGamesListAllProps){
             const gameInfo = await listAllGameInfoByGameIDUser({gameId});
             setIsLoading(false);
             return gameInfo;
-        } catch (error) {
-            console.error('Error fetching full game info:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to load game info.";
+            Alert.alert('Error', 'An error occurred while loading game info: ' + errorMessage);
         }
     }    
 

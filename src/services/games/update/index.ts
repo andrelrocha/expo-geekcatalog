@@ -17,7 +17,6 @@ export const updateGame = async (gameData: UpdateGameFullInfoAdminDTO) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error updating full game info:', error);
                 throw error;
             });
     
@@ -36,7 +35,7 @@ export const updateGame = async (gameData: UpdateGameFullInfoAdminDTO) => {
             
                 return game;
             } else {
-                throw new Error('Error updating full game info: ' + response);
+                throw new Error('Error mapping full game info to dto: ' + response);
             }
     } catch (error) {
         console.error('Error updating full game info: ', error);

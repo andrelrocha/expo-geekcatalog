@@ -17,7 +17,6 @@ export const listAllConsolesByGameId = async (gameId: string) => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing consoles by game id: ', error);
                 throw error;
             });
 
@@ -31,7 +30,7 @@ export const listAllConsolesByGameId = async (gameId: string) => {
             });
             return consoles;
         } else {
-            throw new Error('Error listing consoles by game id: ' + response.status);
+            throw new Error('Error mapping consoles by game id.');
         }
     } catch (error) {
         console.error('Error listing consoles by game id:', error);

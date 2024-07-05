@@ -23,7 +23,7 @@ type UseListGameProps = {
     listId: string;
 }
 
-type AlertOptions = {
+type AlertOptions = {  
     label: string;
     icon?: React.ReactNode;
     onPress: () => void;
@@ -100,8 +100,9 @@ const useListGame = (props: UseListGameProps) => {
             }));
 
             setIsLoading(false);
-        } catch (error) {
-            console.error('Error fetching image games:', error);
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to load games in a list.";
+            Alert.alert('Error', 'An error occurred while loading games in a list: ' + errorMessage);
         }
     }
 
@@ -112,8 +113,8 @@ const useListGame = (props: UseListGameProps) => {
             setGameListInfo(gameList);
             return gameList;
         } catch (error: any) {
-            console.error('Error fetching game list info:', error);
-            Alert.alert('Error fetching game list info: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to load game list.";
+            Alert.alert('Error', 'An error occurred while loading game list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -127,8 +128,8 @@ const useListGame = (props: UseListGameProps) => {
             setgameListDataChange(true);
             setModalAddIsOpen(false);
         } catch (error: any) {
-            console.error('Error creating game list:', error);
-            Alert.alert('Error creating game list: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to add game to list.";
+            Alert.alert('Error', 'An error occurred while adding game to list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -141,8 +142,8 @@ const useListGame = (props: UseListGameProps) => {
             Alert.alert('Game deleted successfully');
             setgameListDataChange(true);
         } catch (error: any) {
-            console.error('Error deleting game list:', error);
-            Alert.alert('Error deleting game list: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to delete game from list.";
+            Alert.alert('Error', 'An error occurred while deleting game from list: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -155,8 +156,8 @@ const useListGame = (props: UseListGameProps) => {
             if (permissionsList) setUserPermissions(permissionsList.map((permission) => permission.permissionName));
             return permissionsList;
         } catch (error: any) {
-            console.error('Error getting user permissions for list:', error);
-            Alert.alert('Error getting user permissions for list: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to load permissions.";
+            Alert.alert('Error', 'An error occurred while loading permissions: ' + errorMessage);
         } finally {
             setIsLoading(false);
         }
@@ -171,8 +172,8 @@ const useListGame = (props: UseListGameProps) => {
                 Alert.alert(`Permission for user ${participantName} added successfully`);
             }
         } catch (error: any) {
-            console.error('Error adding permission list:', error);
-            Alert.alert('Error adding permission list: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to add permissions.";
+            Alert.alert('Error', 'An error occurred while adding permissions: ' + errorMessage);
         } finally{
             setIsLoading(false);
             setPermissionModalOpen(false);
@@ -185,8 +186,8 @@ const useListGame = (props: UseListGameProps) => {
             await deleteAllListPermission({participantEmail, listId: props.listId});
             Alert.alert('Permissions deleted successfully');
         } catch (error: any) {
-            console.error('Error deleting permission list:', error);
-            Alert.alert('Error deleting permission list: ', error.response?.data);
+            const errorMessage = error.response?.data || error.message || "Failed to delete permissions.";
+            Alert.alert('Error', 'An error occurred while deleting permissions: ' + errorMessage);
         } finally{
             setIsLoading(false);
             setPermissionModalOpen(false);

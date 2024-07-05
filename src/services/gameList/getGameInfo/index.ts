@@ -34,7 +34,7 @@ export const getGameInfoByGameListID = async (gameListId: string) => {
             };
             return gameInfo;
         } else {
-            throw new Error('Error getting game info by game list id: ' + response.status);
+            throw new Error('Error mapping game info by game list id');
         }
     } catch (error) {
         console.error('Error getting game info by game list id:', error);

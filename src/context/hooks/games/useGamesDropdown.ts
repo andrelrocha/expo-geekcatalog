@@ -10,9 +10,9 @@ export default function useGamesDropdown() {
       try {
         const data = await listAllGamesMultiSelect();
         setDropdownData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        Alert.alert("Error", "Error fetching games");
+      } catch (error: any) {
+        const errorMessage = error.response?.data || error.message || "Failed to load games.";
+        Alert.alert('Error', 'An error occurred while loading games: ' + errorMessage);
       }
     };
     fetchData();

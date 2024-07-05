@@ -1,4 +1,3 @@
-import { Alert } from "react-native";
 import { ApiManager } from "../../../utils/API-axios/ApiManager";
 import ListFullInfoReturn from "../../../types/listsApp/ListFullInfoReturnDTO";
 
@@ -27,7 +26,6 @@ export const sharedListsAppByUserID = async (props: HandleListSharedGamesProps) 
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing shared info games lists:', error);
                 throw error;
             });
 
@@ -46,18 +44,16 @@ export const sharedListsAppByUserID = async (props: HandleListSharedGamesProps) 
 
                     return listReturn;
                 } catch (error) {
-                    console.error('Error listing shared info games lists:', error);
                     throw error;
                 }
             });
 
             return { lists, pageable: response.data.pageable, totalElements: response.data.totalElements, totalPages: response.data.totalPages };
         } else {
-            throw new Error('Error listing shared info games lists: ' + response.status);
+            throw new Error('Error mapping shared info games lists: ' + response);
         }
     } catch (error) {
         console.error('Error listing shared info games lists:', error);
-        Alert.alert('Error listing shared info games lists:' + (error as Error).message);
         throw error;
     }
 }

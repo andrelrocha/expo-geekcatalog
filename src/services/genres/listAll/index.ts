@@ -17,7 +17,6 @@ export const listAllGenres = async () => {
                 return response;
             })
             .catch((error) => {
-                console.error('Error listing game genres:', error);
                 throw error;
             });
 
@@ -31,7 +30,7 @@ export const listAllGenres = async () => {
             });
             return genres;
         } else {
-            throw new Error('Error listing game genres: ' + response.status);
+            throw new Error('Error mapping game genres to dto: ' + response.status);
         }
     } catch (error) {
         console.error('Error listing game genres:', error);

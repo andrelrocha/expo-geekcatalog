@@ -32,16 +32,12 @@ export const uploadImageGame = async (props: HandleUploadImageGameProps) => {
                }
            })
            .catch((error) => {
-               if (error.response) {
-                   console.log('Error uploading image game: ', error.response.data);
-               } else {
-                   console.log('Error uploading image game: ', error);
-               }
+               throw error;
            });
        return response;
    }
    catch (error) {
        console.log('Error in the process of uploading the image game: ', error);
-       return;
+       throw error;
    }
 };

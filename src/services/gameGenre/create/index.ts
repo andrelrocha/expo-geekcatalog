@@ -27,14 +27,11 @@ export const createGameGenre = async (gameGenreData: GameGenreCreate) => {
         }
       })
       .catch((error) => {
-        console.log(error.response?.data);
-        console.error('Error while creating a game genre entity:', error.response?.data);
         throw error;
       });
 
     return response;
   } catch (error: any) {
-    console.log(error);
     console.error('Error while creating a game genre entity:', error);
     throw error;
   }
