@@ -227,6 +227,9 @@ export default function ListGamesList({ navigation, route }: Props) {
                 <Text style={styles.textModalInfo}>{gameListInfo?.consoleName}</Text>
                 <Text style={styles.titleTextModalInfo}>Note:</Text>
                 <Text style={styles.textModalInfo}>{gameListInfo?.note}</Text>
+                <ButtonTouchable style={styles.buttonGameNavigate} onPress={() => navigation.navigate('ListGameById', { gameId: gameListInfo?.gameId })}>
+                            See Full Game Info
+                </ButtonTouchable>
             </View>
         )
     }
@@ -421,4 +424,7 @@ const styles = StyleSheet.create({
     starsRatingStatic: {
         alignSelf: 'center',
     },
+    buttonGameNavigate: {
+        alignSelf: 'center',
+    }
 });

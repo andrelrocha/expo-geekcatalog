@@ -1,14 +1,14 @@
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useForm } from "react-hook-form";
-import { StyleSheet, View, Keyboard, Text, TouchableOpacity } from "react-native";
+import { InputIcon, InputSlot } from "@gluestack-ui/themed";
+import { StyleSheet, View, Keyboard, Text } from "react-native";
 import { useEffect, useState } from "react";
 import { InputText, Box, Heading, List, TextWarning } from "../../../components";
 import { SearchIcon, CloseIcon } from "../../../components/icons";
 import useSearchGames from "../../../context/hooks/search/useSearchGames";
 import { colors } from "../../../utils/colors";
 import useDebounce from "../../../context/hooks/debounce/useDebounce";
-import { InputIcon, InputSlot } from "@gluestack-ui/themed";
 
 const DEFAULT_FORM_VALUES = {
     search: '',
