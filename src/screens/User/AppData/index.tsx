@@ -24,7 +24,7 @@ export default function UserAppData({ navigation }: NativeStackScreenProps<Param
             <Heading mt={20} textAlign="center" fs={26} mb={5}>Your App Data</Heading>
 
             {genresCount && genresCount.length === 0 ? (
-                <Box>
+                <Box style={styles.warningMessage}>
                     <TextWarning mt={50} w={300} fs={20} h={40} fw="bold">No data found</TextWarning>
                 </Box>
             ) : (
@@ -62,4 +62,9 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
     },
+    warningMessage: {
+        alignSelf: 'center',
+        justifyContent: "center",
+        alignItems: 'center',
+    }
 });
