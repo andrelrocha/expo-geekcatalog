@@ -22,7 +22,7 @@ export default function ListGameById({ navigation, route }: Props) {
 
     useEffect(() => {
         loadGameInfoData(gameId);
-    }, [userRatingAdded]);
+    }, [userRatingAdded, gameId]);
 
     const modalAddRating = () => {
         return (
