@@ -9,7 +9,7 @@ interface CloseIconProps {
 
 const CloseIcon = (props: CloseIconProps) => {
   return (
-    <X size={props.size || 20} color={colors.redStrong || props.color} />
+    <X size={props.size || 20} color={props.color || colors.redStrong} />
   );
 };
 

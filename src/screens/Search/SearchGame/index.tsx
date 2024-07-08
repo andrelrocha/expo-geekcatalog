@@ -1,13 +1,14 @@
 import { ParamListBase } from "@react-navigation/native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useForm } from "react-hook-form";
-import { StyleSheet, View, Keyboard, Text } from "react-native";
-import { useEffect } from "react";
+import { StyleSheet, View, Keyboard, Text, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
 import { InputText, Box, Heading, List, TextWarning } from "../../../components";
-import { SearchIcon } from "../../../components/icons";
+import { SearchIcon, CloseIcon } from "../../../components/icons";
 import useSearchGames from "../../../context/hooks/search/useSearchGames";
 import { colors } from "../../../utils/colors";
 import useDebounce from "../../../context/hooks/debounce/useDebounce";
+import { InputIcon, InputSlot } from "@gluestack-ui/themed";
 
 const DEFAULT_FORM_VALUES = {
     search: '',
@@ -18,12 +19,14 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
     const {
         control,
         watch,
+        setValue
     } = useForm({
         defaultValues: DEFAULT_FORM_VALUES,
         mode: "onChange"});
             
     const searchValue = watch("search");
     const [ debouncedValue ] = useDebounce(searchValue, 500);
+    const [ showCloseIcon, setShowCloseIcon ] = useState(false);
     
     const { searchGames, isLoading, games } = useSearchGames();
 
@@ -32,9 +35,23 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
         Keyboard.dismiss();
     }
 
-    const searchIcon = () => {
+    const handleIconClick = () => {
+        if (showCloseIcon) {
+            setValue("search", ""); 
+            Keyboard.dismiss();
+        }
+    }
+
+    const inputIcon = () => {
+        if (showCloseIcon) {
+            return <CloseIcon color={colors.buttonBlue} size={26}/>
+        }
         return <SearchIcon color={colors.buttonBlue} />
     }
+
+    useEffect(() => {
+        setShowCloseIcon(searchValue.length > 0);
+    }, [searchValue]);
 
     useEffect(() => {
         if (debouncedValue) {
@@ -46,8 +63,11 @@ export default function SearchGame({ navigation }: NativeStackScreenProps<ParamL
         <View style={styles.container}>
             <Box>
                     <Heading textAlign="left" fs={28} mb={10}>Search</Heading>
-                    <InputText control={control} name="search" placeholder="Discover new games" icon={searchIcon}
-                        visibleValidation={false} staticIcon={true}/>
+                    <InputText control={control} name="search" placeholder="Discover new games" icon={0}>
+                        <InputSlot onPress={handleIconClick} style={{ paddingTop: 6 }}> 
+                            <InputIcon as={inputIcon}/>
+                        </InputSlot>
+                    </InputText>
             </Box>
 
             {debouncedValue ? (
@@ -104,5 +124,8 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: colors.gray,
         textAlign: 'center',
+    },
+    inputSlot: {
+        alignItems: 'center', 
     },
 });
