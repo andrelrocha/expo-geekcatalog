@@ -1,16 +1,18 @@
 import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import { getToken } from '../../../modules/auth.module';
 import GameCommentReturn from '../../../types/gameComment/GameCommentReturnDTO';
+import PaginationQuery from '../../../types/utils/paginationQuery';
 
-export const getAllCommentsByGameId = async (gameId: string) => {
+export const getAllCommentsByGameId = async (gameId: string, pagination: PaginationQuery) => {
     try {
+        const { page, size, sortField, sortOrder } = pagination;
+
         const token = await getToken();
         const headers = {
             'Authorization': `Bearer ${token}`
         };  
 
-
-        const endpoint = `/gamecomment/get/${gameId}`;
+        const endpoint = `/gamecomment/get/${gameId}?page=${page}&size=${size}&sortField=${sortField}&sortOrder=${sortOrder}`;
         const response = await ApiManager.get(endpoint, { headers })
             .then((response) => {
                 return response;

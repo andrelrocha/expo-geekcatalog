@@ -2,12 +2,13 @@ import React, { useEffect } from "react";
 import { ParamListBase } from "@react-navigation/native";
 import { StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useForm } from "react-hook-form";
 import PageDefault from "../../Default";
 import { useGamesFullInfoUser } from "../../../context/hooks/games/useGamesFullInfoUser";
 import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, CommentBox, Modal, TextWarning, InputWithLabel, InputText } from "../../../components";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
-import { useForm } from "react-hook-form";
+import PaginationQuery from "../../../types/utils/paginationQuery";
 
 type GameByIdParams = {
     gameId: string;
@@ -26,10 +27,15 @@ type FormData = {
 export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
+    const pagination: PaginationQuery =  {
+        page: 0,
+        size: 2,
+        sortField: 'createdAt',
+        sortOrder: 'desc',
+    }
 
     const {
         control,
-        formState: { isValid },
         handleSubmit,
         reset,
     } = useForm({
@@ -41,7 +47,7 @@ export default function ListGameById({ navigation, route }: Props) {
 
     useEffect(() => {
         loadGameInfoData(gameId);
-        loadComments(gameId);
+        loadComments(gameId, pagination);
     }, [userRatingAdded, gameId, userCommentAdded]);
 
     const modalAddRating = () => {
@@ -100,7 +106,6 @@ export default function ListGameById({ navigation, route }: Props) {
             gameId: gameId,
             comment: data.comment,
         });
-        console.log(gameCommentAdded);
         reset(DEFAULT_FORM_VALUES);
         setModalReviewVisible(false);
     }

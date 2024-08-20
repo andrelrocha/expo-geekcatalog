@@ -10,6 +10,13 @@ import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
 import AddGameCommentDTO from "../../../types/gameComment/AddGameCommentDTO";
 
+interface PaginationParams {
+    page: number;
+    size: number;
+    sortField: string;
+    sortOrder: 'asc' | 'desc';
+}
+
 export const useGamesFullInfoUser = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [gameInfo, setGameInfo] = useState<GameFullInfoUser | null>(null);
@@ -35,10 +42,10 @@ export const useGamesFullInfoUser = () => {
         }
     }  
 
-    const loadComments = async (gameId: string) => {
+    const loadComments = async (gameId: string, paginationParams: PaginationParams) => {
         try {
             setIsLoading(true);
-            const comments = await getAllCommentsByGameId(gameId);
+            const comments = await getAllCommentsByGameId(gameId, paginationParams);
             setComments(comments);
             return comments;
         } catch (error: any) {
