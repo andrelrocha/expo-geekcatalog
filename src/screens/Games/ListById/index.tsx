@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import PageDefault from "../../Default";
 import { useGamesFullInfoUser } from "../../../context/hooks/games/useGamesFullInfoUser";
-import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, InputWithLabel, Modal, TextWarning } from "../../../components";
+import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, CommentBox, Modal, TextWarning } from "../../../components";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
 
@@ -127,18 +127,11 @@ export default function ListGameById({ navigation, route }: Props) {
                                 ))}
                         </Box>
 
-                        {/*
                         {comments && comments.length > 0 ? (
-                            comments.map((comment, index) => (
-                                <View key={index} style={styles.commentBox}>
-                                    <Text style={styles.commentHeader}>{comment.username}: {comment.rating}</Text>
-                                    <Text style={styles.commentText}>{comment.comment}</Text>
-                                </View>
-                            ))
+                            <CommentBox data={comments} />
                         ) : (
-                            <Text style={styles.noCommentsText}>No comments available.</Text>
+                            <Text>No comments available.</Text>
                         )}
-                        */}
 
                     </Box>
                 </>

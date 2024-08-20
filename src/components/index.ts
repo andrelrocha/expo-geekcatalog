@@ -2,6 +2,7 @@ import Alert from './alert';
 import AppStarRating from './star-rating';
 import Button from './button/button-loading';
 import Box from './box';
+import CommentBox from './comment-box';
 import CustomAlert from './alert';
 import CustomList from './custom-list';
 import CustomListImage from './custom-list-images';
@@ -43,6 +44,7 @@ export {
     CustomAlert,
     CustomList,
     CustomListImage,
+    CommentBox,
     DropdownSelection,
     Header, 
     Heading, 

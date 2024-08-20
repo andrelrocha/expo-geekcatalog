@@ -1,12 +1,12 @@
-    import { Alert, Animated, RefreshControl, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from "react-native";
-    import { Swipeable } from 'react-native-gesture-handler';
-    import Box from "../box";
-    import TextWarning from "../text/text-warning";
-    import ListCountReturn from "../../types/listsApp/ListReturnDTO";
-    import { colors } from "../../utils/colors";
-    import { useCallback, useState } from "react";
-    import ImageTouchable from "../image/image-touchable";
-    import { SquarePenIcon, TrashIcon } from "../icons";
+import { Alert, Animated, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Swipeable } from 'react-native-gesture-handler';
+import Box from "../box";
+import TextWarning from "../text/text-warning";
+import ListCountReturn from "../../types/listsApp/ListReturnDTO";
+import { colors } from "../../utils/colors";
+import { useCallback, useState } from "react";
+import ImageTouchable from "../image/image-touchable";
+import { SquarePenIcon, TrashIcon } from "../icons";
 import PaginationButtons from "../pagination-buttons";
 
     type CustomListProps = {
