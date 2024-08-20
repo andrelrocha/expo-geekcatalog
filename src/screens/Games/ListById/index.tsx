@@ -8,7 +8,7 @@ import { useGamesFullInfoUser } from "../../../context/hooks/games/useGamesFullI
 import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, CommentBox, Modal, TextWarning, InputWithLabel, InputText } from "../../../components";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
-import PaginationQuery from "../../../types/utils/paginationQuery";
+import { EllipsisIcon } from "../../../components/icons";
 
 type GameByIdParams = {
     gameId: string;
@@ -27,12 +27,6 @@ type FormData = {
 export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
-    const pagination: PaginationQuery =  {
-        page: 0,
-        size: 2,
-        sortField: 'createdAt',
-        sortOrder: 'desc',
-    }
 
     const {
         control,
@@ -43,12 +37,18 @@ export default function ListGameById({ navigation, route }: Props) {
         mode: "onChange"});
 
     const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating,  modalReviewVisible, setModalReviewVisible,
-        addGameRatingMethod, userCommentAdded, userRatingAdded, userRating, loadComments, comments, addGameCommentMethod } = useGamesFullInfoUser();
+        addGameRatingMethod, userCommentAdded, userRatingAdded, userRating, loadComments, comments, addGameCommentMethod, commentsPagination, setCommentsPagination,
+        isCommentsLoading
+    } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
-        loadComments(gameId, pagination);
-    }, [userRatingAdded, gameId, userCommentAdded]);
+        loadComments(gameId, commentsPagination);
+    }, [userRatingAdded, gameId]);
+
+    useEffect(() => {
+        loadComments(gameId, commentsPagination);
+    }, [userCommentAdded, commentsPagination]);
 
     const modalAddRating = () => {
         return (
@@ -110,6 +110,13 @@ export default function ListGameById({ navigation, route }: Props) {
         setModalReviewVisible(false);
     }
 
+    const handleIncreaseSize = () => {
+        setCommentsPagination((prev) => ({
+            ...prev,
+            size: prev.size + 5,
+        }));
+    };
+
     return (
         <>
         <PageDefault>
@@ -123,6 +130,9 @@ export default function ListGameById({ navigation, route }: Props) {
                     {gameInfo && gameInfo.totalReviews > 0 ? (
                         <>
                             <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+                                <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
+                                    Add Rating
+                                </ButtonTouchable>
                                 <AppStarRating
                                     initialRating={gameInfo?.averageRating || 0}
                                     rating={gameInfo?.averageRating || 0}
@@ -134,9 +144,6 @@ export default function ListGameById({ navigation, route }: Props) {
                                     interactive={false}
                                     style={styles.starsRatingStatic}
                                 />
-                                <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
-                                    Add Rating
-                                </ButtonTouchable>
                             </Box>
                             <Text style={styles.titleTextModalInfo}>
                                 Avg. Rating: <Text style={styles.textModalInfo}>{gameInfo?.averageRating}</Text> 
@@ -152,7 +159,7 @@ export default function ListGameById({ navigation, route }: Props) {
                         <Text style={styles.titleTextModalInfo}>
                             Metacritic: <Text style={styles.textModalInfo}>{gameInfo?.metacritic}</Text>
                         </Text>
-                        <Text style={styles.titleTextModalInfo}>
+                        <Text style={[styles.titleTextModalInfo, {marginBottom: 0}]}>
                             Year of Release: <Text style={styles.textModalInfo}>{gameInfo?.yearOfRelease}</Text>
                         </Text>
 
@@ -177,15 +184,34 @@ export default function ListGameById({ navigation, route }: Props) {
                                 ))}
                         </Box>
 
-                        {comments && comments.length > 0 && (
-                            <CommentBox data={comments} />
-                        )}
-                        <Box mt={5} flexDirection="row" gap={5} wrap="wrap" justifyContent="center" alignItems="center">
+                        <Box mt={5} flexDirection="row" gap={5} wrap="wrap" justifyContent="flex-start" alignItems="center">
                             <ButtonTouchable onPress={() => setModalReviewVisible(true)} style={styles.addRatingButton}>
                                 Add Review
                             </ButtonTouchable>
                         </Box>
 
+                        {isCommentsLoading ? (
+                            <Text>Loading comments...</Text>
+                        ) : (
+                            <>
+                                {comments && comments.length > 0 && (
+                                    <CommentBox data={comments} />
+                                )}
+                                <ButtonTouchable
+                                    mt={5}
+                                    style={{ alignContent: 'center', alignSelf: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 10, height: 30 }}
+                                    onPress={handleIncreaseSize}
+                                >
+                                    <EllipsisIcon color={colors.buttonBlue} size={40} horizontal={true} />
+                                </ButtonTouchable>
+                            </>
+                        )}
+
+                        {/*
+                        <ButtonTouchable onPress={() => navigation.navigate('ListGameComments', { gameId })} style={styles.addRatingButton}>
+                            See All Comments
+                        </ButtonTouchable>
+                        */}
                     </Box>
                 </>
             )}
@@ -218,7 +244,7 @@ const styles = StyleSheet.create({
     titleTextModalInfo: {
         fontWeight: 'bold',
         fontSize: 18,
-        marginBottom: 5,
+        marginBottom: 10,
     },
     textModalInfo: {
         fontWeight: 'normal', 

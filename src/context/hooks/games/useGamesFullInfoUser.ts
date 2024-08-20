@@ -9,13 +9,7 @@ import GameCommentReturn from "../../../types/gameComment/GameCommentReturnDTO";
 import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
 import AddGameCommentDTO from "../../../types/gameComment/AddGameCommentDTO";
-
-interface PaginationParams {
-    page: number;
-    size: number;
-    sortField: string;
-    sortOrder: 'asc' | 'desc';
-}
+import PaginationQuery from "../../../types/utils/paginationQuery";
 
 export const useGamesFullInfoUser = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +21,9 @@ export const useGamesFullInfoUser = () => {
     const [userCommentAdded, setUserCommentAdded] = useState(false);
     const [userRating, setUserRating] = useState(0);
     const [comments, setComments] = useState<GameCommentReturn[]>([]);
+    const [commentsPagination, setCommentsPagination] = useState<PaginationQuery>({ page: 0, size: 5, sortField: 'createdAt', sortOrder: 'desc' });
+    const [isCommentsLoading, setIsCommentsLoading] = useState(false);
+
 
     const loadGameInfoData = async (gameId: string) => {
         try {
@@ -42,9 +39,9 @@ export const useGamesFullInfoUser = () => {
         }
     }  
 
-    const loadComments = async (gameId: string, paginationParams: PaginationParams) => {
+    const loadComments = async (gameId: string, paginationParams: PaginationQuery) => {
         try {
-            setIsLoading(true);
+            setIsCommentsLoading(true);
             const comments = await getAllCommentsByGameId(gameId, paginationParams);
             setComments(comments);
             return comments;
@@ -52,7 +49,7 @@ export const useGamesFullInfoUser = () => {
             const errorMessage = error.response?.data || error.message || "Failed to load comments.";
             Alert.alert('Error', 'An error occurred while loading comments: ' + errorMessage);
         } finally {
-            setIsLoading(false);
+            setIsCommentsLoading(false);
         }
     }
 
@@ -115,5 +112,6 @@ export const useGamesFullInfoUser = () => {
 
 
     return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, modalReviewVisible, setModalReviewVisible, addGameCommentMethod,
-        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating, comments, loadComments, userCommentAdded };
+        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating, comments, 
+        loadComments, userCommentAdded, commentsPagination, setCommentsPagination, isCommentsLoading };
 }
