@@ -3,6 +3,8 @@ import { Alert } from "react-native";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import { addGameRating } from "../../../services/gameRating/add";
 import { getUserRatingByGame } from "../../../services/gameRating/getByUserAndGame";
+import { getAllCommentsByGameId } from "../../../services/gameComment/getCommentsByGameId";
+import GameCommentReturn from "../../../types/gameComment/GameCommentReturnDTO";
 import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
 
@@ -13,6 +15,7 @@ export const useGamesFullInfoUser = () => {
     const [gameRating, setGameRating] = useState(0);
     const [userRatingAdded, setUserRatingAdded] = useState(false);
     const [userRating, setUserRating] = useState(0);
+    const [comments, setComments] = useState<GameCommentReturn[]>([]);
 
     const loadGameInfoData = async (gameId: string) => {
         try {
@@ -27,6 +30,20 @@ export const useGamesFullInfoUser = () => {
             setIsLoading(false);
         }
     }  
+
+    const loadComments = async (gameId: string) => {
+        try {
+            setIsLoading(true);
+            const comments = await getAllCommentsByGameId(gameId);
+            setComments(comments);
+            return comments;
+        } catch (error: any) {
+            const errorMessage = error.response?.data || error.message || "Failed to load comments.";
+            Alert.alert('Error', 'An error occurred while loading comments: ' + errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     const addGameRatingMethod = async (data: AddGameRatingDTO) => {
         try {
@@ -72,5 +89,5 @@ export const useGamesFullInfoUser = () => {
 
 
     return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible,
-        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating };
+        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating, comments, loadComments };
 }

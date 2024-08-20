@@ -18,10 +18,12 @@ export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
 
-    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating } = useGamesFullInfoUser();
+    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, 
+        addGameRatingMethod, userRatingAdded, userRating, loadComments, comments } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
+        loadComments(gameId);
     }, [userRatingAdded, gameId]);
 
     const modalAddRating = () => {
@@ -66,25 +68,36 @@ export default function ListGameById({ navigation, route }: Props) {
             ) : (
                 <>
                     <Heading w={280} mt={5} mb={10} fs={28}>{gameInfo?.name || 'Game'}</Heading>
-                    <ImageTouchable w={280} h={280} key={gameInfo?.id} source={{uri: gameInfo?.imageUrl}} alt="Image Game" br={10}/>
-                    <Box w={280} mt={10} mb={15} alignItems="flex-start">
-                    {gameInfo && gameInfo.totalReviews > 0 && (
+                    <ImageTouchable w={280} h={280} mb={5} key={gameInfo?.id} source={{uri: gameInfo?.imageUrl}} alt="Image Game" br={10}/>
+                    <Box w={280} mt={5} mb={15} alignItems="flex-start">
+                    {gameInfo && gameInfo.totalReviews > 0 ? (
                         <>
-                            <AppStarRating
-                                initialRating={gameInfo?.averageRating || 0}
-                                rating={gameInfo?.averageRating || 0}
-                                onChange={setGameRating}
-                                maxStars={10}
-                                starSize={20}
-                                color={colors.buttonBlue}
-                                emptyColor={colors.grayOpacity}
-                                interactive={false}
-                                style={styles.starsRatingStatic}
-                            />
+                            <Box flexDirection="row" justifyContent="space-between" alignItems="center">
+                                <AppStarRating
+                                    initialRating={gameInfo?.averageRating || 0}
+                                    rating={gameInfo?.averageRating || 0}
+                                    onChange={setGameRating}
+                                    maxStars={5}
+                                    starSize={25}
+                                    color={colors.buttonBlue}
+                                    emptyColor={colors.grayOpacity}
+                                    interactive={false}
+                                    style={styles.starsRatingStatic}
+                                />
+                                <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
+                                    Add Rating
+                                </ButtonTouchable>
+                            </Box>
                             <Text style={styles.titleTextModalInfo}>
                                 Avg. Rating: <Text style={styles.textModalInfo}>{gameInfo?.averageRating}</Text> 
                             </Text>
                         </>
+                    ) : (
+                        <Box alignItems="center" mb={5}>
+                            <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
+                                Add Rating
+                            </ButtonTouchable>
+                        </Box>
                     )}
                         <Text style={styles.titleTextModalInfo}>
                             Metacritic: <Text style={styles.textModalInfo}>{gameInfo?.metacritic}</Text>
@@ -114,11 +127,20 @@ export default function ListGameById({ navigation, route }: Props) {
                                 ))}
                         </Box>
 
-                    </Box>
+                        {/*
+                        {comments && comments.length > 0 ? (
+                            comments.map((comment, index) => (
+                                <View key={index} style={styles.commentBox}>
+                                    <Text style={styles.commentHeader}>{comment.username}: {comment.rating}</Text>
+                                    <Text style={styles.commentText}>{comment.comment}</Text>
+                                </View>
+                            ))
+                        ) : (
+                            <Text style={styles.noCommentsText}>No comments available.</Text>
+                        )}
+                        */}
 
-                    <ButtonTouchable onPress={() => setModalRatingVisible(true)} style={styles.addRatingButton}>
-                        Add Rating
-                    </ButtonTouchable>
+                    </Box>
                 </>
             )}
         </PageDefault>
@@ -152,12 +174,11 @@ const styles = StyleSheet.create({
         padding: 5,
     },
     starsRatingStatic: {
-        alignSelf: 'center',
         marginBottom: 5,
     },
     addRatingButton: {
-        marginTop: 5,
-        width: 140,
+        marginTop: 10,
+        width: 100,
         height: 40,
         borderRadius: 14,
     },
