@@ -4,9 +4,10 @@ import { StyleSheet, Text, View } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import PageDefault from "../../Default";
 import { useGamesFullInfoUser } from "../../../context/hooks/games/useGamesFullInfoUser";
-import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, CommentBox, Modal, TextWarning } from "../../../components";
+import { AppStarRating, Box, ButtonTouchable, Heading, ImageTouchable, CommentBox, Modal, TextWarning, InputWithLabel, InputText } from "../../../components";
 import { colors } from "../../../utils/colors";
 import { useAuth } from "../../../context/hooks";
+import { useForm } from "react-hook-form";
 
 type GameByIdParams = {
     gameId: string;
@@ -14,17 +15,34 @@ type GameByIdParams = {
 
 type Props = NativeStackScreenProps<ParamListBase, 'ListGameById'>;
 
+const DEFAULT_FORM_VALUES = {
+    comment: '',
+};
+  
+type FormData = {
+    comment: string;
+}
+
 export default function ListGameById({ navigation, route }: Props) {
     const { gameId } = route.params as GameByIdParams;
     const { currentUser } = useAuth();
 
-    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating, 
-        addGameRatingMethod, userRatingAdded, userRating, loadComments, comments } = useGamesFullInfoUser();
+    const {
+        control,
+        formState: { isValid },
+        handleSubmit,
+        reset,
+    } = useForm({
+        defaultValues: DEFAULT_FORM_VALUES,
+        mode: "onChange"});
+
+    const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating,  modalReviewVisible, setModalReviewVisible,
+        addGameRatingMethod, userCommentAdded, userRatingAdded, userRating, loadComments, comments, addGameCommentMethod } = useGamesFullInfoUser();
 
     useEffect(() => {
         loadGameInfoData(gameId);
         loadComments(gameId);
-    }, [userRatingAdded, gameId]);
+    }, [userRatingAdded, gameId, userCommentAdded]);
 
     const modalAddRating = () => {
         return (
@@ -42,12 +60,29 @@ export default function ListGameById({ navigation, route }: Props) {
                     style={{alignSelf: 'center'}}
                 />
 
-                <ButtonTouchable onPress={handleRatingSubmit} style={styles.submitRatingButton}>
+                <ButtonTouchable onPress={handleRatingSubmit} style={styles.submitButton}>
                     Submit
                 </ButtonTouchable>
             </View>
         )
     }
+
+    const modalAddComment = () => {
+        return (
+            <View style={styles.modalContainer}> 
+                <Heading textAlign="center" mb={10} fs={20}>{(gameInfo?.name || 'Game')}</Heading>
+
+                <InputWithLabel label="Comment">
+                    <InputText control={control} name="comment" numberOfLines={4}
+                                placeholder="Your comments about the game" icon={0}/>
+                </InputWithLabel>
+
+                <ButtonTouchable onPress={() => handleSubmit(handleReviewSubmit)()} style={styles.submitButton}>
+                    Submit
+                </ButtonTouchable>
+            </View>
+        )
+    } 
 
     const handleRatingSubmit = async () => {
         const apiRating = gameRating * 2;
@@ -58,6 +93,16 @@ export default function ListGameById({ navigation, route }: Props) {
         }
         await addGameRatingMethod(data);
         setModalRatingVisible(false);
+    }
+
+    const handleReviewSubmit = async (data: FormData) => {
+        const gameCommentAdded = await addGameCommentMethod({
+            gameId: gameId,
+            comment: data.comment,
+        });
+        console.log(gameCommentAdded);
+        reset(DEFAULT_FORM_VALUES);
+        setModalReviewVisible(false);
     }
 
     return (
@@ -127,11 +172,14 @@ export default function ListGameById({ navigation, route }: Props) {
                                 ))}
                         </Box>
 
-                        {comments && comments.length > 0 ? (
+                        {comments && comments.length > 0 && (
                             <CommentBox data={comments} />
-                        ) : (
-                            <Text>No comments available.</Text>
                         )}
+                        <Box mt={5} flexDirection="row" gap={5} wrap="wrap" justifyContent="center" alignItems="center">
+                            <ButtonTouchable onPress={() => setModalReviewVisible(true)} style={styles.addRatingButton}>
+                                Add Review
+                            </ButtonTouchable>
+                        </Box>
 
                     </Box>
                 </>
@@ -145,6 +193,16 @@ export default function ListGameById({ navigation, route }: Props) {
                 isOpen={modalRatingVisible}
                 onClose={() => setModalRatingVisible(false)}
                 h={240}
+            />
+        )}
+
+        {modalReviewVisible && (
+            <Modal
+                body={modalAddComment()}
+                title=""
+                isOpen={modalReviewVisible}
+                onClose={() => setModalReviewVisible(false)}
+                h={430}
             />
         )}
         </>
@@ -175,7 +233,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderRadius: 14,
     },
-    submitRatingButton: {
+    submitButton: {
         marginTop: 15,
         width: 140,
         height: 40,

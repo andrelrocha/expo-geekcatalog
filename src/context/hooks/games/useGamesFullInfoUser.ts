@@ -2,18 +2,22 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { listAllGameInfoByGameIDUser } from "../../../services/games/listAllInfoById";
 import { addGameRating } from "../../../services/gameRating/add";
+import { addGameComment } from "../../../services/gameComment/addComment";
 import { getUserRatingByGame } from "../../../services/gameRating/getByUserAndGame";
 import { getAllCommentsByGameId } from "../../../services/gameComment/getCommentsByGameId";
 import GameCommentReturn from "../../../types/gameComment/GameCommentReturnDTO";
 import GameFullInfoUser from "../../../types/games/gameFullInfoUserDTO";
 import AddGameRatingDTO from "../../../types/gameRating/AddGameRating";
+import AddGameCommentDTO from "../../../types/gameComment/AddGameCommentDTO";
 
 export const useGamesFullInfoUser = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [gameInfo, setGameInfo] = useState<GameFullInfoUser | null>(null);
     const [modalRatingVisible, setModalRatingVisible] = useState(false);
+    const [modalReviewVisible, setModalReviewVisible] = useState(false);
     const [gameRating, setGameRating] = useState(0);
     const [userRatingAdded, setUserRatingAdded] = useState(false);
+    const [userCommentAdded, setUserCommentAdded] = useState(false);
     const [userRating, setUserRating] = useState(0);
     const [comments, setComments] = useState<GameCommentReturn[]>([]);
 
@@ -61,6 +65,21 @@ export const useGamesFullInfoUser = () => {
         }
     }
 
+    const addGameCommentMethod = async (data: AddGameCommentDTO) => {
+        try {
+            setIsLoading(true);
+            const gameComment = await addGameComment(data);
+            Alert.alert('Comment added successfully');
+            setUserCommentAdded(true);
+            return gameComment;
+        } catch (error: any) {
+            const erorrMessage = error.response?.data || error.message || "Failed to add comment.";
+            Alert.alert('Error', 'An error occurred while adding comment: ' + erorrMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     const getUserRating = async (gameId: string) => {
         try {
             setIsLoading(true);
@@ -88,6 +107,6 @@ export const useGamesFullInfoUser = () => {
     }, [modalRatingVisible, gameInfo]);
 
 
-    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible,
-        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating, comments, loadComments };
+    return { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, modalReviewVisible, setModalReviewVisible, addGameCommentMethod,
+        gameRating, setGameRating, addGameRatingMethod, userRatingAdded, userRating, comments, loadComments, userCommentAdded };
 }
