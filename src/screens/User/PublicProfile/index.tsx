@@ -49,6 +49,17 @@ export default function PublicProfile({navigation, route}: Props) {
         return '';
     }
 
+    const handleNavigateToListsAppTab = (listId: string, listName: string) => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'ListsApp', params: { screen: 'ListAllListsApp' } }],
+        });
+    
+        setTimeout(() => {
+            navigation.navigate('ListGamesList', { listId, listName });
+        }, 0);
+    };
+
     const renderLists = ({lists, loadData, paginationInfo, buttonBottom}: RenderListProps) => {
         return (
             <View style={[styles.listContainer, buttonBottom && {paddingBottom: 60}]}>
@@ -63,7 +74,7 @@ export default function PublicProfile({navigation, route}: Props) {
                     renderFooter={true}
                     decelerationRate="fast"
                     onPageChange={(page) => handlePageChange(page)}
-                    navigate={(id, name) => navigation.navigate('ListsApp', { screen: 'ListGamesList', params: { listId: id, listName: name } })}
+                    navigate={(id, name) => handleNavigateToListsAppTab(id, name)}
                 />
             </View>
         );  

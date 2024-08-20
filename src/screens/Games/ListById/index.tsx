@@ -133,6 +133,18 @@ export default function ListGameById({ navigation, route }: Props) {
         });
     };
 
+    const handleNavigateToSearchTab = (userId: string) => {
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'Search', params: { screen: 'SearchGame' } }],
+        });
+    
+        setTimeout(() => {
+            navigation.navigate('PublicProfile', { userId });
+        }, 0);
+    };
+    
+
     return (
         <>
         <PageDefault>
@@ -212,7 +224,8 @@ export default function ListGameById({ navigation, route }: Props) {
                             <>
                                 {comments && comments.length > 0 && (
                                     <CommentBox data={comments} 
-                                    navigateToProfile={(userId) => navigation.navigate('Search', { screen: 'PublicProfile', params: { userId } })} />
+                                    navigateToProfile={(userId) => handleNavigateToSearchTab(userId)}
+                                    />
                                 )}
                                 {!allCommentsLoaded && (
                                         <ButtonTouchable
