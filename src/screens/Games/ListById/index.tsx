@@ -191,11 +191,12 @@ export default function ListGameById({ navigation, route }: Props) {
                         </Box>
 
                         {isCommentsLoading ? (
-                            <Text>Loading comments...</Text>
+                            <TextWarning>Loading comments...</TextWarning>
                         ) : (
                             <>
                                 {comments && comments.length > 0 && (
-                                    <CommentBox data={comments} />
+                                    <CommentBox data={comments} 
+                                    navigateToProfile={(userId) => navigation.navigate('Search', { screen: 'PublicProfile', params: { userId } })} />
                                 )}
                                 <ButtonTouchable
                                     mt={5}

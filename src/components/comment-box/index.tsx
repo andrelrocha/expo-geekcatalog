@@ -1,20 +1,23 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import AppStarRating from '../star-rating';
 import { colors } from '../../utils/colors';
 import GameCommentReturnDTO from "../../types/gameComment/GameCommentReturnDTO";
 
 interface CommentBoxProps {
     data: GameCommentReturnDTO[];
+    navigateToProfile?: (userId: string) => void;
 }
 
-const CommentBox: React.FC<CommentBoxProps> = ({ data }) => {
+const CommentBox: React.FC<CommentBoxProps> = ({ data, navigateToProfile }) => {
     return (
         <>
             {data.map(comment => (
                 <View key={comment.id} style={styles.container}>
                     <View style={styles.header}>
-                        <Text style={styles.username}>{comment.username}</Text>
+                        <TouchableOpacity onPress={() => navigateToProfile && navigateToProfile(comment.userId)}>
+                            <Text style={styles.username}>{comment.username}</Text>
+                        </TouchableOpacity>
                         <AppStarRating
                             initialRating={comment.rating} 
                             rating={comment.rating}
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
     username: {
         fontSize: 16,
         fontWeight: 'bold',
+        color: colors.buttonBlue,
     },
     starRating: {
         alignSelf: 'flex-end',

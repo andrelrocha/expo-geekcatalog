@@ -47,7 +47,6 @@ export default function ListAllListsApp({ navigation, route }: Props) {
 
     const renderLists = ({lists, loadData, rightOptions, paginationInfo, buttonBottom}: RenderListProps) => {
 
-
         return (
             <View style={[styles.listContainer, buttonBottom && {paddingBottom: 60}]}>
                 <CustomListImage
