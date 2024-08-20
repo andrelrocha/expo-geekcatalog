@@ -38,7 +38,7 @@ export default function ListGameById({ navigation, route }: Props) {
 
     const { isLoading, gameInfo, loadGameInfoData, modalRatingVisible, setModalRatingVisible, gameRating, setGameRating,  modalReviewVisible, setModalReviewVisible,
         addGameRatingMethod, userCommentAdded, userRatingAdded, userRating, loadComments, comments, addGameCommentMethod, commentsPagination, setCommentsPagination,
-        isCommentsLoading
+        isCommentsLoading, paginationInfo, allCommentsLoaded, setAllCommentsLoaded
     } = useGamesFullInfoUser();
 
     useEffect(() => {
@@ -111,10 +111,26 @@ export default function ListGameById({ navigation, route }: Props) {
     }
 
     const handleIncreaseSize = () => {
-        setCommentsPagination((prev) => ({
-            ...prev,
-            size: prev.size + 5,
-        }));
+        setCommentsPagination((prev) => {
+            if (!paginationInfo) {
+                return prev;
+            }
+    
+            const newSize = prev.size + 5;
+            
+            if (newSize > paginationInfo.totalElements) {
+                setAllCommentsLoaded(true);
+                return {
+                    ...prev,
+                    size: paginationInfo.totalElements
+                };
+            }
+    
+            return {
+                ...prev,
+                size: newSize
+            };
+        });
     };
 
     return (
@@ -198,13 +214,16 @@ export default function ListGameById({ navigation, route }: Props) {
                                     <CommentBox data={comments} 
                                     navigateToProfile={(userId) => navigation.navigate('Search', { screen: 'PublicProfile', params: { userId } })} />
                                 )}
-                                <ButtonTouchable
-                                    mt={5}
-                                    style={{ alignContent: 'center', alignSelf: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 10, height: 30 }}
-                                    onPress={handleIncreaseSize}
-                                >
-                                    <EllipsisIcon color={colors.buttonBlue} size={40} horizontal={true} />
-                                </ButtonTouchable>
+                                {!allCommentsLoaded && (
+                                        <ButtonTouchable
+                                        mt={5}
+                                        style={{ alignContent: 'center', alignSelf: 'center', justifyContent: 'center', backgroundColor: 'transparent', padding: 10, height: 30 }}
+                                        onPress={handleIncreaseSize}
+                                    >
+                                        <EllipsisIcon color={colors.buttonBlue} size={40} horizontal={true} />
+                                    </ButtonTouchable>
+                                )}
+                            
                             </>
                         )}
 

@@ -2,6 +2,7 @@ import { ApiManager } from '../../../utils/API-axios/ApiManager';
 import { getToken } from '../../../modules/auth.module';
 import GameCommentReturn from '../../../types/gameComment/GameCommentReturnDTO';
 import PaginationQuery from '../../../types/utils/paginationQuery';
+import PaginationInfo from '../../../types/utils/paginationInfo'; 
 
 export const getAllCommentsByGameId = async (gameId: string, pagination: PaginationQuery) => {
     try {
@@ -10,7 +11,7 @@ export const getAllCommentsByGameId = async (gameId: string, pagination: Paginat
         const token = await getToken();
         const headers = {
             'Authorization': `Bearer ${token}`
-        };  
+        };
 
         const endpoint = `/gamecomment/get/${gameId}?page=${page}&size=${size}&sortField=${sortField}&sortOrder=${sortOrder}`;
         const response = await ApiManager.get(endpoint, { headers })
@@ -22,7 +23,8 @@ export const getAllCommentsByGameId = async (gameId: string, pagination: Paginat
             });
 
         if (response.data) {
-            const content = response.data.content;
+            const { content, pageable, totalPages, totalElements, size: pageSize } = response.data;
+            
             const comments: GameCommentReturn[] = content.map((comment: any) => {
                 return {
                     id: comment.id,
@@ -35,7 +37,18 @@ export const getAllCommentsByGameId = async (gameId: string, pagination: Paginat
                     updatedAt: comment.updatedAt,
                 };
             });
-            return comments;
+
+            const paginationInfo: PaginationInfo = {
+                totalPages: totalPages,
+                currentPage: pageable.pageNumber,
+                totalElements: totalElements,
+                pageSize: pageSize,
+            };
+
+            return {
+                comments,
+                paginationInfo
+            };
         } else {
             throw new Error('Error mapping comments to DTO.');
         }

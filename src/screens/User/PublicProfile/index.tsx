@@ -28,6 +28,8 @@ export default function PublicProfile({navigation, route}: Props) {
         }   
     };
 
+    
+
     useEffect(() => {   
         setProfilePicUri('');
         fetchProfilePic();
