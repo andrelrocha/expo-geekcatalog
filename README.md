@@ -22,19 +22,21 @@ eas build --profile dev --platform android | eas build --profile dev --platform 
 
 ## ⚙️ Functionalities
 
-- [x] User custom system with different levels of permissions
-- [x] Login system with JWT authentication
 - [x] Authentication flow with a login system and user permissions, restricting access to specific parts of the application.
 - [x] CRUD for games, if the user is an admin, fully managing it
 - [x] Routine for all entities in the system, easily traceable by the admins
 - [x] Read operations for the games for regular user, with image lists
 - [x] Fully manageable list system, with the user being able to invite different users, with different sets of permission
 - [x] Different sets of lists, divided by personal (fully manageable), shared (manageable by permission) and public (just read permission for user profiles in a social media schema)
+- [x] Comment system for games, with user interaction
+- [x] User review system for games for public interation with other users
+- [x] Public Profiles for user interaction, just like letterbox
+- [x] User custom system with different levels of permissions
+- [x] Login system with JWT authentication
 - [x] Custom style using gluestack, with components created following SOLID principles
 - [x] Custom list with game images, rendering from S3 for better performance
 - [x] Game listing, in which all users can see game info, and also add a rating
 - [x] Screens with routes props handling the data info (mostly id) for better performance
-- [x] Custom style using gluestack, with components created following SOLID principles
 - [x] React gesture handler for app components for better user experience, with fluid animations
 - [x] Custom components with visual validation for those used in react hook forms
 - [x] Image handler from User, with custom service for getting a media image or camera photo
