@@ -6,7 +6,9 @@ It has an integration with the API using axios, mapping all the requests using D
 
 The APP is build with react native using expo, it has many own components created using gluestack. The app adheres the best practices in communication with the API. It allows the users to fully manage their entities, with different sets of permission, while enabling rich social media functionalities such as commenting on games, rating them, and interacting with public profiles. Users can engage with others by sharing lists, participating in discussions, and providing reviews, creating a vibrant community centered around gaming.
 
-## To see a demo of its latest version (v1.0.4): [Geek Catalog v.1.0.4 - React Native/Springboot Project](https://youtu.be/npalKdG6xWM?si=KsiG-oBz56WoSfNz)
+## To see a demo of its latest version (v1.0.4)
+
+[Geek Catalog v.1.0.4 - React Native/Springboot Project](https://youtu.be/npalKdG6xWM?si=KsiG-oBz56WoSfNz)
 
 ## Documentation API
 
