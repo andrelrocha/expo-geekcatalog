@@ -163,7 +163,7 @@ export default function ListGameById({ navigation, route }: Props) {
                                 </ButtonTouchable>
                                 <AppStarRating
                                     initialRating={gameInfo?.averageRating || 0}
-                                    rating={gameInfo?.averageRating || 0}
+                                    rating={gameInfo?.averageRating.toFixed(1) || 0}
                                     onChange={setGameRating}
                                     maxStars={5}
                                     starSize={25}

@@ -36,7 +36,7 @@ export const listAllGameInfoByGameIDUser = async (props: HandleListAllInfoGamesP
                 consoles: data.consoles.map((console: any) => console),
                 imageUrl: data.imageUrl,
                 totalReviews: data.totalReviews,
-                averageRating: data.averageRating
+                averageRating: Number(parseFloat(data.averageRating).toFixed(1))
             };
         
             return game;
