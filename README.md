@@ -1,6 +1,6 @@
 ## 💻 About
 
-GeekCatalog is an APP designed to manage media and art content not covered by other widely-used market applications like Letterboxd. It offers users the capability to manage various types of media such as series, anime, games, or any other implemented media types, through CRUD operations following the business requirements. The app was built focusing on SOLID principles, creating abstract components reused throught out the app. 
+GeekCatalog is an APP designed to manage media and art content not covered by other widely-used market applications like Letterboxd. It offers users the capability to manage its video games, through CRUD operations following the business requirements. The app was built focusing on SOLID principles, creating abstract components reused throught out the app. 
 
 It has an integration with the API using axios, mapping all the requests using DTO's. It has a focus on performance, with all the contexts and useEffects rendering just the necessary parts of the app, depending on the user interaction, minimizing unnecessary requests, maintaining lightweight performance on both server and front-end.
 
